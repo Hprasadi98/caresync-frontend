@@ -3,7 +3,6 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-
 // Components & Pages Import
 import WelcomeScreen from "./src/screens/WelcomeScreen/WelcomeScreen";
 import ContactUs from "./src/screens/ContactUs";
@@ -33,13 +32,11 @@ import MedicationsScreen from "./src/screens/ViewPatientSummaryHome Screen/Patie
 import AddMedication from "./src/screens/MedicationToCalendar/AddMedicationPage";
 import ViewMedication from "./src/screens/MedicationToCalendar/ViewMedicationPage";
 import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedicalRecordScreen";
+import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
-
 const Stack = createNativeStackNavigator();
-
-
 
 export default function Routing() {
   const { user } = useAuthContext();
@@ -48,10 +45,9 @@ export default function Routing() {
       {user ? console.log(user._id) : console.log("User is not logged in")}
 
       <Stack.Navigator
-        initialRouteName="WelomeScreen"
+        // initialRouteName="WelomeScreen"
         // initialRouteName="DoctorDashboard"
-        // initialRouteName="PatientDashboard"
-
+        initialRouteName="PatientDashboard"
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,
@@ -137,6 +133,11 @@ export default function Routing() {
         <Stack.Screen
           name="MedicalIdFalseScreen"
           component={MedicalIdFalseScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MyprofileScreen"
+          component={MyprofileScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

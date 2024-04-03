@@ -11,7 +11,6 @@ import {
 import Header from "../../components/Header";
 import DetailRow from "./components/DetailRow";
 
-
 const MyprofileScreen = () => {
   return (
     <View style={styles.maincontainer}>
@@ -32,51 +31,58 @@ const MyprofileScreen = () => {
               name="user-alt"
               textLineOne="Full Name"
               textLineTwo="Didula Sri Lakpriya"
+              category="fullName"
             />
             <DetailRow
               name="envelope"
               textLineOne="Email Address"
               textLineTwo="diduladdsl@gmail.com"
+              category="email"
             />
             <DetailRow
               name="mobile"
               textLineOne="Mobile Number"
               textLineTwo="0705841668"
+              category="mobile"
             />
             <DetailRow
               name="birthday-cake"
               textLineOne="Birthday"
               textLineTwo="2001/01/10"
+              category="birthday"
             />
             <DetailRow
               name="venus-mars"
               textLineOne="Gender"
               textLineTwo="Male"
+              category="gender"
             />
           </View>
-          
         </View>
-        
+
         <View style={styles.container}>
-        <Text style={styles.yourinfo}>Health Info</Text>
+          <Text style={styles.yourinfo}>Health Info</Text>
           <View>
             <DetailRow
               name="weight-hanging"
               textLineOne="Weight"
               textLineTwo="60 Kg"
+              category="weight"
             />
             <DetailRow
               name="arrows-alt-v"
               textLineOne="Height"
               textLineTwo="172 cm"
+              category="height"
             />
             <DetailRow
               name="tint"
               textLineOne="Blood Group"
               textLineTwo="O+"
+              category="blood"
             />
           </View>
-          </View>
+        </View>
       </ScrollView>
     </View>
   );

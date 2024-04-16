@@ -24,16 +24,8 @@ const HoldButton = () => {
   const [isPressing, setIsPressing] = useState(false); //press the button or not, default not
   const [result, setResult] = useState([]); //store breathing test results
   const [time, setTime] = useState({ s: 0, m: 0, h: 0 });
+  const [currentTime, setCurrentTime] = useState("");
   const intervalRef = useRef(null); //get interval reference in time
-
-  var updatedS = time.s,
-    updatedM = time.m,
-    updatedH = time.h;
-
-  //load when start
-  useEffect(() => {
-    getResults();
-  }, []);
 
   //integrate get result API
   const getResults = () => {
@@ -51,6 +43,7 @@ const HoldButton = () => {
   const addResults = (data) => {
     const payload = {
       date: data.date,
+      systime: data.systime,
       stopwatchTime: data.stopwatchTime,
     };
     axios
@@ -74,6 +67,38 @@ const HoldButton = () => {
         console.error("Axios Error : ", error);
       });
   };
+
+  const deleteOneResult = (id) => {
+    axios
+      .delete(`${baseUrl}/breathingTests/:id`,id)
+      .then(() => {
+        getResults();
+      })
+      .catch((error) => {
+        console.error("Axios Error : ", error);
+      });
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, "0");
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const seconds = now.getSeconds().toString().padStart(2, "0");
+      setCurrentTime(`${hours}:${minutes}:${seconds}`);
+    }, 1000); // Update every second
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  //load when start
+  useEffect(() => {
+    getResults();
+  }, []);
+
+  var updatedS = time.s,
+    updatedM = time.m,
+    updatedH = time.h;
 
   //when button press and hold
   const handlePressIn = () => {
@@ -107,7 +132,11 @@ const HoldButton = () => {
       {
         text: "Save",
         onPress: () => {
-          addResults({ date: sDate, stopwatchTime: sTime });
+          addResults({
+            date: sDate,
+            systime: currentTime,
+            stopwatchTime: sTime,
+          });
           resetTime();
         },
       },
@@ -173,14 +202,14 @@ const HoldButton = () => {
           </View>
         </TouchableWithoutFeedback>
         <View style={styles.table}>
-          <BreathingTestDataStore sampleData={result} />
+          <BreathingTestDataStore sampleData={result} deleteOne={deleteOneResult}/>
         </View>
         <View style={styles.resetTable}>
           <TouchableOpacity
             onPress={deleteTableAlert}
             style={{ paddingBottom: 100 }}
           >
-            <Text style={{ color: "#990000" }}>Reset</Text>
+            <Text style={{ color: "#990000" }}>Reset Results</Text>
           </TouchableOpacity>
         </View>
       </View>

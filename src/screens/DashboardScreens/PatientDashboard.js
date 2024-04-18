@@ -7,10 +7,17 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
+
+import { useLogout } from "../../hooks/useLogout";
+
 const PatientDashboard = ({ navigation }) => {
+
+  const { logout } = useLogout();
+
   const navigateToMedicalHistory = () => {
     navigation.navigate("MedicalHistory");
   };
+
   return (
     <ScrollView>
       <View style={styles.container}>

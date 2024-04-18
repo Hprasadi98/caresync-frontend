@@ -10,48 +10,37 @@ import {
   Alert,
 } from "react-native";
 
-import { baseUrl } from "../../../constants/constants";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { baseUrl } from "../../../constants/constants";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useLogin } from "../../../hooks/useLogin";
 
 const PatientLogin = ({ navigation }) => {
+
+  const { login } = useLogin();
+  const { user } = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    try {
-      console.log(baseUrl + "/signin");
 
-      const response = await fetch(baseUrl + "/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-      console.log(data);
-      if (response.ok) {
-        // Navigate to PatientDashboard if login successful
-        await AsyncStorage.setItem("access-token", data.accessToken);
-        await AsyncStorage.setItem("refresh-token", data.refreshToken);
-
-        console.log("AT: " + (await AsyncStorage.getItem("access-token")));
-        console.log("RT: " + (await AsyncStorage.getItem("refresh-token")));
-
-        navigation.navigate("PatientDashboard");
-      } else {
-        Alert.alert("Login Failed", data.error);
-      }
-    } catch (error) {
-      console.error("Error logging in:", error);
-      Alert.alert(
-        "Error",
-        "An error occurred while logging in. Please try again."
-      );
+    if(!email || !password){
+      Alert.alert("Error", "Please fill in all fields.");
+      return;
     }
-  };
+
+    const data = await login(email, password, "signin");
+    if (data.status === "success") {
+      navigation.navigate("PatientDashboard");
+    }
+    else if (data.status === "failed"){
+      Alert.alert("Error", "Invalid email or password");
+    }
+    else if (data.status === "error"){
+      Alert.alert("Error", "An error occurred. Please try again later.");
+    
+    }
+  }
+  
 
   return (
     <View style={styles.container}>

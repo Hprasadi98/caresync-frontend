@@ -25,7 +25,6 @@ export const AuthContextProvider = ({ children }) => {
   });
 
   useEffect( () => {
-
     const fetchUser = async () => {
       const token = await AsyncStorage.getItem("access-token");
       // console.log("Token:", token);

@@ -9,6 +9,7 @@ export const useLogout = () => {
     // remove user from storage
     await AsyncStorage.removeItem("access-token")
     await AsyncStorage.removeItem("refresh-token")
+    
     console.log("AT @ Logout : " + (await AsyncStorage.getItem("access-token")));
 
     // dispatch logout action

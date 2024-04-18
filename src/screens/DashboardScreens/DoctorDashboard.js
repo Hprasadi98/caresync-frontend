@@ -6,13 +6,10 @@ const DoctorDashboard = ({ navigation }) => {
 
   const { logout } = useLogout();
 
-  const navigateToMedicalHistory = () => {
-    navigation.navigate("PatientsScreen");
-  };
-
-
   return (
     <View style={styles.container}>
+
+    {/* // Top Panel */}
       <View style={styles.topPanel}>
         <Text style={styles.titleMain}>CareSync</Text>
         <TouchableOpacity style={styles.profileButton}>
@@ -31,10 +28,15 @@ const DoctorDashboard = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
+    {/* // Dashboard Buttons */}
       <View style={styles.dashboardContainer}>
+
+        {/* // View Patient Summery Button */}
         <TouchableOpacity
           style={styles.dashboardButton}
-          onPress={navigateToMedicalHistory}
+          onPress={() => {
+            navigation.navigate("PatientsScreen");
+          }}
         >
           <Image
             source={require("../../../assets/DocImage.png")}
@@ -42,26 +44,30 @@ const DoctorDashboard = ({ navigation }) => {
           />
           <Text style={styles.dashboardButtonText}>View Patient Summary</Text>
         </TouchableOpacity>
+
+
+        {/* // Logout Button */}
         <TouchableOpacity
-        style={styles.dashboardButton}
-        onPress={() => {
-          logout();
-          navigation.navigate("WelcomeScreen");
-        }}
-      >
-        <Image
-          source={require("../../../assets/DocImage.png")}
-          style={styles.dashboardImage}
-        />
-        <Text style={styles.dashboardButtonText}>LogOut</Text>
-      </TouchableOpacity>
+          style={styles.dashboardButton}
+          onPress={() => {
+            logout();
+            navigation.navigate("WelcomeScreen");
+          }}
+        >
+          <Image
+            source={require("../../../assets/DocImage.png")}
+            style={styles.dashboardImage}
+          />
+          <Text style={styles.dashboardButtonText}>LogOut</Text>
+        </TouchableOpacity>
+
+
       </View>
 
-      
-
-      <TouchableOpacity style={styles.roundedPlusButton}>
+      {/* <TouchableOpacity style={styles.roundedPlusButton}>
         <Text style={styles.plusButtonText}>+</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+
     </View>
   );
 };

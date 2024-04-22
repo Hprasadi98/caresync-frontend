@@ -14,34 +14,38 @@ import axios from "axios";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { baseUrl } from "../../../../constants/constants";
 
-
 const StepCountButton = () => {
-  //run when loading the app 
+  //run when loading the app
   useEffect(() => {
-    subscribe();
+    testpedoAvailable();
     getResults();
   }, []);
 
-  const padtoTwo = (number) => (number <= 9 ? `0${number}` : number); //show two digits 0-9
+  const padtoTwo = (number) => (number <= 9 ? `0${number}` : number);
 
-  var date = new Date().getDate(); //To get the Current Date
-  var month = new Date().getMonth() + 1; //To get the Current Month
-  var year = new Date().getFullYear(); //To get the Current Year
-  let sDate = `${padtoTwo(date)}/${padtoTwo(month)}/${year}`; // set date 29/04/2024 structure
-  const [result, setResult] = useState([]); //store step counter results
-  const [isStarted, setIsStarted] = useState(false); //press button or not, default not
-  const [time, setTime] = useState({ s: 0, m: 0, h: 0 }); //to set time, default seconds minutes and hours zero
-  const intervalRef = useRef(null); //to identify interval
-  const [pedoAvailability, setpedoAvailability] = useState(""); //cheack pedometer available or not
-  const [stepcount, setstepcount] = useState(0); //count steps
+  var date = new Date().getDate();
+  var month = new Date().getMonth() + 1;
+  var year = new Date().getFullYear();
+  let sDate = `${padtoTwo(date)}/${padtoTwo(month)}/${year}`;
+  const [result, setResult] = useState([]);
+  const [isStarted, setIsStarted] = useState(false);
+  const [time, setTime] = useState({ s: 0, m: 0, h: 0 });
+  const intervalRef = useRef(null);
+  const [pedoAvailability, setpedoAvailability] = useState("");
+  const [stepcount, setstepcount] = useState(0);
 
   //get distance using step count
   var dist = stepcount / 1300;
   var distance = dist.toFixed(4); //round off for 4 decimal places
-  //get prop values to variables
-  var updatedS = time.s, updatedM = time.m, updatedH = time.h;
+  var cal = distance * 60;
+  var calories = cal.toFixed(4);
+  var updatedS = time.s,
+    updatedM = time.m,
+    updatedH = time.h;
 
-  const sTime = `${padtoTwo(updatedH)}:${padtoTwo(updatedM)}:${padtoTwo(updatedS)}`; //set time to 00:00:00 format
+  const sTime = `${padtoTwo(updatedH)}:${padtoTwo(updatedM)}:${padtoTwo(
+    updatedS
+  )}`; //set time to 00:00:00 format
 
   //API integration for get results
   const getResults = () => {
@@ -98,7 +102,8 @@ const StepCountButton = () => {
       setstepcount(0);
       console.log("Stoped");
     } else {
-      intervalRef.current = setInterval(run, 1000); //get miliseconds in seconds 
+      subscribe();
+      intervalRef.current = setInterval(run, 1000); //get miliseconds in seconds
       console.log("Started");
     }
     setIsStarted(!isStarted);
@@ -128,6 +133,8 @@ const StepCountButton = () => {
     const subscription = Pedometer.watchStepCount((result) => {
       setstepcount(result.steps);
     });
+  };
+  testpedoAvailable = () => {
     Pedometer.isAvailableAsync().then(
       (result) => {
         setpedoAvailability(String(result));
@@ -137,7 +144,6 @@ const StepCountButton = () => {
       }
     );
   };
-
   //alert to confirmation delete table
   const showDecisionBox = () => {
     Alert.alert("Delete Details", "Do you want to delete your test result?", [
@@ -164,18 +170,33 @@ const StepCountButton = () => {
           Is Pedometer available on the device : {pedoAvailability}
         </Text>
         <DisplayTime time={time} />
-        <View>
-          <CircularProgress
-            value={stepcount}
-            maxValue={13000}
-            radius={80}
-            activeStrokeColor={"#00567D"}
-            inActiveStrokeColor={"#DEFFFB"}
-            inActiveStrokeWidth={20}
-            activeStrokeWidth={20}
-            title={"Step Count"}
-            titleStyle={{ fontWeight: "bold" }}
-          />
+        <View style={styles.testContainer}>
+          <View>
+            <CircularProgress
+              value={stepcount}
+              maxValue={6500}
+              radius={70}
+              activeStrokeColor={"#00567D"}
+              inActiveStrokeColor={"#DEFFFB"}
+              inActiveStrokeWidth={20}
+              activeStrokeWidth={20}
+              title={"Step Count"}
+              titleStyle={{ fontWeight: "bold" }}
+            />
+          </View>
+          <View style={styles.detailContainer}>
+          <Text style={styles.testDetailTitle}>
+                Target: 6500steps (5km)
+              </Text>
+            <View style={styles.disDetail}>
+              <Text style={styles.testDetailTitles}>Distance</Text>
+              <Text style={styles.testDetail}>{distance}</Text>
+            </View>
+            <View>
+              <Text style={styles.testDetailTitles}>Calaries Burnt</Text>
+              <Text style={styles.testDetail}>{calories}</Text>
+            </View>
+          </View>
         </View>
         <TouchableOpacity
           style={[styles.button, isStarted && styles.buttonClicked]}
@@ -190,7 +211,7 @@ const StepCountButton = () => {
           onPress={showDecisionBox}
           style={{ paddingBottom: 120 }}
         >
-          <Text style={{ color: "#990000" }}>Reset</Text>
+          <Text style={{ color: "#990000" }}>Reset Results</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -201,6 +222,34 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  testContainer: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  detailContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignSelf: "center",
+    paddingLeft: 10,
+  },
+  disDetail: {
+    paddingBottom: 15,
+  },
+  testDetailTitle: {
+    fontSize:15,
+    color: "red",
+    paddingBottom:10
+  },
+  testDetailTitles: {
+    alignSelf: "center",
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#00567D",
+  },
+  testDetail: {
+    alignSelf: "center",
+    fontSize: 15,
   },
   button: {
     padding: 35,

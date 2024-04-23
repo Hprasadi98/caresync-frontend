@@ -29,7 +29,7 @@ function SelectDocForAccess({ navigation }) {
       };
       console.log(configurationObject.url);
       const response = await axios(configurationObject);
-      // console.log(response.data);
+      // console.log("Response",response.data);
       setDocList(response.data);
     } catch (error) {
       console.log("error " + error);

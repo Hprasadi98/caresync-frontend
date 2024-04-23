@@ -26,6 +26,8 @@ function PatientsScreen({ navigation }) {
     }
   };
 
+  
+
   function renderCategoryItem({ item }) {
     function presshandler() {
       navigation.navigate("PatientProfileScreen", { ptid: item._id });
@@ -33,8 +35,6 @@ function PatientsScreen({ navigation }) {
 
     return (
       <View>
-     
-
         <PatientGridTile
           id={item.patientId}
           firstName={item.firstName}
@@ -42,9 +42,8 @@ function PatientsScreen({ navigation }) {
           nic={item.nic}
           email={item.email}
           onPress={presshandler}
-          
         />
-           {/* export data to PatientGridTile page */}
+        {/* export data to PatientGridTile page */}
       </View>
     );
   }

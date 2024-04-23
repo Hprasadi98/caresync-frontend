@@ -9,38 +9,30 @@ import {
   Alert,
 } from "react-native";
 
-import { baseUrl } from "../../../constants/constants";
+import { useLogin } from "../../../hooks/useLogin";
 
 const DoctorLogin = ({ navigation }) => {
+  const { login } = useLogin();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    try {
-      const response = await fetch(`${baseUrl}/doctors/signin`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        if (data.medicalId) {
-          navigation.navigate("DoctorDashboard");
-        } else {
-          navigation.navigate("MedicalIdFalseScreen");
-        }
-      } else {
-        Alert.alert("Login Failed", data.error);
-      }
-    } catch (error) {
-      console.error("Error logging in:", error);
-      Alert.alert(
-        "Error",
-        "An error occurred while logging in. Please try again."
-      );
+    if (!email || !password) {
+      Alert.alert("Error", "Please fill in all fields.");
+      return;
     }
+
+    const data = await login(email, password, "doctors/signin");
+    if (data.status === "success") {
+      navigation.navigate("DoctorDashboard");
+    } else if (data.status === "failed") {
+      Alert.alert("Error", "Invalid email or password");
+    } else if (data.status === "notVerified") {
+      navigation.navigate("MedicalIdFalseScreen");
+    } else if (data.status === "error") {
+      Alert.alert("Error", "An error occurred. Please try again later.");
+    }
+
   };
 
   return (

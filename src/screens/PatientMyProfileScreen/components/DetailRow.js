@@ -23,8 +23,9 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
 
   const handleUpdateProfile = () => {
     // Update profile with new full name
+    console.log("New full name: ", inputValue);
 
-    setFullName(newFullName);
+    setNewFullName(inputValue);
     setModalVisible(false);
   };
 
@@ -125,7 +126,11 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
               />
               <Text style={styles.radioButtonText}>Female</Text>
             </TouchableOpacity>
-            <Button title="Save" onPress={handleUpdateProfile} />
+            <Button
+              style={styles.Button}
+              title="Save"
+              onPress={handleUpdateProfile}
+            />
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         );
@@ -226,6 +231,10 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     marginTop: 8,
+    flexDirection: "row",
+    width: 30,
+    justifyContent: "center",
+    alignItems: "center",
   },
   textLineOne: {
     fontSize: 16,
@@ -302,5 +311,8 @@ const styles = StyleSheet.create({
   },
   arrowButton: {
     padding: 10,
+  },
+  Button: {
+    marginTop: 20,
   },
 });

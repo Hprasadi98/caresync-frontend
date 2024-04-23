@@ -99,7 +99,7 @@ function GiveDocAccess({ navigation, route }) {
             Doctors Name: {doc.firstName + " " + doc.lastName}
           </Text>
           <Text style={styles.cardText}>DoctorID: {doc.medicalId}</Text>
-          <Text style={styles.cardText}>Specialization: </Text>
+          <Text style={styles.cardText}>Specialization: {doc.specialization} </Text>
         </View>
 
         <View style={styles.disclaimer}>

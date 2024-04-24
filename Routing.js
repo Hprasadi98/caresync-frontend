@@ -32,7 +32,7 @@ import AddMedication from "./src/screens/MedicationToCalendar/AddMedicationPage"
 import ViewMedication from "./src/screens/MedicationToCalendar/ViewMedicationPage";
 import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedicalRecordScreen";
 import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
-
+import TestResultScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/TestResultScreen";
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
 const Stack = createNativeStackNavigator();
@@ -47,8 +47,8 @@ export default function Routing() {
 
       <Stack.Navigator
         // initialRouteName="WelomeScreen"
-        // initialRouteName="DoctorDashboard"
-        initialRouteName="PatientDashboard"
+        initialRouteName="DoctorDashboard"
+        // initialRouteName="PatientDashboard"
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,
@@ -64,7 +64,10 @@ export default function Routing() {
 
         <Stack.Screen name="DoctorLogin" component={DoctorLogin} />
         <Stack.Screen name="DoctorRegister" component={DoctorRegister} />
-        <Stack.Screen name="MedicalIdFalseScreen" component={MedicalIdFalseScreen}/>
+        {/* <Stack.Screen
+          name="MedicalIdFalseScreen"
+          component={MedicalIdFalseScreen}
+        /> */}
         <Stack.Screen name="PatientRegister" component={PatientRegister} />
         <Stack.Screen name="PatientLogin" component={PatientLogin} />
 
@@ -108,12 +111,9 @@ export default function Routing() {
           <Stack.Screen name="ViewMedication" component={ViewMedication} />
         </>
 
-
-
-
         {/* Doctor Screens */}
-
-        <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
+        {/* 
+        <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} /> */}
         <Stack.Screen
           name="PatientsScreen"
           component={PatientsScreen}
@@ -131,6 +131,13 @@ export default function Routing() {
         <Stack.Screen
           name="PatientHistoryScreen"
           component={PatientHistoryScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="TestResultScreen"
+          component={TestResultScreen}
           options={{
             headerShown: false,
           }}
@@ -157,7 +164,6 @@ export default function Routing() {
         />
 
         {/* <Stack.Screen name="ContactUs" component={ContactUs} /> */}
-
       </Stack.Navigator>
     </NavigationContainer>
   );

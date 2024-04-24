@@ -11,7 +11,6 @@ import {
 import { useLogout } from "../../hooks/useLogout";
 
 const PatientDashboard = ({ navigation }) => {
-
   const { logout } = useLogout();
 
   const navigateToMedicalHistory = () => {
@@ -25,7 +24,9 @@ const PatientDashboard = ({ navigation }) => {
           <Text style={styles.titleMain}>CareSync</Text>
           <TouchableOpacity
             style={styles.profileButton}
-            onPress={() => navigation.navigate("MyprofileScreen")}
+            onPress={() => {
+              navigation.navigate("MyprofileScreen");
+            }}
           >
             <View style={styles.profileImageContainer}>
               <Image
@@ -104,6 +105,8 @@ const PatientDashboard = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
+          
+          <View style={styles.row}>
           <TouchableOpacity
             style={styles.dashboardButton}
             onPress={() => {
@@ -118,6 +121,22 @@ const PatientDashboard = ({ navigation }) => {
               Give Access to Doctors
             </Text>
           </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={styles.dashboardButton}
+            onPress={() => {
+              navigation.navigate("ViewExternalTestResults");
+            }}
+          >
+            <Image
+              source={require("../../../assets/DocImage.png")}
+              style={styles.dashboardImage}
+            />
+            <Text style={styles.dashboardButtonText}>View Test Results</Text>
+          </TouchableOpacity>
+          </View>
+
+          <View style={styles.row}>
           <TouchableOpacity
             style={styles.dashboardButton}
             onPress={() => {
@@ -132,6 +151,10 @@ const PatientDashboard = ({ navigation }) => {
             />
             <Text style={styles.dashboardButtonText}>LogOut</Text>
           </TouchableOpacity>
+          </View>
+          
+
+
         </View>
 
         <TouchableOpacity style={styles.roundedPlusButton}>

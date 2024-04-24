@@ -31,6 +31,7 @@ import MedicationsScreen from "./src/screens/ViewPatientSummaryHome Screen/Patie
 import AddMedication from "./src/screens/MedicationToCalendar/AddMedicationPage";
 import ViewMedication from "./src/screens/MedicationToCalendar/ViewMedicationPage";
 import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedicalRecordScreen";
+import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
@@ -45,10 +46,9 @@ export default function Routing() {
       {user?.roles === "doctor" ? console.log("Doctor") : console.log("Patient")} */}
 
       <Stack.Navigator
-        initialRouteName="WelomeScreen"
+        // initialRouteName="WelomeScreen"
         // initialRouteName="DoctorDashboard"
-        // initialRouteName="PatientDashboard"
-
+        initialRouteName="PatientDashboard"
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,
@@ -143,7 +143,21 @@ export default function Routing() {
           }}
         />
 
+        <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
+
+        <Stack.Screen
+          name="MedicalIdFalseScreen"
+          component={MedicalIdFalseScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MyprofileScreen"
+          component={MyprofileScreen}
+          options={{ headerShown: false }}
+        />
+
         {/* <Stack.Screen name="ContactUs" component={ContactUs} /> */}
+
       </Stack.Navigator>
     </NavigationContainer>
   );

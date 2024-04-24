@@ -23,7 +23,10 @@ const PatientDashboard = ({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.topPanel}>
           <Text style={styles.titleMain}>CareSync</Text>
-          <TouchableOpacity style={styles.profileButton}>
+          <TouchableOpacity
+            style={styles.profileButton}
+            onPress={() => navigation.navigate("MyprofileScreen")}
+          >
             <View style={styles.profileImageContainer}>
               <Image
                 source={require("../../../assets/Person.png")}
@@ -100,7 +103,6 @@ const PatientDashboard = ({ navigation }) => {
                 Add Medical Incident
               </Text>
             </TouchableOpacity>
-            
           </View>
           <TouchableOpacity
             style={styles.dashboardButton}
@@ -131,7 +133,6 @@ const PatientDashboard = ({ navigation }) => {
             <Text style={styles.dashboardButtonText}>LogOut</Text>
           </TouchableOpacity>
         </View>
-        
 
         <TouchableOpacity style={styles.roundedPlusButton}>
           <Text style={styles.plusButtonText}>+</Text>

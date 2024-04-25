@@ -4,7 +4,7 @@ import axios from "axios";
 import { baseUrl } from "../../../constants/constants";
 import { DataTable } from "react-native-paper";
 
-function BreathingTest() {
+function StepCounterTest() {
   const [testResult, setTestResult] = useState([]);
 
   useEffect(() => {
@@ -13,40 +13,83 @@ function BreathingTest() {
 
   const fetchTestResults = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/breathingTests`);
+      const response = await axios.get(`${baseUrl}/stepCounterTests`);
       console.log("Response from backend:", response.data);
       setTestResult(response.data);
     } catch (error) {
-      console.error("Error fetching testResults:", error);
+      console.error("Error fetching stepCounterResults:", error);
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.titlecontainer}>
-        <Text style={styles.title}>Breathing Test</Text>
+        <Text style={styles.title}>Step Counter Test</Text>
       </View>
       <View style={styles.tablecontainer}>
         <Text style={styles.headtext}>Past Results</Text>
         <View style={styles.subson}>
-          <Text style={styles.text}> Test Date</Text>
+          <Text style={styles.text}>Date</Text>
           <Text style={styles.text}> Time (H:M:S)</Text>
+          <Text style={styles.text}>Steps</Text>
+          <Text style={styles.text}>Distance</Text>
         </View>
       </View>
-    
 
-
-
-
-<DataTable>
-        
+      <DataTable>
         {testResult.map((data, index) => (
           <DataTable.Row key={index}>
-            <DataTable.Cell style={{ justifyContent: "center",backgroundColor:"#DEFFFB",marginBottom:5,paddingRight:10,borderBottomLeftRadius:10,borderTopLeftRadius:10 }}>
+            <DataTable.Cell
+              style={{
+                justifyContent: "center",
+                backgroundColor: "#FEFFE0",
+                marginBottom: 5,
+                paddingLeft:15,
+          
+
+                
+                paddingRight: 25,
+                borderBottomLeftRadius: 10,
+                borderTopLeftRadius: 10,
+              }}
+            >
               {data.date}
             </DataTable.Cell>
-            <DataTable.Cell style={{ justifyContent: "center",backgroundColor:"#DEFFFB",marginBottom:5 ,borderBottomRightRadius:10,borderTopRightRadius:10}}>
+            <DataTable.Cell
+              style={{
+                justifyContent: "center",
+                backgroundColor: "#FEFFE0",
+                marginBottom: 5,
+
+             
+              }}
+            >
               {data.stopwatchTime}
+            </DataTable.Cell>
+            <DataTable.Cell
+              style={{
+                justifyContent: "center",
+                backgroundColor: "#FEFFE0",
+                marginBottom: 5,
+
+        
+              }}
+            >
+              {data.steps}
+            </DataTable.Cell>
+
+            <DataTable.Cell
+              style={{
+                justifyContent: "center",
+                backgroundColor: "#FEFFE0",
+                marginBottom: 5,
+                paddingRight: 10,
+
+                borderBottomRightRadius: 10,
+                borderTopRightRadius: 10,
+              }}
+            >
+              {data.distance}
             </DataTable.Cell>
           </DataTable.Row>
         ))}
@@ -54,7 +97,7 @@ function BreathingTest() {
     </View>
   );
 }
-export default BreathingTest;
+export default StepCounterTest;
 const styles = StyleSheet.create({
   container: {
 
@@ -78,9 +121,10 @@ const styles = StyleSheet.create({
   tablecontainer: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#DEFFFB",
+    backgroundColor: "#FEFFE0",
     marginTop: 10,
-    margin: "4%",
+    marginLeft: "4%",
+    marginRight: "4%",
     marginBottom: 10,
     borderRadius: 20,
   },
@@ -99,16 +143,16 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     padding: 10,
+    paddingLeft: 10,
     justifyContent: "center",
     fontWeight: "bold",
   },
   rowContainer: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#DEFFFB",
+    backgroundColor: "#FEFFE0",
     marginTop: 10,
     margin: "10%",
     borderRadius: 20,
-
   },
 });

@@ -32,7 +32,13 @@ import AddMedication from "./src/screens/MedicationToCalendar/AddMedicationPage"
 import ViewMedication from "./src/screens/MedicationToCalendar/ViewMedicationPage";
 import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedicalRecordScreen";
 import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
+
 import TestResultScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/TestResultScreen";
+
+import AddExternalTestResults from "./src/screens/ExternalTestResults/AddExternalTestResults/AddExternalTestResults";
+import ViewExternalTestResults from "./src/screens/ExternalTestResults/ViewExternalTestResults/ViewExternalTestResult";
+
+
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
 const Stack = createNativeStackNavigator();
@@ -46,8 +52,11 @@ export default function Routing() {
       {user?.roles === "doctor" ? console.log("Doctor") : console.log("Patient")} */}
 
       <Stack.Navigator
-        // initialRouteName="WelomeScreen"
-        initialRouteName="DoctorDashboard"
+
+
+        initialRouteName="WelomeScreen"
+        // initialRouteName="DoctorDashboard"
+
         // initialRouteName="PatientDashboard"
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
@@ -64,52 +73,77 @@ export default function Routing() {
 
         <Stack.Screen name="DoctorLogin" component={DoctorLogin} />
         <Stack.Screen name="DoctorRegister" component={DoctorRegister} />
+
         {/* <Stack.Screen
           name="MedicalIdFalseScreen"
           component={MedicalIdFalseScreen}
         /> */}
+
+        <Stack.Screen
+          name="MedicalIdFalseScreen"
+          component={MedicalIdFalseScreen}
+        />
+
         <Stack.Screen name="PatientRegister" component={PatientRegister} />
         <Stack.Screen name="PatientLogin" component={PatientLogin} />
 
         {/* Patient Screens */}
         {/* {console.log("USER role: ", user?.roles)} */}
 
-        <>
-          <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
-          <Stack.Screen name="MedicalHistory" component={MedicalHistory} />
+        <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
+        <Stack.Screen name="MedicalHistory" component={MedicalHistory} />
 
-          <Stack.Screen name="TestSelection" component={TestSelection} />
-          <Stack.Screen name="StepCounterHome" component={StepCounterHome} />
-          <Stack.Screen name="BreathingHome" component={BreathingHome} />
+        <Stack.Screen name="TestSelection" component={TestSelection} />
+        <Stack.Screen name="StepCounterHome" component={StepCounterHome} />
+        <Stack.Screen name="BreathingHome" component={BreathingHome} />
 
-          <Stack.Screen
-            name="NewMedicalRecordScreen"
-            component={NewMedicalRecordScreen}
-            options={{ headerShown: false }}
-          />
+        <Stack.Screen
+          name="NewMedicalRecordScreen"
+          component={NewMedicalRecordScreen}
+          options={{ headerShown: false }}
+        />
 
-          <Stack.Screen
-            name="MedicalIncidentHomeScreen"
-            component={MedicalIncidentHomeScreen}
-            options={{ headerShown: false }}
-          />
+        <Stack.Screen
+          name="MedicalIncidentHomeScreen"
+          component={MedicalIncidentHomeScreen}
+          options={{ headerShown: false }}
+        />
 
-          <Stack.Screen
-            name="SelectDocForAccessScreen"
-            component={SelectDocForAccessScreen}
-            options={{ headerShown: false }}
-          />
+        <Stack.Screen
+          name="SelectDocForAccessScreen"
+          component={SelectDocForAccessScreen}
+          options={{ headerShown: false }}
+        />
 
-          <Stack.Screen
-            name="GiveDocAccessScreen"
-            component={GiveDocAcessScreen}
-            options={{ headerShown: false }}
-          />
+        <Stack.Screen
+          name="GiveDocAccessScreen"
+          component={GiveDocAcessScreen}
+          options={{ headerShown: false }}
+        />
 
-          <Stack.Screen name="MedicationView" component={MedicationView} />
-          <Stack.Screen name="AddMedication" component={AddMedication} />
-          <Stack.Screen name="ViewMedication" component={ViewMedication} />
-        </>
+
+        <Stack.Screen name="MedicationView" component={MedicationView} />
+        <Stack.Screen name="AddMedication" component={AddMedication} />
+        <Stack.Screen name="ViewMedication" component={ViewMedication} />
+
+        <Stack.Screen
+          name="MyprofileScreen"
+          component={MyprofileScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="AddExternalTestResults"	
+          component={AddExternalTestResults}
+          options={{ headerShown: false }} 
+        />
+        
+        <Stack.Screen
+        name="ViewExternalTestResults"	
+        component={ViewExternalTestResults}
+        options={{ headerShown: false }} 
+      />
+
 
         {/* Doctor Screens */}
         {/* 
@@ -150,18 +184,13 @@ export default function Routing() {
           }}
         />
 
-        <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
+        {/* <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} /> */}
 
-        <Stack.Screen
+        {/* <Stack.Screen
           name="MedicalIdFalseScreen"
           component={MedicalIdFalseScreen}
           options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="MyprofileScreen"
-          component={MyprofileScreen}
-          options={{ headerShown: false }}
-        />
+        /> */}
 
         {/* <Stack.Screen name="ContactUs" component={ContactUs} /> */}
       </Stack.Navigator>

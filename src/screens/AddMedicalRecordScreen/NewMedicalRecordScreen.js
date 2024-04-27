@@ -1,20 +1,28 @@
 import React ,{useState}from "react";
 import { View, StyleSheet, Text, TextInput, Pressable, SafeAreaView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import Record_nameInputbar from "../AddMedicalIncidentScreen/components/Record_nameInputbar";
+// import Record_nameInputbar from "../AddMedicalIncidentScreen/components/Record_nameInputbar";
 import Header from "../../components/Header";
 import Inputbar from "../AddMedicalIncidentScreen/components/Inputbar";
 import PainRating from "../AddMedicalIncidentScreen/components/PainRating";
 
 
-const NewMedicalRecordScreen = ({}) => {
+const NewMedicalRecordScreen = () => {
  
   const navigation = useNavigation();
 
   const handleAddNew = () => {
     navigation.navigate('MedicalIncidentHomeScreen');
+
+
   };
-  console.log(RecName);
+
+  const [recordName, setRecordName] = useState('');
+
+  // Callback function to update recordName state
+  const handleRecordNameChange = (value) => {
+    setRecordName(value);
+  };
   
 
   return (
@@ -24,12 +32,15 @@ const NewMedicalRecordScreen = ({}) => {
       <View style={styles.background}>
         <View style={styles.container}>
        
-          <Record_nameInputbar 
-          RecName={RecName}
-          setRecname={setRecName}  
+          <Inputbar
+     
+          
           text1="Medical Record Name"
             
           placeholder="Enter Record Name Here"
+          onChange={handleRecordNameChange}
+          recordName={recordName}
+
           />
           <Inputbar text1="Description" placeholder="Enter description here"
           />

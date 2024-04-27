@@ -34,7 +34,7 @@ import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedi
 import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
 import AddExternalTestResults from "./src/screens/ExternalTestResults/AddExternalTestResults/AddExternalTestResults";
 import ViewExternalTestResults from "./src/screens/ExternalTestResults/ViewExternalTestResults/ViewExternalTestResult";
-
+import DisplayMedicalRecords from "./src/screens/AddMedicalRecordScreen/DisplayMedicalRecords";
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
 const Stack = createNativeStackNavigator();
@@ -48,9 +48,9 @@ export default function Routing() {
       {user?.roles === "doctor" ? console.log("Doctor") : console.log("Patient")} */}
 
       <Stack.Navigator
-        initialRouteName="WelomeScreen"
+        // initialRouteName="WelomeScreen"
         // initialRouteName="DoctorDashboard"
-        // initialRouteName="PatientDashboard"
+        initialRouteName="PatientDashboard"
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,
@@ -90,6 +90,12 @@ export default function Routing() {
         />
 
         <Stack.Screen
+          name="DisplayMedicalRecords"
+          component={DisplayMedicalRecords}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
           name="MedicalIncidentHomeScreen"
           component={MedicalIncidentHomeScreen}
           options={{ headerShown: false }}
@@ -118,16 +124,16 @@ export default function Routing() {
         />
 
         <Stack.Screen
-          name="AddExternalTestResults"	
+          name="AddExternalTestResults"
           component={AddExternalTestResults}
-          options={{ headerShown: false }} 
+          options={{ headerShown: false }}
         />
-        
+
         <Stack.Screen
-        name="ViewExternalTestResults"	
-        component={ViewExternalTestResults}
-        options={{ headerShown: false }} 
-      />
+          name="ViewExternalTestResults"
+          component={ViewExternalTestResults}
+          options={{ headerShown: false }}
+        />
 
         {/* Doctor Screens */}
 

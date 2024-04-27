@@ -5,13 +5,13 @@ import TestProviderDropDown from '../TestProviderDropDown';
 
 
 
-const TestModal = ({ RecName,selectedStartDate,selectedOption,onClose }) => {
+const TestModal = ({ RecName,selectedStartDate,selectedOption,onClose,recordName }) => {
   // const [selectedOption, setSelectedOption] = useState(null);
     const [selectedOption1, setSelectedOption1] = useState(null);
     const [selectedOption2, setSelectedOption2] = useState(null);
   
 
-    console.log(RecName);
+    console.log(recordName);
   console.log(selectedStartDate);
   console.log(selectedOption);
   console.log(selectedOption1);
@@ -21,7 +21,7 @@ const TestModal = ({ RecName,selectedStartDate,selectedOption,onClose }) => {
     try {
     
   
-      const res = await fetch("http://10.10.8.227:4009/api/medicalIncident", {
+      const res = await fetch("http://10.10.28.233:4009/api/medicalIncident", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

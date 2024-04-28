@@ -66,6 +66,7 @@ const StepCountButton = () => {
       stopwatchTime: data.stopwatchTime,
       steps: data.steps,
       distance: data.distance,
+      calories: data.calories,
     };
     axios
       .post(`${baseUrl}/stepCounterTests`, payload)
@@ -89,6 +90,18 @@ const StepCountButton = () => {
       });
   };
 
+  const deleteOneResult = (id) => {
+    axios
+      .delete(`${baseUrl}/stepCounterTests/:id`,id)
+      .then(() => {
+        getResults();
+      })
+      .catch((error) => {
+        console.error("Axios Error : ", error);
+      });
+  };
+
+
   const handleButtonClick = () => {
     if (isStarted) {
       clearInterval(intervalRef.current);
@@ -97,6 +110,7 @@ const StepCountButton = () => {
         stopwatchTime: sTime,
         steps: stepcount,
         distance: distance,
+        calories:calories
       });
       resetTime();
       setstepcount(0);
@@ -205,7 +219,7 @@ const StepCountButton = () => {
           <Text style={styles.buttonText}>{isStarted ? "Stop" : "Start"}</Text>
         </TouchableOpacity>
         <View style={styles.table}>
-          <StepCountDataStore sampleData={result} />
+          <StepCountDataStore sampleData={result} deleteOne={deleteOneResult}/>
         </View>
         <TouchableOpacity
           onPress={showDecisionBox}

@@ -5,7 +5,7 @@ import { DataTable } from "react-native-paper";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const StepCountDataStore = ({sampleData}) => {
+const StepCountDataStore = ({sampleData, deleteOne}) => {
   //no data return null
   if(!sampleData){
     return null;
@@ -50,7 +50,7 @@ const StepCountDataStore = ({sampleData}) => {
               {data.distance}
             </DataTable.Cell>
             <DataTable.Cell style={styles.cellsStyle3}>
-
+              {data.calories}
             </DataTable.Cell>
             <DataTable.Cell style={styles.cellsStyle4}>
             <TouchableOpacity

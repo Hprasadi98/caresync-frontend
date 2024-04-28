@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { Calendar } from "react-native-calendars";
+import axios from "axios";
+
 
 const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,13 +23,82 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
   const [selectedGender, setSelectedGender] = useState(textLineTwo);
   const [selectedOne, setSelectedOne] = useState(parseFloat(textLineTwo));
 
-  const handleUpdateProfile = () => {
-    // Update profile with new full name
-    console.log("New full name: ", inputValue);
+  // const handleUpdateProfile = () => {
+  //   // Update profile with new full name
+  //   console.log("New full name: ", inputValue);
 
-    setNewFullName(inputValue);
+  //   setNewFullName(inputValue);
+  //   setModalVisible(false);
+  // };
+
+
+  const handleUpdateProfile = () => {
+    // Prepare the updated data based on the category
+    let updatedData = {};
+    switch (category) {
+      case "fullName":
+        updatedData = { fullName: inputValue }; // Assuming your backend expects "fullName" field
+        break;
+      case "email":
+        updatedData = { email: inputValue }; // Assuming your backend expects "email" field
+        break;
+      case "mobile":
+        updatedData = { mobile: inputValue }; // Assuming your backend expects "mobile" field
+        break;
+      case "birthday":
+        updatedData = { birthday: selectedDate }; // Assuming your backend expects "birthday" field
+        break;
+      case "gender":
+        updatedData = { gender: selectedGender }; // Assuming your backend expects "gender" field
+        break;
+      case "weight":
+        updatedData = { weight: selectedOne }; // Assuming your backend expects "weight" field
+        break;
+      case "height":
+        updatedData = { height: selectedOne }; // Assuming your backend expects "height" field
+        break;
+      case "blood":
+        updatedData = { bloodGroup: inputValue }; // Assuming your backend expects "bloodGroup" field
+        break;
+      default:
+        break;
+    }
+  
+    // Make an HTTP PUT request to update the patient's information
+    axios
+      .put(`${baseUrl}/patients/${_id}`, updatedData) // Assuming your backend route for updating patient info is '/patients/:id'
+      .then((response) => {
+        console.log("Patient information updated successfully: ", response.data);
+        // Optionally, you can perform additional actions after successful update
+      })
+      .catch((error) => {
+        console.error("Failed to update patient information: ", error);
+        // Optionally, you can handle error cases
+      });
+  
+    // Close the modal
     setModalVisible(false);
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const increment = () => {
     setSelectedOne(selectedOne + 1);

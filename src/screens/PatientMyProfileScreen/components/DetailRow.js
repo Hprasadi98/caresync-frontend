@@ -21,7 +21,8 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
   const [inputValue, setInputValue] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedGender, setSelectedGender] = useState(textLineTwo);
-  const [selectedOne, setSelectedOne] = useState(parseFloat(textLineTwo));
+  const [selectedWeight, setSelectedWeight] = useState("60");
+  const [selectedHeight, setSelectedHeight] = useState("170");
 
   // const handleUpdateProfile = () => {
   //   // Update profile with new full name
@@ -30,35 +31,30 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
   //   setNewFullName(inputValue);
   //   setModalVisible(false);
   // };
-  _id = "662c91dbe419af03d2941633";
+  _id = "662e930c4c0bf9f41d0da56a";
 
   const handleUpdateProfile = () => {
     // Prepare the updated data based on the category
-    let updatedData = {};
     switch (category) {
       case "fullName":
-        updatedData = { firstName: inputValue }; // Assuming your backend expects "fullName" field
+        setNewFullName(inputValue);
         break;
       case "email":
-        updatedData = { email: inputValue }; // Assuming your backend expects "email" field
-        break;
       case "mobile":
-        updatedData = { mobile: inputValue }; // Assuming your backend expects "mobile" field
+      case "blood":
+        setInputValue(""); // Clear input value
         break;
       case "birthday":
-        updatedData = { birthday: selectedDate }; // Assuming your backend expects "birthday" field
+        setSelectedDate(selectedDate);
         break;
       case "gender":
-        updatedData = { gender: selectedGender }; // Assuming your backend expects "gender" field
+        setSelectedGender(selectedGender);
         break;
       case "weight":
-        updatedData = { weight: selectedOne }; // Assuming your backend expects "weight" field
+        setSelectedWeight(selectedWeight);
         break;
       case "height":
-        updatedData = { height: selectedOne }; // Assuming your backend expects "height" field
-        break;
-      case "blood":
-        updatedData = { bloodGroup: inputValue }; // Assuming your backend expects "bloodGroup" field
+        setSelectedHeight(selectedHeight);
         break;
       default:
         break;
@@ -83,13 +79,23 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
     setModalVisible(false);
   };
 
-  const increment = () => {
-    setSelectedOne(selectedOne + 1);
+  const incrementWeight = () => {
+    setSelectedWeight(selectedWeight + 1);
   };
 
-  const decrement = () => {
-    if (selectedOne > 0) {
-      setSelectedOne(selectedOne - 1);
+  const decrementWeight = () => {
+    if (selectedWeight > 0) {
+      setSelectedWeight(selectedWeight - 1);
+    }
+  };
+
+  const incrementHeight = () => {
+    setSelectedHeight(selectedHeight + 1);
+  };
+
+  const decrementHeight = () => {
+    if (selectedHeight > 0) {
+      setSelectedHeight(selectedHeight - 1);
     }
   };
 
@@ -193,11 +199,17 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
           <View style={styles.modalContent}>
             <Text style={styles.title}>Select Weight</Text>
             <View style={styles.weightControl}>
-              <TouchableOpacity style={styles.arrowButton} onPress={increment}>
+              <TouchableOpacity
+                style={styles.arrowButton}
+                onPress={incrementWeight}
+              >
                 <Icon name="caret-up" size={20} color="black" />
               </TouchableOpacity>
-              <Text style={styles.selectedWeight}>{selectedOne} kg</Text>
-              <TouchableOpacity style={styles.arrowButton} onPress={decrement}>
+              <Text style={styles.selectedWeight}>{selectedWeight}</Text>
+              <TouchableOpacity
+                style={styles.arrowButton}
+                onPress={decrementWeight}
+              >
                 <Icon name="caret-down" size={20} color="black" />
               </TouchableOpacity>
             </View>
@@ -211,11 +223,17 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
           <View style={styles.modalContent}>
             <Text style={styles.title}>Select height</Text>
             <View style={styles.heightControl}>
-              <TouchableOpacity style={styles.arrowButton} onPress={increment}>
+              <TouchableOpacity
+                style={styles.arrowButton}
+                onPress={incrementHeight}
+              >
                 <Icon name="caret-up" size={20} color="black" />
               </TouchableOpacity>
-              <Text style={styles.selectedheight}>{selectedOne} cm</Text>
-              <TouchableOpacity style={styles.arrowButton} onPress={decrement}>
+              <Text style={styles.selectedheight}>{selectedHeight}</Text>
+              <TouchableOpacity
+                style={styles.arrowButton}
+                onPress={decrementHeight}
+              >
                 <Icon name="caret-down" size={20} color="black" />
               </TouchableOpacity>
             </View>

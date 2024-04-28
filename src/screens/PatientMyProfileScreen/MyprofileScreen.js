@@ -17,7 +17,7 @@ import { id } from "date-fns/locale";
 
 const MyprofileScreen = () => {
   const [details, setDetails] = useState([]); //store breathing test results
-  _id = "662c91dbe419af03d2941633";
+  _id = "662e930c4c0bf9f41d0da56a";
 
   //load when start
   useEffect(() => {
@@ -73,7 +73,7 @@ const MyprofileScreen = () => {
                     <DetailRow
                       name="mobile"
                       textLineOne="Mobile Number"
-                      textLineTwo={data.mobile}
+                      textLineTwo={data.mobileNumber}
                       category="mobile"
                     />
                     <DetailRow
@@ -108,19 +108,19 @@ const MyprofileScreen = () => {
                     <DetailRow
                       name="weight-hanging"
                       textLineOne="Weight"
-                      textLineTwo="60 Kg"
+                      textLineTwo={data.weight} kg
                       category="weight"
                     />
                     <DetailRow
                       name="arrows-alt-v"
                       textLineOne="Height"
-                      textLineTwo="172 cm"
+                      textLineTwo={data.height}
                       category="height"
                     />
                     <DetailRow
                       name="tint"
                       textLineOne="Blood Group"
-                      textLineTwo="O+"
+                      textLineTwo={data.blood}
                       category="blood"
                     />
                   </React.Fragment>

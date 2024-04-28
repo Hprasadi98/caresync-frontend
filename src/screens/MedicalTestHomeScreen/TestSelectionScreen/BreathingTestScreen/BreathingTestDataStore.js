@@ -28,7 +28,7 @@ const BreathingTestDataStore = ({ sampleData, deleteOne }) => {
             <DataTable.Title style={styles.headcellsStyle}>
               Test Time
             </DataTable.Title>
-            <DataTable.Title>    </DataTable.Title>
+            <DataTable.Title>      </DataTable.Title>
           </DataTable.Header>
           {sampleData.map((data, id) => (
             <DataTable.Row key={id}>

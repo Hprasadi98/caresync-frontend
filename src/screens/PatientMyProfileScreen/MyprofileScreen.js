@@ -17,18 +17,17 @@ import { id } from "date-fns/locale";
 
 const MyprofileScreen = () => {
   const [details, setDetails] = useState([]); //store breathing test results
-  _id="662c91dbe419af03d2941633"
+  _id = "662c91dbe419af03d2941633";
 
   //load when start
   useEffect(() => {
     getDetails();
-   
   }, []);
 
   // integrate get result API
   const getDetails = () => {
     axios
-      .get(`${baseUrl}/patients`) // Assuming your backend route is '/patients/:id'
+      .get(`${baseUrl}/patients/`) // Assuming your backend route is '/patients/:id'
       .then((response) => {
         setDetails(response.data); // Assuming response.data contains the patient details
       })
@@ -100,36 +99,35 @@ const MyprofileScreen = () => {
         <View style={styles.container}>
           <Text style={styles.yourinfo}>Health Info</Text>
           <View>
-          {details.map((data, index) => {
+            {details.map((data, index) => {
               // Check if the data's _id matches the _id you're interested in
               if (data._id === _id) {
                 console.log("Data: ", data._id);
                 return (
                   <React.Fragment key={index}>
-                     <DetailRow
-              name="weight-hanging"
-              textLineOne="Weight"
-              textLineTwo="60 Kg"
-              category="weight"
-            />
-            <DetailRow
-              name="arrows-alt-v"
-              textLineOne="Height"
-              textLineTwo="172 cm"
-              category="height"
-            />
-            <DetailRow
-              name="tint"
-              textLineOne="Blood Group"
-              textLineTwo="O+"
-              category="blood"
-            />
+                    <DetailRow
+                      name="weight-hanging"
+                      textLineOne="Weight"
+                      textLineTwo="60 Kg"
+                      category="weight"
+                    />
+                    <DetailRow
+                      name="arrows-alt-v"
+                      textLineOne="Height"
+                      textLineTwo="172 cm"
+                      category="height"
+                    />
+                    <DetailRow
+                      name="tint"
+                      textLineOne="Blood Group"
+                      textLineTwo="O+"
+                      category="blood"
+                    />
                   </React.Fragment>
                 );
               }
               return null; // If _id doesn't match, return null
             })}
-           
           </View>
         </View>
       </ScrollView>

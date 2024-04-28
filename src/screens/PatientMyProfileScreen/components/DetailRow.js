@@ -12,7 +12,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { Calendar } from "react-native-calendars";
 import axios from "axios";
-
+import { baseUrl } from "../../../constants/constants";
 
 const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,14 +30,14 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
   //   setNewFullName(inputValue);
   //   setModalVisible(false);
   // };
-
+  _id = "662c91dbe419af03d2941633";
 
   const handleUpdateProfile = () => {
     // Prepare the updated data based on the category
     let updatedData = {};
     switch (category) {
       case "fullName":
-        updatedData = { fullName: inputValue }; // Assuming your backend expects "fullName" field
+        updatedData = { firstName: inputValue }; // Assuming your backend expects "fullName" field
         break;
       case "email":
         updatedData = { email: inputValue }; // Assuming your backend expects "email" field
@@ -63,42 +63,25 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
       default:
         break;
     }
-  
+
     // Make an HTTP PUT request to update the patient's information
     axios
       .put(`${baseUrl}/patients/${_id}`, updatedData) // Assuming your backend route for updating patient info is '/patients/:id'
       .then((response) => {
-        console.log("Patient information updated successfully: ", response.data);
+        console.log(
+          "Patient information updated successfully: ",
+          response.data
+        );
         // Optionally, you can perform additional actions after successful update
       })
       .catch((error) => {
         console.error("Failed to update patient information: ", error);
         // Optionally, you can handle error cases
       });
-  
+
     // Close the modal
     setModalVisible(false);
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   const increment = () => {
     setSelectedOne(selectedOne + 1);

@@ -4,22 +4,8 @@ import IncidentTypeDropdown from "./components/IncidentTypeDropdown";
 import React ,{useState} from "react";
 
 
-const MedicalIncidentHomeScreen = (navigation) => {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const MedicalIncidentHomeScreen = ({ route }) => {
+  const { recordName, description, weight, rating } = route.params;
 
 
 
@@ -29,7 +15,12 @@ const MedicalIncidentHomeScreen = (navigation) => {
       <Header name="Medical Incident" />
       <View style={styles.background}>
         <View style={styles.container}>
-          <IncidentTypeDropdown />
+          <IncidentTypeDropdown 
+          recordName={recordName} 
+          description={description}
+          weight={weight}
+          rating={rating}
+             />
         </View>
       </View>
 

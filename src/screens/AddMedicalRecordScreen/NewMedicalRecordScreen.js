@@ -12,7 +12,12 @@ const NewMedicalRecordScreen = () => {
   const navigation = useNavigation();
 
   const handleAddNew = () => {
-    navigation.navigate('MedicalIncidentHomeScreen');
+    navigation.navigate('MedicalIncidentHomeScreen' , {
+      recordName,
+      description,
+      weight,
+      rating,
+    });
    
 
 

@@ -155,8 +155,7 @@ export default function Routing() {
 
 
         {/* Doctor Screens */}
-        {/* 
-        <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} /> */}
+        <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
         <Stack.Screen
           name="PatientsScreen"
           component={PatientsScreen}

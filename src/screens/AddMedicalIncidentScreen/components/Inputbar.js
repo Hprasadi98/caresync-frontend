@@ -1,13 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
 
-const Inputbar = ({ text1, placeholder }) => {
+const Inputbar = ({ text1, placeholder,onRecordNameChange }) => {
+ 
+
+  const handleChange = (value) => {
+    console.log( value);
+  };
+
   return (
     <View style={styles.inputcontainer}>
       <Text style={styles.text1}>{text1}</Text>
       <TextInput
         style={styles.input}
         placeholder={placeholder}
+        onChange={handleChange}
        
       ></TextInput>
     </View>

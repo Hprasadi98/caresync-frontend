@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; // Assuming you're using Expo, if not, import from appropriate library
 
-const PainRating = ({text,icon}) => {
-  const [rating, setRating] = useState(0);
+const PainRating = ({text,icon,value, onRatingChange}) => {
+  const [rating, setRating] = useState('');
 
   const handleRating = (value) => {
     setRating(value);
+    onRatingChange(value);
+    
   };
 
   return (

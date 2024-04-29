@@ -34,7 +34,7 @@ import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedi
 import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
 import AddExternalTestResults from "./src/screens/ExternalTestResults/AddExternalTestResults/AddExternalTestResults";
 import ViewExternalTestResults from "./src/screens/ExternalTestResults/ViewExternalTestResults/ViewExternalTestResult";
-
+import DisplayMedicalRecords from "./src/screens/AddMedicalRecordScreen/DisplayMedicalRecords";
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
 const Stack = createNativeStackNavigator();
@@ -50,8 +50,11 @@ export default function Routing() {
       <Stack.Navigator
         initialRouteName="WelomeScreen"
         // initialRouteName="DoctorDashboard"
+
         // initialRouteName="PatientDashboard"
-    
+
+        // initialRouteName="PatientDashboard"
+
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,
@@ -87,6 +90,12 @@ export default function Routing() {
         <Stack.Screen
           name="NewMedicalRecordScreen"
           component={NewMedicalRecordScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="DisplayMedicalRecords"
+          component={DisplayMedicalRecords}
           options={{ headerShown: false }}
         />
 

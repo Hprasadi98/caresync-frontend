@@ -90,7 +90,7 @@ const PatientDashboard = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.dashboardButton}
               onPress={() => {
                 navigation.navigate("MedicalIncidentHomeScreen");
@@ -103,7 +103,28 @@ const PatientDashboard = ({ navigation }) => {
               <Text style={styles.dashboardButtonText}>
                 Add Medical Incident
               </Text>
+            </TouchableOpacity> */}
+
+            <TouchableOpacity
+              style={styles.dashboardButton}
+              onPress={() => {
+                navigation.navigate("DisplayMedicalRecords");
+              }}
+            >
+              <Image
+                source={require("../../../assets/DocImage.png")}
+                style={styles.dashboardImage}
+              />
+              <Text style={styles.dashboardButtonText}>
+                View Medical Records
+              </Text>
             </TouchableOpacity>
+
+
+
+
+
+
           </View>
           
           <View style={styles.row}>

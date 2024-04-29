@@ -51,6 +51,7 @@ export default function Routing() {
         initialRouteName="WelomeScreen"
         // initialRouteName="DoctorDashboard"
         // initialRouteName="PatientDashboard"
+    
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,

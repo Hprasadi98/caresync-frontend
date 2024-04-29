@@ -1,36 +1,59 @@
 import * as React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { DataTable } from "react-native-paper";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const BreathingTestDataStore = ({ sampleData }) => {
-  //no data return null
+const BreathingTestDataStore = ({ sampleData, deleteOne }) => {
   if (!sampleData) {
     return null;
   }
   return (
-    //table which store breathing test result, map to relevant data
     <View style={styles.container}>
       <Text style={styles.headtext}>Past Results</Text>
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title style={{ justifyContent: "center" }}>
-            Test Date
-          </DataTable.Title>
-          <DataTable.Title style={{ justifyContent: "center" }}>
-            Time (H:M:S)
-          </DataTable.Title>
-        </DataTable.Header>
-        {sampleData.map((data, index) => (
-          <DataTable.Row key={index}>
-            <DataTable.Cell style={{ justifyContent: "center" }}>
-              {data.date}
-            </DataTable.Cell>
-            <DataTable.Cell style={{ justifyContent: "center" }}>
-              {data.stopwatchTime}
-            </DataTable.Cell>
-          </DataTable.Row>
-        ))}
-      </DataTable>
+      <ScrollView horizontal>
+        <DataTable>
+          <DataTable.Header>
+            <DataTable.Title style={styles.headcellsStyle}>
+              Date
+            </DataTable.Title>
+            <DataTable.Title style={styles.headcellsStyle}>
+              Time
+            </DataTable.Title>
+            <DataTable.Title style={styles.headcellsStyle}>
+              Test Time
+            </DataTable.Title>
+            <DataTable.Title>      </DataTable.Title>
+          </DataTable.Header>
+          {sampleData.map((data, id) => (
+            <DataTable.Row key={id}>
+              <DataTable.Cell style={styles.cellsStyle}>
+                {data.date}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.cellsStyle}>
+                {data.systime}
+              </DataTable.Cell>
+              <DataTable.Cell style={styles.cellsStyle}>
+                {data.stopwatchTime}
+              </DataTable.Cell>
+              <DataTable.Cell>
+                <TouchableOpacity
+                  onPress={() => {
+                    deleteOne(data.id);
+                  }}
+                >
+                  <MaterialCommunityIcons name="delete-outline" color="red" />
+                </TouchableOpacity>
+              </DataTable.Cell>
+            </DataTable.Row>
+          ))}
+        </DataTable>
+      </ScrollView>
     </View>
   );
 };
@@ -48,6 +71,15 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 10,
     paddingBottom: 0,
+  },
+  cellsStyle: {
+    justifyContent: "center",
+    alignContent: "center",
+    paddingRight: 15,
+  },
+  headcellsStyle: {
+    paddingRight: 30,
+    paddingLeft: 20,
   },
 });
 

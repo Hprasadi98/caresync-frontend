@@ -58,6 +58,7 @@ export default function Routing() {
         // initialRouteName="DoctorDashboard"
 
         // initialRouteName="PatientDashboard"
+    
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,
@@ -133,16 +134,16 @@ export default function Routing() {
         />
 
         <Stack.Screen
-          name="AddExternalTestResults"	
+          name="AddExternalTestResults"
           component={AddExternalTestResults}
-          options={{ headerShown: false }} 
+          options={{ headerShown: false }}
         />
-        
+
         <Stack.Screen
-        name="ViewExternalTestResults"	
-        component={ViewExternalTestResults}
-        options={{ headerShown: false }} 
-      />
+          name="ViewExternalTestResults"
+          component={ViewExternalTestResults}
+          options={{ headerShown: false }}
+        />
 
 
         {/* Doctor Screens */}

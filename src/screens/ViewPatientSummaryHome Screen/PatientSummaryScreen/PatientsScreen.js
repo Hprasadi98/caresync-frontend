@@ -20,6 +20,7 @@ function PatientsScreen({ navigation }) {
       const response = await axios.get(`${baseUrl}/patients`);
 
       setPatients(response.data);
+      
       console.log("Response from backend:", response.data);
     } catch (error) {
       console.error("Error fetching patients:", error);

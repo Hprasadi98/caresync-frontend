@@ -50,7 +50,7 @@ const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
 
 };
 
-const IncidentTypeDropdown = () => {
+const IncidentTypeDropdown = ({recordName}) => {
   const dropdownItems = ['TEST', 'SYMPTOM', 'PRESCRIPTION', 'MEDICATION', 'APPOINTMENT'];
   const [selectedOption, setSelectedOption] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -78,7 +78,7 @@ const IncidentTypeDropdown = () => {
     // Render modal content based on selected option
     switch (selectedOption) {
       case 'TEST':
-        return <TestModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
+        return <TestModal   selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
       case 'SYMPTOM':
         return <SymptomModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
       case 'PRESCRIPTION':

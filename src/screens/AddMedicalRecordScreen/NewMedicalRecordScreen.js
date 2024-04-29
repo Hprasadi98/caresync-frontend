@@ -1,29 +1,41 @@
-import React ,{useState}from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Text, TextInput, Pressable, SafeAreaView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-// import Record_nameInputbar from "../AddMedicalIncidentScreen/components/Record_nameInputbar";
+
 import Header from "../../components/Header";
-import Inputbar from "../AddMedicalIncidentScreen/components/Inputbar";
+
 import PainRating from "../AddMedicalIncidentScreen/components/PainRating";
 
 
 const NewMedicalRecordScreen = () => {
- 
+
   const navigation = useNavigation();
 
   const handleAddNew = () => {
     navigation.navigate('MedicalIncidentHomeScreen');
+   
 
 
   };
 
   const [recordName, setRecordName] = useState('');
+  const [description, setDescription] = useState('');
+  const [weight, setWeight] = useState('');
+  const [rating, setRating] = useState('');
 
-  // Callback function to update recordName state
-  const handleRecordNameChange = (value) => {
-    setRecordName(value);
+  const handleRatingChange = (value) => {
+    setRating(value);
   };
-  
+
+  console.log(recordName);
+  console.log(description);
+  console.log(weight);
+  console.log(rating);
+  // recordName={recordName};
+  // description={description};
+  // weight={weight};
+  // rating={rating};
+
 
   return (
     <SafeAreaView >
@@ -31,37 +43,47 @@ const NewMedicalRecordScreen = () => {
 
       <View style={styles.background}>
         <View style={styles.container}>
-       
-          <Inputbar
-     
-          
-          text1="Medical Record Name"
-            
-          placeholder="Enter Record Name Here"
-          onChange={handleRecordNameChange}
-          recordName={recordName}
 
-          />
-          <Inputbar text1="Description" placeholder="Enter description here"
-          />
-          <Inputbar text1="Weight" placeholder="Enter weight in kilo-grams here"
-          />
-           <Text style={styles.text1}>Appetite</Text>
-        <PainRating text="Appetite" icon="gratipay"/>
-       
-          
+          <View style={styles.inputcontainer}>
+            <Text style={styles.text1}>Record Name</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Record Name Here"
+              onChangeText={(text) => setRecordName(text)}
+            />
+          </View>
+          <View style={styles.inputcontainer}>
+            <Text style={styles.text1}>Description</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Description Here"
+              onChangeText={(text) => setDescription(text)}
+            />
+          </View>
+          <View style={styles.inputcontainer}>
+            <Text style={styles.text1}>Weight</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter weight in kilo-grams here"
+              onChangeText={(text) => setWeight(text)}
+            />
+          </View>
+          <Text style={styles.text1}>Appetite</Text>
+          <PainRating text="Appetite" icon="gratipay" value={rating} onRatingChange={handleRatingChange}  />
+
+
         </View>
-       <View style={styles.btn}>
-         <Pressable onPress={handleAddNew}>
-           <Text style={styles.btntext}>Add New</Text>
-         </Pressable>
-       </View>
-       
-         
+        <View style={styles.btn}>
+          <Pressable onPress={handleAddNew}>
+            <Text style={styles.btntext}>Add New</Text>
+          </Pressable>
+        </View>
+
+
 
       </View>
 
-      
+
     </SafeAreaView>
   )
 
@@ -75,22 +97,22 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '72%',
     backgroundColor: '#FFFF',
-    
-  },
-  btn:{
-    backgroundColor:'#00567D',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius:10,
-    maxWidth:'100%',
-    padding:2,
 
   },
-  btntext:{
+  btn: {
+    backgroundColor: '#00567D',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    maxWidth: '100%',
+    padding: 2,
+
+  },
+  btntext: {
     color: '#FFF',
-    padding:8,
-    fontSize:16,
-    
+    padding: 8,
+    fontSize: 16,
+
   },
 
   background: {
@@ -101,8 +123,33 @@ const styles = StyleSheet.create({
   },
   text1: {
     marginLeft: 28,
-    fontWeight:'500',
+    fontWeight: '500',
     fontSize: 16,
     color: '#1e1e1e',
-  }
+  },
+  inputcontainer: {
+    // flex: 0.4,
+    paddingTop: '6%',
+    justifyContent: 'center',
+  },
+  text1: {
+    marginLeft: 28,
+    fontWeight: '500',
+    fontSize: 16,
+    color: '#1e1e1e',
+    // fontFamily: 'poppins regular,',
+  },
+  input: {
+    borderColor: '#8e8e8e',
+    borderWidth: 1,
+    padding: 10,
+    width: '88%',
+    height: 38,
+    margin: 20,
+    marginLeft: 25,
+    // marginTop: 10,
+    borderRadius: 10,
+    fontSize: 16,
+
+  },
 });

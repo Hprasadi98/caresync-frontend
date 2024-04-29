@@ -16,7 +16,7 @@ function DisplayMedicalRecords({ navigation }) {
     const fetchPatientsHistory = async () => {
         try {
             const response = await axios.get(
-                'http://10.0.2.2:4009/api/patientsHistory'
+                'http://10.10.28.233:4010/api/patientsHistory'
             );
             console.log("Response from backend:", response.data);
             setPatientsHistory(response.data);

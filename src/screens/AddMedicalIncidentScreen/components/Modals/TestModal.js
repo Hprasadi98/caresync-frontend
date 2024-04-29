@@ -1,17 +1,17 @@
-import React,{useState} from 'react';
-import { View, Text, Button, StyleSheet,ScrollView} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import CustomDropdown from '../CustomDropdown';
 import TestProviderDropDown from '../TestProviderDropDown';
 
 
 
-const TestModal = ({ RecName,selectedStartDate,selectedOption,onClose,recordName }) => {
+const TestModal = ({  selectedStartDate, selectedOption, onClose }) => {
   // const [selectedOption, setSelectedOption] = useState(null);
-    const [selectedOption1, setSelectedOption1] = useState(null);
-    const [selectedOption2, setSelectedOption2] = useState(null);
-  
+  const [selectedOption1, setSelectedOption1] = useState(null);
+  const [selectedOption2, setSelectedOption2] = useState(null);
 
-    console.log(recordName);
+
+  console.log(recordName);
   console.log(selectedStartDate);
   console.log(selectedOption);
   console.log(selectedOption1);
@@ -19,19 +19,19 @@ const TestModal = ({ RecName,selectedStartDate,selectedOption,onClose,recordName
 
   const saveIncident = async () => {
     try {
-    
-  
-      const res = await fetch("http://10.10.28.233:4009/api/medicalIncident", {
+
+
+      const res = await fetch("http://192.168.96.128:4010/api/medicalIncident", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          RecName:RecName,
+          
           incidentType: selectedOption,
           date: selectedStartDate,
-          testType:selectedOption1,
-          testProvider:selectedOption2,
+          testType: selectedOption1,
+          testProvider: selectedOption2,
 
 
 
@@ -39,21 +39,21 @@ const TestModal = ({ RecName,selectedStartDate,selectedOption,onClose,recordName
 
         }),
       });
-  
+
       console.log("Response status:", res.status);
-  
+
       const responseData = await res.json(); // Parse response body as JSON
-  
+
       if (!res.ok) {
         throw new Error(`Failed to save incident. Server response: ${JSON.stringify(responseData)}`);
       }
-  
+
       console.log("Success:", responseData);
     } catch (error) {
       console.error("Error saving incident:", error.message);
     }
   };
-  
+
 
 
 
@@ -72,20 +72,20 @@ const TestModal = ({ RecName,selectedStartDate,selectedOption,onClose,recordName
         <View style={styles.dropdowncontainer}>
           <TestProviderDropDown selectedOption2={selectedOption2} setSelectedOption2={setSelectedOption2} options={['HOSPITAL', 'LAB', 'CLINIC', 'Other']} placeholderText="Select from the list" />
         </View>
-        </View>
-        {/* </ScrollView> */}
-        
-        <View style={styles.buttonContainer}>
+      </View>
+      {/* </ScrollView> */}
 
-          <View style={styles.buttonWrapper}>
-            <Button title="Close" onPress={onClose} color="#00567D" />
-          </View>
-          <View style={styles.buttonWrapper}>
-            <Button title="OK" onPress={saveIncident} color="#00567D" />
-          </View>
+      <View style={styles.buttonContainer}>
+
+        <View style={styles.buttonWrapper}>
+          <Button title="Close" onPress={onClose} color="#00567D" />
+        </View>
+        <View style={styles.buttonWrapper}>
+          <Button title="OK" onPress={saveIncident} color="#00567D" />
         </View>
       </View>
-    
+    </View>
+
   );
 };
 
@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
     padding: 15,
     width: '94%',
   },
-  scrollview:{
-    maxHeight:'90%',
+  scrollview: {
+    maxHeight: '90%',
   },
   modalText: {
     fontSize: 22,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     top: 0,
     position: 'absolute',
     padding: 10,
-    color:"#013d59"
+    color: "#013d59"
   },
   contentContainer: {
     width: '100%',

@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { Calendar } from "react-native-calendars";
+import axios from "axios";
+import { baseUrl } from "../../../constants/constants";
 
 const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -19,23 +21,81 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
   const [inputValue, setInputValue] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedGender, setSelectedGender] = useState(textLineTwo);
-  const [selectedOne, setSelectedOne] = useState(parseFloat(textLineTwo));
+  const [selectedWeight, setSelectedWeight] = useState("60");
+  const [selectedHeight, setSelectedHeight] = useState("170");
+
+  // const handleUpdateProfile = () => {
+  //   // Update profile with new full name
+  //   console.log("New full name: ", inputValue);
+
+  //   setNewFullName(inputValue);
+  //   setModalVisible(false);
+  // };
+  _id = "662e930c4c0bf9f41d0da56a";
 
   const handleUpdateProfile = () => {
-    // Update profile with new full name
-    console.log("New full name: ", inputValue);
+    // Prepare the updated data based on the category
+    switch (category) {
+      case "fullName":
+        setNewFullName(inputValue);
+        break;
+      case "email":
+      case "mobile":
+      case "blood":
+        setInputValue(""); // Clear input value
+        break;
+      case "birthday":
+        setSelectedDate(selectedDate);
+        break;
+      case "gender":
+        setSelectedGender(selectedGender);
+        break;
+      case "weight":
+        setSelectedWeight(selectedWeight);
+        break;
+      case "height":
+        setSelectedHeight(selectedHeight);
+        break;
+      default:
+        break;
+    }
 
-    setNewFullName(inputValue);
+    // Make an HTTP PUT request to update the patient's information
+    axios
+      .put(`${baseUrl}/patients/${_id}`, updatedData) // Assuming your backend route for updating patient info is '/patients/:id'
+      .then((response) => {
+        console.log(
+          "Patient information updated successfully: ",
+          response.data
+        );
+        // Optionally, you can perform additional actions after successful update
+      })
+      .catch((error) => {
+        console.error("Failed to update patient information: ", error);
+        // Optionally, you can handle error cases
+      });
+
+    // Close the modal
     setModalVisible(false);
   };
 
-  const increment = () => {
-    setSelectedOne(selectedOne + 1);
+  const incrementWeight = () => {
+    setSelectedWeight(selectedWeight + 1);
   };
 
-  const decrement = () => {
-    if (selectedOne > 0) {
-      setSelectedOne(selectedOne - 1);
+  const decrementWeight = () => {
+    if (selectedWeight > 0) {
+      setSelectedWeight(selectedWeight - 1);
+    }
+  };
+
+  const incrementHeight = () => {
+    setSelectedHeight(selectedHeight + 1);
+  };
+
+  const decrementHeight = () => {
+    if (selectedHeight > 0) {
+      setSelectedHeight(selectedHeight - 1);
     }
   };
 
@@ -139,11 +199,17 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
           <View style={styles.modalContent}>
             <Text style={styles.title}>Select Weight</Text>
             <View style={styles.weightControl}>
-              <TouchableOpacity style={styles.arrowButton} onPress={increment}>
+              <TouchableOpacity
+                style={styles.arrowButton}
+                onPress={incrementWeight}
+              >
                 <Icon name="caret-up" size={20} color="black" />
               </TouchableOpacity>
-              <Text style={styles.selectedWeight}>{selectedOne} kg</Text>
-              <TouchableOpacity style={styles.arrowButton} onPress={decrement}>
+              <Text style={styles.selectedWeight}>{selectedWeight}</Text>
+              <TouchableOpacity
+                style={styles.arrowButton}
+                onPress={decrementWeight}
+              >
                 <Icon name="caret-down" size={20} color="black" />
               </TouchableOpacity>
             </View>
@@ -157,11 +223,17 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
           <View style={styles.modalContent}>
             <Text style={styles.title}>Select height</Text>
             <View style={styles.heightControl}>
-              <TouchableOpacity style={styles.arrowButton} onPress={increment}>
+              <TouchableOpacity
+                style={styles.arrowButton}
+                onPress={incrementHeight}
+              >
                 <Icon name="caret-up" size={20} color="black" />
               </TouchableOpacity>
-              <Text style={styles.selectedheight}>{selectedOne} cm</Text>
-              <TouchableOpacity style={styles.arrowButton} onPress={decrement}>
+              <Text style={styles.selectedheight}>{selectedHeight}</Text>
+              <TouchableOpacity
+                style={styles.arrowButton}
+                onPress={decrementHeight}
+              >
                 <Icon name="caret-down" size={20} color="black" />
               </TouchableOpacity>
             </View>

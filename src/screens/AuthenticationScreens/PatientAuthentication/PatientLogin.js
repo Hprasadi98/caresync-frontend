@@ -15,15 +15,13 @@ import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useLogin } from "../../../hooks/useLogin";
 
 const PatientLogin = ({ navigation }) => {
-
   const { login } = useLogin();
   const { user } = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-
-    if(!email || !password){
+    if (!email || !password) {
       Alert.alert("Error", "Please fill in all fields.");
       return;
     }
@@ -31,16 +29,12 @@ const PatientLogin = ({ navigation }) => {
     const data = await login(email, password, "signin");
     if (data.status === "success") {
       navigation.navigate("PatientDashboard");
-    }
-    else if (data.status === "failed"){
+    } else if (data.status === "failed") {
       Alert.alert("Error", "Invalid email or password");
-    }
-    else if (data.status === "error"){
+    } else if (data.status === "error") {
       Alert.alert("Error", "An error occurred. Please try again later.");
-    
     }
-  }
-  
+  };
 
   return (
     <View style={styles.container}>

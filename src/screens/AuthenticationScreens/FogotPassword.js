@@ -10,6 +10,9 @@ import {
 
 import { z } from "zod";
 
+import { baseUrl } from "../../constants/constants";
+
+
 // Import any necessary constants or utilities
 
 const ForgotPassword = ({ navigation }) => {
@@ -28,7 +31,7 @@ const ForgotPassword = ({ navigation }) => {
 
       //send a reset password email to the user
 
-      const response = await fetch(baseURL + "/forgot-password", {
+      const response = await fetch(baseUrl + "/forgotPassword", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

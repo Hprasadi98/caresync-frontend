@@ -7,16 +7,27 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
+
+import { useLogout } from "../../hooks/useLogout";
+
 const PatientDashboard = ({ navigation }) => {
+  const { logout } = useLogout();
+
   const navigateToMedicalHistory = () => {
     navigation.navigate("MedicalHistory");
   };
+
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.topPanel}>
           <Text style={styles.titleMain}>CareSync</Text>
-          <TouchableOpacity style={styles.profileButton}>
+          <TouchableOpacity
+            style={styles.profileButton}
+            onPress={() => {
+              navigation.navigate("MyprofileScreen");
+            }}
+          >
             <View style={styles.profileImageContainer}>
               <Image
                 source={require("../../../assets/Person.png")}
@@ -93,8 +104,9 @@ const PatientDashboard = ({ navigation }) => {
                 Add Medical Incident
               </Text>
             </TouchableOpacity>
-            
           </View>
+          
+          <View style={styles.row}>
           <TouchableOpacity
             style={styles.dashboardButton}
             onPress={() => {
@@ -109,6 +121,22 @@ const PatientDashboard = ({ navigation }) => {
               Give Access to Doctors
             </Text>
           </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={styles.dashboardButton}
+            onPress={() => {
+              navigation.navigate("ViewExternalTestResults");
+            }}
+          >
+            <Image
+              source={require("../../../assets/DocImage.png")}
+              style={styles.dashboardImage}
+            />
+            <Text style={styles.dashboardButtonText}>View Test Results</Text>
+          </TouchableOpacity>
+          </View>
+
+          <View style={styles.row}>
           <TouchableOpacity
             style={styles.dashboardButton}
             onPress={() => {
@@ -123,8 +151,11 @@ const PatientDashboard = ({ navigation }) => {
             />
             <Text style={styles.dashboardButtonText}>LogOut</Text>
           </TouchableOpacity>
+          </View>
+          
+
+
         </View>
-        
 
         <TouchableOpacity style={styles.roundedPlusButton}>
           <Text style={styles.plusButtonText}>+</Text>

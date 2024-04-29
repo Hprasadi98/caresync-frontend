@@ -3,10 +3,8 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-
 // Components & Pages Import
 import WelcomeScreen from "./src/screens/WelcomeScreen/WelcomeScreen";
-import ContactUs from "./src/screens/ContactUs";
 import DoctorRegister from "./src/screens/AuthenticationScreens/DoctorAuthentication/DoctorRegister";
 import PatientRegister from "./src/screens/AuthenticationScreens/PatientAuthentication/PatientRegister";
 import PatientLogin from "./src/screens/AuthenticationScreens/PatientAuthentication/PatientLogin";
@@ -33,25 +31,27 @@ import MedicationsScreen from "./src/screens/ViewPatientSummaryHome Screen/Patie
 import AddMedication from "./src/screens/MedicationToCalendar/AddMedicationPage";
 import ViewMedication from "./src/screens/MedicationToCalendar/ViewMedicationPage";
 import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedicalRecordScreen";
+import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
+import AddExternalTestResults from "./src/screens/ExternalTestResults/AddExternalTestResults/AddExternalTestResults";
+import ViewExternalTestResults from "./src/screens/ExternalTestResults/ViewExternalTestResults/ViewExternalTestResult";
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
-
 const Stack = createNativeStackNavigator();
-
-
 
 export default function Routing() {
   const { user } = useAuthContext();
+
   return (
     <NavigationContainer>
-      {user ? console.log(user._id) : console.log("User is not logged in")}
+      {/* {user ? console.log("User: ", user) : console.log("User is not logged in")}
+      {user?.roles === "doctor" ? console.log("Doctor") : console.log("Patient")} */}
 
       <Stack.Navigator
         initialRouteName="WelomeScreen"
         // initialRouteName="DoctorDashboard"
-         // initialRouteName="PatientDashboard"
-
+        // initialRouteName="PatientDashboard"
+    
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,
@@ -63,14 +63,23 @@ export default function Routing() {
           options={{ title: "Home" }}
         />
 
+        {/* Authentication Screens */}
+
         <Stack.Screen name="DoctorLogin" component={DoctorLogin} />
-        <Stack.Screen name="ContactUs" component={ContactUs} />
         <Stack.Screen name="DoctorRegister" component={DoctorRegister} />
+        <Stack.Screen
+          name="MedicalIdFalseScreen"
+          component={MedicalIdFalseScreen}
+        />
         <Stack.Screen name="PatientRegister" component={PatientRegister} />
         <Stack.Screen name="PatientLogin" component={PatientLogin} />
-        <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
 
+        {/* Patient Screens */}
+        {/* {console.log("USER role: ", user?.roles)} */}
+
+        <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
         <Stack.Screen name="MedicalHistory" component={MedicalHistory} />
+
         <Stack.Screen name="TestSelection" component={TestSelection} />
         <Stack.Screen name="StepCounterHome" component={StepCounterHome} />
         <Stack.Screen name="BreathingHome" component={BreathingHome} />
@@ -80,6 +89,7 @@ export default function Routing() {
           component={NewMedicalRecordScreen}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="MedicalIncidentHomeScreen"
           component={MedicalIncidentHomeScreen}
@@ -97,10 +107,32 @@ export default function Routing() {
           component={GiveDocAcessScreen}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen name="MedicationView" component={MedicationView} />
         <Stack.Screen name="AddMedication" component={AddMedication} />
         <Stack.Screen name="ViewMedication" component={ViewMedication} />
 
+        <Stack.Screen
+          name="MyprofileScreen"
+          component={MyprofileScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="AddExternalTestResults"
+          component={AddExternalTestResults}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="ViewExternalTestResults"
+          component={ViewExternalTestResults}
+          options={{ headerShown: false }}
+        />
+
+        {/* Doctor Screens */}
+
+        <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
         <Stack.Screen
           name="PatientsScreen"
           component={PatientsScreen}
@@ -115,7 +147,6 @@ export default function Routing() {
             headerShown: false,
           }}
         />
-
         <Stack.Screen
           name="PatientHistoryScreen"
           component={PatientHistoryScreen}
@@ -123,7 +154,6 @@ export default function Routing() {
             headerShown: false,
           }}
         />
-
         <Stack.Screen
           name="MedicationsScreen"
           component={MedicationsScreen}
@@ -132,13 +162,15 @@ export default function Routing() {
           }}
         />
 
-        <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
+        {/* <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} /> */}
 
-        <Stack.Screen
+        {/* <Stack.Screen
           name="MedicalIdFalseScreen"
           component={MedicalIdFalseScreen}
           options={{ headerShown: false }}
-        />
+        /> */}
+
+        {/* <Stack.Screen name="ContactUs" component={ContactUs} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

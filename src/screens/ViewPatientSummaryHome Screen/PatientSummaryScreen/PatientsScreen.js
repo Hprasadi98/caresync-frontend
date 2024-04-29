@@ -20,11 +20,14 @@ function PatientsScreen({ navigation }) {
       const response = await axios.get(`${baseUrl}/patients`);
 
       setPatients(response.data);
+      
       console.log("Response from backend:", response.data);
     } catch (error) {
       console.error("Error fetching patients:", error);
     }
   };
+
+  
 
   function renderCategoryItem({ item }) {
     function presshandler() {
@@ -33,8 +36,6 @@ function PatientsScreen({ navigation }) {
 
     return (
       <View>
-     
-
         <PatientGridTile
           id={item.patientId}
           firstName={item.firstName}
@@ -42,9 +43,8 @@ function PatientsScreen({ navigation }) {
           nic={item.nic}
           email={item.email}
           onPress={presshandler}
-          
         />
-           {/* export data to PatientGridTile page */}
+        {/* export data to PatientGridTile page */}
       </View>
     );
   }

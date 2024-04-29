@@ -65,6 +65,9 @@ const PatientLogin = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate("PatientRegister")}>
         <Text style={styles.linkText}>New here? Register</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+        <Text style={styles.linkText}>Forgot Password?</Text>
+      </TouchableOpacity>
     </View>
   );
 };

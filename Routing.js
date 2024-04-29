@@ -34,6 +34,7 @@ import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedi
 import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
 import AddExternalTestResults from "./src/screens/ExternalTestResults/AddExternalTestResults/AddExternalTestResults";
 import ViewExternalTestResults from "./src/screens/ExternalTestResults/ViewExternalTestResults/ViewExternalTestResult";
+import ForgotPassword from "./src/screens/AuthenticationScreens/FogotPassword";
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
@@ -157,6 +158,14 @@ export default function Routing() {
         <Stack.Screen
           name="MedicationsScreen"
           component={MedicationsScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
           options={{
             headerShown: false,
           }}

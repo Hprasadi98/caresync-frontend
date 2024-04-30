@@ -31,7 +31,7 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
   //   setNewFullName(inputValue);
   //   setModalVisible(false);
   // };
-  _id = "662e930c4c0bf9f41d0da56a";
+  const _id = "662e930c4c0bf9f41d0da56a";
 
   const handleUpdateProfile = () => {
     // Prepare the updated data based on the category

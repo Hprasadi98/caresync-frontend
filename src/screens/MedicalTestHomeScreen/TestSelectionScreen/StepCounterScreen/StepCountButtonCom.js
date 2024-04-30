@@ -91,8 +91,9 @@ const StepCountButton = () => {
   };
 
   const deleteOneResult = (id) => {
+    console.log(id);
     axios
-      .delete(`${baseUrl}/stepCounterTests/:id`,id)
+      .delete(`${baseUrl}/stepCounterTests/${id}`)
       .then(() => {
         getResults();
       })

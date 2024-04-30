@@ -27,6 +27,8 @@ const HoldButton = () => {
   const [currentTime, setCurrentTime] = useState("");
   const intervalRef = useRef(null); //get interval reference in time
 
+  const pID = 212;
+
   //integrate get result API
   const getResults = () => {
     axios
@@ -41,7 +43,9 @@ const HoldButton = () => {
 
   //post result API integration
   const addResults = (data) => {
+    //console.log(pID);
     const payload = {
+      pID: pID,
       date: data.date,
       systime: data.systime,
       stopwatchTime: data.stopwatchTime,
@@ -70,7 +74,7 @@ const HoldButton = () => {
 
   const deleteOneResult = (id) => {
     axios
-      .delete(`${baseUrl}/breathingTests/:id`,id)
+      .delete(`${baseUrl}/breathingTests/${id}`)
       .then(() => {
         getResults();
       })

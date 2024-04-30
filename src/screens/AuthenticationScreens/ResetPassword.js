@@ -10,55 +10,54 @@ import {
 
 import { baseUrl } from "../../constants/constants";
 
+import api from "../../Services/AuthService";
+
 const ResetPasswordScreen = ({ navigation, route }) => {
-  const { email, accessToken } = route.params;
+  const { email ,userType} = route.params;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+
   const handleResetPassword = async () => {
-    try {
-      setLoading(true);
-      // Check if passwords match
-      if (newPassword !== confirmPassword) {
-        Alert.alert("Error", "Passwords do not match");
-        return;
-      }
 
-      const response = await fetch(baseUrl + "/resetPassword", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({ email, newPassword }),
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        Alert.alert("Success", data.message);
-        //check response role and navigate to appropriate screen
-        if(data.role === "patient"){
-          navigation.navigate("PatientLogin");
-        }
-        else if(data.role === "doctor"){
-          navigation.navigate("DoctorLogin");
-        }
-
-
-        
-      } else {
-        Alert.alert("Error", data.error);
-      }
-    } catch (error) {
-      console.log("Error resetting password:", error);
-      Alert.alert(
-        "Error",
-        "An error occurred while resetting password. Please try again."
-      );
-    } finally {
-      setLoading(false);
+    
+    setLoading(true);
+    // Check if passwords match
+    if (newPassword !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
     }
+
+    
+
+    api
+      .post(baseUrl + "/resetPassword", { email, newPassword })
+      .then((response) => {
+
+        if (response.status == 200) {
+          Alert.alert("Success", response.data.message);
+          
+          if (userType == "patient") {
+            navigation.navigate("PatientLogin");
+          }
+          if (userType == "doctor") {
+            navigation.navigate("DoctorLogin");
+          }
+        } else {
+          Alert.alert("Error", response.data.error);
+        }
+      })
+      .catch((error) => {
+        console.log("Error resetting password:", error);
+        Alert.alert(
+          "Error",
+          error.response.data.error,
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -72,7 +71,7 @@ const ResetPasswordScreen = ({ navigation, route }) => {
         onChangeText={setNewPassword}
         secureTextEntry
       />
-      
+
       <TextInput
         style={styles.input}
         placeholder="Confirm Password"

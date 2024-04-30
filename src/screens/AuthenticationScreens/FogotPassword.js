@@ -10,49 +10,46 @@ import {
 } from "react-native";
 
 import { z } from "zod";
-
+import api from "../../Services/AuthService";
 import { baseUrl } from "../../constants/constants";
 
-
-const ForgotPassword = ({ navigation }) => {
+const ForgotPassword = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
+  console.log("Role in forgot password", route.params.userType);
+  const userType = route.params.userType;
+
   const handleResetPassword = async () => {
-    try {
-      setLoading(true); // Set loading to true when initiating password reset request
+    setLoading(true); // Set loading to true when initiating password reset request
 
-      const validateEmail = z.string().email();
-      const result = validateEmail.safeParse(email);
-      if (!result.success) {
-        Alert.alert("Error", "Please enter a valid email address.");
-        return;
-      }
-
-      const response = await fetch(baseUrl + "/forgotPassword", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        Alert.alert("Success", data.message);
-        navigation.navigate("OTPVerificationScreen", { email });
-      } else {
-        Alert.alert("Error", data.error);
-      }
-    } catch (error) {
-      console.log("Error resetting password:", error);
-      Alert.alert(
-        "Error",
-        "An error occurred while resetting password. Please try again."
-      );
-    } finally {
-      setLoading(false); // Set loading to false regardless of success or failure
+    const validateEmail = z.string().email();
+    const result = validateEmail.safeParse(email);
+    if (!result.success) {
+      Alert.alert("Error", "Please enter a valid email address.");
+      return;
     }
+    api
+      .post(baseUrl + "/forgotPassword", { email, userType })
+      .then((response) => {
+        console.log("Response from forgot password:", response);
+        if (response.status == 200) {
+          Alert.alert("Success", response.data.message);
+          navigation.navigate("OTPVerificationScreen", { email, userType });
+        } else {
+          Alert.alert("Error", response.data.error);
+        }
+      })
+      .catch((error) => {
+        console.log("Error resetting password:", error.response.data.error);
+        Alert.alert(
+          "Error",
+          error.response.data.error,
+        );
+      })
+      .finally(() => {
+        setLoading(false); // Set loading to false regardless of success or failure
+      });
   };
 
   return (

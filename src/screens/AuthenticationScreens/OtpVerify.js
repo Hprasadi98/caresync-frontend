@@ -11,75 +11,67 @@ import {
 
 import { baseUrl } from "../../constants/constants";
 
+import api from "../../Services/AuthService";
+
 const OTPVerificationScreen = ({ route, navigation }) => {
   const [otp, setOTP] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false); // New state variable for resend OTP loading
 
-  const { email } = route.params;
-
+  const { email ,userType} = route.params;
+  
   const handleVerifyOTP = async () => {
-    try {
-      setLoading(true); // Set loading to true when verifying OTP
+    setLoading(true); // Set loading to true when verifying OTP
 
-      // Verify OTP request
-      const response = await fetch(baseUrl + "/verifyOTP", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, otp }), // Include email and OTP in the request body
+    api
+      .post(baseUrl + "/verifyOTP", { email, otp ,userType})
+      .then((response) => {
+        if (response.status == 200) {
+          Alert.alert("Success", response.data.message);
+          navigation.navigate("ResetPasswordScreen", {
+            email,
+            userType,
+          });
+        } else {
+          Alert.alert("Error", response.data.error);
+        }
+      })
+      .catch((error) => {
+        console.log("Error verifying OTP:", error);
+        Alert.alert(
+          "Error",
+          error.response.data.error,
+        );
+      })
+      .finally(() => {
+        setLoading(false); // Set loading to false regardless of success or failure
       });
-      const data = await response.json();
-
-      if (response.ok) {
-        Alert.alert("Success", data.message);
-        navigation.navigate("ResetPasswordScreen", {
-          email,
-          accessToken: data.accessToken,
-        });
-      } else {
-        Alert.alert("Error", data.error);
-      }
-    } catch (error) {
-      console.log("Error verifying OTP:", error);
-      Alert.alert(
-        "Error",
-        "An error occurred while verifying OTP. Please try again."
-      );
-    } finally {
-      setLoading(false); // Set loading to false regardless of success or failure
-    }
   };
 
   const handleResendOTP = async () => {
-    try {
-      setResendLoading(true); // Set resend loading to true when resend OTP is initiated
+    setResendLoading(true); // Set resend loading to true when resend OTP is initiated
 
-      // Resend OTP request
-      const response = await fetch(baseUrl + "/resendOTP", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
+    // Resend OTP request
+
+    api
+      .post(baseUrl + "/resendOTP", { email ,userType})
+      .then((response) => {
+        if (response.status == 200) {
+          Alert.alert("Success", response.data.message);
+        } else {
+          Alert.alert("Error", response.data.error);
+        }
+      })
+      .catch((error) => {
+        console.log("Error resending OTP:", error);
+        Alert.alert(
+          "Error",
+          error.response.data.error,
+        );
+      })
+      .finally(() => {
+        setResendLoading(false); // Set resend loading to false regardless of success or failure
       });
-      const data = await response.json();
-
-      if (response.ok) {
-        Alert.alert("Success", data.message);
-      } else {
-        Alert.alert("Error", data.error);
-      }
-    } catch (error) {
-      console.log("Error resending OTP:", error);
-      Alert.alert(
-        "Error",
-        "An error occurred while resending OTP. Please try again."
-      );
-    } finally {
-      setResendLoading(false); // Set resend loading to false regardless of success or failure
-    }
   };
 
   return (
@@ -91,7 +83,7 @@ const OTPVerificationScreen = ({ route, navigation }) => {
         placeholder="Enter OTP"
         value={otp}
         onChangeText={setOTP}
-        editable={!resendLoading} 
+        editable={!resendLoading}
       />
 
       <TouchableOpacity

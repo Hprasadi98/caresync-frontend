@@ -1,67 +1,96 @@
-// ResetPasswordScreen.js
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from "react-native";
 
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { baseUrl } from "../../constants/constants";
 
-const ResetPasswordScreen = () => {
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+const ResetPasswordScreen = ({ navigation, route }) => {
+  const { email, accessToken } = route.params;
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleResetPassword = async () => {
-    // Validate input fields
-    if (!newPassword || !confirmPassword) {
-      Alert.alert('Error', 'Please fill in all fields');
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
-      return;
-    }
-
-    // Send request to backend to reset password
     try {
-      const response = await fetch('YOUR_BACKEND_URL/resetPassword', {
-        method: 'POST',
+      setLoading(true);
+      // Check if passwords match
+      if (newPassword !== confirmPassword) {
+        Alert.alert("Error", "Passwords do not match");
+        return;
+      }
+
+      const response = await fetch(baseUrl + "/resetPassword", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({ newPassword }),
+        body: JSON.stringify({ email, newPassword }),
       });
       const data = await response.json();
 
       if (response.ok) {
-        // Handle success response
-        Alert.alert('Success', data.message);
+        Alert.alert("Success", data.message);
+        //check response role and navigate to appropriate screen
+        if(data.role === "patient"){
+          navigation.navigate("PatientLogin");
+        }
+        else if(data.role === "doctor"){
+          navigation.navigate("DoctorLogin");
+        }
+
+
+        
       } else {
-        // Handle error response
-        Alert.alert('Error', data.error);
+        Alert.alert("Error", data.error);
       }
     } catch (error) {
-      console.error('Error resetting password:', error);
-      Alert.alert('Error', 'An error occurred while resetting password. Please try again.');
+      console.log("Error resetting password:", error);
+      Alert.alert(
+        "Error",
+        "An error occurred while resetting password. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Reset Password</Text>
+
       <TextInput
         style={styles.input}
         placeholder="New Password"
-        secureTextEntry
         value={newPassword}
         onChangeText={setNewPassword}
+        secureTextEntry
       />
+      
       <TextInput
         style={styles.input}
         placeholder="Confirm Password"
-        secureTextEntry
         value={confirmPassword}
         onChangeText={setConfirmPassword}
+        secureTextEntry
       />
-      <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleResetPassword}
+        disabled={loading}
+      >
         <Text style={styles.buttonText}>Reset Password</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={styles.link}>Back</Text>
       </TouchableOpacity>
     </View>
   );
@@ -70,35 +99,40 @@ const ResetPasswordScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F7FEFF',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F7FEFF",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
   input: {
-    width: '80%',
+    width: "80%",
     height: 40,
     borderWidth: 1,
-    borderColor: '#00567D',
+    borderColor: "#00567D",
     marginBottom: 20,
     padding: 10,
     borderRadius: 5,
   },
   button: {
-    backgroundColor: '#30A8DE',
+    backgroundColor: "#30A8DE",
     padding: 10,
     borderRadius: 5,
     marginTop: 20,
-    width: '80%',
-    alignItems: 'center',
+    width: "80%",
+    alignItems: "center",
   },
   buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  link: {
+    marginTop: 20,
+    color: "#30A8DE",
+    textDecorationLine: "underline",
   },
 });
 

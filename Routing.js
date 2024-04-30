@@ -36,6 +36,7 @@ import AddExternalTestResults from "./src/screens/ExternalTestResults/AddExterna
 import ViewExternalTestResults from "./src/screens/ExternalTestResults/ViewExternalTestResults/ViewExternalTestResult";
 import ForgotPassword from "./src/screens/AuthenticationScreens/FogotPassword";
 import ResetPasswordScreen from "./src/screens/AuthenticationScreens/ResetPassword";
+import OTPVerificationScreen from "./src/screens/AuthenticationScreens/OtpVerify";
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
@@ -175,6 +176,14 @@ export default function Routing() {
         <Stack.Screen
           name="ResetPasswordScreen"
           component={ResetPasswordScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="OTPVerificationScreen"
+          component={OTPVerificationScreen}
           options={{
             headerShown: false,
           }}

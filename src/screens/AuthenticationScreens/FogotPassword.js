@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 
 import { z } from "zod";
@@ -13,23 +14,20 @@ import { z } from "zod";
 import { baseUrl } from "../../constants/constants";
 
 
-// Import any necessary constants or utilities
-
 const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleResetPassword = async () => {
     try {
-      // Validate email format (if needed)
-      // validate using zod or regex
+      setLoading(true); // Set loading to true when initiating password reset request
+
       const validateEmail = z.string().email();
       const result = validateEmail.safeParse(email);
       if (!result.success) {
         Alert.alert("Error", "Please enter a valid email address.");
         return;
       }
-
-      //send a reset password email to the user
 
       const response = await fetch(baseUrl + "/forgotPassword", {
         method: "POST",
@@ -38,24 +36,24 @@ const ForgotPassword = ({ navigation }) => {
         },
         body: JSON.stringify({ email }),
       });
-        const data = await response.json();
+      const data = await response.json();
 
-        // Handle response from the server
-
-        if (response.ok) {
-            Alert.alert("Success", data.message);
-            }
-        else {
-            Alert.alert("Error", data.error);
-            }
+      if (response.ok) {
+        Alert.alert("Success", data.message);
+        navigation.navigate("OTPVerificationScreen", { email });
+      } else {
+        Alert.alert("Error", data.error);
+      }
     } catch (error) {
-        console.log("Error resetting password:", error);
-        Alert.alert(
-            "Error",
-            "An error occurred while resetting password. Please try again."
-        );
+      console.log("Error resetting password:", error);
+      Alert.alert(
+        "Error",
+        "An error occurred while resetting password. Please try again."
+      );
+    } finally {
+      setLoading(false); // Set loading to false regardless of success or failure
     }
-    };
+  };
 
   return (
     <View style={styles.container}>
@@ -68,8 +66,16 @@ const ForgotPassword = ({ navigation }) => {
         onChangeText={setEmail}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
-        <Text style={styles.buttonText}>Reset Password</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleResetPassword}
+        disabled={loading} // Disable button while loading
+      >
+        {loading ? (
+          <ActivityIndicator color="#fff" /> // Show loading indicator if loading
+        ) : (
+          <Text style={styles.buttonText}>Reset Password</Text>
+        )}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.goBack()}>

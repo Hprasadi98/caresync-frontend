@@ -12,13 +12,13 @@ import React, { useState, useRef } from "react";
 import SentenceBreaker from "../Components/SentenceBreaker";
 import ViewButton from "../Components/ViewButton";
 function PatientHistoryGrid({
-  recordId,
-  title,
+
+  recordName,
   date,
-  description,
-  doctor,
-  symptom,
-  presId,
+  recordDescription,
+  incidentType,
+  testType,
+  
 }) {
   const [expanded, setExpanded] = useState(false);
   const heightAnim = useRef(new Animated.Value(100)).current;
@@ -41,7 +41,7 @@ function PatientHistoryGrid({
       ]}
     >
       <View style={styles.titleGrid}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>{recordName}</Text>
       </View>
       <View style={styles.icon}>
         <ToochableIconDown
@@ -52,7 +52,7 @@ function PatientHistoryGrid({
         />
       </View>
       <View>
-        <Text style={styles.description}>{description}</Text>
+        <Text style={styles.description}>{recordDescription}</Text>
       </View>
 
       {expanded && (
@@ -60,15 +60,16 @@ function PatientHistoryGrid({
           <View style={styles.subtile1}>
             <View style={styles.subcom1}>
               <View style={styles.innertile1}>
-                <Text style={styles.innertext1}> Symptom :</Text>
+             
+              <Text style={styles.innertext1}>{incidentType}</Text>
               </View>
+              <Text style={styles.innertext1}>Test Type</Text>
               <Text style={styles.subtext1}>
-                <SentenceBreaker sentence={symptom} />
-              </Text>
+              {testType}</Text>
             </View>
             <Text style={styles.date1}>{date}</Text>
           </View>
-          <View style={styles.subtile2}>
+          {/* <View style={styles.subtile2}>
             <View style={styles.subcom1}>
               <View style={styles.innertile2}>
                 <Text style={styles.innertext2}> Appointment :</Text>
@@ -76,9 +77,9 @@ function PatientHistoryGrid({
               <Text style={styles.subtext2}>{doctor}</Text>
             </View>
             <Text style={styles.date1}>{date}</Text>
-          </View>
+          </View> */}
 
-          <View style={styles.subtile3}>
+          {/* <View style={styles.subtile3}>
             <View style={styles.subcom1}>
               <View style={styles.innertile3}>
                 <Text style={styles.innertext2}> Prescription :</Text>
@@ -88,9 +89,9 @@ function PatientHistoryGrid({
             <View style={styles.subcom1}>
               <Text style={styles.date1}>{date}</Text>
               {/* <Text style={styles.presId}>Id : {presId}</Text> */}
-              <ViewButton text="View" />
+              {/* <ViewButton text="View" />
             </View>
-          </View>
+          </View> */} 
         </View>
       )}
     </Animated.View>

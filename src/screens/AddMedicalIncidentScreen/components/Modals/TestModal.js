@@ -13,10 +13,11 @@ const TestModal = ({  selectedStartDate, selectedOption, onClose,recordName, des
 
   console.log(recordName);
   console.log(description);
-  console.log(weight);
-  console.log(rating);
+ 
   console.log(selectedStartDate);
   console.log(selectedOption);
+  console.log(weight);
+  console.log(rating);
   console.log(selectedOption1);
   console.log(selectedOption2);
 

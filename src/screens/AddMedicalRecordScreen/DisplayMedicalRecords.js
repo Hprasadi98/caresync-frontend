@@ -16,7 +16,7 @@ function DisplayMedicalRecords({ navigation }) {
     const fetchPatientsHistory = async () => {
         try {
             const response = await axios.get(
-                'http://10.10.28.233:4010/api/patientsHistory'
+                'http://10.10.28.233:4010/api/medicalIncident'
             );
             console.log("Response from backend:", response.data);
             setPatientsHistory(response.data);
@@ -30,13 +30,13 @@ function DisplayMedicalRecords({ navigation }) {
         return (
             <View>
                 <PatientHistoryGrid
-                    id={item.recordId}
-                    title={item.title}
+                    
+                    recordName={item.recordName}
                     date={item.date}
-                    doctor={item.doctor}
-                    description={item.description}
-                    symptom={item.symptom}
-                    presId={item.presId}
+                    incidentType={item.incidentType}
+                    recordDescription={item.recordDescription}
+                    testType={item.testType}
+                    // selectedOption2={item.selectedOption2}
                 />
                 {/* export data to PatientHistoryGrid page */}
             </View>

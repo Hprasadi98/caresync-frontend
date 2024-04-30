@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import Header from "../../components/Header";
 
-import PainRating from "../AddMedicalIncidentScreen/components/PainRating";
+
 
 
 const NewMedicalRecordScreen = () => {
@@ -15,8 +15,7 @@ const NewMedicalRecordScreen = () => {
     navigation.navigate('MedicalIncidentHomeScreen' , {
       recordName,
       description,
-      weight,
-      rating,
+     
     });
    
 
@@ -25,17 +24,10 @@ const NewMedicalRecordScreen = () => {
 
   const [recordName, setRecordName] = useState('');
   const [description, setDescription] = useState('');
-  const [weight, setWeight] = useState('');
-  const [rating, setRating] = useState('');
-
-  const handleRatingChange = (value) => {
-    setRating(value);
-  };
-
+ 
   console.log(recordName);
   console.log(description);
-  console.log(weight);
-  console.log(rating);
+
   // recordName={recordName};
   // description={description};
   // weight={weight};
@@ -65,16 +57,7 @@ const NewMedicalRecordScreen = () => {
               onChangeText={(text) => setDescription(text)}
             />
           </View>
-          <View style={styles.inputcontainer}>
-            <Text style={styles.text1}>Weight</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter weight in kilo-grams here"
-              onChangeText={(text) => setWeight(text)}
-            />
-          </View>
-          <Text style={styles.text1}>Appetite</Text>
-          <PainRating text="Appetite" icon="gratipay" value={rating} onRatingChange={handleRatingChange}  />
+         
 
 
         </View>

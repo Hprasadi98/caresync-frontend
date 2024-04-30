@@ -10,6 +10,7 @@ import {
 
 import { baseUrl } from "../../../constants/constants";
 import { z } from "zod";
+import axios from "axios";
 
 const PatientRegister = ({ navigation }) => {
   const baseURL = baseUrl;
@@ -45,7 +46,7 @@ const PatientRegister = ({ navigation }) => {
       nic: nic,
       email: email,
     };
-    
+
     const result = validateDoctorRegistration.safeParse(data);
 
     try {
@@ -71,34 +72,27 @@ const PatientRegister = ({ navigation }) => {
         return;
       }
       console.log(baseURL + "/signup");
-      const response = await fetch(baseURL + "/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = axios
+        .post(baseURL + "/signup", {
           firstName,
           lastName,
           nic,
           email,
           password,
-        }),
-      });
-      const data = await response;
-      // console.log(data);
-
-      if (response.ok) {
-        // Handle successful registration here
-        Alert.alert("Success", "Registration successful.", [
-          {
-            text: "OK",
-            onPress: () => navigation.navigate("PatientLogin"), // Navigate back to login page
-          },
-        ]);
-      } else {
-        // Handle registration error
-        Alert.alert("Error", data.error);
-      }
+        })
+        .then((res) => {
+          console.log("Response: ", res);
+          Alert.alert("Success", "Registration successful.", [
+            {
+              text: "OK",
+              onPress: () => navigation.navigate("PatientLogin"), // Navigate back to login page
+            },
+          ]);
+        })
+        .catch((err) => {
+          console.log("Error registering:", err.response.data.error);
+          Alert.alert("Error", err.response.data.error);
+        });
     } catch (error) {
       console.log("Error registering:", error);
       Alert.alert(

@@ -23,7 +23,7 @@ const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
 
   };
 
-  
+
 
 
 
@@ -50,18 +50,22 @@ const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
 
 };
 
-const IncidentTypeDropdown = () => {
+const IncidentTypeDropdown = ({ recordName, description, weight, rating }) => {
   const dropdownItems = ['TEST', 'SYMPTOM', 'PRESCRIPTION', 'MEDICATION', 'APPOINTMENT'];
   const [selectedOption, setSelectedOption] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedStartDate, setSelectedStartDate] = useState("");
-  const [selectedIncidentType,setSelectedIncidentType]=useState("");
+  const [selectedIncidentType, setSelectedIncidentType] = useState("");
+
 
   
 
-  
-  
+
+
+
+
+
   const handleSelect = (item) => {
     setSelectedOption(item);
   };
@@ -78,15 +82,34 @@ const IncidentTypeDropdown = () => {
     // Render modal content based on selected option
     switch (selectedOption) {
       case 'TEST':
-        return <TestModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
+        return <TestModal
+          recordName={recordName}
+          description={description}
+          weight={weight}
+          rating={rating}
+          selectedStartDate={selectedStartDate}
+          selectedOption={selectedOption}
+          onClose={handleCloseModal} />;
       case 'SYMPTOM':
-        return <SymptomModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
+        return <SymptomModal recordName={recordName}
+          description={description}
+          weight={weight}
+          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
       case 'PRESCRIPTION':
-        return <PrescriptionModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
+        return <PrescriptionModal recordName={recordName}
+          description={description}
+          weight={weight}
+          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
       case 'MEDICATION':
-        return <MedicationModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
+        return <MedicationModal recordName={recordName}
+          description={description}
+          weight={weight}
+          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
       case 'APPOINTMENT':
-        return <AppointmentModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
+        return <AppointmentModal recordName={recordName}
+          description={description}
+          weight={weight}
+          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
       default:
         return null;
     }
@@ -95,7 +118,7 @@ const IncidentTypeDropdown = () => {
 
   const handleCombinedPress = () => {
     handleNextPress(); // Open the modal
-   // Save the incident
+    // Save the incident
   };
 
   const handleDateChange = (date) => {

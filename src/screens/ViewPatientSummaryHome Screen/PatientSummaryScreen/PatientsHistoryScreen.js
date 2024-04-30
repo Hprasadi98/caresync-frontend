@@ -5,6 +5,7 @@ import PatientHistoryGrid from "../Components/PatientHistoryGrid";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { baseUrl } from "../../../constants/constants";
+import Header2 from "../Components/Header2";
 
 function PatientsHistoryScreen() {
   const [patientsHistory, setPatientsHistory] = useState([]);
@@ -15,9 +16,7 @@ function PatientsHistoryScreen() {
 
   const fetchPatientsHistory = async () => {
     try {
-      const response = await axios.get(
-        `${baseUrl}/patientsHistory`
-      );
+      const response = await axios.get(`${baseUrl}/patientsHistory`);
       console.log("Response from backend:", response.data);
       setPatientsHistory(response.data);
     } catch (error) {
@@ -25,8 +24,6 @@ function PatientsHistoryScreen() {
     }
   };
   function renderCategoryItem({ item }) {
-
-
     return (
       <View>
         <PatientHistoryGrid
@@ -38,20 +35,20 @@ function PatientsHistoryScreen() {
           symptom={item.symptom}
           presId={item.presId}
         />
-          {/* export data to PatientHistoryGrid page */}
+        {/* export data to PatientHistoryGrid page */}
       </View>
     );
   }
   return (
     <View style={styles.container}>
-      <CustomHeader title="Patient History" />
+      <Header2 text="Patient History" />
       <FlatList
         data={patientsHistory}
         keyExtractor={(item) => item._id}
         renderItem={renderCategoryItem}
         style={{ flex: 1 }}
       />
-         {/* Flatlist to display the patients details */}
+      {/* Flatlist to display the patients details */}
     </View>
   );
 }

@@ -31,30 +31,35 @@ const DetailRow = ({ name, textLineOne, textLineTwo, category }) => {
   //   setNewFullName(inputValue);
   //   setModalVisible(false);
   // };
-  _id = "662e930c4c0bf9f41d0da56a";
+  const _id = "662e930c4c0bf9f41d0da56a";
 
   const handleUpdateProfile = () => {
     // Prepare the updated data based on the category
+    let updatedData = {};
     switch (category) {
       case "fullName":
-        setNewFullName(inputValue);
+        updatedData = { firstName: inputValue }; // Assuming your backend expects "fullName" field
         break;
       case "email":
+        updatedData = { email: inputValue }; // Assuming your backend expects "email" field
+        break;
       case "mobile":
-      case "blood":
-        setInputValue(""); // Clear input value
+        updatedData = { mobileNumber: inputValue }; // Assuming your backend expects "mobile" field
         break;
       case "birthday":
-        setSelectedDate(selectedDate);
+        updatedData = { birthday: selectedDate }; // Assuming your backend expects "birthday" field
         break;
       case "gender":
-        setSelectedGender(selectedGender);
+        updatedData = { gender: selectedGender }; // Assuming your backend expects "gender" field
         break;
       case "weight":
-        setSelectedWeight(selectedWeight);
+        updatedData = { weight: selectedWeight }; // Assuming your backend expects "weight" field
         break;
       case "height":
-        setSelectedHeight(selectedHeight);
+        updatedData = { height: selectedHeight }; // Assuming your backend expects "height" field
+        break;
+      case "blood":
+        updatedData = { blood: inputValue }; // Assuming your backend expects "bloodGroup" field
         break;
       default:
         break;

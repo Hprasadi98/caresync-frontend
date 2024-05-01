@@ -16,7 +16,7 @@ function PatientsHistoryScreen() {
 
   const fetchPatientsHistory = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/patientsHistory`);
+      const response = await axios.get(`${baseUrl}/medicalIncident`);
       console.log("Response from backend:", response.data);
       setPatientsHistory(response.data);
     } catch (error) {
@@ -27,13 +27,11 @@ function PatientsHistoryScreen() {
     return (
       <View>
         <PatientHistoryGrid
-          id={item.recordId}
-          title={item.title}
+          recordName={item.recordName}
           date={item.date}
-          doctor={item.doctor}
-          description={item.description}
-          symptom={item.symptom}
-          presId={item.presId}
+          incidentType={item.incidentType}
+          recordDescription={item.recordDescription}
+          testType={item.testType}
         />
         {/* export data to PatientHistoryGrid page */}
       </View>

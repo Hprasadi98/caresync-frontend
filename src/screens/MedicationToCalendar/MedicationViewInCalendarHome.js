@@ -19,9 +19,9 @@ const MedicationView = ({navigation}) => {
       <Calendar
         style={{
           borderRadius: 10,
-          marginRight: 30,
-          marginLeft: 30,
-          marginTop: 100,
+          marginRight: 10,
+          marginLeft: 10,
+          marginTop: 10,
           elevation: 4,
         }}
         onDayPress={(day) => {
@@ -29,6 +29,9 @@ const MedicationView = ({navigation}) => {
           console.log(day);
         }}
       />
+
+      
+
       <TouchableOpacity
         style={styles.roundedPlusButton}
         onPress={() => {
@@ -44,8 +47,8 @@ const MedicationView = ({navigation}) => {
 const styles = StyleSheet.create({
   roundedPlusButton: {
     position: "absolute",
-    bottom: 50,
-    right: 30,
+    bottom: 10,
+    right: 10,
     width: 60,
     height: 60,
     borderRadius: 30,

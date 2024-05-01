@@ -5,7 +5,7 @@ import React ,{useState} from "react";
 
 
 const MedicalIncidentHomeScreen = ({ route }) => {
-  const { recordName, description, weight, rating } = route.params;
+  const { recordName, recordDescription } = route.params;
 
 
 
@@ -17,9 +17,9 @@ const MedicalIncidentHomeScreen = ({ route }) => {
         <View style={styles.container}>
           <IncidentTypeDropdown 
           recordName={recordName} 
-          description={description}
-          weight={weight}
-          rating={rating}
+          description={recordDescription}
+          // weight={weight}
+          // rating={rating}
              />
         </View>
       </View>

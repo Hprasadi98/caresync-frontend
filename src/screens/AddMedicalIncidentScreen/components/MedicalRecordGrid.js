@@ -2,24 +2,25 @@ import {
   Text,
   View,
   StyleSheet,
-  TouchableOpacity,
+  Pressable,
   Image,
   Animated,
+
 } from "react-native";
-import { Button } from "react-native-paper";
+import { useNavigation } from '@react-navigation/native';
 import ToochableIconDown from "../../ViewPatientSummaryHome Screen/Components/TouchableIconDown";
 import React, { useState, useRef } from "react";
-import SentenceBreaker from "../../ViewPatientSummaryHome Screen/Components/SentenceBreaker";
-import ViewButton from "../../ViewPatientSummaryHome Screen/Components/ViewButton";
 function MedicalRecordGrid({
-
+ 
   recordName,
   date,
   recordDescription,
   incidentType,
   testType,
   
-}) {
+}) 
+
+{
   const [expanded, setExpanded] = useState(false);
   const heightAnim = useRef(new Animated.Value(100)).current;
   const handlePress = () => {
@@ -31,8 +32,19 @@ function MedicalRecordGrid({
     }).start();
     setExpanded(!expanded);
   };
+  const navigation = useNavigation();
+  const handleAddNew = () => {
+    navigation.navigate('MedicalIncidentHomeScreen',{
+      recordName,
+      recordDescription,
+    });
+   
+}
 
+
+   
   return (
+    
     <Animated.View
       style={[
         styles.tile,
@@ -68,30 +80,16 @@ function MedicalRecordGrid({
               {testType}</Text>
             </View>
             <Text style={styles.date1}>{date}</Text>
-          </View>
-          {/* <View style={styles.subtile2}>
-            <View style={styles.subcom1}>
-              <View style={styles.innertile2}>
-                <Text style={styles.innertext2}> Appointment :</Text>
-              </View>
-              <Text style={styles.subtext2}>{doctor}</Text>
-            </View>
-            <Text style={styles.date1}>{date}</Text>
-          </View> */}
+            <View style={styles.btn}>
+            <Pressable style={styles.btn} 
+            onPress={handleAddNew}>
+            <Text style={styles.btntext}>+ incident</Text>
+          </Pressable>
+         
+        </View>
 
-          {/* <View style={styles.subtile3}>
-            <View style={styles.subcom1}>
-              <View style={styles.innertile3}>
-                <Text style={styles.innertext2}> Prescription :</Text>
-              </View>
-              <Text style={styles.subtext2}>{doctor}</Text>
-            </View>
-            <View style={styles.subcom1}>
-              <Text style={styles.date1}>{date}</Text>
-              {/* <Text style={styles.presId}>Id : {presId}</Text> */}
-              {/* <ViewButton text="View" />
-            </View>
-          </View> */} 
+          </View>
+    
         </View>
       )}
     </Animated.View>
@@ -120,6 +118,21 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
+  },
+  btn:{
+    backgroundColor:'#00567D',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius:10,
+    maxWidth:'100%',
+    padding:2,
+
+  },
+ btntext:{
+    color: '#FFF',
+    padding:8,
+    fontSize:16,
+    
   },
 
   title: {

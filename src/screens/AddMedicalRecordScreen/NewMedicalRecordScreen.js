@@ -14,7 +14,7 @@ const NewMedicalRecordScreen = () => {
   const handleAddNew = () => {
     navigation.navigate('MedicalIncidentHomeScreen' , {
       recordName,
-      description,
+      recordDescription,
      
     });
    
@@ -23,10 +23,10 @@ const NewMedicalRecordScreen = () => {
   };
 
   const [recordName, setRecordName] = useState('');
-  const [description, setDescription] = useState('');
+  const [recordDescription, setRecordDescription] = useState('');
  
   console.log(recordName);
-  console.log(description);
+  console.log(recordDescription);
 
   // recordName={recordName};
   // description={description};
@@ -54,7 +54,7 @@ const NewMedicalRecordScreen = () => {
             <TextInput
               style={styles.input}
               placeholder="Enter Description Here"
-              onChangeText={(text) => setDescription(text)}
+              onChangeText={(text) => setRecordDescription(text)}
             />
           </View>
          

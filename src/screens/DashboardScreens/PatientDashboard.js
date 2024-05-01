@@ -18,7 +18,7 @@ const PatientDashboard = ({ navigation }) => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.outer}>
       <View style={styles.container}>
         <View style={styles.topPanel}>
           <Text style={styles.titleMain}>CareSync</Text>
@@ -47,6 +47,21 @@ const PatientDashboard = ({ navigation }) => {
           <View style={styles.row}>
             <TouchableOpacity
               style={styles.dashboardButton}
+              onPress={() => {
+                navigation.navigate("DisplayMedicalRecords");
+              }}
+            >
+              <Image
+                source={require("../../../assets/icons/record-icon.jpg")}
+                style={styles.dashboardImage}
+              />
+              <Text style={styles.dashboardButtonText}>
+                View Medical Records
+              </Text>
+            </TouchableOpacity>
+
+            {/* <TouchableOpacity
+              style={styles.dashboardButton}
               onPress={navigateToMedicalHistory}
             >
               <Image
@@ -56,7 +71,7 @@ const PatientDashboard = ({ navigation }) => {
               <Text style={styles.dashboardButtonText}>
                 View Medical History
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
               style={styles.dashboardButton}
@@ -65,7 +80,7 @@ const PatientDashboard = ({ navigation }) => {
               }}
             >
               <Image
-                source={require("../../../assets/DocImage.png")}
+                source={require("../../../assets/icons/test-icon.jpg")}
                 style={styles.dashboardImage}
               />
               <Text style={styles.dashboardButtonText}>
@@ -82,7 +97,7 @@ const PatientDashboard = ({ navigation }) => {
               }}
             >
               <Image
-                source={require("../../../assets/DocImage.png")}
+                source={require("../../../assets/icons/medicine-icon.jpg")}
                 style={styles.dashboardImage}
               />
               <Text style={styles.dashboardButtonText}>
@@ -104,78 +119,53 @@ const PatientDashboard = ({ navigation }) => {
                 Add Medical Incident
               </Text>
             </TouchableOpacity> */}
+            <TouchableOpacity
+              style={styles.dashboardButton}
+              onPress={() => {
+                navigation.navigate("SelectDocForAccessScreen");
+              }}
+            >
+              <Image
+                source={require("../../../assets/icons/doctor-icon.jpg")}
+                style={styles.dashboardImage}
+              />
+              <Text style={styles.dashboardButtonText}>
+                Give Access to Doctors
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.row}>
+            <TouchableOpacity
+              style={styles.dashboardButton}
+              onPress={() => {
+                navigation.navigate("ViewExternalTestResults");
+              }}
+            >
+              <Image
+                source={require("../../../assets/icons/result-icon.jpg")}
+                style={styles.dashboardImage}
+              />
+              <Text style={styles.dashboardButtonText}>View Test Results</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.dashboardButton}
               onPress={() => {
-                navigation.navigate("DisplayMedicalRecords");
+                logout();
+                navigation.popToTop();
+                navigation.navigate("WelcomeScreen");
               }}
             >
               <Image
-                source={require("../../../assets/DocImage.png")}
+                source={require("../../../assets/icons/logout-icon.jpg")}
                 style={styles.dashboardImage}
               />
-              <Text style={styles.dashboardButtonText}>
-                View Medical Records
-              </Text>
+              <Text style={styles.dashboardButtonText}>LogOut</Text>
             </TouchableOpacity>
-
-
-
-
-
-
-          </View>
-          
-          <View style={styles.row}>
-          <TouchableOpacity
-            style={styles.dashboardButton}
-            onPress={() => {
-              navigation.navigate("SelectDocForAccessScreen");
-            }}
-          >
-            <Image
-              source={require("../../../assets/DocImage.png")}
-              style={styles.dashboardImage}
-            />
-            <Text style={styles.dashboardButtonText}>
-              Give Access to Doctors
-            </Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            style={styles.dashboardButton}
-            onPress={() => {
-              navigation.navigate("ViewExternalTestResults");
-            }}
-          >
-            <Image
-              source={require("../../../assets/DocImage.png")}
-              style={styles.dashboardImage}
-            />
-            <Text style={styles.dashboardButtonText}>View Test Results</Text>
-          </TouchableOpacity>
           </View>
 
-          <View style={styles.row}>
-          <TouchableOpacity
-            style={styles.dashboardButton}
-            onPress={() => {
-              logout();
-              navigation.popToTop();
-              navigation.navigate("WelcomeScreen");
-            }}
-          >
-            <Image
-              source={require("../../../assets/DocImage.png")}
-              style={styles.dashboardImage}
-            />
-            <Text style={styles.dashboardButtonText}>LogOut</Text>
-          </TouchableOpacity>
-          </View>
-          
-
-
+          {/* <View style={styles.row}></View> */}
         </View>
 
         <TouchableOpacity style={styles.roundedPlusButton}>
@@ -187,9 +177,12 @@ const PatientDashboard = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  outer: {
+    backgroundColor: "#FFFFFF",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#F7FEFF",
+    // backgroundColor: "#F7FEFF",
   },
   topPanel: {
     flexDirection: "row",
@@ -198,6 +191,8 @@ const styles = StyleSheet.create({
     height: 95,
     backgroundColor: "#00567D",
     paddingHorizontal: 15,
+    paddingTop: 50,
+    paddingBottom: 15,
   },
   titleMain: {
     fontSize: 24,
@@ -233,6 +228,7 @@ const styles = StyleSheet.create({
     height: "90%",
   },
   dashboardContainer: {
+    backgroundColor: "#FFFFFF",
     flexDirection: "column",
     justifyContent: "space-between",
     marginTop: 30,
@@ -241,11 +237,19 @@ const styles = StyleSheet.create({
   dashboardButton: {
     width: 163,
     height: 163,
-    backgroundColor: "#D9F8FF",
+    backgroundColor: "#FFFFFF",
     borderRadius: 15,
     marginBottom: 20,
     alignItems: "center",
     justifyContent: "center",
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.11,
+    shadowRadius: 3.05,
+    elevation: 3,
   },
   dashboardImage: {
     width: "80%",

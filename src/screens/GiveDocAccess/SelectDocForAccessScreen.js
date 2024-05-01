@@ -51,7 +51,6 @@ function SelectDocForAccess({ navigation }) {
   );
 
   return (
-
     <SafeAreaView style={{ flex: 1 }}>
       <Header name={"Select Doctor"} />
       <View style={{ flex: 1 }}>
@@ -66,7 +65,6 @@ function SelectDocForAccess({ navigation }) {
         </View>
       </View>
     </SafeAreaView>
-
   );
 }
 

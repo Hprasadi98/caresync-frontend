@@ -56,9 +56,9 @@ export default function Routing() {
       
 
 
-        // initialRouteName="WelomeScreen"
+        initialRouteName="WelomeScreen"
 
-        initialRouteName="DoctorDashboard"
+        // initialRouteName="DoctorDashboard"
 
         
 

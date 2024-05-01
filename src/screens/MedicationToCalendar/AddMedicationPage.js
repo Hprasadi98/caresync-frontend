@@ -17,7 +17,7 @@ import {
   MaterialIcons,
   AntDesign,
 } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios";
 import { baseUrl } from "../../constants/constants";
 
@@ -38,19 +38,6 @@ const AddMedication = () => {
 
   const by = "patient";
 
-  //API integration for get results
-  const getmedication = () => {
-    axios
-      .get(`${baseUrl}/medication`)
-      .then((response) => {
-        console.log(response.data);
-        setResult(response.data || []);
-      })
-      .catch((error) => {
-        console.error("Axios Error : ", error);
-      });
-  };
-
   const addmedication = () => {
     const payload = {
       by:by,
@@ -62,7 +49,7 @@ const AddMedication = () => {
       baw:checked,
       description:description,
     };
-    console.log(payload);
+    //console.log(payload);
     axios
       .post(`${baseUrl}/medication`, payload)
       .then(() => {
@@ -237,7 +224,7 @@ const AddMedication = () => {
             <RadioButton
               value="with"
               status={checked === "with" ? "checked" : "unchecked"}
-              onPress={() => setChecked("with food")}
+              onPress={() => setChecked("with")}
             />
             <Text style={styles.radioText}>With Food</Text>
           </View>

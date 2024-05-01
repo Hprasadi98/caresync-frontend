@@ -59,7 +59,7 @@ function SelectDocForAccess({ navigation }) {
           {DocList && (
             <FlatList
               data={DocList}
-              keyExtractor={(item) => item._id}
+              keyExtractor={(item) => item?._id}
               renderItem={renderItem}
             ></FlatList>
           )}

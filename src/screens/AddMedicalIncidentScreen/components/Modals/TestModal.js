@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import CustomDropdown from '../CustomDropdown';
 import TestProviderDropDown from '../TestProviderDropDown';
-
+import { baseUrl } from '../../../../constants/constants';
 
 
 const TestModal = ({  selectedStartDate, selectedOption, onClose,recordName, description, weight, rating }) => {
@@ -13,10 +13,11 @@ const TestModal = ({  selectedStartDate, selectedOption, onClose,recordName, des
 
   console.log(recordName);
   console.log(description);
-  console.log(weight);
-  console.log(rating);
+ 
   console.log(selectedStartDate);
   console.log(selectedOption);
+  console.log(weight);
+  console.log(rating);
   console.log(selectedOption1);
   console.log(selectedOption2);
 
@@ -24,7 +25,7 @@ const TestModal = ({  selectedStartDate, selectedOption, onClose,recordName, des
     try {
 
 
-      const res = await fetch("http://10.10.28.233:4010/api/medicalIncident", {
+      const res = await fetch( `${baseUrl}/medicalIncident`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

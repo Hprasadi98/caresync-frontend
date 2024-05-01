@@ -16,9 +16,9 @@ import Header from "../../../components/Header";
 import api from "../../../Services/AuthService";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 
-export default function AddExternalTestResults() {
+export default function AddExternalTestResults({ navigation }) {
   const { user } = useAuthContext();
-  console.log("User: ", user._id);
+  // console.log("User: ", user._id);
 
   const [link, setLink] = React.useState("");
   const [TestName, setTestName] = React.useState("");
@@ -31,14 +31,18 @@ export default function AddExternalTestResults() {
       return;
     }
     const data = await api
-      .post("/extTests/addLink", { link: link, patientID: user._id })
+      .post("/extTests/addLink", { link: link, patientID: user._id, TestName: TestName})
       .then((res) => {
         console.log(res.data);
+        Alert.alert("Success", "Test result submitted successfully");
+        navigation.navigate("ViewExternalTestResults");
       })
       .catch((err) => {
         console.log(err);
+        console.log(err.response.data.error);
+        Alert.alert("Error", "There was a error. Please try again.");
       });
-    Alert.alert("Success", "Test result submitted successfully");
+    
   };
 
 

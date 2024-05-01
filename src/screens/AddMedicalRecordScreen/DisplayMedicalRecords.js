@@ -1,12 +1,17 @@
 import React, { useState,useEffect } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, SafeAreaView,FlatList } from "react-native";
+import { View, StyleSheet, Text, Pressable, SafeAreaView,FlatList } from "react-native";
 import Header from "../../components/Header";
-import PatientHistoryGrid from "../ViewPatientSummaryHome Screen/Components/PatientHistoryGrid";
-
+import MedicalRecordGrid from "../AddMedicalIncidentScreen/components/MedicalRecordGrid"
+import { baseUrl } from "../../constants/constants";
 import axios from "axios";
 
 
+
 function DisplayMedicalRecords({ navigation }) {
+    const handleAddNew = () => {
+        navigation.navigate('NewMedicalRecordScreen');
+       
+    }
     const [patientsHistory, setPatientsHistory] = useState([]);
 
     useEffect(() => {
@@ -16,7 +21,7 @@ function DisplayMedicalRecords({ navigation }) {
     const fetchPatientsHistory = async () => {
         try {
             const response = await axios.get(
-                'http://10.10.28.233:4010/api/patientsHistory'
+                `${baseUrl}/medicalIncident`
             );
             console.log("Response from backend:", response.data);
             setPatientsHistory(response.data);
@@ -24,19 +29,20 @@ function DisplayMedicalRecords({ navigation }) {
             console.error("Error fetching patientsHistory:", error);
         }
     };
+    
     function renderCategoryItem({ item }) {
 
 
         return (
             <View>
-                <PatientHistoryGrid
-                    id={item.recordId}
-                    title={item.title}
+                <MedicalRecordGrid
+                    
+                    recordName={item.recordName}
                     date={item.date}
-                    doctor={item.doctor}
-                    description={item.description}
-                    symptom={item.symptom}
-                    presId={item.presId}
+                    incidentType={item.incidentType}
+                    recordDescription={item.recordDescription}
+                    testType={item.testType}
+                    // selectedOption2={item.selectedOption2}
                 />
                 {/* export data to PatientHistoryGrid page */}
             </View>
@@ -53,9 +59,11 @@ function DisplayMedicalRecords({ navigation }) {
                     renderItem={renderCategoryItem}
                   
                 />
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("NewMedicalRecordScreen")}>
-                    <Text style={styles.btntext}>AddNew</Text>
-                </TouchableOpacity >
+                 <View style={styles.btn}>
+          <Pressable onPress={handleAddNew}>
+            <Text style={styles.btntext}>Add New</Text>
+          </Pressable>
+        </View>
                 </View>
                 
             </View>

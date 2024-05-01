@@ -21,7 +21,7 @@ console.log(inputValue);
     try {
    
   
-      const res = await fetch("http://10.10.28.233:4009/api/medicalIncident", {
+      const res = await fetch("http://192.168.34.128:4011/api/medicalIncident", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

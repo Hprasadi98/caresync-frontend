@@ -25,7 +25,7 @@ const TestModal = ({  selectedStartDate, selectedOption, onClose,recordName, des
     try {
 
 
-      const res = await fetch("http://10.10.28.233:4010/api/medicalIncident", {
+      const res = await fetch("http://192.168.96.128:4010/api/medicalIncident", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

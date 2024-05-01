@@ -48,10 +48,10 @@ export default function Routing() {
       {user?.roles === "doctor" ? console.log("Doctor") : console.log("Patient")} */}
 
       <Stack.Navigator
-        initialRouteName="WelomeScreen"
+        // initialRouteName="WelomeScreen"
         // initialRouteName="DoctorDashboard"
 
-        // initialRouteName="PatientDashboard"
+        initialRouteName="PatientDashboard"
 
         // initialRouteName="PatientDashboard"
 

@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, SafeAreaView,FlatList } from "react-native";
 import Header from "../../components/Header";
-import PatientHistoryGrid from "../ViewPatientSummaryHome Screen/Components/PatientHistoryGrid";
+import MedicalRecordGrid from "../AddMedicalIncidentScreen/components/MedicalRecordGrid"
 
 import axios from "axios";
 
@@ -16,7 +16,7 @@ function DisplayMedicalRecords({ navigation }) {
     const fetchPatientsHistory = async () => {
         try {
             const response = await axios.get(
-                'http://10.10.28.233:4010/api/medicalIncident'
+                'http://192.168.96.128:4010/api/medicalIncident'
             );
             console.log("Response from backend:", response.data);
             setPatientsHistory(response.data);
@@ -29,7 +29,7 @@ function DisplayMedicalRecords({ navigation }) {
 
         return (
             <View>
-                <PatientHistoryGrid
+                <MedicalRecordGrid
                     
                     recordName={item.recordName}
                     date={item.date}

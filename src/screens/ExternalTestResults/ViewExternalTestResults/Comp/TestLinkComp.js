@@ -8,9 +8,9 @@ import {
   Linking,
 } from "react-native";
 
-function DocCard({ navigation, link }) {
+function DocCard({ navigation, link, TestName }) {
 
-  console.log("Link: ", link.toString());
+  // console.log("Link: ", link.toString());
   const name = link.toString()
 
   function onPressHandler() {
@@ -32,6 +32,8 @@ function DocCard({ navigation, link }) {
               }}
               style={styles.cardIn}
             >
+              Test Name: {TestName}
+              {"\n"}
               Link: {link}
             </Text>
           </Pressable>

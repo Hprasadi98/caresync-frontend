@@ -1,6 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Header from "../MedicalTestHomeScreen/components/Header";
-import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -10,26 +9,10 @@ const ViewMedication = () => {
       <Header name="View Medication" />
 
       <View style={styles.dateContainer}>
-        <TouchableOpacity onPress={()=>{}}>
-        <AntDesign
-          name="left"
-          size={24}
-          color="gray"
-          style={{ marginTop: 10, padding: 20 }}
-        />
-        </TouchableOpacity>
         <View style={styles.dateCircle}>
           <Text style={styles.dateDay}>15</Text>
           <Text style={styles.dateWeekDay}>tue</Text>
         </View>
-        <TouchableOpacity onPress={()=>{}}>
-        <AntDesign
-          name="right"
-          size={24}
-          color="gray"
-          style={{ marginTop: 10, padding: 20 }}
-        />
-        </TouchableOpacity>
       </View>
 
       <View style={styles.detailsContainer}>
@@ -83,7 +66,7 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     backgroundColor: "#3498db",
-    borderRadius: 200,
+    borderRadius: 10,
     elevation: 4,
     alignItems: "center",
     marginBottom:10

@@ -47,6 +47,8 @@ const StepCountButton = () => {
     updatedS
   )}`; //set time to 00:00:00 format
 
+  const pID=212;
+
   //API integration for get results
   const getResults = () => {
     axios
@@ -62,6 +64,7 @@ const StepCountButton = () => {
   //API integration for post result
   const addResults = (data) => {
     const payload = {
+      pID:pID,
       date: data.date,
       stopwatchTime: data.stopwatchTime,
       steps: data.steps,
@@ -91,8 +94,9 @@ const StepCountButton = () => {
   };
 
   const deleteOneResult = (id) => {
+    console.log(id);
     axios
-      .delete(`${baseUrl}/stepCounterTests/:id`,id)
+      .delete(`${baseUrl}/stepCounterTests/${id}`)
       .then(() => {
         getResults();
       })

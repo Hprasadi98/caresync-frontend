@@ -12,19 +12,16 @@ import {
   Alert,
 } from "react-native";
 
-4
+4;
 
-import { useIsFocused } from "@react-navigation/native"; 
- 
+import { useIsFocused } from "@react-navigation/native";
 
-
-import TestLinkComp from "./Comp/TestLinkComp"
+import TestLinkComp from "./Comp/TestLinkComp";
 import Header from "../../../components/Header";
 import api from "../../../Services/AuthService";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 
 export default function ViewExternalTestResults({ navigation }) {
-
   const focus = useIsFocused();
   const { user } = useAuthContext();
   const [links, setLinks] = React.useState("");
@@ -32,7 +29,7 @@ export default function ViewExternalTestResults({ navigation }) {
   React.useEffect(() => {
     const fetchLinks = async () => {
       api
-        .get("/extTests/getLinks", { params: { patientID: user._id } })
+        .get("/extTests/getLinks", { params: { patientID: user?._id } })
         .then((res) => {
           // console.log("res",res.data);
           setLinks(res.data);
@@ -43,14 +40,10 @@ export default function ViewExternalTestResults({ navigation }) {
         });
     };
 
-    if(focus == true){ 
+    if (focus == true) {
       fetchLinks();
-   }
-    
+    }
   }, [focus]);
-
-
-
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -58,17 +51,21 @@ export default function ViewExternalTestResults({ navigation }) {
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <Text style={styles.text}>Test result links</Text>
-          {links && links.map((item) => {
-            return (
-              <TestLinkComp
-                key={item.Testid}
-                navigation={navigation}
-                link={item.link}
-                TestName={item.TestName}
-              />
-            )
-          })}
-          <Pressable style={styles.inputBtn} onPress={() => navigation.navigate("AddExternalTestResults")}>
+          {links &&
+            links.map((item) => {
+              return (
+                <TestLinkComp
+                  key={item.Testid}
+                  navigation={navigation}
+                  link={item.link}
+                  TestName={item.TestName}
+                />
+              );
+            })}
+          <Pressable
+            style={styles.inputBtn}
+            onPress={() => navigation.navigate("AddExternalTestResults")}
+          >
             <Text style={styles.buttonText}>Add Test Result</Text>
           </Pressable>
         </View>

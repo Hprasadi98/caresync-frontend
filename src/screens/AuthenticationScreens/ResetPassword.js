@@ -32,7 +32,7 @@ const ResetPasswordScreen = ({ navigation, route }) => {
     
 
     api
-      .post(baseUrl + "/resetPassword", { email, newPassword })
+      .post(baseUrl + "/resetPassword", { email, newPassword ,userType})
       .then((response) => {
 
         if (response.status == 200) {

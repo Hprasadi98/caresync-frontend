@@ -17,7 +17,7 @@ const ForgotPassword = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  console.log("Role in forgot password", route.params.userType);
+  
   const userType = route.params.userType;
 
   const handleResetPassword = async () => {

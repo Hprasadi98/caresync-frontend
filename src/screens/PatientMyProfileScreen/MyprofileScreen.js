@@ -17,7 +17,7 @@ import { id } from "date-fns/locale";
 
 const MyprofileScreen = () => {
   const [details, setDetails] = useState([]); //store breathing test results
-  _id = "662e930c4c0bf9f41d0da56a";
+  const _id = "662e930c4c0bf9f41d0da56a";
 
   //load when start
   useEffect(() => {
@@ -27,7 +27,7 @@ const MyprofileScreen = () => {
   // integrate get result API
   const getDetails = () => {
     axios
-      .get(`${baseUrl}/patients/`) // Assuming your backend route is '/patients/:id'
+      .get(`${baseUrl}/patients`) // Assuming your backend route is '/patients/:id'
       .then((response) => {
         setDetails(response.data); // Assuming response.data contains the patient details
       })
@@ -108,7 +108,8 @@ const MyprofileScreen = () => {
                     <DetailRow
                       name="weight-hanging"
                       textLineOne="Weight"
-                      textLineTwo={data.weight} kg
+                      textLineTwo={data.weight}
+                      kg
                       category="weight"
                     />
                     <DetailRow

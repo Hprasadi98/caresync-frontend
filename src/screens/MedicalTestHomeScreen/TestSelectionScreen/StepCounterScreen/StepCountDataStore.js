@@ -55,7 +55,8 @@ const StepCountDataStore = ({sampleData, deleteOne}) => {
             <DataTable.Cell style={styles.cellsStyle4}>
             <TouchableOpacity
                   onPress={() => {
-                    deleteOne(data.id);
+                    //console.log(data._id)
+                    deleteOne(data._id);
                   }}
                 >
                   <MaterialCommunityIcons name="delete-outline" color="red" />

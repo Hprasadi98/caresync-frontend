@@ -51,7 +51,6 @@ function SelectDocForAccess({ navigation }) {
   );
 
   return (
-
     <SafeAreaView style={{ flex: 1 }}>
       <Header name={"Select Doctor"} />
       <View style={{ flex: 1 }}>
@@ -59,14 +58,13 @@ function SelectDocForAccess({ navigation }) {
           {DocList && (
             <FlatList
               data={DocList}
-              keyExtractor={(item) => item._id}
+              keyExtractor={(item) => item?._id}
               renderItem={renderItem}
             ></FlatList>
           )}
         </View>
       </View>
     </SafeAreaView>
-
   );
 }
 

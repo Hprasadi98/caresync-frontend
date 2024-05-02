@@ -32,11 +32,18 @@ import AddMedication from "./src/screens/MedicationToCalendar/AddMedicationPage"
 import ViewMedication from "./src/screens/MedicationToCalendar/ViewMedicationPage";
 import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedicalRecordScreen";
 import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
+
+import TestResultScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/TestResultScreen";
+
 import AddExternalTestResults from "./src/screens/ExternalTestResults/AddExternalTestResults/AddExternalTestResults";
 import ViewExternalTestResults from "./src/screens/ExternalTestResults/ViewExternalTestResults/ViewExternalTestResult";
+
 import ForgotPassword from "./src/screens/AuthenticationScreens/FogotPassword";
 import ResetPasswordScreen from "./src/screens/AuthenticationScreens/ResetPassword";
 import OTPVerificationScreen from "./src/screens/AuthenticationScreens/OtpVerify";
+
+import DisplayMedicalRecords from "./src/screens/AddMedicalRecordScreen/DisplayMedicalRecords";
+
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
@@ -51,10 +58,21 @@ export default function Routing() {
       {user?.roles === "doctor" ? console.log("Doctor") : console.log("Patient")} */}
 
       <Stack.Navigator
-        initialRouteName="WelomeScreen"
+
+      
+
+        //initialRouteName="WelomeScreen"
         // initialRouteName="DoctorDashboard"
+
+
+        initialRouteName="WelomeScreen"
+
+        // initialRouteName="DoctorDashboard"
+
+
+
         // initialRouteName="PatientDashboard"
-    
+
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,
@@ -70,10 +88,17 @@ export default function Routing() {
 
         <Stack.Screen name="DoctorLogin" component={DoctorLogin} />
         <Stack.Screen name="DoctorRegister" component={DoctorRegister} />
+
+        {/* <Stack.Screen
+          name="MedicalIdFalseScreen"
+          component={MedicalIdFalseScreen}
+        /> */}
+
         <Stack.Screen
           name="MedicalIdFalseScreen"
           component={MedicalIdFalseScreen}
         />
+
         <Stack.Screen name="PatientRegister" component={PatientRegister} />
         <Stack.Screen name="PatientLogin" component={PatientLogin} />
 
@@ -94,6 +119,12 @@ export default function Routing() {
         />
 
         <Stack.Screen
+          name="DisplayMedicalRecords"
+          component={DisplayMedicalRecords}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
           name="MedicalIncidentHomeScreen"
           component={MedicalIncidentHomeScreen}
           options={{ headerShown: false }}
@@ -110,6 +141,7 @@ export default function Routing() {
           component={GiveDocAcessScreen}
           options={{ headerShown: false }}
         />
+
 
         <Stack.Screen name="MedicationView" component={MedicationView} />
         <Stack.Screen name="AddMedication" component={AddMedication} />
@@ -133,8 +165,8 @@ export default function Routing() {
           options={{ headerShown: false }}
         />
 
-        {/* Doctor Screens */}
 
+        {/* Doctor Screens */}
         <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
         <Stack.Screen
           name="PatientsScreen"
@@ -153,6 +185,13 @@ export default function Routing() {
         <Stack.Screen
           name="PatientHistoryScreen"
           component={PatientHistoryScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="TestResultScreen"
+          component={TestResultScreen}
           options={{
             headerShown: false,
           }}

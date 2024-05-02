@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
-import Calendar from './Calendar'; // Assuming this is the path to your Calendar component
+import { View, Text, TouchableOpacity, Modal, TextInput,StyleSheet } from 'react-native';
+import Calendar from './Calendar'; 
 import TestModal from './Modals/TestModal';
 import SymptomModal from './Modals/SymptomModal';
 import PrescriptionModal from './Modals/PrescriptionModal';
 import MedicationModal from './Modals/MedicationModal';
 import AppointmentModal from './Modals/AppointmentModal';
+import PainRating from "./PainRating";
+
 
 const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +25,7 @@ const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
 
   };
 
-  
+
 
 
 
@@ -50,18 +52,22 @@ const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
 
 };
 
-const IncidentTypeDropdown = () => {
+const IncidentTypeDropdown = ({ recordName, description}) => {
   const dropdownItems = ['TEST', 'SYMPTOM', 'PRESCRIPTION', 'MEDICATION', 'APPOINTMENT'];
   const [selectedOption, setSelectedOption] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedStartDate, setSelectedStartDate] = useState("");
-  const [selectedIncidentType,setSelectedIncidentType]=useState("");
+  const [selectedIncidentType, setSelectedIncidentType] = useState("");
+
 
   
 
-  
-  
+
+
+
+
+
   const handleSelect = (item) => {
     setSelectedOption(item);
   };
@@ -78,15 +84,34 @@ const IncidentTypeDropdown = () => {
     // Render modal content based on selected option
     switch (selectedOption) {
       case 'TEST':
-        return <TestModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
+        return <TestModal
+          recordName={recordName}
+          description={description}
+          weight={weight}
+          rating={rating}
+          selectedStartDate={selectedStartDate}
+          selectedOption={selectedOption}
+          onClose={handleCloseModal} />;
       case 'SYMPTOM':
-        return <SymptomModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
+        return <SymptomModal recordName={recordName}
+          description={description}
+          weight={weight}
+          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
       case 'PRESCRIPTION':
-        return <PrescriptionModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
+        return <PrescriptionModal recordName={recordName}
+          description={description}
+          weight={weight}
+          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
       case 'MEDICATION':
-        return <MedicationModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
+        return <MedicationModal recordName={recordName}
+          description={description}
+          weight={weight}
+          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
       case 'APPOINTMENT':
-        return <AppointmentModal  selectedStartDate={selectedStartDate}  selectedOption={selectedOption} onClose={handleCloseModal} />;
+        return <AppointmentModal recordName={recordName}
+          description={description}
+          weight={weight}
+          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
       default:
         return null;
     }
@@ -95,13 +120,20 @@ const IncidentTypeDropdown = () => {
 
   const handleCombinedPress = () => {
     handleNextPress(); // Open the modal
-   // Save the incident
+    // Save the incident
   };
 
   const handleDateChange = (date) => {
     setSelectedDate(date); // Update selected date
   };
   // console.log(selectedStartDate)
+
+  const [weight, setWeight] = useState('');
+  const [rating, setRating] = useState('');
+
+  const handleRatingChange = (value) => {
+    setRating(value);
+  };
 
 
 
@@ -118,6 +150,17 @@ const IncidentTypeDropdown = () => {
         selectedIncidentType={selectedIncidentType}
         setSelectedIncidentType={setSelectedIncidentType}
       />
+       <View style={styles.inputcontainer}>
+            <Text style={styles.text1}>Weight</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter weight in kilo-grams here"
+              onChangeText={(text) => setWeight(text)}
+            />
+          </View>
+          <Text style={styles.text1}>Appetite</Text>
+          <PainRating text="Appetite" icon="gratipay" value={rating} onRatingChange={handleRatingChange}  />
+
       <TouchableOpacity style={styles.btn} onPress={handleCombinedPress}>
         <Text style={styles.btntext}>Next</Text>
       </TouchableOpacity>
@@ -134,10 +177,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
   },
-  inputcontainer: {
-    paddingTop: 20,
-    justifyContent: 'center',
-  },
+ 
   text1: {
     marginLeft: 28,
     fontSize: 20,
@@ -192,7 +232,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: '100%',
     padding: 2,
-    bottom: -505,
+    bottom: -250,
     alignItems: 'center',
     elevation: 4,
   },
@@ -200,6 +240,31 @@ const styles = StyleSheet.create({
     color: '#FFF',
     padding: 8,
     fontSize: 16,
+  },
+  inputcontainer: {
+    // flex: 0.4,
+    paddingTop: '15%',
+    justifyContent: 'center',
+  },
+  text1: {
+    marginLeft: 28,
+    fontWeight: '500',
+    fontSize: 16,
+    color: '#1e1e1e',
+    // fontFamily: 'poppins regular,',
+  },
+  input: {
+    borderColor: '#8e8e8e',
+    borderWidth: 1,
+    padding: 10,
+    width: '88%',
+    height: 38,
+    margin: 20,
+    marginLeft: 25,
+    // marginTop: 10,
+    borderRadius: 10,
+    fontSize: 16,
+
   },
 });
 

@@ -18,7 +18,7 @@ function GiveDocAccess({ navigation, route }) {
 
   const [doc, setDoc] = useState("");
 
-  const patientID = user._id;
+  const patientID = user?._id;
 
   useEffect(() => {
     const fetchDoctor = async () => {

@@ -44,7 +44,8 @@ const BreathingTestDataStore = ({ sampleData, deleteOne }) => {
               <DataTable.Cell>
                 <TouchableOpacity
                   onPress={() => {
-                    deleteOne(data.id);
+                    //console.log(data.id);
+                    deleteOne(data._id);
                   }}
                 >
                   <MaterialCommunityIcons name="delete-outline" color="red" />

@@ -27,13 +27,25 @@ const PatientLogin = ({ navigation }) => {
     }
 
     const data = await login(email, password, "signin");
+    // console.log("data", data);
+    // console.log("data status" ,data.status );
+    // console.log("data error" ,data.message );
     if (data.status === "success") {
       navigation.navigate("PatientDashboard");
+    } else if (data.status === "notVerified") {
+      Alert.alert("Error", "Patient not verified yet. Please verify your email.", [
+        {
+          text: "OK",
+          onPress: () => navigation.navigate("OtpVerifyScreen",{ email }),
+        },
+      ]);
+      
+      
     } else if (data.status === "failed") {
       Alert.alert("Error", "Invalid email or password");
     } else if (data.status === "error") {
       Alert.alert("Error", "An error occurred. Please try again later.");
-    }
+    } 
   };
 
   return (

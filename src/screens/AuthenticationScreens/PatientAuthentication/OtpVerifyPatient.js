@@ -19,24 +19,26 @@ const OTPVerificationScreen = ({ route, navigation }) => {
   const [resendLoading, setResendLoading] = useState(false);
   const [otpSent, setOTPSent] = useState(false);
   const [disableButton, setDisableButton] = useState(false); // State to disable button
-  const [countdown, setCountdown] = useState(10); // Countdown timer in seconds
+  const [verifyButton, setVerifyButton] = useState(false); // State to disable button
+  const [countdown, setCountdown] = useState(60); // Countdown timer in seconds
 
   const { email } = route.params;
-  
 
-  useEffect(() => {
-    if (disableButton && countdown > 0) {
-      const timer = setTimeout(() => {
-        setCountdown((prevCountdown) => prevCountdown - 1);
-      }, 1000);
+  const startCountdown = () => {
+    const intervalId = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown === 0) {
+          clearInterval(intervalId);
+          setDisableButton(false); // Enable the button
+          setResendLoading(false); // Reset resend loading state
+          setVerifyButton(false);
 
-      return () => clearTimeout(timer);
-    } else if (disableButton && countdown === 0) {
-      setDisableButton(false); // Enable the button
-      setResendLoading(false); // Reset resend loading state
-      setCountdown(120); // Reset countdown
-    }
-  }, [disableButton, countdown]);
+          return 60; // Reset countdown
+        }
+        return prevCountdown - 1;
+      });
+    }, 1000);
+  };
 
   const handleVerifyOTP = async () => {
     setLoading(true);
@@ -46,7 +48,6 @@ const OTPVerificationScreen = ({ route, navigation }) => {
       .then((response) => {
         if (response.status == 200) {
           Alert.alert("Success", response.data.message);
-          // Replace "PatientLogin" with the correct navigation route
           navigation.navigate("PatientLogin");
         } else {
           Alert.alert("Error", response.data.error);
@@ -65,11 +66,15 @@ const OTPVerificationScreen = ({ route, navigation }) => {
     setResendLoading(true);
     setOTPSent(true);
     setDisableButton(true); // Disable the button
+    startCountdown(); // Start the countdown
     api
-      .post(baseUrl + "/getOTP", { email }) // Correct the route and pass userType
+      .post(baseUrl + "/getOTP", { email })
       .then((response) => {
         if (response.status == 200) {
           Alert.alert("Success", response.data.message);
+          setDisableButton(true); // Enable the button
+            setVerifyButton(true);
+
         } else {
           Alert.alert("Error", response.data.error);
         }
@@ -95,22 +100,24 @@ const OTPVerificationScreen = ({ route, navigation }) => {
         editable={!resendLoading}
       />
 
-      <TouchableOpacity
-        style={[styles.button, disableButton && styles.disabledButton]} // Add disabled style if button is disabled
-        onPress={handleVerifyOTP}
-        disabled={loading || resendLoading}
-      >
-        {loading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.buttonText}>Verify OTP</Text>
-        )}
-      </TouchableOpacity>
+      {otpSent && verifyButton && (
+        <TouchableOpacity
+          style={[styles.button]}
+          onPress={handleVerifyOTP}
+          disabled={loading || resendLoading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.buttonText}>Verify OTP</Text>
+          )}
+        </TouchableOpacity>
+      )}
 
       <TouchableOpacity
-        style={[styles.button, disableButton && styles.disabledButton]} // Add disabled style if button is disabled
+        style={[styles.button, disableButton && styles.disabledButton]}
         onPress={handleGetOTP}
-        disabled={disableButton || resendLoading || otpSent} // Disable button if already sent or button is disabled
+        disabled={disableButton || resendLoading}
       >
         {resendLoading ? (
           <ActivityIndicator color="#fff" />

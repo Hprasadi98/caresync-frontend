@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TextInput, Pressable, SafeAreaView } from "reac
 import { useNavigation } from '@react-navigation/native';
 
 import Header from "../../components/Header";
+import { baseUrl } from "../../constants/constants";
 
 
 
@@ -11,16 +12,60 @@ const NewMedicalRecordScreen = () => {
 
   const navigation = useNavigation();
 
-  const handleAddNew = () => {
-    navigation.navigate('MedicalIncidentHomeScreen' , {
-      recordName,
-      recordDescription,
+  // const handleAddNew = () => {
+  //   navigation.navigate('MedicalIncidentHomeScreen' , {
+  //     recordName,
+  //     recordDescription,
      
-    });
+  //   });
    
 
 
+  // };
+  const handleAddNew = () => {
+    fetch(`${baseUrl}/medicalIncident`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        recordName: recordName,
+        recordDescription: recordDescription,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        // Optionally, you can navigate to another screen after successful creation
+        navigation.navigate('MedicalIncidentHomeScreen',{
+          recordName,recordDescription
+
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Handle error
+      });
   };
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const [recordName, setRecordName] = useState('');
   const [recordDescription, setRecordDescription] = useState('');

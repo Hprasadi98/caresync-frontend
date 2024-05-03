@@ -1,50 +1,57 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  Pressable,
-  Image,
-  Animated,
-
-} from "react-native";
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, Pressable, Animated, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import ToochableIconDown from "../../ViewPatientSummaryHome Screen/Components/TouchableIconDown";
-import React, { useState, useRef } from "react";
+import ToochableIconDown from '../../ViewPatientSummaryHome Screen/Components/TouchableIconDown';
+
 function MedicalRecordGrid({
- 
   recordName,
   date,
   recordDescription,
-  incidentType,
-  testType,
-  
-}) 
-
-{
+  incidents = [],
+}) {
   const [expanded, setExpanded] = useState(false);
+  const [contentHeight, setContentHeight] = useState(100); // Initial height
   const heightAnim = useRef(new Animated.Value(100)).current;
+
+  const calculateContentHeight = () => {
+    const baseHeight = 100; // Base height without incidents
+    const incidentHeight = incidents.length * 85; // Assuming each incident occupies 50 units of height
+    return baseHeight + incidentHeight;
+  };
+
+  useEffect(() => {
+    if (expanded) {
+      const newHeight = calculateContentHeight();
+      setContentHeight(newHeight);
+      Animated.timing(heightAnim, {
+        toValue: newHeight,
+        duration: 300,
+        useNativeDriver: false,
+      }).start();
+    } else {
+      setContentHeight(100); // Reset to initial height
+      Animated.timing(heightAnim, {
+        toValue: 100,
+        duration: 300,
+        useNativeDriver: false,
+      }).start();
+    }
+  }, [expanded, incidents]);
+
   const handlePress = () => {
-    const newHeight = expanded ? 110 : 320; // Target height
-    Animated.timing(heightAnim, {
-      toValue: newHeight,
-      duration: 300, // Duration of the animation
-      useNativeDriver: false,
-    }).start();
     setExpanded(!expanded);
   };
+
   const navigation = useNavigation();
+
   const handleAddNew = () => {
-    navigation.navigate('MedicalIncidentHomeScreen',{
+    navigation.navigate("MedicalIncidentHomeScreen", {
       recordName,
       recordDescription,
     });
-   
-}
+  };
 
-
-   
   return (
-    
     <Animated.View
       style={[
         styles.tile,
@@ -67,35 +74,36 @@ function MedicalRecordGrid({
         <Text style={styles.description}>{recordDescription}</Text>
       </View>
 
+
       {expanded && (
         <View>
-          <View style={styles.subtile1}>
-            <View style={styles.subcom1}>
-              <View style={styles.innertile1}>
-             
-              <Text style={styles.innertext1}>{incidentType}</Text>
+          {incidents.map((incident, index) => (
+            <View key={index} style={styles.subtile1}>
+              <View style={styles.subcom1}>
+                <View style={styles.innertile1}>
+                  <Text style={styles.innertext1}>{incident.incidentType}</Text>
+                </View>
+                <Text style={styles.innertext1}>Test Type</Text>
+                <Text style={styles.subtext1}>{incident.testType}</Text>
               </View>
-              <Text style={styles.innertext1}>Test Type</Text>
-              <Text style={styles.subtext1}>
-              {testType}</Text>
-            </View>
-            <Text style={styles.date1}>{date}</Text>
-            <View style={styles.btn}>
-            <Pressable style={styles.btn} 
-            onPress={handleAddNew}>
-            <Text style={styles.btntext}>+ incident</Text>
-          </Pressable>
-         
-        </View>
+              <Text style={styles.date1}>{incident.date}</Text>
 
+            </View>
+
+          ))}
+          <View style={styles.btn}>
+            <Pressable style={styles.btn} onPress={handleAddNew}>
+              <Text style={styles.btntext}>+ Incident</Text>
+            </Pressable>
           </View>
-    
         </View>
       )}
     </Animated.View>
   );
 }
+
 export default MedicalRecordGrid;
+
 
 const styles = StyleSheet.create({
   container: {
@@ -119,20 +127,18 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
   },
-  btn:{
-    backgroundColor:'#00567D',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius:10,
-    maxWidth:'100%',
-    padding:2,
-
+  btn: {
+    backgroundColor: "#00567D",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+    maxWidth: "100%",
+    padding: 2,
   },
- btntext:{
-    color: '#FFF',
-    padding:8,
-    fontSize:16,
-    
+  btntext: {
+    color: "#FFF",
+    padding: 8,
+    fontSize: 16,
   },
 
   title: {

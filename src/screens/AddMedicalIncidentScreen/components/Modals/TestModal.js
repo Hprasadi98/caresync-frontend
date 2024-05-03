@@ -109,7 +109,7 @@ const TestModal = ({
           <CustomDropdown
             selectedOption1={selectedOption1}
             setSelectedOption1={setSelectedOption1}
-            options={["Cough", "Wheeze", "Chest Pain", "Fever", "Other"]}
+            options={["Spirometry", "Arterial Blood Gas (ABG) Test", "Bronchoscopy", "Chest X-ray", "CT Scan","Peak Expiratory Flow (PEF) Test","Other"]}
             placeholderText="Select from the list"
           />
         </View>

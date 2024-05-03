@@ -5,25 +5,17 @@ import {
     Text,
     Pressable,
     SafeAreaView,
-    FlatList
+    FlatList,
+    RefreshControl
 } from "react-native";
 import Header from "../../components/Header";
 import MedicalRecordGrid from "../AddMedicalIncidentScreen/components/MedicalRecordGrid"
 import { baseUrl } from "../../constants/constants";
 import axios from "axios";
 
-
-
 function DisplayMedicalRecords({ navigation }) {
-    const handleAddNew = () => {
-        navigation.navigate('NewMedicalRecordScreen');
-
-    };
     const [patientsHistory, setPatientsHistory] = useState([]);
-
-    useEffect(() => {
-        fetchPatientsHistory();
-    }, []);
+    const [refreshing, setRefreshing] = useState(false);
 
     const fetchPatientsHistory = async () => {
         try {
@@ -35,39 +27,57 @@ function DisplayMedicalRecords({ navigation }) {
         }
     };
 
+    useEffect(() => {
+        fetchPatientsHistory();
+        const unsubscribe = navigation.addListener('focus', () => {
+            // Refresh the data whenever the screen gains focus
+            fetchPatientsHistory();
+        });
+        return unsubscribe;
+    }, [navigation]);
+
     function renderCategoryItem({ item }) {
-
-
         return (
             <View>
                 <MedicalRecordGrid
-
                     recordName={item.recordName}
-                    // date={item.date}
-                    // incidentType={item.incidentType}
                     recordDescription={item.recordDescription}
                     incidents={item.incident}
-                // testType={item.testType}
-                // selectedOption2={item.selectedOption2}
                 />
-                {/* export data to PatientHistoryGrid page */}
             </View>
         );
     }
+
+    const handleAddNew = () => {
+        navigation.navigate('NewMedicalRecordScreen');
+    };
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        fetchPatientsHistory().then(() => {
+            setRefreshing(false);
+        });
+    }, []);
+
     return (
         <SafeAreaView>
-            <Header name="Past Medical Records" />
+            <Header name="Records History" />
             <View style={styles.background}>
                 <View style={styles.container}>
                     <FlatList
                         data={patientsHistory}
                         keyExtractor={(item) => item._id}
                         renderItem={renderCategoryItem}
-
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                            />
+                        }
                     />
                     <View style={styles.btn}>
                         <Pressable onPress={handleAddNew}>
-                            <Text style={styles.btntext}>Add New</Text>
+                            <Text style={styles.btntext}>Add New Record</Text>
                         </Pressable>
                     </View>
                 </View>
@@ -86,21 +96,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         maxWidth: '100%',
         padding: 2,
-
     },
     btntext: {
         color: '#FFF',
         padding: 8,
         fontSize: 18,
         fontWeight: 'bold',
-
     },
     container: {
         flexDirection: 'column',
         width: '100%',
         height: '77%',
         backgroundColor: '#FFFF',
-
     },
     background: {
         backgroundColor: '#DEFFFB',

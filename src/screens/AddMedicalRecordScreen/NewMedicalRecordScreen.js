@@ -12,16 +12,6 @@ const NewMedicalRecordScreen = () => {
 
   const navigation = useNavigation();
 
-  // const handleAddNew = () => {
-  //   navigation.navigate('MedicalIncidentHomeScreen' , {
-  //     recordName,
-  //     recordDescription,
-     
-  //   });
-   
-
-
-  // };
   const handleAddNew = () => {
     fetch(`${baseUrl}/medicalIncident`, {
       method: 'POST',
@@ -37,17 +27,18 @@ const NewMedicalRecordScreen = () => {
       .then(data => {
         console.log('Success:', data);
         // Optionally, you can navigate to another screen after successful creation
-        navigation.navigate('MedicalIncidentHomeScreen',{
-          recordName,recordDescription
+        navigation.navigate('DisplayMedicalRecords', {
+          recordName, recordDescription
 
         });
+
       })
       .catch(error => {
         console.error('Error:', error);
         // Handle error
       });
   };
-  
+
 
 
 
@@ -69,7 +60,7 @@ const NewMedicalRecordScreen = () => {
 
   const [recordName, setRecordName] = useState('');
   const [recordDescription, setRecordDescription] = useState('');
- 
+
   console.log(recordName);
   console.log(recordDescription);
 
@@ -102,13 +93,13 @@ const NewMedicalRecordScreen = () => {
               onChangeText={(text) => setRecordDescription(text)}
             />
           </View>
-         
+
 
 
         </View>
         <View style={styles.btn}>
           <Pressable onPress={handleAddNew}>
-            <Text style={styles.btntext}>Add New</Text>
+            <Text style={styles.btntext}>Save</Text>
           </Pressable>
         </View>
 

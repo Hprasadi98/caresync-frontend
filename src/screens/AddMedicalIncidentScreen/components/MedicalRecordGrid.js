@@ -15,7 +15,7 @@ function MedicalRecordGrid({
 
   const calculateContentHeight = () => {
     const baseHeight = 100; // Base height without incidents
-    const incidentHeight = incidents.length * 85; // Assuming each incident occupies 50 units of height
+    const incidentHeight = incidents.length * 90; // Assuming each incident occupies 50 units of height
     return baseHeight + incidentHeight;
   };
 
@@ -67,7 +67,7 @@ function MedicalRecordGrid({
           onPress={handlePress}
           iconName={expanded ? "up" : "down"}
           iconSize={30}
-          iconColor="grey"
+          iconColor="white"
         />
       </View>
       <View>
@@ -78,22 +78,22 @@ function MedicalRecordGrid({
       {expanded && (
         <View>
           {incidents.map((incident, index) => (
-            <View key={index} style={styles.subtile1}>
-              <View style={styles.subcom1}>
-                <View style={styles.innertile1}>
-                  <Text style={styles.innertext1}>{incident.incidentType}</Text>
+            <View key={index} style={styles.subtile}>
+              <View style={styles.subcom}>
+                <View style={styles.innertile}>
+                  <Text style={styles.innertext}>{incident.incidentType}</Text>
                 </View>
-                <Text style={styles.innertext1}>Test Type</Text>
-                <Text style={styles.subtext1}>{incident.testType}</Text>
+
+                <Text style={styles.subtext}>{incident.testType}</Text>
               </View>
-              <Text style={styles.date1}>{incident.date}</Text>
+              <Text style={styles.date}>{incident.date}</Text>
 
             </View>
 
           ))}
           <View style={styles.btn}>
             <Pressable style={styles.btn} onPress={handleAddNew}>
-              <Text style={styles.btntext}>+ Incident</Text>
+              <Text style={styles.btntext}>+ New Incident</Text>
             </Pressable>
           </View>
         </View>
@@ -124,21 +124,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     textShadowRadius: 8,
   },
-  button: {
-    flex: 1,
-  },
+
   btn: {
-    backgroundColor: "#00567D",
+    backgroundColor: '#00567D',
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    maxWidth: "100%",
-    padding: 2,
+    padding: 3,
+    width: '90%',
+    marginLeft: "5%",
+    marginTop: 3,
+    alignSelf: "center",
+
+
+
+
+
   },
   btntext: {
     color: "#FFF",
-    padding: 8,
-    fontSize: 16,
+    fontSize: 14,
+    margin: 2,
+    fontWeight: "bold",
   },
 
   title: {
@@ -160,14 +167,12 @@ const styles = StyleSheet.create({
     marginTop: -22,
   },
   icon: {
-    paddingLeft: 320,
+    paddingLeft: '88%',
     marginTop: -30,
-  },
-  expandedContainer: {
-    height: 220, // Increase the height when expanded
+
   },
 
-  subtile1: {
+  subtile: {
     width: "90%",
     marginBottom: "2%",
     marginTop: "3%",
@@ -182,22 +187,9 @@ const styles = StyleSheet.create({
 
     textShadowRadius: 8,
   },
-  subtile2: {
-    width: "90%",
-    marginBottom: "2%",
-    marginTop: "1%",
-    marginLeft: "5%",
-    marginRight: "5%",
-    height: 60,
-    borderRadius: 10,
-    elevation: 2,
-    backgroundColor: "#E3FFFC",
-    shadowColor: "black",
-    shadowOpacity: 0.25,
-    textShadowRadius: 8,
-  },
-  innertile1: {
-    width: "35%",
+
+  innertile: {
+    width: "30%",
     marginBottom: "2%",
     marginTop: "2%",
     marginLeft: "3%",
@@ -209,41 +201,27 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 0.25,
     textShadowRadius: 8,
+
   },
-  innertile2: {
-    width: "35%",
-    marginBottom: "2%",
-    marginTop: "2%",
-    marginLeft: "3%",
-    marginRight: "3%",
-    height: 22,
-    borderRadius: 10,
-    elevation: 2,
-    backgroundColor: "#A7F4FF",
-    shadowColor: "black",
-    shadowOpacity: 0.25,
-    textShadowRadius: 8,
-  },
-  innertext1: {
-    paddingLeft: 15,
+
+  innertext: {
+
     fontSize: 13,
     marginTop: 2,
     fontWeight: "bold",
+    alignSelf: "center",
   },
-  innertext2: {
-    fontSize: 13,
-    marginTop: 2,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  subtext1: {
-    paddingLeft: 10,
+
+  subtext: {
+    paddingLeft: 2,
     marginRight: "3%",
     fontSize: 13,
     marginTop: "2%",
+    fontWeight: "bold",
   },
-  subcom1: {
+  subcom: {
     flexDirection: "row",
+
   },
   subtext2: {
     paddingLeft: 10,
@@ -280,20 +258,21 @@ const styles = StyleSheet.create({
     textShadowRadius: 8,
   },
 
-  date1: {
+  date: {
     marginLeft: "8%",
     fontSize: 13,
     marginTop: "0.5%",
+    fontWeight: "500"
   },
   presId: {
     marginLeft: "14%",
     fontSize: 13,
   },
   titleGrid: {
-    width: "70%",
+    width: "100%",
     backgroundColor: "#5c074b",
     marginTop: "4%",
-    marginLeft: "5%",
+
     paddingBottom: "2%",
     borderRadius: 10,
   },

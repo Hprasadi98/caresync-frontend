@@ -18,7 +18,7 @@ const OTPVerificationScreen = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [otpSent, setOTPSent] = useState(false);
-  const [disableButton, setDisableButton] = useState(false); 
+  const [disableButton, setDisableButton] = useState(false);
   const [verifyButton, setVerifyButton] = useState(false); 
   const [countdown, setCountdown] = useState(60); 
 

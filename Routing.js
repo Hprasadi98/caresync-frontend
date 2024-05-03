@@ -59,13 +59,13 @@ export default function Routing() {
         // initialRouteName="DoctorDashboard"
 
 
-        // initialRouteName="WelomeScreen"
+        initialRouteName="WelomeScreen"
 
         // initialRouteName="DoctorDashboard"
 
 
 
-        initialRouteName="PatientDashboard"
+        // initialRouteName="PatientDashboard"
 
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },

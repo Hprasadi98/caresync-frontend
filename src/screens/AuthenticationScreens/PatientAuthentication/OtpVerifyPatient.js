@@ -18,9 +18,9 @@ const OTPVerificationScreen = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [otpSent, setOTPSent] = useState(false);
-  const [disableButton, setDisableButton] = useState(false); // State to disable button
-  const [verifyButton, setVerifyButton] = useState(false); // State to disable button
-  const [countdown, setCountdown] = useState(60); // Countdown timer in seconds
+  const [disableButton, setDisableButton] = useState(false); 
+  const [verifyButton, setVerifyButton] = useState(false); 
+  const [countdown, setCountdown] = useState(60); 
 
   const { email } = route.params;
 
@@ -29,11 +29,11 @@ const OTPVerificationScreen = ({ route, navigation }) => {
       setCountdown((prevCountdown) => {
         if (prevCountdown === 0) {
           clearInterval(intervalId);
-          setDisableButton(false); // Enable the button
-          setResendLoading(false); // Reset resend loading state
+          setDisableButton(false); 
+          setResendLoading(false); 
           setVerifyButton(false);
 
-          return 60; // Reset countdown
+          return 60; 
         }
         return prevCountdown - 1;
       });
@@ -65,14 +65,14 @@ const OTPVerificationScreen = ({ route, navigation }) => {
   const handleGetOTP = async () => {
     setResendLoading(true);
     setOTPSent(true);
-    setDisableButton(true); // Disable the button
-    startCountdown(); // Start the countdown
+    setDisableButton(true); 
+    startCountdown(); 
     api
       .post(baseUrl + "/getOTP", { email })
       .then((response) => {
         if (response.status == 200) {
           Alert.alert("Success", response.data.message);
-          setDisableButton(true); // Enable the button
+          setDisableButton(true); 
             setVerifyButton(true);
 
         } else {
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   disabledButton: {
-    backgroundColor: "#CCCCCC", // Add a different background color for disabled state
+    backgroundColor: "#CCCCCC", 
   },
   buttonText: {
     color: "#fff",

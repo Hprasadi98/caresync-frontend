@@ -37,7 +37,13 @@ import TestResultScreen from "./src/screens/ViewPatientSummaryHome Screen/Patien
 
 import AddExternalTestResults from "./src/screens/ExternalTestResults/AddExternalTestResults/AddExternalTestResults";
 import ViewExternalTestResults from "./src/screens/ExternalTestResults/ViewExternalTestResults/ViewExternalTestResult";
+
+import ForgotPassword from "./src/screens/AuthenticationScreens/FogotPassword";
+import ResetPasswordScreen from "./src/screens/AuthenticationScreens/ResetPassword";
+import OTPVerificationScreen from "./src/screens/AuthenticationScreens/OtpVerify";
+
 import DisplayMedicalRecords from "./src/screens/AddMedicalRecordScreen/DisplayMedicalRecords";
+
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
@@ -193,6 +199,30 @@ export default function Routing() {
         <Stack.Screen
           name="MedicationsScreen"
           component={MedicationsScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="ResetPasswordScreen"
+          component={ResetPasswordScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="OTPVerificationScreen"
+          component={OTPVerificationScreen}
           options={{
             headerShown: false,
           }}

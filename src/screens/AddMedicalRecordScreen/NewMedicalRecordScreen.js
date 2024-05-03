@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TextInput, Pressable, SafeAreaView } from "reac
 import { useNavigation } from '@react-navigation/native';
 
 import Header from "../../components/Header";
+import { baseUrl } from "../../constants/constants";
 
 
 
@@ -12,19 +13,54 @@ const NewMedicalRecordScreen = () => {
   const navigation = useNavigation();
 
   const handleAddNew = () => {
-    navigation.navigate('MedicalIncidentHomeScreen' , {
-      recordName,
-      recordDescription,
-     
-    });
-   
+    fetch(`${baseUrl}/medicalIncident`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        recordName: recordName,
+        recordDescription: recordDescription,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        // Optionally, you can navigate to another screen after successful creation
+        navigation.navigate('DisplayMedicalRecords', {
+          recordName, recordDescription
 
+        });
 
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Handle error
+      });
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const [recordName, setRecordName] = useState('');
   const [recordDescription, setRecordDescription] = useState('');
- 
+
   console.log(recordName);
   console.log(recordDescription);
 
@@ -57,13 +93,13 @@ const NewMedicalRecordScreen = () => {
               onChangeText={(text) => setRecordDescription(text)}
             />
           </View>
-         
+
 
 
         </View>
         <View style={styles.btn}>
           <Pressable onPress={handleAddNew}>
-            <Text style={styles.btntext}>Add New</Text>
+            <Text style={styles.btntext}>Save</Text>
           </Pressable>
         </View>
 

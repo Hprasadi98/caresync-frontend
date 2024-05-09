@@ -200,21 +200,21 @@ const MyprofileScreen = ({ navigation }) => {
               placeholder="Current Password"
               onChangeText={setCurrentPassword}
               value={currentPassword}
-              secureTextEntry={true}
+              autoCapitalize="none"
             />
             <TextInput
               style={styles.input}
               placeholder="New Password"
               onChangeText={setNewPassword}
               value={newPassword}
-              secureTextEntry={true}
+              autoCapitalize="none"
             />
             <TextInput
               style={styles.input}
               placeholder="Confirm New Password"
               onChangeText={setConfirmNewPassword}
               value={confirmNewPassword}
-              secureTextEntry={true}
+              autoCapitalize="none"
             />
             <TouchableOpacity
               style={styles.changePasswordButton}

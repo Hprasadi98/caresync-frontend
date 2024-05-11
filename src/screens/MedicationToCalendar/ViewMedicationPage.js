@@ -1,56 +1,67 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+} from "react-native";
 import Header from "../MedicalTestHomeScreen/components/Header";
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useState, useEffect } from "react";
+import { baseUrl } from "../../constants/constants";
 
-const ViewMedication = () => {
+const ViewMedication = ({ route }) => {
+  const [medidetail, setmedidetail] = useState([]);
+
+  const { selectedday } = route.params;
+  const day = new Date(selectedday.dateString);
+  const month = new Intl.DateTimeFormat("en-US", { month: "long" }).format(day);
+
+  useEffect(() => {
+    getmedicationforDay(selectedday.dateString);
+  }, [selectedday.dateString]);
+
+  const getmedicationforDay = (day) => {
+    console.log(day);
+    const URL = `${baseUrl}/medication/${day}`;
+    fetch(URL)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setmedidetail(data.response);
+        console.log("Medi data",data.response);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
   return (
     <View>
       <Header name="View Medication" />
 
       <View style={styles.dateContainer}>
         <View style={styles.dateCircle}>
-          <Text style={styles.dateDay}>15</Text>
-          <Text style={styles.dateWeekDay}>tue</Text>
+          <Text style={styles.dateDay}>{selectedday.day}</Text>
+          <Text style={styles.dateWeekDay}>{month}</Text>
         </View>
       </View>
 
-      <View style={styles.detailsContainer}>
-        <View style={styles.docNameContainer}>
-            <Text style={styles.docName}>Dr. Chathura</Text>
-        </View>
-        <View style={{margin:10,marginLeft:30}}>
-            <Text style={{fontWeight:"bold"}}>Panadol</Text>
-            <Text style={{marginLeft:20}}>Morning</Text>
-            <Text style={{marginLeft:20}}>After Meal</Text>
-        </View>
-        <View style={{margin:10,marginLeft:30}}>
-            <Text style={{fontWeight:"bold"}}>Vitamin</Text>
-            <Text style={{marginLeft:20}}>Night</Text>
-            <Text style={{marginLeft:20}}>After Meal</Text>
-        </View>
-        <View style={{display:"flex",flexDirection:"row",justifyContent:"flex-end",padding:10}}>
-            <MaterialIcons name="edit-off" size={24} color="gray" style={{marginRight:10}}/>
-            <TouchableOpacity onPress={()=>{}}>
-                <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-            </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.detailsContainer}>
-        <View style={{padding:10}}>
-            <Text>Bood Test</Text>
-        </View>
-        <View style={{display:"flex",flexDirection:"row",justifyContent:"flex-end",padding:10}}>
-            <TouchableOpacity onPress={()=>{}}>
-                <MaterialIcons name="mode-edit" size={24} color="black" style={{marginRight:10}}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{}}>
-                <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-            </TouchableOpacity>
-        </View>
-      </View>
-
+      {Array.isArray(medidetail) && (
+        <FlatList
+          data={medidetail}
+          renderItem={({ item }) => (
+            <View style={styles.listContainer}>
+              <Text>By : {item.by}</Text>
+              <Text>Name of the medicine : {item.medicine}</Text>
+              <Text>Date : {item.date}</Text>
+              <Text>No of Pills : {item.pills}</Text>
+              <Text>No of days : {item.days}</Text>
+              <Text>No of times per day : {item.times}</Text>
+              <Text>{item.baw} meal</Text>
+              <Text>Description : {item.description}</Text>
+            </View>
+          )}
+        ></FlatList>
+      )}
     </View>
   );
 };
@@ -69,34 +80,43 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 4,
     alignItems: "center",
-    marginBottom:10
+    marginBottom: 10,
   },
   dateDay: {
     fontSize: 25,
     fontWeight: "bold",
     marginTop: 5,
-    color:"white"
+    color: "white",
   },
   dateWeekDay: {
-    color:"white",
+    color: "white",
     fontSize: 15,
     margin: -5,
   },
-  detailsContainer:{
-    width:"90%",
-    alignSelf:"center",
-    backgroundColor:"#D9F8FF",
-    elevation:4,
-    borderRadius:10,
-    marginBottom:10
+  detailsContainer: {
+    width: "90%",
+    alignSelf: "center",
+    backgroundColor: "#D9F8FF",
+    elevation: 4,
+    borderRadius: 10,
+    marginBottom: 10,
   },
-  docNameContainer:{
-    backgroundColor:"gray",
-    borderRadius:10,
+  docNameContainer: {
+    backgroundColor: "gray",
+    borderRadius: 10,
   },
-  docName:{
-    color:"white",
-    padding:10
-  }
+  docName: {
+    color: "white",
+    padding: 10,
+  },
+  listContainer: {
+    width: "90%",
+    marginBottom: 10,
+    backgroundColor: "#87CEEB",
+    borderRadius: 10,
+    alignSelf: "center",
+    marginTop: 10,
+    padding: 10,
+  },
 });
 export default ViewMedication;

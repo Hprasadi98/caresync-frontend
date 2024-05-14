@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   listContainer:{
     width:"90%",
     marginBottom:10,
-    backgroundColor:"gray",
+    backgroundColor:"white",
     borderRadius:10,
     alignSelf:"center",
     marginTop:10,

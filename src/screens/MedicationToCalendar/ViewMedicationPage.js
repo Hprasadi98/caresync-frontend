@@ -39,7 +39,7 @@ const ViewMedication = () => {
 
       <View style={styles.detailsContainer}>
         <View style={{padding:10}}>
-            <Text>Bood Test</Text>
+            <Text>Blood Test</Text>
         </View>
         <View style={{display:"flex",flexDirection:"row",justifyContent:"flex-end",padding:10}}>
             <TouchableOpacity onPress={()=>{}}>

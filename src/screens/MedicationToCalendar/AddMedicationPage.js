@@ -125,6 +125,7 @@ const AddMedication = () => {
           <View style={styles.nameContainer}>
             <TextInput
               placeholder={sDate}
+              // placeholder={"fef"}
               onChangeText={setDateInput}
               style={styles.textName}
             />

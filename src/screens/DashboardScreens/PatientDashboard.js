@@ -168,9 +168,9 @@ const PatientDashboard = ({ navigation }) => {
           {/* <View style={styles.row}></View> */}
         </View>
 
-        <TouchableOpacity style={styles.roundedPlusButton}>
+        {/* <TouchableOpacity style={styles.roundedPlusButton}>
           <Text style={styles.plusButtonText}>+</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </ScrollView>
   );

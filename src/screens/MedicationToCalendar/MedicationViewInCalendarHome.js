@@ -10,13 +10,21 @@ import { Calendar } from "react-native-calendars";
 import { Ionicons } from "@expo/vector-icons";
 import { baseUrl } from "../../constants/constants";
 import { useEffect, useState } from "react";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import axios from "axios";
 
 //navigate to medication adding form
-const MedicationView = ({ navigation }) => {
+const MedicationView = ({ navigation, route }) => {
+  const { refresh } = route.params ? route.params : { refresh: false };
+
   useEffect(() => {
     getmedication();
-  }, []);
+    if (refresh) {
+      getmedication();
+    }
+  }, [refresh]);
+
   const [medidetail, setmedidetail] = useState([]);
 
   //API integration for get results
@@ -32,13 +40,25 @@ const MedicationView = ({ navigation }) => {
       });
   };
 
+  const deleteOneResult = (id) => {
+    console.log(id);
+    axios
+      .delete(`${baseUrl}/medication/${id}`)
+      .then(() => {
+        getmedication();
+      })
+      .catch((error) => {
+        console.error("Axios Error : ", error);
+      });
+  };
+
   const addMedication = () => {
-    navigation.navigate("AddMedication");
+    navigation.navigate("AddMedication", { refreshMedicationView: true });
   };
 
   //navigate to medication view
-  const viewMedication = () => {
-    navigation.navigate("ViewMedication");
+  const viewMedication = (day) => {
+    navigation.navigate("ViewMedication", { selectedday: day });
   };
   return (
     <View style={{ backgroundColor: "#D9F8FF", flex: 1 }}>
@@ -52,7 +72,7 @@ const MedicationView = ({ navigation }) => {
           elevation: 4,
         }}
         onDayPress={(day) => {
-          viewMedication();
+          viewMedication(day);
           console.log(day);
         }}
       />
@@ -69,9 +89,23 @@ const MedicationView = ({ navigation }) => {
             <Text>No of times per day : {item.times}</Text>
             <Text>{item.baw} meal</Text>
             <Text>Description : {item.description}</Text>
-            <TouchableOpacity onPress={()=>{}}>
-                <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-            </TouchableOpacity>
+            <View style={styles.iconcontainer}>
+              <TouchableOpacity onPress={() => {}}>
+                <MaterialIcons
+                  name="mode-edit"
+                  size={24}
+                  color="black"
+                  style={{ marginRight: 10 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {deleteOneResult(item._id)}}>
+                <MaterialCommunityIcons
+                  name="delete-outline"
+                  size={24}
+                  color="red"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       ></FlatList>
@@ -82,7 +116,7 @@ const MedicationView = ({ navigation }) => {
           addMedication();
         }}
       >
-        <Ionicons name="add-circle" size={60} color="white" />
+        <Ionicons name="add-circle" size={60} color="#00567D" />
       </TouchableOpacity>
     </View>
   );
@@ -99,15 +133,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  listContainer:{
-    width:"90%",
-    marginBottom:10,
-    backgroundColor:"white",
-    borderRadius:10,
-    alignSelf:"center",
-    marginTop:10,
-    padding:10
-  }
+  listContainer: {
+    width: "90%",
+    marginBottom: 10,
+    backgroundColor: "#87CEEB",
+    borderRadius: 10,
+    alignSelf: "center",
+    marginTop: 10,
+    padding: 10,
+  },
+  iconcontainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "right",
+    alignSelf: "center",
+  },
 });
 
 export default MedicationView;

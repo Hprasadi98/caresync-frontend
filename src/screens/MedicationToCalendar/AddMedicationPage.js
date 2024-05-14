@@ -21,7 +21,7 @@ import { useState,useEffect } from "react";
 import axios from "axios";
 import { baseUrl } from "../../constants/constants";
 
-const AddMedication = () => {
+const AddMedication = ({navigation}) => {
   const [medicineName, setMedicineName] = useState();
   const [dateInput, setDateInput] = useState();
   const [pillAmount, setPillAmount] = useState();
@@ -35,6 +35,10 @@ const AddMedication = () => {
   var month = new Date().getMonth() + 1;
   var year = new Date().getFullYear();
   let sDate = `${year}-${padtoTwo(month)}-${padtoTwo(date)}`;
+
+  const refreshMedicationView = () => {
+    navigation.navigate("MedicationView", { refresh: true });
+  };
 
   const by = "patient";
 
@@ -71,6 +75,7 @@ const AddMedication = () => {
           text: "ok",
           onPress: () => {
             addmedication();
+            refreshMedicationView();
           },
         },
       ]
@@ -111,7 +116,7 @@ const AddMedication = () => {
           <Text style={styles.topics}>Name of Medicine</Text>
           <View style={styles.nameContainer}>
             <TextInput
-              placeholder="Panadol"
+              placeholder="Name of Medicine"
               style={styles.textName}
               onChangeText={setMedicineName}
             />
@@ -124,8 +129,7 @@ const AddMedication = () => {
           <Text style={styles.subtopics}>When do you start medication?</Text>
           <View style={styles.nameContainer}>
             <TextInput
-              placeholder={sDate}
-              // placeholder={"fef"}
+              placeholder="yyyy-mm-dd"
               onChangeText={setDateInput}
               style={styles.textName}
             />
@@ -141,7 +145,7 @@ const AddMedication = () => {
           <View style={{ display: "flex", flexDirection: "row" }}>
             <View style={styles.nameContainer2}>
               <TextInput
-                placeholder="1 pill"
+                placeholder="pills"
                 onChangeText={setPillAmount}
                 keyboardType="numeric"
                 style={styles.textName2}
@@ -152,7 +156,7 @@ const AddMedication = () => {
             </View>
             <View style={styles.nameContainer2}>
               <TextInput
-                placeholder="10 days"
+                placeholder="days"
                 onChangeText={setnoofDays}
                 keyboardType="numeric"
                 style={styles.textName2}

@@ -69,6 +69,7 @@ const ResetPasswordScreen = ({ navigation, route }) => {
         placeholder="New Password"
         value={newPassword}
         onChangeText={setNewPassword}
+        autoCapitalize="none"
         secureTextEntry
       />
 
@@ -77,6 +78,7 @@ const ResetPasswordScreen = ({ navigation, route }) => {
         placeholder="Confirm Password"
         value={confirmPassword}
         onChangeText={setConfirmPassword}
+        autoCapitalize="none"
         secureTextEntry
       />
 

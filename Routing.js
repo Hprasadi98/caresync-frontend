@@ -43,6 +43,7 @@ import ResetPasswordScreen from "./src/screens/AuthenticationScreens/ResetPasswo
 import OTPVerificationScreen from "./src/screens/AuthenticationScreens/OtpVerify";
 
 import DisplayMedicalRecords from "./src/screens/AddMedicalRecordScreen/DisplayMedicalRecords";
+import OtpVerifyScreen from "./src/screens/AuthenticationScreens/PatientAuthentication/OtpVerifyPatient";
 
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
@@ -223,6 +224,14 @@ export default function Routing() {
         <Stack.Screen
           name="OTPVerificationScreen"
           component={OTPVerificationScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="OtpVerifyScreen"
+          component={OtpVerifyScreen}
           options={{
             headerShown: false,
           }}

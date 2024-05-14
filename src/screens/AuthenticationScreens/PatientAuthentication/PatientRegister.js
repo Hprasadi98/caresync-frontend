@@ -11,6 +11,7 @@ import {
 import { baseUrl } from "../../../constants/constants";
 import { z } from "zod";
 import axios from "axios";
+import api from "../../../Services/AuthService";
 
 const PatientRegister = ({ navigation }) => {
   const baseURL = baseUrl;
@@ -82,10 +83,11 @@ const PatientRegister = ({ navigation }) => {
         })
         .then((res) => {
           console.log("Response: ", res);
-          Alert.alert("Success", "Registration successful.", [
+  
+          Alert.alert("Success", "Registration successful.Please verify your email address ", [
             {
               text: "OK",
-              onPress: () => navigation.navigate("PatientLogin"), // Navigate back to login page
+              onPress: () => navigation.navigate("OtpVerifyScreen",{ email }), // Navigate back to login page
             },
           ]);
         })

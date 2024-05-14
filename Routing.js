@@ -60,18 +60,8 @@ export default function Routing() {
 
       <Stack.Navigator
 
-      
-
-        //initialRouteName="WelomeScreen"
-        // initialRouteName="DoctorDashboard"
-
-
         initialRouteName="WelomeScreen"
-
         // initialRouteName="DoctorDashboard"
-
-
-
         // initialRouteName="PatientDashboard"
 
         screenOptions={{
@@ -79,32 +69,34 @@ export default function Routing() {
           headerShown: false,
         }}
       >
+
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
           options={{ title: "Home" }}
         />
 
+
+
         {/* Authentication Screens */}
 
         <Stack.Screen name="DoctorLogin" component={DoctorLogin} />
         <Stack.Screen name="DoctorRegister" component={DoctorRegister} />
-
         {/* <Stack.Screen
           name="MedicalIdFalseScreen"
           component={MedicalIdFalseScreen}
         /> */}
-
         <Stack.Screen
           name="MedicalIdFalseScreen"
           component={MedicalIdFalseScreen}
         />
-
         <Stack.Screen name="PatientRegister" component={PatientRegister} />
         <Stack.Screen name="PatientLogin" component={PatientLogin} />
 
-        {/* Patient Screens */}
-        {/* {console.log("USER role: ", user?.roles)} */}
+
+
+
+        {/* * Patient Screens * */}
 
         <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
         <Stack.Screen name="MedicalHistory" component={MedicalHistory} />
@@ -165,6 +157,10 @@ export default function Routing() {
           component={ViewExternalTestResults}
           options={{ headerShown: false }}
         />
+
+
+
+
 
 
         {/* Doctor Screens */}
@@ -246,6 +242,10 @@ export default function Routing() {
         /> */}
 
         {/* <Stack.Screen name="ContactUs" component={ContactUs} /> */}
+
+
+
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

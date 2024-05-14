@@ -6,7 +6,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const StepCountDataStore = ({sampleData, deleteOne}) => {
-  //no data return null
   if(!sampleData){
     return null;
   }

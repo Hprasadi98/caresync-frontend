@@ -52,9 +52,8 @@ const ViewMedication = ({ route }) => {
             <View style={styles.listContainer}>
               <Text>By : {item.by}</Text>
               <Text>Name of the medicine : {item.medicine}</Text>
-              <Text>Date : {item.date}</Text>
+              <Text>Starting Date : {item.date}</Text>
               <Text>No of Pills : {item.pills}</Text>
-              <Text>No of days : {item.days}</Text>
               <Text>No of times per day : {item.times}</Text>
               <Text>{item.baw} meal</Text>
               <Text>Description : {item.description}</Text>

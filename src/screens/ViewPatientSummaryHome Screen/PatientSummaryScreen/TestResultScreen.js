@@ -6,12 +6,13 @@ import StepCounterTest from "../Components/StepCounterTest";
 function TestResultScreen() {
   return (
     <View style={styles.container}>
-    <Header2 text="Test Results" />
-    <ScrollView >
-
-      <BreathingTest />
-      <StepCounterTest />
-    </ScrollView>
+      <Header2 text="Test Results" />
+      <View style={styles.subcontainer}>
+        <ScrollView>
+          <BreathingTest />
+          <StepCounterTest />
+        </ScrollView>
+      </View>
     </View>
   );
 }
@@ -20,5 +21,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#E3F7FF",
+  },
+  subcontainer: {
+    flex: 1,
+    backgroundColor: "#fff",
   },
 });

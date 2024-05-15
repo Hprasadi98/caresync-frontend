@@ -37,12 +37,12 @@ function BreathingTest() {
   const extractMonthAndDay = (date) => {
     console.log("Date: ", date);
     const day = date.substring(0, 2);
-    const month = date.substring(3,5);
-  
+    const month = date.substring(3, 5);
+
     // Combine day and month components
     const formattedDate = `${month}/${day}`;
     console.log("Formatted Date: ", formattedDate);
-  
+
     return formattedDate;
   };
 
@@ -99,7 +99,7 @@ function BreathingTest() {
           </DataTable.Row>
         ))}
       </DataTable>
-   
+
       <Modal
         visible={modalVisible}
         transparent={true}
@@ -110,32 +110,27 @@ function BreathingTest() {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Breathing Test Graph</Text>
             <LineChart
-           
-           
               data={{
                 labels: selectedTestData
-      .map((data) => extractMonthAndDay(data.date))
-      .reverse(),
+                  .map((data) => extractMonthAndDay(data.date))
+                  .reverse(),
                 datasets: [
                   {
-                    data: selectedTestData.map((data) =>
-                      mapStopwatchTimeToScale(data.stopwatchTime)
-                
-                    )
-                    .reverse(),
-                    
+                    data: selectedTestData
+                      .map((data) =>
+                        mapStopwatchTimeToScale(data.stopwatchTime)
+                      )
+                      .reverse(),
                   },
                 ],
               }}
               width={350}
-          
               height={270}
-            
               chartConfig={{
                 backgroundColor: "#e26a00",
                 backgroundGradientFrom: "#fb8c00",
                 backgroundGradientTo: "#ffa726",
-                
+
                 yAxisLabelPosition: "topLeft",
                 decimalPlaces: 0,
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -147,22 +142,18 @@ function BreathingTest() {
                 },
                 propsForHorizontalLabels: {
                   fontWeight: "bold", // Set the font weight of horizontal labels
-                }
-                
-              
+                },
               }}
               style={{
                 marginVertical: 8,
                 borderRadius: 16,
               }}
             />
-             <View style={styles.overlay}>
+            <View style={styles.overlay}>
               <Text style={styles.overlayText}>Time (s)</Text>
-      
             </View>
             <View style={styles.overlayDate}>
               <Text style={styles.overlayTextDate}>Month/Day</Text>
-      
             </View>
             <TouchableOpacity
               style={styles.closeButton}
@@ -173,8 +164,7 @@ function BreathingTest() {
           </View>
         </View>
       </Modal>
-      </View>
-
+    </View>
   );
 }
 
@@ -267,28 +257,26 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   overlay: {
-    position: 'absolute',
+    position: "absolute",
     top: 160, // Adjust as needed
     left: -5, // Adjust as needed
   },
   overlayText: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: 'white',
-    transform: [{ rotate: '-90deg' }],
+    fontWeight: "bold",
+    color: "white",
+    transform: [{ rotate: "-90deg" }],
   },
-  overlayTextDate:{
+  overlayTextDate: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: 'white',
-  
+    fontWeight: "bold",
+    color: "white",
   },
-  overlayDate:{
-    position: 'absolute',
+  overlayDate: {
+    position: "absolute",
     top: 310, // Adjust as needed
     left: 150, // Adjust as needed
   },
-  
 });
 
 export default BreathingTest;

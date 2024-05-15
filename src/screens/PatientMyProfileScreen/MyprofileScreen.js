@@ -145,6 +145,13 @@ const MyprofileScreen = ({ navigation }) => {
                     category="email"
                     refreshUserData={refreshUserData} 
                   />
+                    <DetailRow
+                    name="home"
+                    textLineOne="Address"
+                    textLineTwo={data.address}
+                    category="address"
+                    refreshUserData={refreshUserData} 
+                  />
                   <DetailRow
                     name="mobile"
                     textLineOne="Mobile Number"

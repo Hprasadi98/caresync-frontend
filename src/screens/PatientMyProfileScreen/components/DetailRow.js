@@ -33,6 +33,7 @@ const DetailRow = ({
   const [phone, setPhone] = useState("");
   const [first, setFirst] = useState("");
   const [second, setSecond] = useState("");
+  const [address, setAddress] = useState("");
 
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
@@ -120,6 +121,13 @@ const DetailRow = ({
           // Alert.alert("Error", "Please enter a name");
         } else {
           updatedData = { email: email }; // Assuming your backend expects "email" field
+          break;
+        }
+        case "address":
+        if (address.trim() === "") {
+          // Alert.alert("Error", "Please enter a name");
+        } else {
+          updatedData = { address: address }; // Assuming your backend expects "email" field
           break;
         }
       case "mobile":
@@ -283,6 +291,20 @@ const DetailRow = ({
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         );
+        case "address":
+          return (
+            <View style={styles.modalContent}>
+              <Text style={styles.title}>Edit Address</Text>
+              <TextInput
+                style={styles.input}
+                value={address}
+                onChangeText={(text) => setAddress(text)}
+                placeholder="Enter address"
+              />
+              <Button title="Save" onPress={handleUpdateProfile} />
+              <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            </View>
+          );
       case "mobile":
         return (
           <View style={styles.modalContent}>

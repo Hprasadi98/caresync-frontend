@@ -40,7 +40,7 @@ const DetailRow = ({
   const [selectedHeight, setSelectedHeight] = useState(textLineTwo);
 
   const [bloodGroup, setBloodGroup] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedYear, setSelectedYear] = useState("2000");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
 
@@ -56,15 +56,28 @@ const DetailRow = ({
   };
 
   // Function to generate days array based on selected month and year (adjust as needed)
+  // const generateDays = () => {
+  //   if (!selectedYear || !selectedMonth) return [];
+  //   const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+  //   const days = [];
+  //   for (let i = 1; i <= daysInMonth; i++) {
+  //     days.push(i.toString());
+  //   }
+  //   return days;
+  // };
+
+
   const generateDays = () => {
-    if (!selectedYear || !selectedMonth) return [];
     const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-    const days = [];
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(i.toString());
-    }
+    const days = Array.from({ length: daysInMonth }, (_, index) => (index + 1).toString());
     return days;
   };
+  
+
+
+
+
+
 
   const handleBloodGroupSelect = (selectedGroup) => {
     setBloodGroup(selectedGroup);
@@ -86,6 +99,7 @@ const DetailRow = ({
 
   const handleUpdateProfile = () => {
     // Prepare the updated data based on the category
+    console.log('Selected date:', `${selectedYear}-${selectedMonth}-${selectedDay}`);
     let updatedData = {};
     switch (category) {
       case "fullName":
@@ -117,10 +131,12 @@ const DetailRow = ({
         }
 
       case "birthday":
+      
         const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
         if (selectedDate.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
         } else {
+       
           updatedData = { birthday: selectedDate }; // Assuming your backend expects "birthday" field
           break;
         }
@@ -292,16 +308,22 @@ const DetailRow = ({
                 style={styles.picker}
                 selectedValue={selectedYear}
                 onValueChange={(itemValue) => setSelectedYear(itemValue)}
+                
               >
+                
                 {generateYears().map((years) => (
                   <Picker.Item
                     style={styles.years}
                     key={years}
                     label={years}
                     value={years}
+                    placeholder="Select Year"
                   />
                 ))}
+                
+                <Text>{selectedYear}</Text>
               </Picker>
+              
               <Picker
                 style={styles.picker}
                 selectedValue={selectedMonth}
@@ -326,10 +348,14 @@ const DetailRow = ({
                 onValueChange={(itemValue) => setSelectedDay(itemValue)}
               >
                 {generateDays().map((day) => (
-                  <Picker.Item key={day} label={day} value={day} />
+                  
+                  <Picker.Item key={day} label={day} value={day}   style={styles.pickeritem}/>
                 ))}
               </Picker>
             </View>
+            
+            <Button title="Save" onPress={handleUpdateProfile} />
+            <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         );
       case "gender":
@@ -570,4 +596,8 @@ const styles = StyleSheet.create({
   years: {
     color: "black",
   },
+  pickeritem:{
+    color: "black",
+    width: 150,
+  }
 });

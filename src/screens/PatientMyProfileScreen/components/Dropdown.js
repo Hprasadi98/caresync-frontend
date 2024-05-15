@@ -44,6 +44,7 @@ const Dropdown = ({ options,onSelect  }) => {
 const styles = StyleSheet.create({
   dropdownContainer: {
     marginTop: 20,
+    marginBottom: 20,
   },
   dropdownTrigger: {
     marginLeft: 10,

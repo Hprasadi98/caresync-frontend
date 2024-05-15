@@ -16,6 +16,7 @@ import DetailRow from "./components/DetailRow";
 import api from "../../Services/AuthService";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
+
 const MyprofileScreen = ({ navigation }) => {
   const { user } = useAuthContext();
 
@@ -29,6 +30,8 @@ const MyprofileScreen = ({ navigation }) => {
 
   useEffect(() => {
     getDetails();
+
+
   }, []);
 
   const getDetails = () => {
@@ -104,6 +107,11 @@ const MyprofileScreen = ({ navigation }) => {
     navigation.navigate("ForgotPassword", { userType: "patient" });
   };
 
+
+  const refreshUserData = () => {
+    getDetails(); // Fetch updated user data
+  };
+
   return (
     <View style={styles.maincontainer}>
       <Header name="My Profile" />
@@ -127,30 +135,37 @@ const MyprofileScreen = ({ navigation }) => {
                     textLineOne="Full Name"
                     textLineTwo={`${data.firstName} ${data.lastName}`}
                     category="fullName"
+                    refreshUserData={refreshUserData} 
+                  
                   />
                   <DetailRow
                     name="envelope"
                     textLineOne="Email Address"
                     textLineTwo={data.email}
                     category="email"
+                    refreshUserData={refreshUserData} 
                   />
                   <DetailRow
                     name="mobile"
                     textLineOne="Mobile Number"
                     textLineTwo={data.mobileNumber}
                     category="mobile"
+                    refreshUserData={refreshUserData} 
                   />
                   <DetailRow
                     name="birthday-cake"
                     textLineOne="Birthday"
                     textLineTwo={data.birthday}
                     category="birthday"
+                    refreshUserData={refreshUserData} 
                   />
                   <DetailRow
                     name="venus-mars"
                     textLineOne="Gender"
                     textLineTwo={data.gender}
                     category="gender"
+                    refreshUserData={refreshUserData} 
+            
                   />
                 </React.Fragment>
               );
@@ -171,18 +186,21 @@ const MyprofileScreen = ({ navigation }) => {
                     textLineTwo={data.weight}
                     kg
                     category="weight"
+                    refreshUserData={refreshUserData} 
                   />
                   <DetailRow
                     name="arrows-alt-v"
                     textLineOne="Height"
                     textLineTwo={data.height}
                     category="height"
+                    refreshUserData={refreshUserData} 
                   />
                   <DetailRow
                     name="tint"
                     textLineOne="Blood Group"
                     textLineTwo={data.blood}
                     category="blood"
+                    refreshUserData={refreshUserData} 
                   />
                 </React.Fragment>
               );

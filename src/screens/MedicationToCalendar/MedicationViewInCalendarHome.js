@@ -26,7 +26,7 @@ const MedicationView = ({ navigation, route }) => {
   }, [refresh]);
 
   const [medidetail, setmedidetail] = useState([]);
-  const [markedDates, setMarkedDates] = useState([]);
+  const [markedDates, setMarkedDates] = useState({});
 
   //API integration for get results
   const getmedication = () => {
@@ -37,8 +37,11 @@ const MedicationView = ({ navigation, route }) => {
       })
       .then((data) => {
         setmedidetail(data);
-        //console.log(data);
+        console.log(data);
         markDates(data);
+      })
+      .catch((error) => {
+        console.error("Axios Error : ", error);
       });
   };
 
@@ -68,6 +71,11 @@ const MedicationView = ({ navigation, route }) => {
 
   const addMedication = () => {
     navigation.navigate("AddMedication", { refreshMedicationView: true });
+  };
+
+  const updateMedication = (id) => {
+    const selectedItem = medidetail.find(item => item._id === id);
+    navigation.navigate("AddMedication", { refreshMedicationView: true, selectedItem});
   };
 
   //navigate to medication view
@@ -105,7 +113,10 @@ const MedicationView = ({ navigation, route }) => {
             <Text>{item.baw} meal</Text>
             <Text>Description : {item.description}</Text>
             <View style={styles.iconcontainer}>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => {
+                console.log(item._id);
+                updateMedication(item._id);
+              }}>
                 <MaterialIcons
                   name="mode-edit"
                   size={24}

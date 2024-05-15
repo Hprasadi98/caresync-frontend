@@ -22,13 +22,13 @@ import axios from "axios";
 import { baseUrl } from "../../constants/constants";
 import { format, addDays, eachDayOfInterval } from "date-fns";
 
-const AddMedication = ({ navigation }) => {
-  const [medicineName, setMedicineName] = useState();
-  const [dateInput, setDateInput] = useState();
-  const [pillAmount, setPillAmount] = useState();
-  const [noofdays, setnoofDays] = useState();
+const AddMedication = ({ navigation,route }) => {
+  const [medicineName, setMedicineName] = useState("");
+  const [dateInput, setDateInput] = useState("");
+  const [pillAmount, setPillAmount] = useState("");
+  const [noofdays, setnoofDays] = useState("");
   const [choosePeriod, setchoosePeriod] = useState(1);
-  const [description, setdescription] = useState();
+  const [description, setdescription] = useState("");
   const [isModalVisible, setisModalVisible] = useState(false);
   const [checked, setChecked] = useState("before");
   const padtoTwo = (number) => (number <= 9 ? `0${number}` : number);
@@ -36,6 +36,24 @@ const AddMedication = ({ navigation }) => {
   var month = new Date().getMonth() + 1;
   var year = new Date().getFullYear();
   let sDate = `${year}-${padtoTwo(month)}-${padtoTwo(date)}`;
+  const [isEdit,setisEdit] = useState(false);
+
+  const { selectedItem } = route.params;
+
+  useEffect(() => {
+    console.log(selectedItem);
+    if (selectedItem) {
+      // Populate the form fields with selectedItem values
+      setMedicineName(selectedItem.medicine);
+      setDateInput(selectedItem.date);
+      setPillAmount(selectedItem.pills.toString());
+      setnoofDays(selectedItem.days.toString());
+      setchoosePeriod(selectedItem.times);
+      setChecked(selectedItem.baw);
+      setdescription(selectedItem.description);
+      setisEdit(true);
+    }
+  }, [selectedItem]);
 
   const refreshMedicationView = () => {
     navigation.navigate("MedicationView", { refresh: true });
@@ -69,6 +87,32 @@ const AddMedication = ({ navigation }) => {
       .then(() => {
         console.log("add");
         //getmedication();
+        setisEdit(false);
+      })
+      .catch((error) => {
+        console.error("Axios Error : ", error);
+      });
+  };
+
+  const updatemedication = (id) => {
+    const payload = {
+      medicine: medicineName,
+      date: dateInput,
+      pills: pillAmount,
+      days: noofdays,
+      dayArray: dayArray,
+      times: choosePeriod,
+      baw: checked,
+      description: description,
+    };
+    //console.log(payload);
+    axios
+      .put(`${baseUrl}/medication/${id}`,payload)
+      .then((response) => {
+        console.log("updated");
+        console.log(response.data);
+        //getmedication();
+        setisEdit(false);
       })
       .catch((error) => {
         console.error("Axios Error : ", error);
@@ -79,12 +123,16 @@ const AddMedication = ({ navigation }) => {
   const AlertBox = () => {
     Alert.alert(
       "Successful message",
-      "Add medication to the calendar successfully.",
+      `${isEdit ? "Update" : "Add"} medication to the calendar successfully.`,
       [
         {
           text: "ok",
           onPress: () => {
-            addmedication();
+            if(!isEdit) {
+              addmedication();
+            }else{
+              updatemedication(selectedItem._id);
+            }
             refreshMedicationView();
           },
         },
@@ -255,7 +303,7 @@ const AddMedication = ({ navigation }) => {
           />
           <View style={{ alignItems: "center", padding: 10 }}>
             <TouchableOpacity style={styles.button} onPress={AlertBox}>
-              <Text style={styles.buttontext}>Add Medication</Text>
+              <Text style={styles.buttontext}>{isEdit?"Update Medication":"Add Medication"}</Text>
             </TouchableOpacity>
           </View>
         </View>

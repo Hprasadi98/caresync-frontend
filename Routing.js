@@ -44,7 +44,7 @@ import OTPVerificationScreen from "./src/screens/AuthenticationScreens/OtpVerify
 
 import DisplayMedicalRecords from "./src/screens/AddMedicalRecordScreen/DisplayMedicalRecords";
 import OtpVerifyScreen from "./src/screens/AuthenticationScreens/PatientAuthentication/OtpVerifyPatient";
-
+import ContactPatientScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/ContactPatientScreen";
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
@@ -60,8 +60,10 @@ export default function Routing() {
 
       <Stack.Navigator
 
-        // initialRouteName="WelomeScreen"
-        initialRouteName="DoctorDashboard"
+
+        initialRouteName="WelcomeScreen"
+        // initialRouteName="DoctorDashboard"
+
         // initialRouteName="PatientDashboard"
 
         screenOptions={{
@@ -69,14 +71,11 @@ export default function Routing() {
           headerShown: false,
         }}
       >
-
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
           options={{ title: "Home" }}
         />
-
-
 
         {/* Authentication Screens */}
 
@@ -92,9 +91,6 @@ export default function Routing() {
         />
         <Stack.Screen name="PatientRegister" component={PatientRegister} />
         <Stack.Screen name="PatientLogin" component={PatientLogin} />
-
-
-
 
         {/* * Patient Screens * */}
 
@@ -135,7 +131,6 @@ export default function Routing() {
           options={{ headerShown: false }}
         />
 
-
         <Stack.Screen name="MedicationView" component={MedicationView} />
         <Stack.Screen name="AddMedication" component={AddMedication} />
         <Stack.Screen name="ViewMedication" component={ViewMedication} />
@@ -157,11 +152,6 @@ export default function Routing() {
           component={ViewExternalTestResults}
           options={{ headerShown: false }}
         />
-
-
-
-
-
 
         {/* Doctor Screens */}
         <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
@@ -192,6 +182,11 @@ export default function Routing() {
           options={{
             headerShown: false,
           }}
+        />
+        <Stack.Screen
+          name="ContactPatientScreen"
+          component={ContactPatientScreen}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="MedicationsScreen"
@@ -242,10 +237,6 @@ export default function Routing() {
         /> */}
 
         {/* <Stack.Screen name="ContactUs" component={ContactUs} /> */}
-
-
-
-        
       </Stack.Navigator>
     </NavigationContainer>
   );

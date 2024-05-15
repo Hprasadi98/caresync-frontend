@@ -41,23 +41,6 @@ const NewMedicalRecordScreen = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const [recordName, setRecordName] = useState('');
   const [recordDescription, setRecordDescription] = useState('');
 

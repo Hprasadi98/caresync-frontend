@@ -14,8 +14,8 @@ function MedicalRecordGrid({
   const heightAnim = useRef(new Animated.Value(100)).current;
 
   const calculateContentHeight = () => {
-    const baseHeight = 100; // Base height without incidents
-    const incidentHeight = incidents.length * 90; // Assuming each incident occupies 50 units of height
+    const baseHeight = 105; // Base height without incidents
+    const incidentHeight = incidents.length * 95; // Assuming each incident occupies 50 units of height
     return baseHeight + incidentHeight;
   };
 
@@ -132,8 +132,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 3,
     width: '90%',
-    marginLeft: "5%",
-    marginTop: 3,
     alignSelf: "center",
 
 

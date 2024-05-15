@@ -1,26 +1,27 @@
-import React,{useState} from 'react';
-import { View, Text, Button, StyleSheet,ScrollView} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import CustomDropdown from '../CustomDropdown';
 import DescriptionInputbar from '../DescriptionInputbar';
 import PainRating from '../PainRating';
+import SymptomTypeDropdown from '../SymptomTypeDropdown';
 
 
 
-const SymptomModal = ({  selectedStartDate,selectedOption,onClose }) => {
+const SymptomModal = ({ selectedStartDate, selectedOption, onClose }) => {
   const [inputValue, setInputValue] = useState(null);
 
 
 
-console.log(selectedStartDate);
-console.log(selectedOption);
-console.log(inputValue);
+  console.log(selectedStartDate);
+  console.log(selectedOption);
+  console.log(inputValue);
 
- 
+
 
   const saveIncidentSymptom = async () => {
     try {
-   
-  
+
+
       const res = await fetch("http://192.168.34.128:4011/api/medicalIncident", {
         method: "POST",
         headers: {
@@ -29,7 +30,7 @@ console.log(inputValue);
         body: JSON.stringify({
           incidentType: selectedOption,
           date: selectedStartDate,
-          SymptomDescription:inputValue,
+          SymptomDescription: inputValue,
           // Frequency:,
           // severity:,
           // duration:,
@@ -39,21 +40,21 @@ console.log(inputValue);
 
         }),
       });
-  
+
       console.log("Response status:", res.status);
-  
+
       const responseData = await res.json(); // Parse response body as JSON
-  
+
       if (!res.ok) {
         throw new Error(`Failed to save incident. Server response: ${JSON.stringify(responseData)}`);
       }
-  
+
       console.log("Success:", responseData);
     } catch (error) {
       console.error("Error saving symptom incident:", error.message);
     }
   };
-  
+
 
 
 
@@ -65,44 +66,49 @@ console.log(inputValue);
   return (
     <View style={styles.modalContainer}>
       <Text style={styles.modalText}>Add Symptom Details</Text>
-      
+
+
       <View style={styles.contentContainer}>
+        <Text style={styles.label}>Symptop Type:</Text>
+        <View style={styles.dropdowncontainer}>
+          <SymptomTypeDropdown options={['Cough', 'Chest Pain', 'Fever', 'Wheeze', 'Other']} placeholderText="Select from the list" />
+        </View>
         <Text style={styles.label}>Symptop Description:</Text>
-       
-        
+
+
         <View style={styles.inputcontainer}>
-        <DescriptionInputbar text1=""
+          <DescriptionInputbar text1=""
             placeholder="Enter description here"
-            inputValue={inputValue} 
+            inputValue={inputValue}
             setInputValue={setInputValue}
           />
         </View>
-        
+
         <Text style={styles.label}>Frequency:</Text>
         <View style={styles.dropdowncontainer}>
           <CustomDropdown options={['Single time a day', 'Once in two days', 'Once in a week', 'Other']} placeholderText="Select from the list" />
         </View>
         <Text style={styles.label}>Severity: Out of 10</Text>
-        <PainRating text="Pain level" icon="thermometer-half"/>
+        <PainRating text="Pain level" icon="thermometer-half" />
         <Text style={styles.label}>Duration:</Text>
         <View style={styles.dropdowncontainer}>
           <CustomDropdown options={['Immediate', 'about 1,2 minutes', 'more that 2 minutes', 'about half of hour', 'other']} placeholderText="Select from the list" />
         </View>
-        </View>
-        
-        
-        
-        <View style={styles.buttonContainer}>
+      </View>
 
-          <View style={styles.buttonWrapper}>
-            <Button title="Close" onPress={onClose} color="#00567D" />
-          </View>
-          <View style={styles.buttonWrapper}>
-            <Button title="OK" onPress={saveIncidentSymptom} color="#00567D" />
-          </View>
+
+
+      <View style={styles.buttonContainer}>
+
+        <View style={styles.buttonWrapper}>
+          <Button title="Close" onPress={onClose} color="#00567D" />
+        </View>
+        <View style={styles.buttonWrapper}>
+          <Button title="OK" onPress={saveIncidentSymptom} color="#00567D" />
         </View>
       </View>
-    
+    </View>
+
   );
 };
 
@@ -125,12 +131,12 @@ const styles = StyleSheet.create({
     padding: 15,
     width: '94%',
   },
-  
-  topic:{
-    paddingTop:30,
-    fontSize:18,
-    paddingLeft:15,
-    fontWeight:'800'
+
+  topic: {
+    paddingTop: 30,
+    fontSize: 18,
+    paddingLeft: 15,
+    fontWeight: '800'
   },
   modalText: {
     fontSize: 23,
@@ -138,7 +144,7 @@ const styles = StyleSheet.create({
     top: 0,
     position: 'absolute',
     padding: 10,
-    color:"#013d59"
+    color: "#013d59"
 
   },
   contentContainer: {
@@ -167,18 +173,18 @@ const styles = StyleSheet.create({
   },
   inputcontainer: {
     marginVertical: '-16%',
-    paddingBottom:'8%'
+    paddingBottom: '8%'
 
   },
   dropdowncontainer: {
     marginLeft: '4%',
-    
+
     marginVertical: '-6%',
-    
-   
+
+
 
   },
-  
+
 
 });
 

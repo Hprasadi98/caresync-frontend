@@ -26,6 +26,7 @@ const MedicationView = ({ navigation, route }) => {
   }, [refresh]);
 
   const [medidetail, setmedidetail] = useState([]);
+  const [markedDates, setMarkedDates] = useState([]);
 
   //API integration for get results
   const getmedication = () => {
@@ -37,7 +38,20 @@ const MedicationView = ({ navigation, route }) => {
       .then((data) => {
         setmedidetail(data);
         //console.log(data);
+        markDates(data);
       });
+  };
+
+  const markDates = (data) => {
+    const markedDatesObj = {};
+    data.forEach((item) => {
+      if (Array.isArray(item.dayArray)) {
+        item.dayArray.forEach((date) => {
+          markedDatesObj[date] = { selected: true, selectedColor: "#00567D" };
+        });
+      }
+    });
+    setMarkedDates(markedDatesObj);
   };
 
   const deleteOneResult = (id) => {
@@ -75,6 +89,7 @@ const MedicationView = ({ navigation, route }) => {
           viewMedication(day);
           console.log(day);
         }}
+        markedDates={markedDates}
       />
 
       <FlatList
@@ -98,7 +113,11 @@ const MedicationView = ({ navigation, route }) => {
                   style={{ marginRight: 10 }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {deleteOneResult(item._id)}}>
+              <TouchableOpacity
+                onPress={() => {
+                  deleteOneResult(item._id);
+                }}
+              >
                 <MaterialCommunityIcons
                   name="delete-outline"
                   size={24}

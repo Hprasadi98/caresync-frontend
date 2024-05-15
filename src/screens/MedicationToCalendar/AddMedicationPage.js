@@ -17,11 +17,12 @@ import {
   MaterialIcons,
   AntDesign,
 } from "@expo/vector-icons";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { baseUrl } from "../../constants/constants";
+import { format, addDays, eachDayOfInterval } from "date-fns";
 
-const AddMedication = ({navigation}) => {
+const AddMedication = ({ navigation }) => {
   const [medicineName, setMedicineName] = useState();
   const [dateInput, setDateInput] = useState();
   const [pillAmount, setPillAmount] = useState();
@@ -40,18 +41,27 @@ const AddMedication = ({navigation}) => {
     navigation.navigate("MedicationView", { refresh: true });
   };
 
+  const generateDateRange = (startDate, numberOfDays) => {
+    const endDate = addDays(startDate, numberOfDays - 1);
+    const dates = eachDayOfInterval({ start: startDate, end: endDate });
+    return dates.map((date) => format(date, "yyyy-MM-dd"));
+  };
+
+  const dayArray = generateDateRange(dateInput, noofdays);
+
   const by = "patient";
 
   const addmedication = () => {
     const payload = {
-      by:by,
-      medicine:medicineName,
-      date:dateInput,
-      pills:pillAmount,
-      days:noofdays,
-      times:choosePeriod,
-      baw:checked,
-      description:description,
+      by: by,
+      medicine: medicineName,
+      date: dateInput,
+      pills: pillAmount,
+      days: noofdays,
+      dayArray: dayArray,
+      times: choosePeriod,
+      baw: checked,
+      description: description,
     };
     //console.log(payload);
     axios

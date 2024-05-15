@@ -99,6 +99,7 @@ function BreathingTest() {
           </DataTable.Row>
         ))}
       </DataTable>
+   
       <Modal
         visible={modalVisible}
         transparent={true}
@@ -109,6 +110,8 @@ function BreathingTest() {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Breathing Test Graph</Text>
             <LineChart
+           
+           
               data={{
                 labels: selectedTestData
       .map((data) => extractMonthAndDay(data.date))
@@ -124,24 +127,43 @@ function BreathingTest() {
                   },
                 ],
               }}
-              width={300}
-              height={200}
-              yAxisLabel=""
+              width={350}
+          
+              height={270}
+            
               chartConfig={{
                 backgroundColor: "#e26a00",
                 backgroundGradientFrom: "#fb8c00",
                 backgroundGradientTo: "#ffa726",
+                
+                yAxisLabelPosition: "topLeft",
                 decimalPlaces: 0,
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 style: {
                   borderRadius: 16,
                 },
+                propsForVerticalLabels: {
+                  fontWeight: "bold", // Set the font weight of vertical labels
+                },
+                propsForHorizontalLabels: {
+                  fontWeight: "bold", // Set the font weight of horizontal labels
+                }
+                
+              
               }}
               style={{
                 marginVertical: 8,
                 borderRadius: 16,
               }}
             />
+             <View style={styles.overlay}>
+              <Text style={styles.overlayText}>Time (s)</Text>
+      
+            </View>
+            <View style={styles.overlayDate}>
+              <Text style={styles.overlayTextDate}>Month/Day</Text>
+      
+            </View>
             <TouchableOpacity
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
@@ -151,7 +173,8 @@ function BreathingTest() {
           </View>
         </View>
       </Modal>
-    </View>
+      </View>
+
   );
 }
 
@@ -230,7 +253,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     alignItems: "center",
-    width: "80%",
+    width: "90%",
   },
   modalTitle: {
     fontSize: 18,
@@ -243,6 +266,29 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 20,
   },
+  overlay: {
+    position: 'absolute',
+    top: 160, // Adjust as needed
+    left: -5, // Adjust as needed
+  },
+  overlayText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
+    transform: [{ rotate: '-90deg' }],
+  },
+  overlayTextDate:{
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
+  
+  },
+  overlayDate:{
+    position: 'absolute',
+    top: 310, // Adjust as needed
+    left: 150, // Adjust as needed
+  },
+  
 });
 
 export default BreathingTest;

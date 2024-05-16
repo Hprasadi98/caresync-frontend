@@ -1,9 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-} from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 import Header from "../MedicalTestHomeScreen/components/Header";
 import { useState, useEffect } from "react";
 import { baseUrl } from "../../constants/constants";
@@ -14,6 +9,9 @@ const ViewMedication = ({ route }) => {
   const { selectedday } = route.params;
   const day = new Date(selectedday.dateString);
   const month = new Intl.DateTimeFormat("en-US", { month: "long" }).format(day);
+  const year = day.getFullYear();
+  const dayOfWeekFull = day.toLocaleDateString("en-US", { weekday: "long" });
+  const dayOfWeek = dayOfWeekFull.split(" ")[0];
 
   useEffect(() => {
     getmedicationforDay(selectedday.dateString);
@@ -28,7 +26,7 @@ const ViewMedication = ({ route }) => {
       })
       .then((data) => {
         setmedidetail(data.response);
-        console.log("Medi data",data.response);
+        //console.log("Medi data",data.response);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -39,10 +37,10 @@ const ViewMedication = ({ route }) => {
       <Header name="View Medication" />
 
       <View style={styles.dateContainer}>
-        <View style={styles.dateCircle}>
-          <Text style={styles.dateDay}>{selectedday.day}</Text>
-          <Text style={styles.dateWeekDay}>{month}</Text>
-        </View>
+        <Text style={styles.dateWeekDay}>{dayOfWeek}</Text>
+        <Text style={styles.dateWeekDay}>{selectedday.day}</Text>
+        <Text style={styles.dateWeekDay}>{month}</Text>
+        <Text style={styles.dateWeekDay}>{year}</Text>
       </View>
 
       {Array.isArray(medidetail) && (
@@ -50,13 +48,18 @@ const ViewMedication = ({ route }) => {
           data={medidetail}
           renderItem={({ item }) => (
             <View style={styles.listContainer}>
-              <Text>By : {item.by}</Text>
-              <Text>Name of the medicine : {item.medicine}</Text>
-              <Text>Starting Date : {item.date}</Text>
-              <Text>No of Pills : {item.pills}</Text>
-              <Text>No of times per day : {item.times}</Text>
-              <Text>{item.baw} meal</Text>
-              <Text>Description : {item.description}</Text>
+              <Text style={styles.medicineNametext}>{item.medicine}</Text>
+              <View style={styles.detailContainer}>
+                <Text style={styles.pilltext}>{item.pills} pill/s</Text>
+                <Text style={styles.timestext}>
+                  {item.times} time/s per day
+                </Text>
+                <Text style={styles.bawtext}>{item.baw} meal</Text>
+              </View>
+              {item.description !== null && item.description !== "" && (
+                <Text style={styles.descriptiontext}>{item.description}</Text>
+              )}
+              <Text style={styles.bytext}>By {item.by}</Text>
             </View>
           )}
         ></FlatList>
@@ -67,46 +70,18 @@ const ViewMedication = ({ route }) => {
 
 const styles = StyleSheet.create({
   dateContainer: {
-    justifyContent: "center",
     display: "flex",
     flexDirection: "row",
-  },
-  dateCircle: {
     marginTop: 10,
-    height: 60,
-    width: 60,
-    backgroundColor: "#3498db",
-    borderRadius: 10,
-    elevation: 4,
-    alignItems: "center",
     marginBottom: 10,
-  },
-  dateDay: {
-    fontSize: 25,
-    fontWeight: "bold",
-    marginTop: 5,
-    color: "white",
+    justifyContent: "center",
+    alignSelf: "center",
   },
   dateWeekDay: {
-    color: "white",
-    fontSize: 15,
-    margin: -5,
-  },
-  detailsContainer: {
-    width: "90%",
-    alignSelf: "center",
-    backgroundColor: "#D9F8FF",
-    elevation: 4,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  docNameContainer: {
-    backgroundColor: "gray",
-    borderRadius: 10,
-  },
-  docName: {
-    color: "white",
-    padding: 10,
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 5,
+    color: "gray",
   },
   listContainer: {
     width: "90%",
@@ -116,6 +91,37 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 10,
     padding: 10,
+  },
+  medicineNametext: {
+    fontWeight: "bold",
+    fontSize: 20,
+    marginLeft: 10,
+  },
+  detailContainer: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    marginTop: 10,
+  },
+  pilltext: {
+    paddingRight: 30,
+  },
+  timestext: {
+    paddingRight: 30,
+  },
+  descriptiontext: {
+    paddingLeft: 10,
+    padding: 5,
+    backgroundColor: "white",
+    color: "black",
+    borderRadius: 10,
+    elevation: 10,
+    marginTop: 10,
+  },
+  bytext: {
+    fontWeight: "bold",
+    fontSize: 15,
+    marginTop: 10,
   },
 });
 export default ViewMedication;

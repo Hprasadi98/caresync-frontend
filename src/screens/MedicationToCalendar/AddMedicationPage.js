@@ -13,8 +13,6 @@ import Header from "../MedicalTestHomeScreen/components/Header";
 import { TextInput, RadioButton } from "react-native-paper";
 import {
   EvilIcons,
-  Ionicons,
-  MaterialIcons,
   AntDesign,
 } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
@@ -110,7 +108,7 @@ const AddMedication = ({ navigation,route }) => {
       .put(`${baseUrl}/medication/${id}`,payload)
       .then((response) => {
         console.log("updated");
-        console.log(response.data);
+        //console.log(response.data);
         //getmedication();
         setisEdit(false);
       })

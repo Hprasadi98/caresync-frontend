@@ -53,19 +53,19 @@ export default function Routing() {
 
       <Stack.Navigator
 
-      
+
 
         //initialRouteName="WelomeScreen"
         // initialRouteName="DoctorDashboard"
 
 
-        initialRouteName="WelomeScreen"
+        // initialRouteName="WelomeScreen"
 
         // initialRouteName="DoctorDashboard"
 
 
 
-        // initialRouteName="PatientDashboard"
+        initialRouteName="PatientDashboard"
 
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },

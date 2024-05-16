@@ -1,7 +1,7 @@
 import { View, StyleSheet, SafeAreaView, } from "react-native";
 import Header from "../../components/Header";
 import IncidentTypeDropdown from "./components/IncidentTypeDropdown";
-import React ,{useState} from "react";
+import React, { useState } from "react";
 
 
 const MedicalIncidentHomeScreen = ({ route }) => {
@@ -15,12 +15,12 @@ const MedicalIncidentHomeScreen = ({ route }) => {
       <Header name="Medical Incident" />
       <View style={styles.background}>
         <View style={styles.container}>
-          <IncidentTypeDropdown 
-          recordName={recordName} 
-          description={recordDescription}
+          <IncidentTypeDropdown
+            recordName={recordName}
+            description={recordDescription}
           // weight={weight}
           // rating={rating}
-             />
+          />
         </View>
       </View>
 
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '76%',
     // backgroundColor: '#FFFF',
-   
+
 
 
   },
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 
   },
 
-input2: {
+  input2: {
     borderColor: '#8e8e8e',
     borderWidth: 1,
     padding: 10,

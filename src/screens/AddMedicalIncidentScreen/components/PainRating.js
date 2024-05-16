@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; // Assuming you're using Expo, if not, import from appropriate library
+import { FontAwesome } from '@expo/vector-icons';
 
-const PainRating = ({text,icon,value, onRatingChange}) => {
+const PainRating = ({ text, icon, value, onRatingChange }) => {
   const [rating, setRating] = useState('');
 
   const handleRating = (value) => {
     setRating(value);
     onRatingChange(value);
-    
+
   };
 
   return (
@@ -35,7 +35,7 @@ const PainRating = ({text,icon,value, onRatingChange}) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop:10,
+    marginTop: 10,
     alignItems: 'center',
   },
   label: {

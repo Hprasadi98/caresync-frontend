@@ -16,7 +16,6 @@ import DetailRowDoctor from "./components/DetailRowDoctor";
 import api from "../../Services/AuthService";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-
 const DoctorProfileScreen = ({ navigation }) => {
   const { user } = useAuthContext();
 
@@ -27,6 +26,7 @@ const DoctorProfileScreen = ({ navigation }) => {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [passwordChangeStatus, setPasswordChangeStatus] = useState(null);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     getDetails();
   }, []);
@@ -108,22 +108,18 @@ const DoctorProfileScreen = ({ navigation }) => {
     getDetails(); // Fetch updated user data
   };
 
- 
-
   return (
     <View style={styles.maincontainer}>
       <Header name="My Profile" />
       <ScrollView>
         <View style={styles.container}>
           {/* Profile Image */}
-          <TouchableOpacity >
+          <TouchableOpacity>
             <View style={styles.profileImageContainer}>
-             
-                <Image
-                  source={require("../../../assets/patient.png")}
-                  style={styles.profileImage}
-                />
-          
+              <Image
+                source={require("../../../assets/patient.png")}
+                style={styles.profileImage}
+              />
             </View>
           </TouchableOpacity>
 

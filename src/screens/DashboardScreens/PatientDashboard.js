@@ -9,13 +9,18 @@ import {
 } from "react-native";
 
 import { useLogout } from "../../hooks/useLogout";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const PatientDashboard = ({ navigation }) => {
   const { logout } = useLogout();
+  const { user } = useAuthContext();
 
-  const navigateToMedicalHistory = () => {
-    navigation.navigate("MedicalHistory");
-  };
+  React.useEffect(() => {
+    console.log("User from Dashboard", user);
+    //TODO add a waiting modal if user is not found
+  }, []);
+
+
 
   return (
     <ScrollView style={styles.outer}>

@@ -44,7 +44,7 @@ const BreathingTestDataStore = ({ sampleData, deleteOne }) => {
               <DataTable.Cell>
                 <TouchableOpacity
                   onPress={() => {
-                    //console.log(data.id);
+                    console.log("Data ID",data._id);
                     deleteOne(data._id);
                   }}
                 >

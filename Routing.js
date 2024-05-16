@@ -32,6 +32,7 @@ import AddMedication from "./src/screens/MedicationToCalendar/AddMedicationPage"
 import ViewMedication from "./src/screens/MedicationToCalendar/ViewMedicationPage";
 import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedicalRecordScreen";
 import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
+import DoctorProfileScreen from "./src/screens/DoctorMyProfileScreen/DoctorProfileScreen";
 
 import TestResultScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/TestResultScreen";
 
@@ -61,8 +62,8 @@ export default function Routing() {
       <Stack.Navigator
 
 
-        initialRouteName="WelcomeScreen"
-        // initialRouteName="DoctorDashboard"
+        // initialRouteName="WelcomeScreen"
+        initialRouteName="DoctorDashboard"
 
         // initialRouteName="PatientDashboard"
 
@@ -140,6 +141,12 @@ export default function Routing() {
           component={MyprofileScreen}
           options={{ headerShown: false }}
         />
+          <Stack.Screen
+          name="DoctorProfileScreen"
+          component={DoctorProfileScreen}
+          options={{ headerShown: false }}
+        />
+
 
         <Stack.Screen
           name="AddExternalTestResults"

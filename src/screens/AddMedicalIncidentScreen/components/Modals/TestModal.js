@@ -11,8 +11,7 @@ const TestModal = ({
   onClose,
   recordName,
   description,
-  weight,
-  rating,
+
 }) => {
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [selectedOption2, setSelectedOption2] = useState(null);

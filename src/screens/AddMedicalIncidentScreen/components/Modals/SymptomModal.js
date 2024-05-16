@@ -5,6 +5,7 @@ import DescriptionInputbar from '../DescriptionInputbar';
 import PainRating from '../PainRating';
 import SymptomTypeDropdown from '../SymptomTypeDropdown';
 import { baseUrl } from "../../../../constants/constants";
+import { useNavigation } from '@react-navigation/native'; // Import navigation hook
 
 const SymptomModal = ({
   selectedStartDate,
@@ -16,6 +17,7 @@ const SymptomModal = ({
 }) => {
   // const [symptomDescription, setSymptomDescription] = useState(null);
   const [selectedSymptomType, setSelectedSymptomType] = useState(null);
+  const navigation = useNavigation(); // Get navigation object
 
   console.log(recordName);
   console.log(description);
@@ -35,7 +37,7 @@ const SymptomModal = ({
           recordDescription: description,
           incidentType: selectedOption,
           date: selectedStartDate,
-          selectedSymptomType: selectedSymptomType,
+          symptomType: selectedSymptomType,
 
 
         }),
@@ -54,6 +56,7 @@ const SymptomModal = ({
       }
 
       console.log("Success:", responseData);
+      navigation.navigate('DisplayMedicalRecords'); // Navigate to Display Medical Record page
     } catch (error) {
       console.error("Error saving symptom incident:", error.message);
     }
@@ -71,7 +74,7 @@ const SymptomModal = ({
             placeholderText="Select from the list"
             selectedSymptomType={selectedSymptomType}
             setSelectedSymptomType={setSelectedSymptomType}
-          // setInputValue={setSymptomDescription} // Assuming symptomDescription is the input value for "Other"
+
           />
         </View>
         <Text style={styles.label}>Symptom Description:</Text>

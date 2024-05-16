@@ -11,13 +11,13 @@ import {
   Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-
-import axios from "axios";
+import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
 import Dropdown from "./Dropdown";
 import BirthdayCalendar from "./BirthdayCalendar";
 import { Picker } from "@react-native-picker/picker";
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const DetailRow = ({
   name,
@@ -26,6 +26,9 @@ const DetailRow = ({
   category,
   refreshUserData,
 }) => {
+  const { user } = useAuthContext();
+  const id = user._id;
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const [fullname, setfullName] = useState("");
@@ -67,18 +70,13 @@ const DetailRow = ({
   //   return days;
   // };
 
-
   const generateDays = () => {
     const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-    const days = Array.from({ length: daysInMonth }, (_, index) => (index + 1).toString());
+    const days = Array.from({ length: daysInMonth }, (_, index) =>
+      (index + 1).toString()
+    );
     return days;
   };
-  
-
-
-
-
-
 
   const handleBloodGroupSelect = (selectedGroup) => {
     setBloodGroup(selectedGroup);
@@ -95,12 +93,15 @@ const DetailRow = ({
   //   setNewFullName(inputValue);
   //   setModalVisible(false);
   // };
-  const _id = "662e930c4c0bf9f41d0da56a";
+
   // console.log(booodGroup);
 
   const handleUpdateProfile = () => {
     // Prepare the updated data based on the category
-    console.log('Selected date:', `${selectedYear}-${selectedMonth}-${selectedDay}`);
+    console.log(
+      "Selected date:",
+      `${selectedYear}-${selectedMonth}-${selectedDay}`
+    );
     let updatedData = {};
     switch (category) {
       case "fullName":
@@ -123,7 +124,7 @@ const DetailRow = ({
           updatedData = { email: email }; // Assuming your backend expects "email" field
           break;
         }
-        case "address":
+      case "address":
         if (address.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
         } else {
@@ -139,12 +140,10 @@ const DetailRow = ({
         }
 
       case "birthday":
-      
         const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
         if (selectedDate.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
         } else {
-       
           updatedData = { birthday: selectedDate }; // Assuming your backend expects "birthday" field
           break;
         }
@@ -175,8 +174,8 @@ const DetailRow = ({
     }
 
     // Make an HTTP PUT request to update the patient's information
-    axios
-      .put(`${baseUrl}/patients/${_id}`, updatedData) // Assuming your backend route for updating patient info is '/patients/:id'
+    api
+      .put(`${baseUrl}/patients/${id}`, updatedData) // Assuming your backend route for updating patient info is '/patients/:id'
       .then((response) => {
         console.log(
           "Patient information updated successfully: ",
@@ -291,20 +290,20 @@ const DetailRow = ({
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         );
-        case "address":
-          return (
-            <View style={styles.modalContent}>
-              <Text style={styles.title}>Edit Address</Text>
-              <TextInput
-                style={styles.input}
-                value={address}
-                onChangeText={(text) => setAddress(text)}
-                placeholder="Enter address"
-              />
-              <Button title="Save" onPress={handleUpdateProfile} />
-              <Button title="Cancel" onPress={() => setModalVisible(false)} />
-            </View>
-          );
+      case "address":
+        return (
+          <View style={styles.modalContent}>
+            <Text style={styles.title}>Edit Address</Text>
+            <TextInput
+              style={styles.input}
+              value={address}
+              onChangeText={(text) => setAddress(text)}
+              placeholder="Enter address"
+            />
+            <Button title="Save" onPress={handleUpdateProfile} />
+            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+          </View>
+        );
       case "mobile":
         return (
           <View style={styles.modalContent}>
@@ -330,9 +329,7 @@ const DetailRow = ({
                 style={styles.picker}
                 selectedValue={selectedYear}
                 onValueChange={(itemValue) => setSelectedYear(itemValue)}
-                
               >
-                
                 {generateYears().map((years) => (
                   <Picker.Item
                     style={styles.years}
@@ -342,10 +339,10 @@ const DetailRow = ({
                     placeholder="Select Year"
                   />
                 ))}
-                
+
                 <Text>{selectedYear}</Text>
               </Picker>
-              
+
               <Picker
                 style={styles.picker}
                 selectedValue={selectedMonth}
@@ -370,12 +367,16 @@ const DetailRow = ({
                 onValueChange={(itemValue) => setSelectedDay(itemValue)}
               >
                 {generateDays().map((day) => (
-                  
-                  <Picker.Item key={day} label={day} value={day}   style={styles.pickeritem}/>
+                  <Picker.Item
+                    key={day}
+                    label={day}
+                    value={day}
+                    style={styles.pickeritem}
+                  />
                 ))}
               </Picker>
             </View>
-            
+
             <Button title="Save" onPress={handleUpdateProfile} />
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
@@ -618,8 +619,8 @@ const styles = StyleSheet.create({
   years: {
     color: "black",
   },
-  pickeritem:{
+  pickeritem: {
     color: "black",
     width: 150,
-  }
+  },
 });

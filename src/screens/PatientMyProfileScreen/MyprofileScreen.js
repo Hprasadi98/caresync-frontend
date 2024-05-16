@@ -16,12 +16,11 @@ import DetailRow from "./components/DetailRow";
 import api from "../../Services/AuthService";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-
 const MyprofileScreen = ({ navigation }) => {
   const { user } = useAuthContext();
 
   const [details, setDetails] = useState([]);
-  const [_id, setId] = useState("662e930c4c0bf9f41d0da56a");
+  const [id, setId] = useState();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -29,14 +28,14 @@ const MyprofileScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log("User in MyProfileScreen:", user);
+    setId(user._id);
     getDetails();
-
-
   }, []);
 
   const getDetails = () => {
     axios
-      .get(`${baseUrl}/patients`)
+      .get(`${baseUrl}/patients/${user._id}`)
       .then((response) => {
         setDetails(response.data);
       })
@@ -107,7 +106,6 @@ const MyprofileScreen = ({ navigation }) => {
     navigation.navigate("ForgotPassword", { userType: "patient" });
   };
 
-
   const refreshUserData = () => {
     getDetails(); // Fetch updated user data
   };
@@ -126,94 +124,78 @@ const MyprofileScreen = ({ navigation }) => {
             </View>
           </TouchableOpacity>
           <Text style={styles.yourinfo}>Your Info</Text>
-          {details.map((data, index) => {
-            if (data._id === _id) {
-              return (
-                <React.Fragment key={index}>
+                <React.Fragment>
                   <DetailRow
                     name="user-alt"
                     textLineOne="Full Name"
-                    textLineTwo={`${data.firstName} ${data.lastName}`}
+                    textLineTwo={`${details.firstName} ${details.lastName}`}
                     category="fullName"
-                    refreshUserData={refreshUserData} 
-                  
+                    refreshUserData={refreshUserData}
                   />
                   <DetailRow
                     name="envelope"
                     textLineOne="Email Address"
-                    textLineTwo={data.email}
+                    textLineTwo={details.email}
                     category="email"
-                    refreshUserData={refreshUserData} 
+                    refreshUserData={refreshUserData}
                   />
-                    <DetailRow
+                  <DetailRow
                     name="home"
                     textLineOne="Address"
-                    textLineTwo={data.address}
+                    textLineTwo={details.address}
                     category="address"
-                    refreshUserData={refreshUserData} 
+                    refreshUserData={refreshUserData}
                   />
                   <DetailRow
                     name="mobile"
                     textLineOne="Mobile Number"
-                    textLineTwo={data.mobileNumber}
+                    textLineTwo={details.mobileNumber}
                     category="mobile"
-                    refreshUserData={refreshUserData} 
+                    refreshUserData={refreshUserData}
                   />
                   <DetailRow
                     name="birthday-cake"
                     textLineOne="Birthday"
-                    textLineTwo={data.birthday}
+                    textLineTwo={details.birthday}
                     category="birthday"
-                    refreshUserData={refreshUserData} 
+                    refreshUserData={refreshUserData}
                   />
                   <DetailRow
                     name="venus-mars"
                     textLineOne="Gender"
-                    textLineTwo={data.gender}
+                    textLineTwo={details.gender}
                     category="gender"
-                    refreshUserData={refreshUserData} 
-            
+                    refreshUserData={refreshUserData}
                   />
                 </React.Fragment>
-              );
-            }
-            return null;
-          })}
         </View>
 
         <View style={styles.container}>
           <Text style={styles.yourinfo}>Health Info</Text>
-          {details.map((data, index) => {
-            if (data._id === _id) {
-              return (
-                <React.Fragment key={index}>
+                <React.Fragment>
                   <DetailRow
                     name="weight-hanging"
                     textLineOne="Weight"
-                    textLineTwo={data.weight}
+                    textLineTwo={details.weight}
                     kg
                     category="weight"
-                    refreshUserData={refreshUserData} 
+                    refreshUserData={refreshUserData}
                   />
                   <DetailRow
                     name="arrows-alt-v"
                     textLineOne="Height"
-                    textLineTwo={data.height}
+                    textLineTwo={details.height}
                     category="height"
-                    refreshUserData={refreshUserData} 
+                    refreshUserData={refreshUserData}
                   />
                   <DetailRow
                     name="tint"
                     textLineOne="Blood Group"
-                    textLineTwo={data.blood}
+                    textLineTwo={details.blood}
                     category="blood"
-                    refreshUserData={refreshUserData} 
+                    refreshUserData={refreshUserData}
                   />
                 </React.Fragment>
-              );
-            }
-            return null;
-          })}
         </View>
 
         {/* Change Password Section */}

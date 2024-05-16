@@ -11,8 +11,7 @@ import {
   Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-
-import axios from "axios";
+import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
 import Dropdown from "./Dropdown";
 import BirthdayCalendar from "./BirthdayCalendar";
@@ -175,7 +174,7 @@ const DetailRow = ({
     }
 
     // Make an HTTP PUT request to update the patient's information
-    axios
+    api
       .put(`${baseUrl}/patients/${id}`, updatedData) // Assuming your backend route for updating patient info is '/patients/:id'
       .then((response) => {
         console.log(

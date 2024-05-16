@@ -16,24 +16,24 @@ import DetailRowDoctor from "./components/DetailRowDoctor";
 import api from "../../Services/AuthService";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
+
 const DoctorProfileScreen = ({ navigation }) => {
   const { user } = useAuthContext();
 
   const [details, setDetails] = useState([]);
-  const [_id, setId] = useState("662e930c4c0bf9f41d0da56a");
+  const [_id, setId] = useState("6627c4c328a6a54a64fb544a");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [passwordChangeStatus, setPasswordChangeStatus] = useState(null);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     getDetails();
   }, []);
 
   const getDetails = () => {
-    axios
-      .get(`${baseUrl}/patients`)
+    api
+      .get(`${baseUrl}/doctors`)
       .then((response) => {
         setDetails(response.data);
       })
@@ -77,7 +77,7 @@ const DoctorProfileScreen = ({ navigation }) => {
       .post(baseUrl + "/changePassword", {
         currentPassword,
         newPassword,
-        userType: "patient",
+        userType: "doctor",
         id: user._id,
       })
       .then((response) => {
@@ -101,26 +101,32 @@ const DoctorProfileScreen = ({ navigation }) => {
 
   const handleForgotPassword = () => {
     // Navigate to ForgotPassword screen
-    navigation.navigate("ForgotPassword", { userType: "patient" });
+    navigation.navigate("ForgotPassword", { userType: "doctor" });
   };
 
   const refreshUserData = () => {
     getDetails(); // Fetch updated user data
   };
 
+ 
+
   return (
     <View style={styles.maincontainer}>
       <Header name="My Profile" />
       <ScrollView>
         <View style={styles.container}>
-          <TouchableOpacity>
+          {/* Profile Image */}
+          <TouchableOpacity >
             <View style={styles.profileImageContainer}>
-              <Image
-                source={require("../../../assets/patient.png")}
-                style={styles.profileImage}
-              />
+             
+                <Image
+                  source={require("../../../assets/patient.png")}
+                  style={styles.profileImage}
+                />
+          
             </View>
           </TouchableOpacity>
+
           <Text style={styles.yourinfo}>Your Info</Text>
           {details.map((data, index) => {
             if (data._id === _id) {
@@ -141,10 +147,10 @@ const DoctorProfileScreen = ({ navigation }) => {
                     refreshUserData={refreshUserData}
                   />
                   <DetailRowDoctor
-                    name="home"
-                    textLineOne="Address"
-                    textLineTwo={data.address}
-                    category="address"
+                    name="id-card"
+                    textLineOne="NIC Number"
+                    textLineTwo={data.nic}
+                    category="nic"
                     refreshUserData={refreshUserData}
                   />
                   <DetailRowDoctor
@@ -155,10 +161,10 @@ const DoctorProfileScreen = ({ navigation }) => {
                     refreshUserData={refreshUserData}
                   />
                   <DetailRowDoctor
-                    name="birthday-cake"
-                    textLineOne="Birthday"
-                    textLineTwo={data.birthday}
-                    category="birthday"
+                    name="user-md"
+                    textLineOne="Specialization"
+                    textLineTwo={data.specialization}
+                    category="specialization"
                     refreshUserData={refreshUserData}
                   />
                   <DetailRowDoctor

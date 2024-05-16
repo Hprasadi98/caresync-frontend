@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-import axios from "axios";
+import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
 
 import { Picker } from "@react-native-picker/picker";
@@ -32,48 +32,22 @@ const DetailRowDoctor = ({
   const [phone, setPhone] = useState("");
   const [first, setFirst] = useState("");
   const [second, setSecond] = useState("");
-  const [address, setAddress] = useState("");
+  const [nic, setNic] = useState("");
+  const [specialization, setSpecialization] = useState("");
 
-  const [selectedDate, setSelectedDate] = useState("");
+
   const [selectedGender, setSelectedGender] = useState("");
 
-  const [bloodGroup, setBloodGroup] = useState("");
-  const [selectedYear, setSelectedYear] = useState("2000");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedDay, setSelectedDay] = useState("");
-
-  // Function to generate years array (adjust as needed)
-  const generateYears = () => {
-    const years = [];
-    const currentYear = new Date().getFullYear();
-    for (let i = currentYear; i >= currentYear - 100; i--) {
-      years.push(i.toString());
-    }
-
-    return years;
-  };
 
 
 
-  const generateDays = () => {
-    const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-    const days = Array.from({ length: daysInMonth }, (_, index) =>
-      (index + 1).toString()
-    );
-    return days;
-  };
 
-
-
-  const _id = "662e930c4c0bf9f41d0da56a";
+  const _id = "6627c4c328a6a54a64fb544a";
   // console.log(booodGroup);
 
   const handleUpdateProfile = () => {
     // Prepare the updated data based on the category
-    console.log(
-      "Selected date:",
-      `${selectedYear}-${selectedMonth}-${selectedDay}`
-    );
+   
     let updatedData = {};
     switch (category) {
       case "fullName":
@@ -91,39 +65,38 @@ const DetailRowDoctor = ({
 
       case "email":
         if (email.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
+          
         } else {
-          updatedData = { email: email }; // Assuming your backend expects "email" field
+          updatedData = { email: email }; 
           break;
         }
-      case "address":
-        if (address.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
+      case "nic":
+        if (nic.trim() === "") {
+          
         } else {
-          updatedData = { address: address }; // Assuming your backend expects "email" field
+          updatedData = { nic: nic }; 
           break;
         }
       case "mobile":
         if (phone.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
+        
         } else {
-          updatedData = { mobileNumber: phone }; // Assuming your backend expects "mobile" field
+          updatedData = { mobileNumber: phone }; 
           break;
         }
 
-      case "birthday":
-        const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
-        if (selectedDate.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
-        } else {
-          updatedData = { birthday: selectedDate }; // Assuming your backend expects "birthday" field
-          break;
-        }
+        case "specialization":
+          if (specialization.trim() === "") {
+            
+          } else {
+            updatedData = { specialization: specialization }; 
+            break;
+          }
       case "gender":
         if (selectedGender.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
+      
         } else {
-          updatedData = { gender: selectedGender }; // Assuming your backend expects "gender" field
+          updatedData = { gender: selectedGender }; 
           break;
         }
 
@@ -131,18 +104,18 @@ const DetailRowDoctor = ({
         break;
     }
 
-    // Make an HTTP PUT request to update the patient's information
-    axios
-      .put(`${baseUrl}/patients/${_id}`, updatedData) // Assuming your backend route for updating patient info is '/patients/:id'
+    // Make an HTTP PUT request to update the doctor's information
+    api
+      .put(`${baseUrl}/doctors/${_id}`, updatedData) 
       .then((response) => {
         console.log(
-          "Patient information updated successfully: ",
+          "Doctor information updated successfully: ",
           response.data
         );
         refreshUserData();
       })
       .catch((error) => {
-        console.error("Failed to update patient information: ", error);
+        console.error("Failed to update doctor information: ", error);
         // Optionally, you can handle error cases
       });
 
@@ -187,15 +160,15 @@ const DetailRowDoctor = ({
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         );
-      case "address":
+      case "nic":
         return (
           <View style={styles.modalContent}>
-            <Text style={styles.title}>Edit Address</Text>
+            <Text style={styles.title}>Edit NIC Number</Text>
             <TextInput
               style={styles.input}
-              value={address}
-              onChangeText={(text) => setAddress(text)}
-              placeholder="Enter address"
+              value={nic}
+              onChangeText={(text) => setNic(text)}
+              placeholder="Enter NIC Number"
             />
             <Button title="Save" onPress={handleUpdateProfile} />
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
@@ -217,63 +190,16 @@ const DetailRowDoctor = ({
         );
       // Add more cases for other categories as needed
 
-      case "birthday":
+      case "specialization":
         return (
           <View style={styles.modalContent}>
-            <Text style={styles.title}>Select Birthday</Text>
-            <View style={styles.pickerContainer}>
-              <Picker
-                style={styles.picker}
-                selectedValue={selectedYear}
-                onValueChange={(itemValue) => setSelectedYear(itemValue)}
-              >
-                {generateYears().map((years) => (
-                  <Picker.Item
-                    style={styles.years}
-                    key={years}
-                    label={years}
-                    value={years}
-                    placeholder="Select Year"
-                  />
-                ))}
-
-                <Text>{selectedYear}</Text>
-              </Picker>
-
-              <Picker
-                style={styles.picker}
-                selectedValue={selectedMonth}
-                onValueChange={(itemValue) => setSelectedMonth(itemValue)}
-              >
-                <Picker.Item label="January" value="01" />
-                <Picker.Item label="February" value="02" />
-                <Picker.Item label="March" value="03" />
-                <Picker.Item label="April" value="04" />
-                <Picker.Item label="May" value="05" />
-                <Picker.Item label="June" value="06" />
-                <Picker.Item label="July" value="07" />
-                <Picker.Item label="August" value="08" />
-                <Picker.Item label="September" value="09" />
-                <Picker.Item label="October" value="10" />
-                <Picker.Item label="November" value="11" />
-                <Picker.Item label="December" value="12" />
-              </Picker>
-              <Picker
-                style={styles.picker}
-                selectedValue={selectedDay}
-                onValueChange={(itemValue) => setSelectedDay(itemValue)}
-              >
-                {generateDays().map((day) => (
-                  <Picker.Item
-                    key={day}
-                    label={day}
-                    value={day}
-                    style={styles.pickeritem}
-                  />
-                ))}
-              </Picker>
-            </View>
-
+            <Text style={styles.title}>Edit Specialization </Text>
+            <TextInput
+              style={styles.input}
+              value={specialization}
+              onChangeText={(text) => setSpecialization(text)}
+              placeholder="Enter Specialization"
+            />
             <Button title="Save" onPress={handleUpdateProfile} />
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
@@ -360,9 +286,9 @@ const styles = StyleSheet.create({
     marginLeft: 40,
   },
   iconContainer: {
-    marginTop: 8,
+    marginTop: -10,
     flexDirection: "row",
-    width: 30,
+    width: 40,
     justifyContent: "center",
     alignItems: "center",
   },

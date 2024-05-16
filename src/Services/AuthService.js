@@ -12,7 +12,7 @@ api.defaults.baseURL = baseUrl;
 api.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem("access-token");
-    console.log("Token:", token);
+    // console.log("Token:", token);
     config.headers.Authorization = `Bearer ${token}`;
     console.log("Intercepted");
     return config;

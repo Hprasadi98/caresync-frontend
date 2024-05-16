@@ -10,13 +10,16 @@ import {
 } from "react-native";
 import DisplayTime from "../../components/StopwatchDisplay";
 import BreathingTestDataStore from "./BreathingTestDataStore";
-import axios from "axios";
 
+import api from "../../../../Services/AuthService";
+
+import { useAuthContext } from "../../../../hooks/useAuthContext";
 import { baseUrl } from "../../../../constants/constants";
 
 const HoldButton = () => {
-  const padtoTwo = (number) => (number <= 9 ? `0${number}` : number); //display two digits 0-9
+  const { user } = useAuthContext();
 
+  const padtoTwo = (number) => (number <= 9 ? `0${number}` : number); //display two digits 0-9
   var date = new Date().getDate(); //To get the Current Date
   var month = new Date().getMonth() + 1; //To get the Current Month
   var year = new Date().getFullYear(); //To get the Current Year
@@ -26,15 +29,15 @@ const HoldButton = () => {
   const [time, setTime] = useState({ s: 0, m: 0, h: 0 });
   const [currentTime, setCurrentTime] = useState("");
   const intervalRef = useRef(null); //get interval reference in time
-
-  const pID = 212;
+  const [pID, setPID] = useState("");
 
   //integrate get result API
-  const getResults = () => {
-    axios
-      .get(`${baseUrl}/breathingTests`)
+  const getResults = (id) => {
+    api
+      .get(`${baseUrl}/breathingTests/${id}`)
       .then((response) => {
         setResult(response.data || []);
+        // console.log("Results", response.data);
       })
       .catch((error) => {
         console.error("Axios Error : ", error);
@@ -43,17 +46,18 @@ const HoldButton = () => {
 
   //post result API integration
   const addResults = (data) => {
-    //console.log(pID);
+    console.log("PID", pID);
     const payload = {
       pID: pID,
       date: data.date,
       systime: data.systime,
       stopwatchTime: data.stopwatchTime,
     };
-    axios
+
+    api
       .post(`${baseUrl}/breathingTests`, payload)
       .then(() => {
-        getResults();
+        getResults(pID);
       })
       .catch((error) => {
         console.error("Axios Error : ", error);
@@ -62,10 +66,10 @@ const HoldButton = () => {
 
   //delete all results API integration
   const deleteResults = () => {
-    axios
-      .delete(`${baseUrl}/breathingTests`)
+    api
+      .delete(`${baseUrl}/breathingTests/PatientData/${pID}`)
       .then(() => {
-        getResults();
+        getResults(pID);
       })
       .catch((error) => {
         console.error("Axios Error : ", error);
@@ -73,10 +77,11 @@ const HoldButton = () => {
   };
 
   const deleteOneResult = (id) => {
-    axios
-      .delete(`${baseUrl}/breathingTests/${id}`)
+    console.log("Delete ID", id);
+    api
+      .delete(`${baseUrl}/breathingTests/SingleTest/${id}`)
       .then(() => {
-        getResults();
+        getResults(pID);
       })
       .catch((error) => {
         console.error("Axios Error : ", error);
@@ -97,7 +102,9 @@ const HoldButton = () => {
 
   //load when start
   useEffect(() => {
-    getResults();
+    console.log("User from Test", user);
+    setPID(user._id);
+    getResults(user._id);
   }, []);
 
   var updatedS = time.s,
@@ -206,7 +213,10 @@ const HoldButton = () => {
           </View>
         </TouchableWithoutFeedback>
         <View style={styles.table}>
-          <BreathingTestDataStore sampleData={result} deleteOne={deleteOneResult}/>
+          <BreathingTestDataStore
+            sampleData={result}
+            deleteOne={deleteOneResult}
+          />
         </View>
         <View style={styles.resetTable}>
           <TouchableOpacity

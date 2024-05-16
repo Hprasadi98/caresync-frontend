@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Inputbar from './Inputbar';
-import { Ionicons } from '@expo/vector-icons';
+import InputBar from './Inputbar';
 
-const SymptomTypeDropdown = ({ selectedOption2, setSelectedOption2, options, setInputValue, placeholderText }) => {
-    // const [selectedOption1, setSelectedOption1] = useState(null);
-    const [isOpen, setIsOpen] = useState(false);
-    const [isOtherSelected, setIsOtherSelected] = useState(false);
+const SymptomTypeDropdown = ({ selectedSymptomType, setSelectedSymptomType, options, placeholderText }) => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isOtherOptionSelected, setIsOtherOptionSelected] = useState(false);
 
     const handleItemPress = (item) => {
-        setSelectedOption2(item);
-        setIsOpen(false); // Close dropdown
-        setIsOtherSelected(item === 'Other');
+        setSelectedSymptomType(item);
+        setIsDropdownOpen(false); // Close dropdown
+        setIsOtherOptionSelected(item === 'Other');
+        // setInputValue(null); // Reset input value when selecting from dropdown
     };
 
     return (
         <View style={styles.dropdownContainer}>
-            <TouchableOpacity onPress={() => setIsOpen(!isOpen)} style={styles.dropdownTrigger}>
-                <Text style={styles.selectedItem}>{selectedOption2 || placeholderText}</Text>
+            <TouchableOpacity onPress={() => setIsDropdownOpen(!isDropdownOpen)} style={styles.dropdownTrigger}>
+                <Text style={styles.selectedItem}>{selectedSymptomType || placeholderText}</Text>
             </TouchableOpacity>
-            {isOpen && (
+            {isDropdownOpen && (
                 <View style={styles.dropdownMenu}>
                     {options.map((item, index) => (
                         <TouchableOpacity key={index} onPress={() => handleItemPress(item)} style={styles.dropdownItem}>
@@ -28,27 +27,23 @@ const SymptomTypeDropdown = ({ selectedOption2, setSelectedOption2, options, set
                     ))}
                 </View>
             )}
-            {isOtherSelected && (
-                <View style={styles.inputbarcontainer}>
-                    <Inputbar text1="Other:" placeholder="type any other options" setInputValue={setInputValue} />
+            {isOtherOptionSelected && (
+                <View style={styles.inputBarContainer}>
+                    <InputBar text1="Other:" placeholder="Type any other options" />
                 </View>
             )}
         </View>
     );
 };
-export default SymptomTypeDropdown;
 
 const styles = StyleSheet.create({
     dropdownContainer: {
-        marginTop: 20,
+        marginTop: 10,
     },
     dropdownTrigger: {
-        marginLeft: 10,
-        marginTop: 10,
+        padding: 10,
         borderColor: '#8e8e8e',
         borderWidth: 1,
-        padding: 8,
-        width: '90%',
         borderRadius: 10,
     },
     selectedItem: {
@@ -57,29 +52,26 @@ const styles = StyleSheet.create({
     },
     dropdownMenu: {
         position: 'absolute',
-        top: 55,
-        left: 10,
+        top: 40,
+        left: 0,
         backgroundColor: '#f5f5f5',
         borderColor: '#8e8e8e',
         borderWidth: 1,
-        width: '90%',
+        width: '100%',
         zIndex: 2,
-        padding: 10,
         borderRadius: 10
     },
     dropdownItem: {
-        paddingVertical: 8,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
     },
     itemText: {
         fontSize: 16,
         fontWeight: '500',
     },
-    inputbarcontainer: {
-        marginLeft: "-5%",
-    },
-    placeholderText: {
-        fontWeight: '00', // Adjust font weight as needed
+    inputBarContainer: {
+        marginTop: 10,
     },
 });
 
-
+export default SymptomTypeDropdown;

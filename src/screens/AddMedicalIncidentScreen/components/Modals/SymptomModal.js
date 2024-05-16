@@ -1,41 +1,41 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import CustomDropdown from '../CustomDropdown';
 import DescriptionInputbar from '../DescriptionInputbar';
 import PainRating from '../PainRating';
 import SymptomTypeDropdown from '../SymptomTypeDropdown';
+import { baseUrl } from "../../../../constants/constants";
 
+const SymptomModal = ({
+  selectedStartDate,
+  selectedOption,
+  onClose,
+  recordName,
+  description,
 
+}) => {
+  // const [symptomDescription, setSymptomDescription] = useState(null);
+  const [selectedSymptomType, setSelectedSymptomType] = useState(null);
 
-const SymptomModal = ({ selectedStartDate, selectedOption, onClose }) => {
-  const [inputValue, setInputValue] = useState(null);
-
-
-
-  console.log(selectedStartDate);
+  console.log(recordName);
+  console.log(description);
   console.log(selectedOption);
-  console.log(inputValue);
+  console.log(selectedStartDate);
+  console.log(selectedSymptomType);
 
-
-
-  const saveIncidentSymptom = async () => {
+  const saveSymptomIncident = async () => {
     try {
-
-
-      const res = await fetch("http://192.168.34.128:4011/api/medicalIncident", {
+      const res = await fetch(`${baseUrl}/medicalIncident`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          recordName: recordName,
+          recordDescription: description,
           incidentType: selectedOption,
           date: selectedStartDate,
-          SymptomDescription: inputValue,
-          // Frequency:,
-          // severity:,
-          // duration:,
-
-
+          selectedSymptomType: selectedSymptomType,
 
 
         }),
@@ -46,7 +46,11 @@ const SymptomModal = ({ selectedStartDate, selectedOption, onClose }) => {
       const responseData = await res.json(); // Parse response body as JSON
 
       if (!res.ok) {
-        throw new Error(`Failed to save incident. Server response: ${JSON.stringify(responseData)}`);
+        throw new Error(
+          `Failed to save incident. Server response: ${JSON.stringify(
+            responseData
+          )}`
+        );
       }
 
       console.log("Success:", responseData);
@@ -55,35 +59,30 @@ const SymptomModal = ({ selectedStartDate, selectedOption, onClose }) => {
     }
   };
 
-
-
-
-
-
-
-
-
   return (
     <View style={styles.modalContainer}>
       <Text style={styles.modalText}>Add Symptom Details</Text>
 
-
       <View style={styles.contentContainer}>
-        <Text style={styles.label}>Symptop Type:</Text>
+        <Text style={styles.label}>Symptom Type:</Text>
         <View style={styles.dropdowncontainer}>
-          <SymptomTypeDropdown options={['Cough', 'Chest Pain', 'Fever', 'Wheeze', 'Other']} placeholderText="Select from the list" />
-        </View>
-        <Text style={styles.label}>Symptop Description:</Text>
-
-
-        <View style={styles.inputcontainer}>
-          <DescriptionInputbar text1=""
-            placeholder="Enter description here"
-            inputValue={inputValue}
-            setInputValue={setInputValue}
+          <SymptomTypeDropdown
+            options={['Cough', 'Chest Pain', 'Fever', 'Wheeze', 'Other']}
+            placeholderText="Select from the list"
+            selectedSymptomType={selectedSymptomType}
+            setSelectedSymptomType={setSelectedSymptomType}
+          // setInputValue={setSymptomDescription} // Assuming symptomDescription is the input value for "Other"
           />
         </View>
-
+        <Text style={styles.label}>Symptom Description:</Text>
+        <View style={styles.inputcontainer}>
+          <DescriptionInputbar
+            text1=""
+            placeholder="Enter description here"
+          // inputValue={symptomDescription}
+          // setInputValue={setSymptomDescription}
+          />
+        </View>
         <Text style={styles.label}>Frequency:</Text>
         <View style={styles.dropdowncontainer}>
           <CustomDropdown options={['Single time a day', 'Once in two days', 'Once in a week', 'Other']} placeholderText="Select from the list" />
@@ -96,19 +95,15 @@ const SymptomModal = ({ selectedStartDate, selectedOption, onClose }) => {
         </View>
       </View>
 
-
-
       <View style={styles.buttonContainer}>
-
         <View style={styles.buttonWrapper}>
           <Button title="Close" onPress={onClose} color="#00567D" />
         </View>
         <View style={styles.buttonWrapper}>
-          <Button title="OK" onPress={saveIncidentSymptom} color="#00567D" />
+          <Button title="OK" onPress={saveSymptomIncident} color="#00567D" />
         </View>
       </View>
     </View>
-
   );
 };
 
@@ -131,13 +126,6 @@ const styles = StyleSheet.create({
     padding: 15,
     width: '94%',
   },
-
-  topic: {
-    paddingTop: 30,
-    fontSize: 18,
-    paddingLeft: 15,
-    fontWeight: '800'
-  },
   modalText: {
     fontSize: 23,
     fontWeight: '900',
@@ -145,7 +133,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     padding: 10,
     color: "#013d59"
-
   },
   contentContainer: {
     width: '100%',
@@ -159,7 +146,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '92%',
     left: 30,
-    // right: 15,
     top: 710,
   },
   buttonWrapper: {
@@ -174,18 +160,11 @@ const styles = StyleSheet.create({
   inputcontainer: {
     marginVertical: '-16%',
     paddingBottom: '8%'
-
   },
   dropdowncontainer: {
     marginLeft: '4%',
-
     marginVertical: '-6%',
-
-
-
   },
-
-
 });
 
 export default SymptomModal;

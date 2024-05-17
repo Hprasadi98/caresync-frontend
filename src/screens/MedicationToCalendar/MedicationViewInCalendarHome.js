@@ -11,7 +11,7 @@ import { Calendar } from "react-native-calendars";
 import { Ionicons } from "@expo/vector-icons";
 import { baseUrl } from "../../constants/constants";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../Services/AuthService";
 
 //navigate to medication adding form
 const MedicationView = ({ navigation, route }) => {
@@ -69,7 +69,7 @@ const MedicationView = ({ navigation, route }) => {
 
   const deleteOneResult = (id) => {
     console.log(id);
-    axios
+    api
       .delete(`${baseUrl}/medication/${id}`)
       .then(() => {
         getmedication();

@@ -16,7 +16,7 @@ import {
   AntDesign,
 } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../Services/AuthService"
 import { baseUrl } from "../../constants/constants";
 import { format, addDays, eachDayOfInterval } from "date-fns";
 
@@ -80,7 +80,7 @@ const AddMedication = ({ navigation,route }) => {
       description: description,
     };
     //console.log(payload);
-    axios
+    api
       .post(`${baseUrl}/medication`, payload)
       .then(() => {
         console.log("add");
@@ -104,7 +104,7 @@ const AddMedication = ({ navigation,route }) => {
       description: description,
     };
     //console.log(payload);
-    axios
+    api
       .put(`${baseUrl}/medication/${id}`,payload)
       .then((response) => {
         console.log("updated");

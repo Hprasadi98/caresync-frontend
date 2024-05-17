@@ -33,6 +33,7 @@ const SymptomModal = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          type: "symptom",
           recordName: recordName,
           recordDescription: description,
           incidentType: selectedOption,

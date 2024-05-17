@@ -25,6 +25,7 @@ const TestModal = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          type: "test",
           recordName: recordName,
           recordDescription: description,
           incidentType: selectedOption,

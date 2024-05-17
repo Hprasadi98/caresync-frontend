@@ -12,7 +12,9 @@ const DoctorDashboard = ({ navigation }) => {
     {/* // Top Panel */}
       <View style={styles.topPanel}>
         <Text style={styles.titleMain}>CareSync</Text>
-        <TouchableOpacity style={styles.profileButton}>
+        <TouchableOpacity style={styles.profileButton}  onPress={() => {
+              navigation.navigate("DoctorProfileScreen");
+            }}>
           <View style={styles.profileImageContainer}>
             <Image
               source={require("../../../assets/Person.png")}

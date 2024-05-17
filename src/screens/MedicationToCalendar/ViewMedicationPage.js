@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList ,ActivityIndicator} from "react-native";
 import Header from "../MedicalTestHomeScreen/components/Header";
 import { useState, useEffect } from "react";
 import { baseUrl } from "../../constants/constants";
 
 const ViewMedication = ({ route }) => {
   const [medidetail, setmedidetail] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const { selectedday } = route.params;
   const day = new Date(selectedday.dateString);
@@ -18,6 +19,7 @@ const ViewMedication = ({ route }) => {
   }, [selectedday.dateString]);
 
   const getmedicationforDay = (day) => {
+    setLoading(true);
     console.log(day);
     const URL = `${baseUrl}/medication/${day}`;
     fetch(URL)
@@ -27,11 +29,31 @@ const ViewMedication = ({ route }) => {
       .then((data) => {
         setmedidetail(data.response);
         //console.log("Medi data",data.response);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error:", error);
+        setLoading(false);
       });
   };
+
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (!loading && medidetail.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text>No Medications for {dayOfWeekFull}</Text>
+      </View>
+    );
+  }
+
   return (
     <View>
       <Header name="View Medication" />
@@ -69,6 +91,11 @@ const ViewMedication = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   dateContainer: {
     display: "flex",
     flexDirection: "row",

@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import Header from "../MedicalTestHomeScreen/components/Header";
 import { Calendar } from "react-native-calendars";
@@ -25,9 +26,11 @@ const MedicationView = ({ navigation, route }) => {
 
   const [medidetail, setmedidetail] = useState([]);
   const [markedDates, setMarkedDates] = useState({});
+  const [loading, setLoading] = useState(true);
 
   //API integration for get results
   const getmedication = () => {
+    setLoading(true);
     const URL = `${baseUrl}/medication`;
     fetch(URL)
       .then((res) => {
@@ -37,9 +40,11 @@ const MedicationView = ({ navigation, route }) => {
         setmedidetail(data);
         //console.log(data);
         markDates(data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Axios Error : ", error);
+        setLoading(false);
       });
   };
 
@@ -90,6 +95,7 @@ const MedicationView = ({ navigation, route }) => {
   const viewMedication = (day) => {
     navigation.navigate("ViewMedication", { selectedday: day });
   };
+
   return (
     <View style={{ backgroundColor: "#D9F8FF", flex: 1 }}>
       <Header name="Medication" />
@@ -107,50 +113,62 @@ const MedicationView = ({ navigation, route }) => {
         }}
         markedDates={markedDates}
       />
-
-      <FlatList
-        data={medidetail}
-        renderItem={({ item }) => (
-          <View style={styles.listContainer}>
-            <View style={styles.dateContainer}>
-              <Text style={styles.datetext}>{item.date}</Text>
-            </View>
-            <Text style={styles.medicineNametext}>{item.medicine}</Text>
-            <Text style={styles.daystext}>For {item.days} Day/s</Text>
-            <View style={styles.detailContainer}>
-              <Text style={styles.pilltext}>{item.pills} pill/s</Text>
-              <Text style={styles.timestext}>{item.times} time/s per day</Text>
-              <Text style={styles.bawtext}>{item.baw} meal</Text>
-            </View>
-            {item.description !== null && item.description !== "" && (
-              <Text style={styles.descriptiontext}>{item.description}</Text>
-            )}
-            <View style={styles.listbottom}>
-              <View style={styles.byContainer}>
-                <Text style={styles.bytext}>By {item.by}</Text>
+      {loading ? (
+        <View style={styles.centered}>
+          <ActivityIndicator size="large" color="#0000ff" />
+          <Text>Loading...</Text>
+        </View>
+      ) : medidetail.length === 0 ? (
+        <View style={styles.centered}>
+          <Text>No medications</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={medidetail}
+          renderItem={({ item }) => (
+            <View style={styles.listContainer}>
+              <View style={styles.dateContainer}>
+                <Text style={styles.datetext}>{item.date}</Text>
               </View>
-              <View style={styles.editdeleteContainer}>
-                <TouchableOpacity
-                  onPress={() => {
-                    console.log(item._id);
-                    updateMedication(item._id);
-                  }}
-                >
-                  <Text style={styles.edittext}>Edit</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    deleteOneResult(item._id);
-                  }}
-                >
-                  <Text style={styles.deletetext}>Delete</Text>
-                </TouchableOpacity>
+              <Text style={styles.medicineNametext}>{item.medicine}</Text>
+              <Text style={styles.daystext}>For {item.days} Day/s</Text>
+              <View style={styles.detailContainer}>
+                <Text style={styles.pilltext}>{item.pills} pill/s</Text>
+                <Text style={styles.timestext}>
+                  {item.times} time/s per day
+                </Text>
+                <Text style={styles.bawtext}>{item.baw} meal</Text>
+              </View>
+              {item.description !== null && item.description !== "" && (
+                <Text style={styles.descriptiontext}>{item.description}</Text>
+              )}
+              <View style={styles.listbottom}>
+                <View style={styles.byContainer}>
+                  <Text style={styles.bytext}>By {item.by}</Text>
+                </View>
+                <View style={styles.editdeleteContainer}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      console.log(item._id);
+                      updateMedication(item._id);
+                    }}
+                  >
+                    <Text style={styles.edittext}>Edit</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      deleteOneResult(item._id);
+                    }}
+                  >
+                    <Text style={styles.deletetext}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
-        )}
-      ></FlatList>
-
+          )}
+        />
+      )
+      }
       <TouchableOpacity
         style={styles.roundedPlusButton}
         onPress={() => {
@@ -160,10 +178,15 @@ const MedicationView = ({ navigation, route }) => {
         <Ionicons name="add-circle" size={60} color="#00567D" />
       </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   roundedPlusButton: {
     position: "absolute",
     bottom: 10,

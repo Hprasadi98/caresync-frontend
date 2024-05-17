@@ -40,13 +40,14 @@ const DetailRow = ({
 
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
-  const [selectedWeight, setSelectedWeight] = useState(textLineTwo);
-  const [selectedHeight, setSelectedHeight] = useState(textLineTwo);
+  const [weight, setWeight] = useState("");
+  const [height, setHeight] = useState("");
 
   const [bloodGroup, setBloodGroup] = useState("");
-  const [selectedYear, setSelectedYear] = useState("2000");
+  const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
+  const [nic, setNic] = useState("");
 
   // Function to generate years array (adjust as needed)
   const generateYears = () => {
@@ -59,17 +60,7 @@ const DetailRow = ({
     return years;
   };
 
-  // Function to generate days array based on selected month and year (adjust as needed)
-  // const generateDays = () => {
-  //   if (!selectedYear || !selectedMonth) return [];
-  //   const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-  //   const days = [];
-  //   for (let i = 1; i <= daysInMonth; i++) {
-  //     days.push(i.toString());
-  //   }
-  //   return days;
-  // };
-
+ 
   const generateDays = () => {
     const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
     const days = Array.from({ length: daysInMonth }, (_, index) =>
@@ -82,19 +73,7 @@ const DetailRow = ({
     setBloodGroup(selectedGroup);
   };
 
-  const handleDate = (selectedDate) => {
-    setSelectedDate(selectedDate);
-  };
 
-  // const handleUpdateProfile = () => {
-  //   // Update profile with new full name
-  //   console.log("New full name: ", inputValue);
-
-  //   setNewFullName(inputValue);
-  //   setModalVisible(false);
-  // };
-
-  // console.log(booodGroup);
 
   const handleUpdateProfile = () => {
     // Prepare the updated data based on the category
@@ -121,22 +100,28 @@ const DetailRow = ({
         if (email.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
         } else {
-          updatedData = { email: email }; // Assuming your backend expects "email" field
+          updatedData = { email: email }; 
           break;
         }
+        case "nic":
+          if (nic.trim() === "") {
+            
+          } else {
+            updatedData = { nic: nic }; 
+            break;
+          }
       case "address":
         if (address.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
         } else {
-          updatedData = { address: address }; // Assuming your backend expects "email" field
+          updatedData = { address: address }; 
           break;
         }
       case "mobile":
         if (phone.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
         } else {
-          updatedData = { mobileNumber: phone }; // Assuming your backend expects "mobile" field
-          break;
+          updatedData = { mobileNumber: phone }; 
         }
 
       case "birthday":
@@ -144,29 +129,38 @@ const DetailRow = ({
         if (selectedDate.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
         } else {
-          updatedData = { birthday: selectedDate }; // Assuming your backend expects "birthday" field
+          updatedData = { birthday: selectedDate };
           break;
         }
       case "gender":
         if (selectedGender.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
         } else {
-          updatedData = { gender: selectedGender }; // Assuming your backend expects "gender" field
+          updatedData = { gender: selectedGender }; 
           break;
         }
       case "weight":
-        updatedData = { weight: selectedWeight }; // Assuming your backend expects "weight" field
-        break;
+        if (weight.trim() === "") {
+          // Alert.alert("Error", "Please enter a name");
+        } else {
+          updatedData = {  weight: weight };
+          break;
+        }
+        
 
       case "height":
-        updatedData = { height: selectedHeight }; // Assuming your backend expects "height" field
-        break;
-
+        if (height.trim() === "") {
+          // Alert.alert("Error", "Please enter a name");
+        } else {
+          updatedData = { height: height }; 
+          break;
+        }
+      
       case "blood":
         if (bloodGroup.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
         } else {
-          updatedData = { blood: bloodGroup }; // Assuming your backend expects "bloodGroup" field
+          updatedData = { blood: bloodGroup };
           break;
         }
       default:
@@ -175,7 +169,7 @@ const DetailRow = ({
 
     // Make an HTTP PUT request to update the patient's information
     api
-      .put(`${baseUrl}/patients/${id}`, updatedData) // Assuming your backend route for updating patient info is '/patients/:id'
+      .put(`${baseUrl}/patients/${id}`, updatedData)
       .then((response) => {
         console.log(
           "Patient information updated successfully: ",
@@ -183,25 +177,7 @@ const DetailRow = ({
         );
         refreshUserData();
 
-        // Optionally, you can perform additional actions after successful update
-        // switch (category) {
-        //   case "fullName":
-        //     setNewFullName(fullName); // Assuming you have a state variable for fullName
-        //     break;
-        //   case "email":
-        //     setEmail(email); // Assuming you have a state variable for email
-        //     break;
-        //   case "mobile":
-        //     setPhone(phone); // Assuming you have a state variable for phone
-        //     break;
-        //   case "birthday":
-        //     setSelectedDate(selectedDate);
-        //     break;
-        //   case "gender":
-        //     setSelectedGender(selectedGender);
-        //     break;
 
-        // }
       })
       .catch((error) => {
         console.error("Failed to update patient information: ", error);
@@ -212,46 +188,7 @@ const DetailRow = ({
     setModalVisible(false);
   };
 
-  const incrementWeight = () => {
-    setSelectedWeight(selectedWeight + 1);
-  };
 
-  const decrementWeight = () => {
-    if (selectedWeight > 0) {
-      setSelectedWeight(selectedWeight - 1);
-    }
-  };
-
-  const incrementHeight = () => {
-    setSelectedHeight(selectedHeight + 1);
-  };
-
-  const decrementHeight = () => {
-    if (selectedHeight > 0) {
-      setSelectedHeight(selectedHeight - 1);
-    }
-  };
-
-  // const handleBloodGroupSelection = (group) => {
-  //   setSelectedBloodGroup(group);
-  //   setIsDropdownOpen(false);
-  // };
-  // const renderDropdown = () => {
-  //   if (!isDropdownOpen) return null;
-  //   return (
-  //     <View style={styles.dropdown}>
-  //       {bloodGroups.map((group, index) => (
-  //         <TouchableOpacity
-  //           key={index}
-  //           style={styles.dropdownItem}
-  //           onPress={() => handleBloodGroupSelection(group)}
-  //         >
-  //           <Text>{group}</Text>
-  //         </TouchableOpacity>
-  //       ))}
-  //     </View>
-  //   );
-  // };
 
   // Define modal content based on category
   const renderModalContent = () => {
@@ -290,6 +227,20 @@ const DetailRow = ({
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         );
+        case "nic":
+          return (
+            <View style={styles.modalContent}>
+              <Text style={styles.title}>Edit NIC Number</Text>
+              <TextInput
+                style={styles.input}
+                value={nic}
+                onChangeText={(text) => setNic(text)}
+                placeholder="Enter NIC Number"
+              />
+              <Button title="Save" onPress={handleUpdateProfile} />
+              <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            </View>
+          );
       case "address":
         return (
           <View style={styles.modalContent}>
@@ -418,22 +369,14 @@ const DetailRow = ({
       case "weight":
         return (
           <View style={styles.modalContent}>
-            <Text style={styles.title}>Select Weight</Text>
-            <View style={styles.weightControl}>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={incrementWeight}
-              >
-                <Icon name="caret-up" size={20} color="black" />
-              </TouchableOpacity>
-              <Text style={styles.selectedWeight}>{selectedWeight}</Text>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={decrementWeight}
-              >
-                <Icon name="caret-down" size={20} color="black" />
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.title}>Edit Your Weight</Text>
+          
+            <TextInput
+              style={styles.input}
+              value={weight}
+              onChangeText={(text) => setWeight(text)}
+              placeholder="Enter your weight in kg"
+            />
             <Button title="Save" onPress={handleUpdateProfile} />
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
@@ -442,22 +385,14 @@ const DetailRow = ({
       case "height":
         return (
           <View style={styles.modalContent}>
-            <Text style={styles.title}>Select height</Text>
-            <View style={styles.heightControl}>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={incrementHeight}
-              >
-                <Icon name="caret-up" size={20} color="black" />
-              </TouchableOpacity>
-              <Text style={styles.selectedheight}>{selectedHeight}</Text>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={decrementHeight}
-              >
-                <Icon name="caret-down" size={20} color="black" />
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.title}>Edit Your height</Text>
+            <TextInput
+              style={styles.input}
+              value={height}
+              onChangeText={(text) => setHeight(text)}
+              placeholder="Enter your height in cm"
+            />
+            
             <Button title="Save" onPress={handleUpdateProfile} />
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
@@ -522,9 +457,9 @@ const styles = StyleSheet.create({
     marginLeft: 40,
   },
   iconContainer: {
-    marginTop: 8,
+    marginTop: 0,
     flexDirection: "row",
-    width: 30,
+    width: 35,
     justifyContent: "center",
     alignItems: "center",
   },

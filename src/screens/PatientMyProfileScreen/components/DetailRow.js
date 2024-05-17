@@ -33,7 +33,7 @@ const DetailRow = ({
 
   const [fullname, setfullName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [mobileNumber, setmobileNumber] = useState("");
   const [first, setFirst] = useState("");
   const [second, setSecond] = useState("");
   const [address, setAddress] = useState("");
@@ -47,7 +47,20 @@ const DetailRow = ({
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
-  const [nic, setNic] = useState("");
+  const [nic, setNic] = useState("")
+
+
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await api.get(`${baseUrl}/${email}`);
+      return response.data.exists;
+    } catch (error) {
+      console.error('Error checking email:', error);
+      throw error;
+    }
+  };
+
+
 
   // Function to generate years array (adjust as needed)
   const generateYears = () => {
@@ -75,7 +88,30 @@ const DetailRow = ({
 
 
 
-  const handleUpdateProfile = () => {
+  const handleUpdateProfile = async () => {
+     // Check if the email is valid
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^[0-9]{10}$/;
+  const weightRegex = /^[0-9]{1,3}$/;
+  const heightRegex = /^[0-9]{1,3}$/;
+
+ 
+
+  try {
+    // Check if the email already exists in the database
+    const emailExists = await checkEmailExists(email);
+    if (emailExists) {
+      Alert.alert('Error', 'This email is already in use. Please choose another one.');
+      return;
+    }
+  }
+catch (error) {
+  console.error('Failed to update patient information:', error);
+  // Optionally, you can handle error cases
+  Alert.alert('Error', 'Failed to update patient information. Please try again later.');
+}
+
+
     // Prepare the updated data based on the category
     console.log(
       "Selected date:",
@@ -99,7 +135,13 @@ const DetailRow = ({
       case "email":
         if (email.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
-        } else {
+        }
+        if (!emailRegex.test(email)) {
+          Alert.alert('Error', 'Please enter a valid email address');
+          return;
+        }
+        
+        else {
           updatedData = { email: email }; 
           break;
         }
@@ -118,10 +160,16 @@ const DetailRow = ({
           break;
         }
       case "mobile":
-        if (phone.trim() === "") {
+        if (mobileNumber.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
-        } else {
-          updatedData = { mobileNumber: phone }; 
+        }
+        if (!phoneRegex.test(mobileNumber)) {
+          Alert.alert('Error', 'Please enter a valid 10-digit phone number');
+          return;
+        } 
+        else {
+          updatedData = { mobileNumber: mobileNumber }; 
+          break;
         }
 
       case "birthday":
@@ -142,7 +190,11 @@ const DetailRow = ({
       case "weight":
         if (weight.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
-        } else {
+        } 
+        if (!weightRegex.test(weight)) {
+          Alert.alert('Error', 'Please enter a valid weight');
+          return;
+        }else {
           updatedData = {  weight: weight };
           break;
         }
@@ -151,7 +203,10 @@ const DetailRow = ({
       case "height":
         if (height.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
-        } else {
+        }  if (!heightRegex.test(height)) {
+          Alert.alert('Error', 'Please enter a valid height');
+          return;
+        }else {
           updatedData = { height: height }; 
           break;
         }
@@ -261,8 +316,8 @@ const DetailRow = ({
             <Text style={styles.title}>Edit Mobile Number</Text>
             <TextInput
               style={styles.input}
-              value={phone}
-              onChangeText={(text) => setPhone(text)}
+              value={mobileNumber}
+              onChangeText={(text) => setmobileNumber(text)}
               placeholder="Enter new mobile number"
             />
             <Button title="Save" onPress={handleUpdateProfile} />

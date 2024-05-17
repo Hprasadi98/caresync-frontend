@@ -11,18 +11,17 @@ import {
 } from "react-native";
 import Header from "../MedicalTestHomeScreen/components/Header";
 import { TextInput, RadioButton } from "react-native-paper";
-import {
-  EvilIcons,
-  AntDesign,
-} from "@expo/vector-icons";
+import { EvilIcons, AntDesign } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
-import api from "../../Services/AuthService"
+import api from "../../Services/AuthService";
 import { baseUrl } from "../../constants/constants";
 import { format, addDays, eachDayOfInterval } from "date-fns";
+import DatePicker from "react-native-modern-datepicker";
 
-const AddMedication = ({ navigation,route }) => {
+const AddMedication = ({ navigation, route }) => {
   const [medicineName, setMedicineName] = useState("");
   const [dateInput, setDateInput] = useState("");
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [pillAmount, setPillAmount] = useState("");
   const [noofdays, setnoofDays] = useState("");
   const [choosePeriod, setchoosePeriod] = useState(1);
@@ -34,9 +33,12 @@ const AddMedication = ({ navigation,route }) => {
   var month = new Date().getMonth() + 1;
   var year = new Date().getFullYear();
   let sDate = `${year}-${padtoTwo(month)}-${padtoTwo(date)}`;
-  const [isEdit,setisEdit] = useState(false);
+  const [isEdit, setisEdit] = useState(false);
 
   const { selectedItem } = route.params;
+
+  const today = new Date();
+  const startingDate = format(new Date(today), "yyyy-MM-dd");
 
   useEffect(() => {
     console.log(selectedItem);
@@ -105,7 +107,7 @@ const AddMedication = ({ navigation,route }) => {
     };
     //console.log(payload);
     api
-      .put(`${baseUrl}/medication/${id}`,payload)
+      .put(`${baseUrl}/medication/${id}`, payload)
       .then((response) => {
         console.log("updated");
         //console.log(response.data);
@@ -126,9 +128,9 @@ const AddMedication = ({ navigation,route }) => {
         {
           text: "ok",
           onPress: () => {
-            if(!isEdit) {
+            if (!isEdit) {
               addmedication();
-            }else{
+            } else {
               updatemedication(selectedItem._id);
             }
             refreshMedicationView();
@@ -149,6 +151,10 @@ const AddMedication = ({ navigation,route }) => {
   const onPressItem = (option) => {
     changeModalVisibility(false);
     setchoosePeriod(option);
+  };
+
+  const handleOnPressStartDate = () => {
+    setOpenStartDatePicker(!openStartDatePicker);
   };
 
   //map time options with the modal items
@@ -188,11 +194,46 @@ const AddMedication = ({ navigation,route }) => {
               placeholder="yyyy-mm-dd"
               onChangeText={setDateInput}
               style={styles.textName}
+              value={dateInput}
             />
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={handleOnPressStartDate}>
               <EvilIcons name="calendar" size={28} color="gray" />
             </TouchableOpacity>
           </View>
+
+          {/*create modal for date picker */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={openStartDatePicker}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <DatePicker
+                  mode="calendar"
+                  minimumDate={startingDate}
+                  onSelectedChange={(day) => {
+                    const formattedDate = day.replace(/\//g, "-");
+                    setDateInput(formattedDate);
+                    console.log(formattedDate);
+                  }}
+                  options={{
+                    backgroundColor: "white",
+                    textHeaderColor: "#469ab6",
+                    textDefaultColor: "black",
+                    selectedTextColor: "black",
+                    mainColor: "#469ab6",
+                    textSecondaryColor: "black",
+                    borderColor: "rgba(122, 146, 165, 0.1)",
+                  }}
+                />
+
+                <TouchableOpacity onPress={handleOnPressStartDate}>
+                  <Text style={{ color: "black" }}>Close</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
 
           <Text style={styles.topics}>Dosage & Duration</Text>
           <Text style={styles.subtopics}>
@@ -301,7 +342,9 @@ const AddMedication = ({ navigation,route }) => {
           />
           <View style={{ alignItems: "center", padding: 10 }}>
             <TouchableOpacity style={styles.button} onPress={AlertBox}>
-              <Text style={styles.buttontext}>{isEdit?"Update Medication":"Add Medication"}</Text>
+              <Text style={styles.buttontext}>
+                {isEdit ? "Update Medication" : "Add Medication"}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -311,6 +354,28 @@ const AddMedication = ({ navigation,route }) => {
 };
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    padding: 35,
+    width: "90%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
   container: {
     width: "95%",
     height: "80%",

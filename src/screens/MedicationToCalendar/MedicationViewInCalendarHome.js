@@ -38,7 +38,7 @@ const MedicationView = ({ navigation, route }) => {
       })
       .then((data) => {
         setmedidetail(data);
-        //console.log(data);
+        console.log(data);
         markDates(data);
         setLoading(false);
       })

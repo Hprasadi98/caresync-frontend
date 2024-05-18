@@ -5,6 +5,7 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import Header from "../MedicalTestHomeScreen/components/Header";
 import { Calendar } from "react-native-calendars";
@@ -38,7 +39,7 @@ const MedicationView = ({ navigation, route }) => {
       })
       .then((data) => {
         setmedidetail(data);
-        console.log(data);
+        //console.log(data);
         markDates(data);
         setLoading(false);
       })
@@ -77,6 +78,26 @@ const MedicationView = ({ navigation, route }) => {
       .catch((error) => {
         console.error("Axios Error : ", error);
       });
+  };
+
+  const confirmDelete = (id) => {
+    console.log(id);
+    Alert.alert(
+      "Confirm Delete",
+      "Added by doctor, Are you sure you want to delete this medication?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {
+            console.log("Cancel deletion");
+          },
+        },
+        {
+          text: "OK",
+          onPress: () => deleteOneResult(id),
+        },
+      ]   
+    );
   };
 
   const addMedication = () => {
@@ -148,16 +169,21 @@ const MedicationView = ({ navigation, route }) => {
                 </View>
                 <View style={styles.editdeleteContainer}>
                   <TouchableOpacity
+                    disabled={item.by !== "patient"}
                     onPress={() => {
-                      console.log(item._id);
+                      //console.log(item._id);
                       updateMedication(item._id);
                     }}
                   >
-                    <Text style={styles.edittext}>Edit</Text>
+                    <Text style={[styles.edittext, item.by !== "patient" && styles.disabledButton,]}>Edit</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
+                      if (item.by !== "patient") {
+                        confirmDelete(item._id);
+                      } else{
                       deleteOneResult(item._id);
+                      }
                     }}
                   >
                     <Text style={styles.deletetext}>Delete</Text>
@@ -278,6 +304,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignContent: "center",
     borderRadius: 10,
+  },
+  disabledButton:{
+    backgroundColor: "gray",
   },
   deletetext: {
     paddingLeft: 10,

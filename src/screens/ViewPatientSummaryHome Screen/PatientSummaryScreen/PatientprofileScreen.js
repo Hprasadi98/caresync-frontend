@@ -47,6 +47,11 @@ function PatientProfileScreen({ route, navigation }) {
               lastName={item.lastName}
               nic={item.nic}
               email={item.email}
+              blood={item.blood}
+              weight={item.weight}
+              height={item.height}
+              gender={item.gender}
+              
             />
           </View>
         </View>
@@ -82,7 +87,7 @@ function PatientProfileScreen({ route, navigation }) {
                 marginLeft: 20,
                 marginTop: 20,
               }}
-              onPress={() => navigation.navigate("MedicationsScreen")}
+              onPress={() => navigation.navigate("MedicationHome")}
             >
               <Image
                 style={styles.img}
@@ -103,13 +108,13 @@ function PatientProfileScreen({ route, navigation }) {
                 marginLeft: 20,
                 marginTop: 20,
               }}
-              onPress={() => navigation.navigate}
+              onPress={() => navigation.navigate("ContactPatientScreen")}
             >
               <Image
                 style={styles.img}
                 source={require("../../ViewPatientSummaryHome Screen/Images/doc.png")}
               />
-              <Text style={styles.text}>Past Appointments </Text>
+              <Text style={styles.text}>Contact Patient</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.tile1}>
@@ -129,27 +134,6 @@ function PatientProfileScreen({ route, navigation }) {
                 source={require("../../ViewPatientSummaryHome Screen/Images/doc.png")}
               />
               <Text style={styles.text}>Test Results</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.row1}>
-          <View style={styles.tile1}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "white",
-                height: 120,
-                width: 160,
-                borderRadius: 15,
-                marginLeft: 20,
-                marginTop: 20,
-              }}
-              onPress={() => navigation.navigate}
-            >
-              <Image
-                style={styles.img}
-                source={require("../../ViewPatientSummaryHome Screen/Images/doc.png")}
-              />
-              <Text style={styles.text}>Contact Patient</Text>
             </TouchableOpacity>
           </View>
         </View>

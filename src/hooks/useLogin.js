@@ -1,6 +1,7 @@
 import { useAuthContext } from "../hooks/useAuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { baseUrl } from "../constants/constants";
+import { jwtDecode } from "jwt-decode";
 
 export const useLogin = () => {
   const { dispatch } = useAuthContext();
@@ -18,7 +19,7 @@ export const useLogin = () => {
       });
 
       const data = await response.json();
-      console.log("data", data);
+      console.log("data from use login", data);
       console.log("response", response.status);
       if (response.status === 200) {
         await AsyncStorage.setItem("access-token", data.accessToken);
@@ -26,8 +27,11 @@ export const useLogin = () => {
 
         // console.log("AT: " + (await AsyncStorage.getItem("access-token")));
         // console.log("RT: " + (await AsyncStorage.getItem("refresh-token")));
-        // dispatch({ type: "LOGIN", payload: data });
+       
+        dispatch({ type: "LOGIN", payload: jwtDecode(data.accessToken) });
         return { status: "success", data };
+      } else if (data.error === "User not verified") {
+        return { status: "notVerified" };
       } else if (data.error === "Medical Id not verified") {
         return { status: "notVerified" };
       } else {

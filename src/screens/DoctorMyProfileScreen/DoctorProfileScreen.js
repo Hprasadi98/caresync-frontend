@@ -12,15 +12,15 @@ import {
 import { baseUrl } from "../../constants/constants";
 import axios from "axios";
 import Header from "../../components/Header";
-import DetailRow from "./components/DetailRow";
+import DetailRowDoctor from "./components/DetailRowDoctor";
 import api from "../../Services/AuthService";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-const MyprofileScreen = ({ navigation }) => {
+const DoctorProfileScreen = ({ navigation }) => {
   const { user } = useAuthContext();
 
   const [details, setDetails] = useState([]);
-  const [id, setId] = useState();
+  const [_id, setId] = useState("6627c4c328a6a54a64fb544a");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -28,14 +28,12 @@ const MyprofileScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("User in MyProfileScreen:", user);
-    setId(user._id);
     getDetails();
   }, []);
 
   const getDetails = () => {
-    axios
-      .get(`${baseUrl}/patients/${user._id}`)
+    api
+      .get(`${baseUrl}/doctors`)
       .then((response) => {
         setDetails(response.data);
       })
@@ -79,7 +77,7 @@ const MyprofileScreen = ({ navigation }) => {
       .post(baseUrl + "/changePassword", {
         currentPassword,
         newPassword,
-        userType: "patient",
+        userType: "doctor",
         id: user._id,
       })
       .then((response) => {
@@ -103,7 +101,7 @@ const MyprofileScreen = ({ navigation }) => {
 
   const handleForgotPassword = () => {
     // Navigate to ForgotPassword screen
-    navigation.navigate("ForgotPassword", { userType: "patient" });
+    navigation.navigate("ForgotPassword", { userType: "doctor" });
   };
 
   const refreshUserData = () => {
@@ -115,6 +113,7 @@ const MyprofileScreen = ({ navigation }) => {
       <Header name="My Profile" />
       <ScrollView>
         <View style={styles.container}>
+          {/* Profile Image */}
           <TouchableOpacity>
             <View style={styles.profileImageContainer}>
               <Image
@@ -123,85 +122,59 @@ const MyprofileScreen = ({ navigation }) => {
               />
             </View>
           </TouchableOpacity>
+
           <Text style={styles.yourinfo}>Your Info</Text>
-                <React.Fragment>
-                  <DetailRow
+          {details.map((data, index) => {
+            if (data._id === _id) {
+              return (
+                <React.Fragment key={index}>
+                  <DetailRowDoctor
                     name="user-alt"
                     textLineOne="Full Name"
-                    textLineTwo={`${details.firstName} ${details.lastName}`}
+                    textLineTwo={`${data.firstName} ${data.lastName}`}
                     category="fullName"
                     refreshUserData={refreshUserData}
                   />
-                  <DetailRow
+                  <DetailRowDoctor
                     name="envelope"
                     textLineOne="Email Address"
-                    textLineTwo={details.email}
+                    textLineTwo={data.email}
                     category="email"
                     refreshUserData={refreshUserData}
                   />
-                  <DetailRow
+                  <DetailRowDoctor
                     name="id-card"
                     textLineOne="NIC Number"
-                    textLineTwo={details.nic}
+                    textLineTwo={data.nic}
                     category="nic"
                     refreshUserData={refreshUserData}
                   />
-                  <DetailRow
-                    name="home"
-                    textLineOne="Address"
-                    textLineTwo={details.address}
-                    category="address"
-                    refreshUserData={refreshUserData}
-                  />
-                  <DetailRow
+                  <DetailRowDoctor
                     name="mobile"
                     textLineOne="Mobile Number"
-                    textLineTwo={details.mobileNumber}
+                    textLineTwo={data.mobileNumber}
                     category="mobile"
                     refreshUserData={refreshUserData}
                   />
-                  <DetailRow
-                    name="birthday-cake"
-                    textLineOne="Birthday"
-                    textLineTwo={details.birthday}
-                    category="birthday"
+                  <DetailRowDoctor
+                    name="user-md"
+                    textLineOne="Specialization"
+                    textLineTwo={data.specialization}
+                    category="specialization"
                     refreshUserData={refreshUserData}
                   />
-                  <DetailRow
+                  <DetailRowDoctor
                     name="venus-mars"
                     textLineOne="Gender"
-                    textLineTwo={details.gender}
+                    textLineTwo={data.gender}
                     category="gender"
                     refreshUserData={refreshUserData}
                   />
                 </React.Fragment>
-        </View>
-
-        <View style={styles.container}>
-          <Text style={styles.yourinfo}>Health Info</Text>
-                <React.Fragment>
-                  <DetailRow
-                    name="weight-hanging"
-                    textLineOne="Weight"
-                    textLineTwo={`${details.weight} kg`}
-                    category="weight"
-                    refreshUserData={refreshUserData}
-                  />
-                  <DetailRow
-                    name="arrows-alt-v"
-                    textLineOne="Height"
-                    textLineTwo={`${details.height} cm`}
-                    category="height"
-                    refreshUserData={refreshUserData}
-                  />
-                  <DetailRow
-                    name="tint"
-                    textLineOne="Blood Group"
-                    textLineTwo={details.blood}
-                    category="blood"
-                    refreshUserData={refreshUserData}
-                  />
-                </React.Fragment>
+              );
+            }
+            return null;
+          })}
         </View>
 
         {/* Change Password Section */}
@@ -257,7 +230,7 @@ const MyprofileScreen = ({ navigation }) => {
   );
 };
 
-export default MyprofileScreen;
+export default DoctorProfileScreen;
 
 const styles = StyleSheet.create({
   maincontainer: {

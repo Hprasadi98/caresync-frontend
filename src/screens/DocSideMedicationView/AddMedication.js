@@ -18,7 +18,7 @@ import { baseUrl } from "../../constants/constants";
 import { format, addDays, eachDayOfInterval } from "date-fns";
 import DatePicker from "react-native-modern-datepicker";
 
-const AddMedication = ({ navigation, route }) => {
+const AddMedicationByDoctor = ({ navigation, route }) => {
   const [medicineName, setMedicineName] = useState("");
   const [dateInput, setDateInput] = useState("");
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
@@ -56,7 +56,7 @@ const AddMedication = ({ navigation, route }) => {
   }, [selectedItem]);
 
   const refreshMedicationView = () => {
-    navigation.navigate("MedicationView", { refresh: true });
+    navigation.navigate("MedicationHome", { refresh: true });
   };
 
   const generateDateRange = (startDate, numberOfDays) => {
@@ -67,7 +67,7 @@ const AddMedication = ({ navigation, route }) => {
 
   const dayArray = generateDateRange(dateInput, noofdays);
 
-  const by = "patient";
+  const by = "doctor";
 
   const addmedication = () => {
     const payload = {
@@ -119,7 +119,6 @@ const AddMedication = ({ navigation, route }) => {
       });
   };
 
-  //show alert when press the add medication button
   const AlertBox = () => {
     Alert.alert(
       "Successful message",
@@ -511,4 +510,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddMedication;
+export default AddMedicationByDoctor;

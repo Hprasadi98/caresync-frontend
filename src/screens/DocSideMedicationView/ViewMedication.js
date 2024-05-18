@@ -1,9 +1,15 @@
-import { StyleSheet, Text, View, FlatList ,ActivityIndicator} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import Header from "../MedicalTestHomeScreen/components/Header";
 import { useState, useEffect } from "react";
 import { baseUrl } from "../../constants/constants";
 
-const ViewMedication = ({ route }) => {
+const ViewMedicationByDoctor = ({ route }) => {
   const [medidetail, setmedidetail] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -53,11 +59,9 @@ const ViewMedication = ({ route }) => {
       </View>
     );
   }
-
   return (
     <View>
       <Header name="View Medication" />
-
       <View style={styles.dateContainer}>
         <Text style={styles.dateWeekDay}>{dayOfWeek}</Text>
         <Text style={styles.dateWeekDay}>{selectedday.day}</Text>
@@ -151,4 +155,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-export default ViewMedication;
+
+export default ViewMedicationByDoctor;

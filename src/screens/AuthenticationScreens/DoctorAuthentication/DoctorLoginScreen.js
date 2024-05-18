@@ -16,6 +16,8 @@ const DoctorLogin = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  
+
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Error", "Please fill in all fields.");
@@ -32,7 +34,6 @@ const DoctorLogin = ({ navigation }) => {
     } else if (data.status === "error") {
       Alert.alert("Error", "An error occurred. Please try again later.");
     }
-
   };
 
   return (
@@ -63,6 +64,14 @@ const DoctorLogin = ({ navigation }) => {
 
       <TouchableOpacity onPress={() => navigation.navigate("DoctorRegister")}>
         <Text style={styles.linkText}>New here? Register</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("ForgotPassword",{userType : "doctor"})
+        }
+      >
+        <Text style={styles.linkText}>Forgot Password?</Text>
       </TouchableOpacity>
     </View>
   );

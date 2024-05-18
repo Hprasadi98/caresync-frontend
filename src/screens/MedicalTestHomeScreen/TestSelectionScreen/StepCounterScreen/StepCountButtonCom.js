@@ -10,19 +10,25 @@ import {
 import DisplayTime from "../../components/StopwatchDisplay";
 import StepCountDataStore from "./StepCountDataStore";
 import { Pedometer } from "expo-sensors";
-import axios from "axios";
+import { useAuthContext } from "../../../../hooks/useAuthContext";
+
+// import axios from "axios";
+import api from "../../../../Services/AuthService";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { baseUrl } from "../../../../constants/constants";
 
 const StepCountButton = () => {
+  const { user } = useAuthContext();
+
   //run when loading the app
   useEffect(() => {
+    console.log("User from Test", user);
+    setPID(user._id);
     testpedoAvailable();
-    getResults();
+    getResults(user._id);
   }, []);
 
   const padtoTwo = (number) => (number <= 9 ? `0${number}` : number);
-
   var date = new Date().getDate();
   var month = new Date().getMonth() + 1;
   var year = new Date().getFullYear();
@@ -33,6 +39,7 @@ const StepCountButton = () => {
   const intervalRef = useRef(null);
   const [pedoAvailability, setpedoAvailability] = useState("");
   const [stepcount, setstepcount] = useState(0);
+  const [pID, setPID] = useState("");
 
   //get distance using step count
   var dist = stepcount / 1300;
@@ -47,12 +54,10 @@ const StepCountButton = () => {
     updatedS
   )}`; //set time to 00:00:00 format
 
-  const pID=212;
-
   //API integration for get results
-  const getResults = () => {
-    axios
-      .get(`${baseUrl}/stepCounterTests`)
+  const getResults = (id) => {
+    api
+      .get(`${baseUrl}/stepCounterTests/${id}`)
       .then((response) => {
         setResult(response.data || []);
       })
@@ -64,47 +69,48 @@ const StepCountButton = () => {
   //API integration for post result
   const addResults = (data) => {
     const payload = {
-      pID:pID,
+      pID: pID,
       date: data.date,
       stopwatchTime: data.stopwatchTime,
       steps: data.steps,
       distance: data.distance,
       calories: data.calories,
     };
-    axios
+    api
       .post(`${baseUrl}/stepCounterTests`, payload)
       .then(() => {
-        getResults();
+        getResults(pID);
       })
       .catch((error) => {
         console.error("Axios Error : ", error);
       });
   };
 
-  //API integration for delete all results
+  //API integration for delete all results related to Patient
   const deleteResults = () => {
-    axios
-      .delete(`${baseUrl}/stepCounterTests`)
+    console.log("Delete Table");
+    api
+      .delete(`${baseUrl}/stepCounterTests/PatientData/${pID}`)
       .then(() => {
-        getResults();
+        getResults(pID);
       })
       .catch((error) => {
         console.error("Axios Error : ", error);
       });
   };
 
+  //Delete single test result
   const deleteOneResult = (id) => {
     console.log(id);
-    axios
-      .delete(`${baseUrl}/stepCounterTests/${id}`)
+    api
+      .delete(`${baseUrl}/stepCounterTests/SingleTest/${id}`)
       .then(() => {
-        getResults();
+        getResults(pID);
       })
       .catch((error) => {
         console.error("Axios Error : ", error);
       });
   };
-
 
   const handleButtonClick = () => {
     if (isStarted) {
@@ -114,7 +120,7 @@ const StepCountButton = () => {
         stopwatchTime: sTime,
         steps: stepcount,
         distance: distance,
-        calories:calories
+        calories: calories,
       });
       resetTime();
       setstepcount(0);
@@ -203,9 +209,7 @@ const StepCountButton = () => {
             />
           </View>
           <View style={styles.detailContainer}>
-          <Text style={styles.testDetailTitle}>
-                Target: 6500steps (5km)
-              </Text>
+            <Text style={styles.testDetailTitle}>Target: 6500steps (5km)</Text>
             <View style={styles.disDetail}>
               <Text style={styles.testDetailTitles}>Distance</Text>
               <Text style={styles.testDetail}>{distance}</Text>
@@ -223,7 +227,7 @@ const StepCountButton = () => {
           <Text style={styles.buttonText}>{isStarted ? "Stop" : "Start"}</Text>
         </TouchableOpacity>
         <View style={styles.table}>
-          <StepCountDataStore sampleData={result} deleteOne={deleteOneResult}/>
+          <StepCountDataStore sampleData={result} deleteOne={deleteOneResult} />
         </View>
         <TouchableOpacity
           onPress={showDecisionBox}
@@ -255,9 +259,9 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   testDetailTitle: {
-    fontSize:15,
+    fontSize: 15,
     color: "red",
-    paddingBottom:10
+    paddingBottom: 10,
   },
   testDetailTitles: {
     alignSelf: "center",

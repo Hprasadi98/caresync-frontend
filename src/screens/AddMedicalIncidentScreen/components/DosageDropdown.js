@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import InputBar from './Inputbar';
+import Inputbar from './Inputbar';
 
-const SymptomTypeDropdown = ({ selectedSymptomType, setSelectedSymptomType, options, placeholderText }) => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isOtherOptionSelected, setIsOtherOptionSelected] = useState(false);
+
+const MedicationDosage = ({ setSelectedDosage, selectedDosage, options, setInputValue, placeholderText }) => {
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [isOtherSelected, setIsOtherSelected] = useState(false);
 
     const handleItemPress = (item) => {
-        setSelectedSymptomType(item);
-        setIsDropdownOpen(false); // Close dropdown
-        setIsOtherOptionSelected(item === 'Other');
-        // setInputValue(null); // Reset input value when selecting from dropdown
+        setSelectedDosage(item);
+        setIsOpen(false); // Close dropdown
+        setIsOtherSelected(item === 'Other');
     };
 
     return (
         <View style={styles.dropdownContainer}>
-            <TouchableOpacity onPress={() => setIsDropdownOpen(!isDropdownOpen)} style={styles.dropdownTrigger}>
-                <Text style={styles.selectedItem}>{selectedSymptomType || placeholderText}</Text>
+            <TouchableOpacity onPress={() => setIsOpen(!isOpen)} style={styles.dropdownTrigger}>
+                <Text style={styles.selectedItem}>{selectedDosage || placeholderText}</Text>
             </TouchableOpacity>
-            {isDropdownOpen && (
+            {isOpen && (
                 <View style={styles.dropdownMenu}>
                     {options.map((item, index) => (
                         <TouchableOpacity key={index} onPress={() => handleItemPress(item)} style={styles.dropdownItem}>
@@ -27,25 +28,29 @@ const SymptomTypeDropdown = ({ selectedSymptomType, setSelectedSymptomType, opti
                     ))}
                 </View>
             )}
-            {isOtherOptionSelected && (
-                <View style={styles.inputBarContainer}>
-                    <InputBar text1="Other:" placeholder="Type any other options" />
+            {isOtherSelected && (
+                <View style={styles.inputbarcontainer}>
+                    <Inputbar text1="Other:" placeholder="type any other options" setInputValue={setInputValue} />
                 </View>
             )}
         </View>
     );
 };
+export default MedicationDosage;
 
 const styles = StyleSheet.create({
     dropdownContainer: {
-        marginTop: "1%",
+        marginTop: 20
     },
+
     dropdownTrigger: {
-        padding: 10,
+        marginLeft: 10,
+        marginTop: 10,
         borderColor: '#8e8e8e',
         borderWidth: 1,
+        padding: 8,
+        width: '90%',
         borderRadius: 10,
-        marginLeft: '2%'
     },
     selectedItem: {
         fontSize: 16,
@@ -53,26 +58,29 @@ const styles = StyleSheet.create({
     },
     dropdownMenu: {
         position: 'absolute',
-        top: 40,
-        left: 0,
+        top: 55,
+        left: 10,
         backgroundColor: '#f5f5f5',
         borderColor: '#8e8e8e',
         borderWidth: 1,
-        width: '100%',
+        width: '90%',
         zIndex: 2,
+        padding: 10,
         borderRadius: 10
     },
     dropdownItem: {
-        paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingVertical: 8,
     },
     itemText: {
         fontSize: 16,
         fontWeight: '500',
     },
-    inputBarContainer: {
-        marginTop: 10,
+    inputbarcontainer: {
+        marginLeft: "-5%",
+    },
+    placeholderText: {
+        fontWeight: '00', // Adjust font weight as needed
     },
 });
 
-export default SymptomTypeDropdown;
+

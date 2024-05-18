@@ -11,8 +11,7 @@ const TestModal = ({
   onClose,
   recordName,
   description,
-  weight,
-  rating,
+
 }) => {
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [selectedOption2, setSelectedOption2] = useState(null);
@@ -26,6 +25,7 @@ const TestModal = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          type: "test",
           recordName: recordName,
           recordDescription: description,
           incidentType: selectedOption,
@@ -52,6 +52,7 @@ const TestModal = ({
       console.error("Error saving incident:", error.message);
     }
   };
+
 
   return (
     <View style={styles.modalContainer}>
@@ -91,6 +92,7 @@ const TestModal = ({
 
 const styles = StyleSheet.create({
   modalContainer: {
+
     justifyContent: "center",
     alignItems: "center",
     marginTop: "50%",

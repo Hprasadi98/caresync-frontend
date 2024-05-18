@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Inputbar from './Inputbar';
 // import { Ionicons } from '@expo/vector-icons'; 
 
-const CustomDropdown = ({ selectedOption1, setSelectedOption1,options, setInputValue, placeholderText }) => {
+const CustomDropdown = ({ selectedOption1, setSelectedOption1, options, setInputValue, placeholderText }) => {
   // const [selectedOption1, setSelectedOption1] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOtherSelected, setIsOtherSelected] = useState(false);

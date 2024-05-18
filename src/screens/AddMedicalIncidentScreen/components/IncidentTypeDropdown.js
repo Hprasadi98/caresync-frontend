@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, TextInput,StyleSheet } from 'react-native';
-import Calendar from './Calendar'; 
+import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet } from 'react-native';
+import Calendar from './Calendar';
 import TestModal from './Modals/TestModal';
 import SymptomModal from './Modals/SymptomModal';
 import PrescriptionModal from './Modals/PrescriptionModal';
@@ -52,7 +52,7 @@ const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
 
 };
 
-const IncidentTypeDropdown = ({ recordName, description}) => {
+const IncidentTypeDropdown = ({ recordName, description }) => {
   const dropdownItems = ['TEST', 'SYMPTOM', 'PRESCRIPTION', 'MEDICATION', 'APPOINTMENT'];
   const [selectedOption, setSelectedOption] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -61,7 +61,7 @@ const IncidentTypeDropdown = ({ recordName, description}) => {
   const [selectedIncidentType, setSelectedIncidentType] = useState("");
 
 
-  
+
 
 
 
@@ -87,31 +87,34 @@ const IncidentTypeDropdown = ({ recordName, description}) => {
         return <TestModal
           recordName={recordName}
           description={description}
-          weight={weight}
-          rating={rating}
+
           selectedStartDate={selectedStartDate}
           selectedOption={selectedOption}
           onClose={handleCloseModal} />;
       case 'SYMPTOM':
         return <SymptomModal recordName={recordName}
           description={description}
-          weight={weight}
-          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
+          selectedStartDate={selectedStartDate}
+          selectedOption={selectedOption}
+          onClose={handleCloseModal} />;
       case 'PRESCRIPTION':
         return <PrescriptionModal recordName={recordName}
           description={description}
-          weight={weight}
-          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
+          selectedStartDate={selectedStartDate}
+          selectedOption={selectedOption}
+          onClose={handleCloseModal} />;
       case 'MEDICATION':
         return <MedicationModal recordName={recordName}
           description={description}
-          weight={weight}
-          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
+          selectedStartDate={selectedStartDate}
+          selectedOption={selectedOption}
+          onClose={handleCloseModal} />;
       case 'APPOINTMENT':
         return <AppointmentModal recordName={recordName}
           description={description}
-          weight={weight}
-          rating={rating} selectedStartDate={selectedStartDate} selectedOption={selectedOption} onClose={handleCloseModal} />;
+          selectedStartDate={selectedStartDate}
+          selectedOption={selectedOption}
+          onClose={handleCloseModal} />;
       default:
         return null;
     }
@@ -128,12 +131,6 @@ const IncidentTypeDropdown = ({ recordName, description}) => {
   };
   // console.log(selectedStartDate)
 
-  const [weight, setWeight] = useState('');
-  const [rating, setRating] = useState('');
-
-  const handleRatingChange = (value) => {
-    setRating(value);
-  };
 
 
 
@@ -150,16 +147,7 @@ const IncidentTypeDropdown = ({ recordName, description}) => {
         selectedIncidentType={selectedIncidentType}
         setSelectedIncidentType={setSelectedIncidentType}
       />
-       <View style={styles.inputcontainer}>
-            <Text style={styles.text1}>Weight</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter weight in kilo-grams here"
-              onChangeText={(text) => setWeight(text)}
-            />
-          </View>
-          <Text style={styles.text1}>Appetite</Text>
-          <PainRating text="Appetite" icon="gratipay" value={rating} onRatingChange={handleRatingChange}  />
+
 
       <TouchableOpacity style={styles.btn} onPress={handleCombinedPress}>
         <Text style={styles.btntext}>Next</Text>
@@ -177,7 +165,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
   },
- 
+
   text1: {
     marginLeft: 28,
     fontSize: 20,
@@ -232,7 +220,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: '100%',
     padding: 2,
-    bottom: -250,
+    top: '235%',
     alignItems: 'center',
     elevation: 4,
   },

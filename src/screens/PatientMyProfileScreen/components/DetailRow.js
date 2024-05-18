@@ -159,7 +159,8 @@ catch (error) {
           }
       case "address":
         if (address.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
+          Alert.alert('Error', 'Please enter a valid Address');
+          return;
         } else {
           updatedData = { address: address }; 
           break;

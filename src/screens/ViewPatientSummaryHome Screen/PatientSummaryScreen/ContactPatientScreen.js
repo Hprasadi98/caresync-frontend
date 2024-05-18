@@ -60,7 +60,7 @@ function ContactPatientScreen() {
                 <ContactPatientData
                   name="home"
                   textLineOne="Address"
-                  textLineTwo={data.birthday}
+                  textLineTwo={data.address}
                   category="birthday"
                   backgroundColor="#FEFFE0"
                 />

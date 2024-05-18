@@ -10,9 +10,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import MedicationScreen from "../PatientSummaryScreen/MedicationsScreen";
 
-function PatientSummary({ id, firstName, lastName, nic, email }) {
+function PatientSummary({ id, firstName, lastName, blood, email,weight,height,gender,nic }) {
   return (
-    <View>
+    <View style={styles.innerContainer}>
       <View style={styles.first}>
         <View style={styles.tid}>
           <Text style={styles.title}>
@@ -22,18 +22,26 @@ function PatientSummary({ id, firstName, lastName, nic, email }) {
 
         <View style={styles.main1}>
           <View style={styles.cat1}>
-            <Text style={styles.text1}> Email</Text>
-            <Text style={styles.email}>{email}</Text>
+            <Text style={styles.text1}> NIC</Text>
+            <Text style={styles.nic}>{nic}</Text>
           </View>
           <View style={styles.cat2}>
-            <Text style={styles.text2}> NIC</Text>
-            <Text style={styles.nic}>{nic}</Text>
+            <Text style={styles.text2}> Gender</Text>
+            <Text style={styles.gender}>{gender}</Text>
           </View>
         </View>
         <View style={styles.main2}>
-          <View style={styles.cat1}>
-            <Text style={styles.id}>Patient ID</Text>
-            <Text style={styles.id2}>{id}</Text>
+          <View style={styles.categaryDown}>
+            <Text style={styles.TextLineDownweight}>Weight</Text>
+            <Text style={styles.weight}>{weight} kg</Text>
+          </View>
+          <View style={styles.categaryDown}>
+            <Text style={styles.TextLineDownheight}>Height</Text>
+            <Text style={styles.Height}>{height} cm</Text>
+          </View>
+          <View style={styles.categaryDown}>
+            <Text style={styles.TextLineDownblood}>Blood Group</Text>
+            <Text style={styles.blood}>{blood}</Text>
           </View>
         </View>
       </View>
@@ -71,18 +79,21 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: "row",
   },
-  email: {
-    fontSize: 20,
-    marginLeft: 35,
-    color: "#00567D",
-    fontWeight: "bold",
-  },
   nic: {
     fontSize: 20,
-    marginLeft: 50,
+    marginLeft: 10,
     color: "#00567D",
     fontWeight: "bold",
+    
   },
+  gender: {
+    fontSize: 20,
+    marginLeft: 60,
+    color: "#00567D",
+    fontWeight: "bold",
+    
+  },
+
 
   id: {
     fontSize: 15,
@@ -98,9 +109,13 @@ const styles = StyleSheet.create({
   cat1: {
     flexDirection: "column",
   },
+  categaryDown: {
+    flexDirection: "column",
+  },
   text1: {
     fontSize: 15,
-    marginLeft: 80,
+    marginLeft: 60,
+
   },
   cat2: {
     flexDirection: "column",
@@ -109,6 +124,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 20,
     marginRight: "10%",
+    position:"relative"
+  
   },
   cat3: {
     flexDirection: "column",
@@ -118,10 +135,35 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#00567D",
     fontWeight: "bold",
+    marginLeft: 120,
+  },
+  Height: {
+    fontSize: 20,
+    color: "#00567D",
+    fontWeight: "bold",
+    marginLeft: 50,
+  },
+  blood: {
+    fontSize: 20,
+    color: "#00567D",
+    fontWeight: "bold",
+    marginLeft: 70,
+  },
+
+
+
+
+  text2: {
+    fontSize: 15,
+    marginLeft:55,
+ 
+   
   },
   text2: {
     fontSize: 15,
-    marginLeft: 60,
+    marginLeft:55,
+ 
+   
   },
   text3: {
     fontSize: 15,
@@ -139,12 +181,7 @@ const styles = StyleSheet.create({
   cat5: {
     flexDirection: "column",
   },
-  height: {
-    fontSize: 20,
-    marginLeft: 50,
-    color: "#00567D",
-    fontWeight: "bold",
-  },
+
   text4: {
     fontSize: 15,
     marginLeft: 40,
@@ -154,4 +191,19 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginLeft: 60,
   },
+  TextLineDownweight:{
+    fontSize: 15,
+    marginLeft: 120,
+
+  },
+  TextLineDownheight:{
+    fontSize: 15,
+    marginLeft: 60,
+
+  },
+  TextLineDownblood:{
+    fontSize: 15,
+    marginLeft: 40,
+
+  }
 });

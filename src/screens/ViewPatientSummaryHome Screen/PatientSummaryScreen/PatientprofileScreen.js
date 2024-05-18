@@ -87,7 +87,7 @@ function PatientProfileScreen({ route, navigation }) {
                 marginLeft: 20,
                 marginTop: 20,
               }}
-              onPress={() => navigation.navigate("MedicationsScreen")}
+              onPress={() => navigation.navigate("MedicationHome")}
             >
               <Image
                 style={styles.img}

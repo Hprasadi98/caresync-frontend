@@ -14,8 +14,7 @@ import { baseUrl } from "../../constants/constants";
 import { useEffect, useState } from "react";
 import api from "../../Services/AuthService";
 
-//navigate to medication adding form
-const MedicationView = ({ navigation, route }) => {
+const MedicationHome = ({ navigation, route }) => {
   const { refresh } = route.params ? route.params : { refresh: false };
 
   useEffect(() => {
@@ -80,33 +79,15 @@ const MedicationView = ({ navigation, route }) => {
       });
   };
 
-  const confirmDelete = (id) => {
-    console.log(id);
-    Alert.alert(
-      "Confirm Delete",
-      "Added by doctor, Are you sure you want to delete this medication?",
-      [
-        {
-          text: "Cancel",
-          onPress: () => {
-            console.log("Cancel deletion");
-          },
-        },
-        {
-          text: "OK",
-          onPress: () => deleteOneResult(id),
-        },
-      ]   
-    );
-  };
-
   const addMedication = () => {
-    navigation.navigate("AddMedication", { refreshMedicationView: true });
+    navigation.navigate("AddMedicationByDoctor", {
+      refreshMedicationView: true,
+    });
   };
 
   const updateMedication = (id) => {
     const selectedItem = medidetail.find((item) => item._id === id);
-    navigation.navigate("AddMedication", {
+    navigation.navigate("AddMedicationByDoctor", {
       refreshMedicationView: true,
       selectedItem,
     });
@@ -114,7 +95,7 @@ const MedicationView = ({ navigation, route }) => {
 
   //navigate to medication view
   const viewMedication = (day) => {
-    navigation.navigate("ViewMedication", { selectedday: day });
+    navigation.navigate("ViewMedicationByDoctor", { selectedday: day });
   };
 
   return (
@@ -169,43 +150,54 @@ const MedicationView = ({ navigation, route }) => {
                 </View>
                 <View style={styles.editdeleteContainer}>
                   <TouchableOpacity
-                    disabled={item.by !== "patient"}
+                    disabled={item.by === "patient"}
                     onPress={() => {
                       //console.log(item._id);
                       updateMedication(item._id);
                     }}
                   >
-                    <Text style={[styles.edittext, item.by !== "patient" && styles.disabledButton,]}>Edit</Text>
+                    <Text
+                      style={[
+                        styles.edittext,
+                        item.by === "patient" && styles.disabledButton,
+                      ]}
+                    >
+                      Edit
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
+                    disabled={item.by === "patient"}
                     onPress={() => {
-                      if (item.by !== "patient") {
-                        confirmDelete(item._id);
-                      } else{
                       deleteOneResult(item._id);
-                      }
                     }}
                   >
-                    <Text style={styles.deletetext}>Delete</Text>
+                    <Text
+                      style={[
+                        styles.deletetext,
+                        item.by === "patient" && styles.disabledButton,
+                      ]}
+                    >
+                      Delete
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
           )}
         />
-      )
-      }
+      )}
       <TouchableOpacity
         style={styles.roundedPlusButton}
         onPress={() => {
+          console.log("Go to Add Medication");
           addMedication();
         }}
       >
         <Ionicons name="add-circle" size={60} color="#00567D" />
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   centered: {
@@ -305,7 +297,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     borderRadius: 10,
   },
-  disabledButton:{
+  disabledButton: {
     backgroundColor: "gray",
   },
   deletetext: {
@@ -321,4 +313,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MedicationView;
+export default MedicationHome;

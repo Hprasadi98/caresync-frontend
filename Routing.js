@@ -69,7 +69,7 @@ export default function Routing() {
         //initialRouteName="DoctorDashboard"
 
 
-        initialRouteName="PatientDashboard"
+        // initialRouteName="PatientDashboard"
 
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },

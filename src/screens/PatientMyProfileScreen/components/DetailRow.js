@@ -89,6 +89,7 @@ const DetailRow = ({
 
 
   const handleUpdateProfile = async () => {
+    console.log(selectedYear, selectedMonth, selectedDay);
      // Check if the email is valid
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^[0-9]{10}$/;
@@ -121,6 +122,8 @@ catch (error) {
     switch (category) {
       case "fullName":
         if (first.trim() === "" || second.trim() === "") {
+          Alert.alert('Error', 'Please enter a valid name');
+          return;
           // Handle empty inputs, show error message, etc.
         } else {
           console.log("Updating profile with:", first, second);
@@ -147,6 +150,8 @@ catch (error) {
         }
         case "nic":
           if (nic.trim() === "") {
+            Alert.alert('Error', 'Please enter a valid NIC');
+          return;
             
           } else {
             updatedData = { nic: nic }; 

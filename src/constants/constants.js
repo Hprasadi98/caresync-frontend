@@ -1,5 +1,5 @@
 const base =
-  Platform.OS === "android" ? "http://192.168.77.160" : "http://localhost";
+  Platform.OS === "android" ? "http://192.168.127.160" : "http://localhost";
 
-const port = 4001;
+const port = 4000;
 export const baseUrl = `${base}:${port}/api`;

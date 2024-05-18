@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
 import CustomDropdown from '../CustomDropdown';
 import DescriptionInputbar from '../DescriptionInputbar';
 import PainRating from '../PainRating';
 import SymptomTypeDropdown from '../SymptomTypeDropdown';
 import { baseUrl } from "../../../../constants/constants";
 import { useNavigation } from '@react-navigation/native'; // Import navigation hook
+import AppetiteRating from "../AppetiteRating";
+import SymptomFrequencyDropdown from "../SymptomFrequencyDropdown";
 
 const SymptomModal = ({
   selectedStartDate,
@@ -14,9 +16,16 @@ const SymptomModal = ({
   recordName,
   description,
 
+
 }) => {
-  // const [symptomDescription, setSymptomDescription] = useState(null);
+
   const [selectedSymptomType, setSelectedSymptomType] = useState(null);
+  const [selectedSymptomFrequency, setSelectedSymptomFrequency] = useState(null);
+  const [symptomDescription, setSymptomDescription] = useState('');
+  const [weight, setWeight] = useState('');
+  const [painRating, setPainRating] = useState(0);
+  const [appetiteRating, setAppetiteRating] = useState(0);
+
   const navigation = useNavigation(); // Get navigation object
 
   console.log(recordName);
@@ -24,6 +33,12 @@ const SymptomModal = ({
   console.log(selectedOption);
   console.log(selectedStartDate);
   console.log(selectedSymptomType);
+  console.log(selectedSymptomFrequency);
+  console.log(symptomDescription);
+  console.log(painRating);
+  console.log(appetiteRating);
+  console.log(weight)
+
 
   const saveSymptomIncident = async () => {
     try {
@@ -39,6 +54,12 @@ const SymptomModal = ({
           incidentType: selectedOption,
           date: selectedStartDate,
           symptomType: selectedSymptomType,
+          symptomFrequency: selectedSymptomFrequency,
+          symptom_Description: symptomDescription,
+          severity: painRating,
+          appetite: appetiteRating
+
+
 
 
         }),
@@ -78,25 +99,50 @@ const SymptomModal = ({
 
           />
         </View>
-        <Text style={styles.label}>Symptom Description:</Text>
         <View style={styles.inputcontainer}>
-          <DescriptionInputbar
-            text1=""
-            placeholder="Enter description here"
-          // inputValue={symptomDescription}
-          // setInputValue={setSymptomDescription}
+          <Text style={styles.label}>Symptom Description </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter the description"
+            onChangeText={(text) => setSymptomDescription(text)}
+
+          /></View>
+        <Text style={styles.label}>Frequency:</Text>
+
+        <View style={styles.dropdowncontainer}>
+          <SymptomFrequencyDropdown
+            options={['Single time a day', 'Once in two days', 'Once in a week', 'Other']}
+            placeholderText="Select from the list"
+            selectedSymptomFrequency={selectedSymptomFrequency}
+            setSelectedSymptomFrequency={setSelectedSymptomFrequency}
+
           />
         </View>
-        <Text style={styles.label}>Frequency:</Text>
-        <View style={styles.dropdowncontainer}>
-          <CustomDropdown options={['Single time a day', 'Once in two days', 'Once in a week', 'Other']} placeholderText="Select from the list" />
-        </View>
         <Text style={styles.label}>Severity: Out of 10</Text>
-        <PainRating text="Pain level" icon="thermometer-half" />
+        <PainRating
+          text="Pain level"
+          icon="thermometer-half"
+          painRating={painRating}
+          setPainRating={setPainRating}
+
+        />
         <Text style={styles.label}>Duration:</Text>
         <View style={styles.dropdowncontainer}>
           <CustomDropdown options={['Immediate', 'about 1,2 minutes', 'more that 2 minutes', 'about half of hour', 'other']} placeholderText="Select from the list" />
         </View>
+        <Text style={styles.label}>Appetite: Out of 10 </Text>
+        <AppetiteRating
+          appetiteRating={appetiteRating}
+          setAppetiteRating={setAppetiteRating}
+
+        />
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Weight </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter weight in kg s"
+            onChangeText={(text) => setWeight(text)}
+          /></View>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -140,7 +186,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     width: '100%',
-    top: 6,
+    top: 2,
     position: 'absolute',
     paddingTop: '6%',
   },
@@ -156,19 +202,38 @@ const styles = StyleSheet.create({
     width: '40%', // Adjust as needed
   },
   label: {
-    paddingTop: 25,
+    marginTop: 25,
     fontSize: 16,
     fontWeight: '700',
-    marginLeft: '8%'
+    marginLeft: '8%',
+
   },
   inputcontainer: {
     marginVertical: '-16%',
-    paddingBottom: '8%'
+    marginTop: 2,
+  },
+
+
+
+  input: {
+    borderColor: '#8e8e8e',
+    borderWidth: 1,
+    padding: 10,
+    width: '88%',
+    height: 38,
+    marginBottom: 40,
+    marginLeft: 25,
+    marginTop: 10,
+    borderRadius: 10,
+    fontSize: 16,
+
   },
   dropdowncontainer: {
     marginLeft: '4%',
     marginVertical: '-6%',
+    marginTop: '1%',
   },
+
 });
 
 export default SymptomModal;

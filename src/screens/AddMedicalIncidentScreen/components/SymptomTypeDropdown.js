@@ -38,13 +38,14 @@ const SymptomTypeDropdown = ({ selectedSymptomType, setSelectedSymptomType, opti
 
 const styles = StyleSheet.create({
     dropdownContainer: {
-        marginTop: 10,
+        marginTop: "1%",
     },
     dropdownTrigger: {
         padding: 10,
         borderColor: '#8e8e8e',
         borderWidth: 1,
         borderRadius: 10,
+        marginLeft: '2%'
     },
     selectedItem: {
         fontSize: 16,

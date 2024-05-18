@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
-import CustomDropdown from '../CustomDropdown';
-import DescriptionInputbar from '../DescriptionInputbar';
 import PainRating from '../PainRating';
 import SymptomTypeDropdown from '../SymptomTypeDropdown';
 import { baseUrl } from "../../../../constants/constants";
 import { useNavigation } from '@react-navigation/native'; // Import navigation hook
 import AppetiteRating from "../AppetiteRating";
 import SymptomFrequencyDropdown from "../SymptomFrequencyDropdown";
+import SymptomDurationDropdown from "../SymptomDurationDropdown"
 
 const SymptomModal = ({
   selectedStartDate,
@@ -22,9 +21,10 @@ const SymptomModal = ({
   const [selectedSymptomType, setSelectedSymptomType] = useState(null);
   const [selectedSymptomFrequency, setSelectedSymptomFrequency] = useState(null);
   const [symptomDescription, setSymptomDescription] = useState('');
-  const [weight, setWeight] = useState('');
   const [painRating, setPainRating] = useState(0);
+  const [selectedSymptomDuration, setSelectedSymptomDuration] = useState(null);
   const [appetiteRating, setAppetiteRating] = useState(0);
+  const [weight, setWeight] = useState('');
 
   const navigation = useNavigation(); // Get navigation object
 
@@ -33,9 +33,10 @@ const SymptomModal = ({
   console.log(selectedOption);
   console.log(selectedStartDate);
   console.log(selectedSymptomType);
-  console.log(selectedSymptomFrequency);
   console.log(symptomDescription);
+  console.log(selectedSymptomFrequency);
   console.log(painRating);
+  console.log(selectedSymptomDuration);
   console.log(appetiteRating);
   console.log(weight)
 
@@ -57,7 +58,9 @@ const SymptomModal = ({
           symptomFrequency: selectedSymptomFrequency,
           symptom_Description: symptomDescription,
           severity: painRating,
-          appetite: appetiteRating
+          SymptomDuration: selectedSymptomDuration,
+          appetite: appetiteRating,
+          weight: weight
 
 
 
@@ -128,7 +131,13 @@ const SymptomModal = ({
         />
         <Text style={styles.label}>Duration:</Text>
         <View style={styles.dropdowncontainer}>
-          <CustomDropdown options={['Immediate', 'about 1,2 minutes', 'more that 2 minutes', 'about half of hour', 'other']} placeholderText="Select from the list" />
+          <SymptomDurationDropdown
+            options={['Immediate', 'about 1,2 minutes', 'more that 2 minutes', 'about half of hour', 'other']}
+            placeholderText="Select from the list"
+            selectedSymptomDuration={selectedSymptomDuration}
+            setSelectedSymptomDuration={setSelectedSymptomDuration}
+
+          />
         </View>
         <Text style={styles.label}>Appetite: Out of 10 </Text>
         <AppetiteRating

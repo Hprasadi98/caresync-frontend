@@ -92,6 +92,7 @@ const TestModal = ({
 
 const styles = StyleSheet.create({
   modalContainer: {
+
     justifyContent: "center",
     alignItems: "center",
     marginTop: "50%",

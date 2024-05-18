@@ -3,13 +3,13 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Inputbar from './Inputbar';
 // import { Ionicons } from '@expo/vector-icons'; 
 
-const SymptomFrequencyDropdown = ({ selectedSymptomFrequency, setSelectedSymptomFrequency, options, setInputValue, placeholderText }) => {
+const MedicationFrequencyDropdown = ({ selectedMedicationFrequency, setSelectedMedicationFrequency, options, setInputValue, placeholderText }) => {
     // const [selectedOption1, setSelectedOption1] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [isOtherSelected, setIsOtherSelected] = useState(false);
 
     const handleItemPress = (item) => {
-        setSelectedSymptomFrequency(item);
+        setSelectedMedicationFrequency(item);
         setIsOpen(false); // Close dropdown
         setIsOtherSelected(item === 'Other');
     };
@@ -17,7 +17,7 @@ const SymptomFrequencyDropdown = ({ selectedSymptomFrequency, setSelectedSymptom
     return (
         <View style={styles.dropdownContainer}>
             <TouchableOpacity onPress={() => setIsOpen(!isOpen)} style={styles.dropdownTrigger}>
-                <Text style={styles.selectedItem}>{selectedSymptomFrequency || placeholderText}</Text>
+                <Text style={styles.selectedItem}>{selectedMedicationFrequency || placeholderText}</Text>
             </TouchableOpacity>
             {isOpen && (
                 <View style={styles.dropdownMenu}>
@@ -36,9 +36,13 @@ const SymptomFrequencyDropdown = ({ selectedSymptomFrequency, setSelectedSymptom
         </View>
     );
 };
+export default MedicationFrequencyDropdown;
 
 const styles = StyleSheet.create({
-
+    dropdownContainer: {
+        marginTop: 20,
+    }
+    ,
     dropdownTrigger: {
         marginLeft: 10,
         marginTop: 10,
@@ -79,4 +83,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SymptomFrequencyDropdown;
+

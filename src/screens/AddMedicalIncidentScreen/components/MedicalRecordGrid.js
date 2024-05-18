@@ -72,7 +72,7 @@ function MedicalRecordGrid({
       </View>
       <View>
         <Text style={styles.description}>{recordDescription}</Text>
-        
+
 
       </View>
 
@@ -96,7 +96,7 @@ function MedicalRecordGrid({
             </View>
 
           ))
-            
+
           }
           <Pressable style={styles.btn} onPress={handleAddNew}>
             <Text style={styles.btntext}>+ New Incident</Text>
@@ -104,7 +104,7 @@ function MedicalRecordGrid({
 
 
         </View>
-        
+
       )}
 
     </Animated.View>
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
 
   innertile: {
-    width: "30%",
+    width: "32%",
     marginBottom: "2%",
     marginTop: "2%",
     marginLeft: "3%",

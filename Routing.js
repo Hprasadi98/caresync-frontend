@@ -62,8 +62,10 @@ export default function Routing() {
       <Stack.Navigator
 
 
+
         initialRouteName="WelcomeScreen"
         //initialRouteName="DoctorDashboard"
+
 
         // initialRouteName="PatientDashboard"
 

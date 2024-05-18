@@ -47,6 +47,11 @@ function PatientProfileScreen({ route, navigation }) {
               lastName={item.lastName}
               nic={item.nic}
               email={item.email}
+              blood={item.blood}
+              weight={item.weight}
+              height={item.height}
+              gender={item.gender}
+              
             />
           </View>
         </View>

@@ -24,9 +24,9 @@ function PatientGridTile({
             {firstName} {lastName}
           </Text>
 
-          <View>
-            <Text style={styles.nic}>NIC :{nic}</Text>
-            <Text style={styles.email}>Email :{email}</Text>
+          <View style={styles.subcontainer}>
+            <Text style={styles.nic}>Patient ID :{id}</Text>
+       
           </View>
         </View>
       </Pressable>
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   email: {
-    marginTop: -20,
-    paddingLeft: 180,
+    paddingLeft: 50,
+    marginTop: 5,
     fontSize: 15,
   },
   image: {
@@ -86,4 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginTop: -20,
   },
+  subcontainer:{
+    flexDirection: "column",
+  }
 });

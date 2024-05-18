@@ -140,6 +140,13 @@ const MyprofileScreen = ({ navigation }) => {
                     refreshUserData={refreshUserData}
                   />
                   <DetailRow
+                    name="id-card"
+                    textLineOne="NIC Number"
+                    textLineTwo={details.nic}
+                    category="nic"
+                    refreshUserData={refreshUserData}
+                  />
+                  <DetailRow
                     name="home"
                     textLineOne="Address"
                     textLineTwo={details.address}
@@ -176,15 +183,14 @@ const MyprofileScreen = ({ navigation }) => {
                   <DetailRow
                     name="weight-hanging"
                     textLineOne="Weight"
-                    textLineTwo={details.weight}
-                    kg
+                    textLineTwo={`${details.weight} kg`}
                     category="weight"
                     refreshUserData={refreshUserData}
                   />
                   <DetailRow
                     name="arrows-alt-v"
                     textLineOne="Height"
-                    textLineTwo={details.height}
+                    textLineTwo={`${details.height} cm`}
                     category="height"
                     refreshUserData={refreshUserData}
                   />

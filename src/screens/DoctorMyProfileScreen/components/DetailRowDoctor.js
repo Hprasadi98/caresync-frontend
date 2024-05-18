@@ -35,23 +35,53 @@ const DetailRowDoctor = ({
   const [nic, setNic] = useState("");
   const [specialization, setSpecialization] = useState("");
 
-
   const [selectedGender, setSelectedGender] = useState("");
 
-
-
-
-
   const _id = "6627c4c328a6a54a64fb544a";
-  // console.log(booodGroup);
 
-  const handleUpdateProfile = () => {
+
+
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await api.get(`${baseUrl}/:doctors/${email}`);
+      return response.data.exists;
+    } catch (error) {
+      console.error("Error checking email:", error);
+      throw error;
+    }
+  };
+
+  const handleUpdateProfile = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
+
+    try {
+      // Check if the email already exists in the database
+      const emailExists = await checkEmailExists(email);
+      if (emailExists) {
+        Alert.alert(
+          "Error",
+          "This email is already in use. Please choose another one."
+        );
+        return;
+      }
+    } catch (error) {
+      console.error("Failed to update patient information:", error);
+      // Optionally, you can handle error cases
+      Alert.alert(
+        "Error",
+        "Failed to update patient information. Please try again later."
+      );
+    }
+
     // Prepare the updated data based on the category
-   
+
     let updatedData = {};
     switch (category) {
       case "fullName":
         if (first.trim() === "" || second.trim() === "") {
+          Alert.alert("Error", "Please enter a valid name");
+          return;
           // Handle empty inputs, show error message, etc.
         } else {
           console.log("Updating profile with:", first, second);
@@ -65,38 +95,45 @@ const DetailRowDoctor = ({
 
       case "email":
         if (email.trim() === "") {
-          
+        }
+        if (!emailRegex.test(email)) {
+          Alert.alert("Error", "Please enter a valid email address");
+          return;
         } else {
-          updatedData = { email: email }; 
+          updatedData = { email: email };
           break;
         }
       case "nic":
         if (nic.trim() === "") {
-          
+          Alert.alert("Error", "Please enter a valid NIC");
+          return;
         } else {
-          updatedData = { nic: nic }; 
+          updatedData = { nic: nic };
           break;
         }
       case "mobile":
         if (phone.trim() === "") {
-        
+        }
+        if (!phoneRegex.test(phone)) {
+          Alert.alert("Error", "Please enter a valid 10-digit phone number");
+          return;
         } else {
-          updatedData = { mobileNumber: phone }; 
+          updatedData = { mobileNumber: phone };
           break;
         }
 
-        case "specialization":
-          if (specialization.trim() === "") {
-            
-          } else {
-            updatedData = { specialization: specialization }; 
-            break;
-          }
+      case "specialization":
+        if (specialization.trim() === "") {
+          Alert.alert("Error", "Please enter a valid specialization");
+          return;
+        } else {
+          updatedData = { specialization: specialization };
+          break;
+        }
       case "gender":
         if (selectedGender.trim() === "") {
-      
         } else {
-          updatedData = { gender: selectedGender }; 
+          updatedData = { gender: selectedGender };
           break;
         }
 
@@ -106,12 +143,9 @@ const DetailRowDoctor = ({
 
     // Make an HTTP PUT request to update the doctor's information
     api
-      .put(`${baseUrl}/doctors/${_id}`, updatedData) 
+      .put(`${baseUrl}/doctors/${_id}`, updatedData)
       .then((response) => {
-        console.log(
-          "Doctor information updated successfully: ",
-          response.data
-        );
+        console.log("Doctor information updated successfully: ", response.data);
         refreshUserData();
       })
       .catch((error) => {

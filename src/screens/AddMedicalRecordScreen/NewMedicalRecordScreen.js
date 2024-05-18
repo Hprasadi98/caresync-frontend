@@ -26,7 +26,7 @@ const NewMedicalRecordScreen = () => {
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
-        // Optionally, you can navigate to another screen after successful creation
+       
         navigation.navigate('DisplayMedicalRecords', {
           recordName, recordDescription
 
@@ -47,10 +47,7 @@ const NewMedicalRecordScreen = () => {
   console.log(recordName);
   console.log(recordDescription);
 
-  // recordName={recordName};
-  // description={description};
-  // weight={weight};
-  // rating={rating};
+ 
 
 
   return (

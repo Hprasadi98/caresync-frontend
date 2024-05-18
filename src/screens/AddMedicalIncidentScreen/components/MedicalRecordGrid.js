@@ -7,7 +7,8 @@ function MedicalRecordGrid({
   recordName,
   date,
   recordDescription,
-  incidents = [],
+  incidents
+  = [],
 }) {
   const [expanded, setExpanded] = useState(false);
   const [contentHeight, setContentHeight] = useState(100); // Initial height

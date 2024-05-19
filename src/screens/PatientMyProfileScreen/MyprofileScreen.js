@@ -15,6 +15,8 @@ import Header from "../../components/Header";
 import DetailRow from "./components/DetailRow";
 import api from "../../Services/AuthService";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import ImagePicker from "./components/ImagePicker";
+
 
 const MyprofileScreen = ({ navigation }) => {
   const { user } = useAuthContext();
@@ -26,6 +28,8 @@ const MyprofileScreen = ({ navigation }) => {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [passwordChangeStatus, setPasswordChangeStatus] = useState(null);
   const [loading, setLoading] = useState(false);
+
+
 
   useEffect(() => {
     console.log("User in MyProfileScreen:", user);
@@ -110,19 +114,15 @@ const MyprofileScreen = ({ navigation }) => {
     getDetails(); // Fetch updated user data
   };
 
+
+
+
   return (
     <View style={styles.maincontainer}>
       <Header name="My Profile" />
       <ScrollView>
         <View style={styles.container}>
-          <TouchableOpacity>
-            <View style={styles.profileImageContainer}>
-              <Image
-                source={require("../../../assets/patient.png")}
-                style={styles.profileImage}
-              />
-            </View>
-          </TouchableOpacity>
+          <ImagePicker/>
           <Text style={styles.yourinfo}>Your Info</Text>
                 <React.Fragment>
                   <DetailRow
@@ -271,15 +271,7 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginTop: "5%",
   },
-  profileImageContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 15,
-  },
-  profileImage: {
-    width: 80,
-    height: 80,
-  },
+
   yourinfo: {
     fontSize: 16,
     marginLeft: 30,

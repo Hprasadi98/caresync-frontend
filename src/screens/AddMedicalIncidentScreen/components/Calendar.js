@@ -5,7 +5,7 @@ import DatePicker from 'react-native-modern-datepicker';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 
 
-function Calendar({ selectedStartDate,setSelectedStartDate,onDateChange }) {
+function Calendar({ selectedStartDate, setSelectedStartDate, onDateChange }) {
 
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   // const [selectedStartDate, setSelectedStartDate] = useState('');
@@ -27,7 +27,7 @@ function Calendar({ selectedStartDate,setSelectedStartDate,onDateChange }) {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ width: '100%', height: '100%', backgroundColor: '#fff' }}>
         <Text style={{ fontSize: 20, color: '#1e1e1e', marginLeft: 25, marginTop: -25 }}>Date</Text>
-        
+
         <TouchableOpacity
           style={styles.inputBtn}
           onPress={handleOnPressStartDate}
@@ -36,30 +36,32 @@ function Calendar({ selectedStartDate,setSelectedStartDate,onDateChange }) {
         </TouchableOpacity>
 
         <Modal animationType="slide" transparent={true} visible={openStartDatePicker}>
-          
+
           <View style={styles.modalView}>
-            
+
             <DatePicker
               mode="calendar"
               minimumDate={startDate}
               selected={startedDate}
               onDateChanged={handleChangeStartDate}
               onSelectedChange={(date) => setSelectedStartDate(date)}
+
               options={{
-                backgroundColor: '#080516',
-                textHeaderColor: '#469ab6',
-                textDefaultColor: '#FFFFFF',
-                selectedTextColor: '#FFF',
-                mainColor: '#469ab6',
-                textSecondaryColor: '#FFFFFF',
-                borderColor: 'rgba(122, 146, 165, 0.1)',
+                backgroundColor: "white",
+                textHeaderColor: "#469ab6",
+                textDefaultColor: "black",
+                selectedTextColor: "black",
+                mainColor: "#469ab6",
+                textSecondaryColor: "black",
+                borderColor: "rgba(122, 146, 165, 0.1)",
               }}
             />
 
             <TouchableOpacity onPress={handleOnPressStartDate}>
-              <Text style={{ color: 'white' }}>OK</Text>
+              <Text style={{ color: '#00567D', backgroundColor: "#d3d3d3", fontWeight: 'bold', paddingVertical: 3, paddingHorizontal: 10 }}>OK</Text>
             </TouchableOpacity>
-            
+
+
           </View>
         </Modal>
       </View>
@@ -84,21 +86,21 @@ const styles = StyleSheet.create({
     marginTop: 200,
     margin: 20,
     marginVertical: '%10',
-    backgroundColor: '#080516',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
     padding: 35,
     width: '90%',
     position: 'absolute',
-    shadowColor: '#000',
+    shadowColor: 'black',
     shadowOffset: {
-      width: 0,
+      width: 2,
       height: 2,
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.5,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 4,
   },
 });
 

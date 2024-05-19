@@ -58,7 +58,7 @@ function Calendar({ selectedStartDate, setSelectedStartDate, onDateChange }) {
             />
 
             <TouchableOpacity onPress={handleOnPressStartDate}>
-              <Text style={{ color: '#00567D', backgroundColor: "#d3d3d3", fontWeight: 'bold', paddingVertical: 3, paddingHorizontal: 10 }}>OK</Text>
+              <Text style={{ color: '#00567D', backgroundColor: "#DEFFFB", fontWeight: 'bold', paddingVertical: 3, paddingHorizontal: 12 }}>OK</Text>
             </TouchableOpacity>
 
 

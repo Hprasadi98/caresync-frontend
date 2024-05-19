@@ -9,6 +9,7 @@ function PatientGridTile({
   color,
   blood,
   onPress,
+  profileImage
 }) {
   return (
     <View style={[styles.gridItem, { backgroundColor: "#E3F7FF" }]}>
@@ -18,13 +19,16 @@ function PatientGridTile({
         onPress={onPress}
       >
         <View style={styles.innerContainer}>
-          <View></View>
+        
+            <Image source={{uri:profileImage}} style={styles.image} />
+          
+          <View style={styles.subcontainer}>
 
           <Text style={styles.title}>
             {firstName} {lastName}
           </Text>
 
-          <View style={styles.subcontainer}>
+        
             <Text style={styles.nic}>Patient ID :{id}</Text>
        
           </View>
@@ -56,6 +60,10 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     padding: 16,
+    flexDirection: "row",
+    alignItems: "center",
+   
+    
   },
   title: {
     paddingLeft: 50,
@@ -76,11 +84,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 15,
   },
-  image: {
-    marginTop: 2,
-    width: 50,
-    height: 50,
-  },
+
   id: {
     paddingLeft: 300,
     fontSize: 15,
@@ -88,5 +92,15 @@ const styles = StyleSheet.create({
   },
   subcontainer:{
     flexDirection: "column",
+    marginLeft: -20,
+
+  
+
+  },
+  image:{
+    width:50,
+    height:50,
+    borderRadius:50,
+ 
   }
 });

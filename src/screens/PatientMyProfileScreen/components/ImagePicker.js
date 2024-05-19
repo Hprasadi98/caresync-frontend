@@ -6,16 +6,46 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { launchCameraAsync } from "expo-image-picker";
 import axios from "axios";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { baseUrl } from "../../../constants/constants";
 
-const ImagePicker = ({ userId }) => {
-  const [image, setImage] = useState(null);
+const ImagePicker = ({ userId ,picture}) => {
+  const [image, setImage] = useState(picture);
   const [loading, setLoading] = useState(false);
   const { user } = useAuthContext();
+
+  useEffect(() => {
+    // Fetch the profile image when the component mounts
+    const fetchProfileImage = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}/patients/${user._id}`);
+        setImage(response.data.profileImage); // Adjust the path as needed based on your response structure
+      } catch (error) {
+        console.error("Error fetching profile image:", error);
+      }
+    };
+
+    fetchProfileImage();
+  }, [user._id]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const takeImageHandler = async () => {
     const result = await launchCameraAsync({
@@ -53,6 +83,7 @@ const ImagePicker = ({ userId }) => {
       );
       console.log("Image upload response:", response.data);
       // Handle success (e.g., update state or show a message)
+      setImage(response.data.profileImage); 
     } catch (error) {
       console.error("Error uploading image:", error);
       // Handle error (e.g., show an error message)

@@ -122,7 +122,7 @@ const MyprofileScreen = ({ navigation }) => {
       <Header name="My Profile" />
       <ScrollView>
         <View style={styles.container}>
-          <ImagePicker/>
+          <ImagePicker picture={details.profileImage}/>
           <Text style={styles.yourinfo}>Your Info</Text>
                 <React.Fragment>
                   <DetailRow

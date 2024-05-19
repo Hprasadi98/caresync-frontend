@@ -42,6 +42,7 @@ function PatientsScreen({ navigation }) {
           lastName={item.lastName}
           nic={item.nic}
           email={item.email}
+          profileImage={item.profileImage}
     
           onPress={presshandler}
         />

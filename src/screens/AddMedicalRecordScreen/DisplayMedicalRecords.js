@@ -14,24 +14,24 @@ import { baseUrl } from "../../constants/constants";
 import axios from "axios";
 
 function DisplayMedicalRecords({ navigation }) {
-    const [patientsHistory, setPatientsHistory] = useState([]);
+    const [medicalRecords, setMedicalRecords] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
 
-    const fetchPatientsHistory = async () => {
+    const fetchMedicalHistory = async () => {
         try {
             const response = await axios.get(`${baseUrl}/medicalIncident`);
             console.log("Response from backend:", response.data);
-            setPatientsHistory(response.data);
+            setMedicalRecords(response.data);
         } catch (error) {
-            console.error("Error fetching patientsHistory:", error);
+            console.error("Error fetching medical records:", error);
         }
     };
 
     useEffect(() => {
-        fetchPatientsHistory();
+        fetchMedicalHistory();
         const unsubscribe = navigation.addListener('focus', () => {
             // Refresh the data whenever the screen gains focus
-            fetchPatientsHistory();
+            fetchMedicalHistory();
         });
         return unsubscribe;
     }, [navigation]);
@@ -54,7 +54,7 @@ function DisplayMedicalRecords({ navigation }) {
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        fetchPatientsHistory().then(() => {
+        fetchMedicalHistory().then(() => {
             setRefreshing(false);
         });
     }, []);
@@ -65,7 +65,7 @@ function DisplayMedicalRecords({ navigation }) {
             <View style={styles.background}>
                 <View style={styles.container}>
                     <FlatList
-                        data={patientsHistory}
+                        data={medicalRecords}
                         keyExtractor={(item) => item._id}
                         renderItem={renderCategoryItem}
                         refreshControl={

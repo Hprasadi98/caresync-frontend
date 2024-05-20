@@ -26,7 +26,7 @@ const NewMedicalRecordScreen = () => {
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
-       
+
         navigation.navigate('DisplayMedicalRecords', {
           recordName, recordDescription
 
@@ -47,7 +47,7 @@ const NewMedicalRecordScreen = () => {
   console.log(recordName);
   console.log(recordDescription);
 
- 
+
 
 
   return (

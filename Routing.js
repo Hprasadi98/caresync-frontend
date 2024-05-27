@@ -47,6 +47,10 @@ import DisplayMedicalRecords from "./src/screens/AddMedicalRecordScreen/DisplayM
 import OtpVerifyScreen from "./src/screens/AuthenticationScreens/PatientAuthentication/OtpVerifyPatient";
 import ContactPatientScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/ContactPatientScreen";
 
+import MedicationHome from "./src/screens/DocSideMedicationView/MedicationHome";
+import AddMedicationByDoctor from "./src/screens/DocSideMedicationView/AddMedication";
+import ViewMedicationByDoctor from "./src/screens/DocSideMedicationView/ViewMedication";
+
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
 const Stack = createNativeStackNavigator();
@@ -139,6 +143,10 @@ export default function Routing() {
         <Stack.Screen name="MedicationView" component={MedicationView} />
         <Stack.Screen name="AddMedication" component={AddMedication} />
         <Stack.Screen name="ViewMedication" component={ViewMedication} />
+
+        <Stack.Screen name="MedicationHome" component={MedicationHome} />
+        <Stack.Screen name="AddMedicationByDoctor" component={AddMedicationByDoctor}/>
+        <Stack.Screen name="ViewMedicationByDoctor" component={ViewMedicationByDoctor}/>
 
         <Stack.Screen
           name="MyprofileScreen"

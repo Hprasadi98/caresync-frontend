@@ -55,10 +55,12 @@ const AddMedication = ({ navigation, route }) => {
     }
   }, [selectedItem]);
 
+  //refresh medications when add a new medication
   const refreshMedicationView = () => {
     navigation.navigate("MedicationView", { refresh: true });
   };
 
+  //generate and store all dates between start date and end date in an array
   const generateDateRange = (startDate, numberOfDays) => {
     const endDate = addDays(startDate, numberOfDays - 1);
     const dates = eachDayOfInterval({ start: startDate, end: endDate });
@@ -69,6 +71,7 @@ const AddMedication = ({ navigation, route }) => {
 
   const by = "patient";
 
+  //add new medication to the database
   const addmedication = () => {
     const payload = {
       by: by,
@@ -81,12 +84,10 @@ const AddMedication = ({ navigation, route }) => {
       baw: checked,
       description: description,
     };
-    //console.log(payload);
     api
       .post(`${baseUrl}/medication`, payload)
       .then(() => {
         console.log("add");
-        //getmedication();
         setisEdit(false);
       })
       .catch((error) => {
@@ -94,6 +95,7 @@ const AddMedication = ({ navigation, route }) => {
       });
   };
 
+  //update existing medication in the database
   const updatemedication = (id) => {
     const payload = {
       medicine: medicineName,
@@ -105,13 +107,10 @@ const AddMedication = ({ navigation, route }) => {
       baw: checked,
       description: description,
     };
-    //console.log(payload);
     api
       .put(`${baseUrl}/medication/${id}`, payload)
       .then((response) => {
         console.log("updated");
-        //console.log(response.data);
-        //getmedication();
         setisEdit(false);
       })
       .catch((error) => {
@@ -139,6 +138,7 @@ const AddMedication = ({ navigation, route }) => {
       ]
     );
   };
+
   //function with modal visibility changing, parameter value boolean
   const changeModalVisibility = (bool) => {
     setisModalVisible(bool);

@@ -28,7 +28,7 @@ const MedicationHome = ({ navigation, route }) => {
   const [markedDates, setMarkedDates] = useState({});
   const [loading, setLoading] = useState(true);
 
-  //API integration for get results
+  //API integration for get medications
   const getmedication = () => {
     setLoading(true);
     const URL = `${baseUrl}/medication`;
@@ -38,7 +38,6 @@ const MedicationHome = ({ navigation, route }) => {
       })
       .then((data) => {
         setmedidetail(data);
-        //console.log(data);
         markDates(data);
         setLoading(false);
       })
@@ -48,6 +47,7 @@ const MedicationHome = ({ navigation, route }) => {
       });
   };
 
+  //mark dates in calendar
   const markDates = (data) => {
     const markedDatesObj = {};
     const currentDate = new Date(); // Get current date
@@ -67,6 +67,7 @@ const MedicationHome = ({ navigation, route }) => {
     setMarkedDates(markedDatesObj);
   };
 
+  //delete specific medication by doc
   const deleteOneResult = (id) => {
     console.log(id);
     api
@@ -79,12 +80,14 @@ const MedicationHome = ({ navigation, route }) => {
       });
   };
 
+  //navigate to add medication screen
   const addMedication = () => {
     navigation.navigate("AddMedicationByDoctor", {
       refreshMedicationView: true,
     });
   };
 
+  //navigate to update medication screen when touch update
   const updateMedication = (id) => {
     const selectedItem = medidetail.find((item) => item._id === id);
     navigation.navigate("AddMedicationByDoctor", {
@@ -93,7 +96,7 @@ const MedicationHome = ({ navigation, route }) => {
     });
   };
 
-  //navigate to medication view
+  //navigate to medication view screen and pass the selected day
   const viewMedication = (day) => {
     navigation.navigate("ViewMedicationByDoctor", { selectedday: day });
   };

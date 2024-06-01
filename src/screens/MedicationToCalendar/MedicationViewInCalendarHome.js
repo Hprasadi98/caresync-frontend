@@ -39,7 +39,6 @@ const MedicationView = ({ navigation, route }) => {
       })
       .then((data) => {
         setmedidetail(data);
-        //console.log(data);
         markDates(data);
         setLoading(false);
       })
@@ -49,6 +48,7 @@ const MedicationView = ({ navigation, route }) => {
       });
   };
 
+  //mark dates in calendar
   const markDates = (data) => {
     const markedDatesObj = {};
     const currentDate = new Date(); // Get current date
@@ -68,6 +68,7 @@ const MedicationView = ({ navigation, route }) => {
     setMarkedDates(markedDatesObj);
   };
 
+  //API integration for delete a specific medication
   const deleteOneResult = (id) => {
     console.log(id);
     api

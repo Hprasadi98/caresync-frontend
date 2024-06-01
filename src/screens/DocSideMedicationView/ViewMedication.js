@@ -24,6 +24,7 @@ const ViewMedicationByDoctor = ({ route }) => {
     getmedicationforDay(selectedday.dateString);
   }, [selectedday.dateString]);
 
+  //when touch a calendar dat get medication for selected day
   const getmedicationforDay = (day) => {
     setLoading(true);
     console.log(day);
@@ -34,7 +35,6 @@ const ViewMedicationByDoctor = ({ route }) => {
       })
       .then((data) => {
         setmedidetail(data.response);
-        //console.log("Medi data",data.response);
         setLoading(false);
       })
       .catch((error) => {

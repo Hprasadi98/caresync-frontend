@@ -43,7 +43,6 @@ const AddMedicationByDoctor = ({ navigation, route }) => {
   useEffect(() => {
     console.log(selectedItem);
     if (selectedItem) {
-      // Populate the form fields with selectedItem values
       setMedicineName(selectedItem.medicine);
       setDateInput(selectedItem.date);
       setPillAmount(selectedItem.pills.toString());
@@ -69,6 +68,7 @@ const AddMedicationByDoctor = ({ navigation, route }) => {
 
   const by = "doctor";
 
+  //add new medication to database by doctor
   const addmedication = () => {
     const payload = {
       by: by,
@@ -81,12 +81,10 @@ const AddMedicationByDoctor = ({ navigation, route }) => {
       baw: checked,
       description: description,
     };
-    //console.log(payload);
     api
       .post(`${baseUrl}/medication`, payload)
       .then(() => {
         console.log("add");
-        //getmedication();
         setisEdit(false);
       })
       .catch((error) => {
@@ -94,6 +92,7 @@ const AddMedicationByDoctor = ({ navigation, route }) => {
       });
   };
 
+  //update existing medication by doctor
   const updatemedication = (id) => {
     const payload = {
       medicine: medicineName,
@@ -105,13 +104,10 @@ const AddMedicationByDoctor = ({ navigation, route }) => {
       baw: checked,
       description: description,
     };
-    //console.log(payload);
     api
       .put(`${baseUrl}/medication/${id}`, payload)
       .then((response) => {
         console.log("updated");
-        //console.log(response.data);
-        //getmedication();
         setisEdit(false);
       })
       .catch((error) => {
@@ -138,6 +134,7 @@ const AddMedicationByDoctor = ({ navigation, route }) => {
       ]
     );
   };
+
   //function with modal visibility changing, parameter value boolean
   const changeModalVisibility = (bool) => {
     setisModalVisible(bool);

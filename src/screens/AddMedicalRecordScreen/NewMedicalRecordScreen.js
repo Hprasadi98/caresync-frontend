@@ -1,62 +1,58 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, TextInput, Pressable, SafeAreaView } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Pressable,
+  SafeAreaView,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import Header from "../../components/Header";
 import { baseUrl } from "../../constants/constants";
 
-
-
-
 const NewMedicalRecordScreen = () => {
-
   const navigation = useNavigation();
 
   const handleAddNew = () => {
     fetch(`${baseUrl}/medicalIncident`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         recordName: recordName,
         recordDescription: recordDescription,
       }),
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
 
-        navigation.navigate('DisplayMedicalRecords', {
-          recordName, recordDescription
-
+        navigation.navigate("DisplayMedicalRecords", {
+          recordName,
+          recordDescription,
         });
-
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
         // Handle error
       });
   };
 
-
-
-  const [recordName, setRecordName] = useState('');
-  const [recordDescription, setRecordDescription] = useState('');
+  const [recordName, setRecordName] = useState("");
+  const [recordDescription, setRecordDescription] = useState("");
 
   console.log(recordName);
   console.log(recordDescription);
 
-
-
-
   return (
-    <SafeAreaView >
+    <SafeAreaView>
       <Header name="Medical Record" />
 
       <View style={styles.background}>
         <View style={styles.container}>
-
           <View style={styles.inputcontainer}>
             <Text style={styles.text1}>Record Name</Text>
             <TextInput
@@ -73,87 +69,73 @@ const NewMedicalRecordScreen = () => {
               onChangeText={(text) => setRecordDescription(text)}
             />
           </View>
-
-
-
         </View>
         <View style={styles.btn}>
           <Pressable onPress={handleAddNew}>
             <Text style={styles.btntext}>Save</Text>
           </Pressable>
         </View>
-
-
-
       </View>
-
-
     </SafeAreaView>
-  )
-
+  );
 };
 export default NewMedicalRecordScreen;
 
 const styles = StyleSheet.create({
-
   container: {
-    flexDirection: 'column',
-    width: '100%',
-    height: '72%',
-    backgroundColor: '#FFFF',
-
+    flexDirection: "column",
+    width: "100%",
+    height: "72%",
+    backgroundColor: "#FFFF",
   },
   btn: {
-    backgroundColor: '#00567D',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#00567D",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 10,
-    maxWidth: '100%',
+    maxWidth: "100%",
     padding: 2,
-
   },
   btntext: {
-    color: '#FFF',
+    color: "#FFF",
     padding: 8,
     fontSize: 16,
-
   },
 
   background: {
-    backgroundColor: '#DEFFFB',
-    width: '100%',
-    height: '100%',
+    backgroundColor: "#DEFFFB",
+    width: "100%",
+    height: "100%",
     padding: 15,
   },
   text1: {
     marginLeft: 28,
-    fontWeight: '500',
+    fontWeight: "500",
     fontSize: 16,
-    color: '#1e1e1e',
+    color: "#1e1e1e",
   },
   inputcontainer: {
     // flex: 0.4,
-    paddingTop: '6%',
-    justifyContent: 'center',
+    paddingTop: "6%",
+    justifyContent: "center",
   },
   text1: {
     marginLeft: 28,
-    fontWeight: '500',
+    fontWeight: "500",
     fontSize: 16,
-    color: '#1e1e1e',
+    color: "#1e1e1e",
     // fontFamily: 'poppins regular,',
   },
   input: {
-    borderColor: '#8e8e8e',
+    borderColor: "#8e8e8e",
     borderWidth: 1,
     padding: 10,
-    width: '88%',
+    width: "88%",
     height: 38,
     margin: 20,
     marginLeft: 25,
     // marginTop: 10,
     borderRadius: 10,
     fontSize: 16,
-
   },
 });

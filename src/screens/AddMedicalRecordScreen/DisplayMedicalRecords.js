@@ -11,7 +11,7 @@ import {
 import Header from "../../components/Header";
 import MedicalRecordGrid from "../AddMedicalIncidentScreen/components/MedicalRecordGrid";
 import { baseUrl } from "../../constants/constants";
-import axios from "axios";
+import api from "../../Services/AuthService"
 
 function DisplayMedicalRecords({ navigation }) {
   const [medicalRecords, setMedicalRecords] = useState([]);
@@ -19,8 +19,8 @@ function DisplayMedicalRecords({ navigation }) {
 
   const fetchMedicalHistory = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/medicalIncident`);
-      console.log("Response from backend:", response.data);
+      const response = await api.get(`${baseUrl}/medicalIncident`);
+      // console.log("Response from backend:", response.data);
       setMedicalRecords(response.data);
     } catch (error) {
       console.error("Error fetching medical records:", error);

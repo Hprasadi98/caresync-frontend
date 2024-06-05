@@ -10,14 +10,11 @@ import Header from "../../components/Header";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
 import { baseUrl } from "../../constants/constants";
 
 function GiveDocAccess({ navigation, route }) {
   const { user } = useAuthContext();
-
   const [doc, setDoc] = useState("");
-
   const patientID = user?._id;
 
   useEffect(() => {
@@ -99,7 +96,9 @@ function GiveDocAccess({ navigation, route }) {
             Doctors Name: {doc.firstName + " " + doc.lastName}
           </Text>
           <Text style={styles.cardText}>DoctorID: {doc.medicalId}</Text>
-          <Text style={styles.cardText}>Specialization: {doc.specialization} </Text>
+          <Text style={styles.cardText}>
+            Specialization: {doc.specialization}{" "}
+          </Text>
         </View>
 
         <View style={styles.disclaimer}>
@@ -120,7 +119,6 @@ function GiveDocAccess({ navigation, route }) {
           </Pressable>
         </View>
       </View>
-      
     </SafeAreaView>
   );
 }

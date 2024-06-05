@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, FlatList ,ActivityIndicator} from "react-native";
-import Header from "../MedicalTestHomeScreen/components/Header";
+import Header from "../../MedicalTestHomeScreen/components/Header";
 import { useState, useEffect } from "react";
-import { baseUrl } from "../../constants/constants";
+import { baseUrl } from "../../../constants/constants";
 
 const ViewMedication = ({ route }) => {
   const [medidetail, setmedidetail] = useState([]);

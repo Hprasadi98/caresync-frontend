@@ -28,8 +28,8 @@ import MedicalIdFalseScreen from "./src/screens/AuthenticationScreens/DoctorAuth
 import Header from "./src/components/Header";
 import MedicationView from "./src/screens/MedicationToCalendar/MedicationViewInCalendarHome";
 import MedicationsScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/MedicationsScreen";
-import AddMedication from "./src/screens/MedicationToCalendar/AddMedicationPage";
-import ViewMedication from "./src/screens/MedicationToCalendar/ViewMedicationPage";
+import AddMedication from "./src/screens/MedicationToCalendar/pages/Add&Edit_MedicationPage";
+import ViewMedication from "./src/screens/MedicationToCalendar/pages/ViewDailyMedicationPage";
 import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedicalRecordScreen";
 import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
 import DoctorProfileScreen from "./src/screens/DoctorMyProfileScreen/DoctorProfileScreen";

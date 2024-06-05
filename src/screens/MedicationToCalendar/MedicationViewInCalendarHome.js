@@ -13,9 +13,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { baseUrl } from "../../constants/constants";
 import { useEffect, useState } from "react";
 import api from "../../Services/AuthService";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 //navigate to medication adding form
 const MedicationView = ({ navigation, route }) => {
+  const { user } = useAuthContext();
   const { refresh } = route.params ? route.params : { refresh: false };
 
   useEffect(() => {
@@ -32,20 +34,32 @@ const MedicationView = ({ navigation, route }) => {
   //API integration for get results
   const getmedication = () => {
     setLoading(true);
-    const URL = `${baseUrl}/medication`;
-    fetch(URL)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setmedidetail(data);
-        markDates(data);
+    api
+      .get(`${baseUrl}/medication/${user._id}`)
+      .then((response) => {
+        setmedidetail(response.data);
+        markDates(response.data);
         setLoading(false);
       })
       .catch((error) => {
         console.error("Axios Error : ", error);
         setLoading(false);
       });
+
+    // const URL = `${baseUrl}/medication`;
+    // fetch(URL)
+    //   .then((res) => {
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     setmedidetail(data);
+    //     markDates(data);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Axios Error : ", error);
+    //     setLoading(false);
+    //   });
   };
 
   //mark dates in calendar
@@ -71,14 +85,31 @@ const MedicationView = ({ navigation, route }) => {
   //API integration for delete a specific medication
   const deleteOneResult = (id) => {
     console.log(id);
-    api
-      .delete(`${baseUrl}/medication/${id}`)
-      .then(() => {
-        getmedication();
-      })
-      .catch((error) => {
-        console.error("Axios Error : ", error);
-      });
+    Alert.alert(
+      "Confirm Delete",
+      "Are you sure you want to delete this medication?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {
+            console.log("Cancel deletion");
+          },
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            api
+              .delete(`${baseUrl}/medication/${id}`)
+              .then(() => {
+                getmedication();
+              })
+              .catch((error) => {
+                console.error("Axios Error : ", error);
+              });
+          },
+        },
+      ]
+    );
   };
 
   const confirmDelete = (id) => {
@@ -97,7 +128,7 @@ const MedicationView = ({ navigation, route }) => {
           text: "OK",
           onPress: () => deleteOneResult(id),
         },
-      ]   
+      ]
     );
   };
 
@@ -150,7 +181,7 @@ const MedicationView = ({ navigation, route }) => {
           renderItem={({ item }) => (
             <View style={styles.listContainer}>
               <View style={styles.dateContainer}>
-                <Text style={styles.datetext}>{item.date}</Text>
+                <Text style={styles.datetext}>{item.addedDate}</Text>
               </View>
               <Text style={styles.medicineNametext}>{item.medicine}</Text>
               <Text style={styles.daystext}>For {item.days} Day/s</Text>
@@ -166,24 +197,31 @@ const MedicationView = ({ navigation, route }) => {
               )}
               <View style={styles.listbottom}>
                 <View style={styles.byContainer}>
-                  <Text style={styles.bytext}>By {item.by}</Text>
+                  <Text style={styles.bytext}>By {item.addedBy}</Text>
                 </View>
                 <View style={styles.editdeleteContainer}>
                   <TouchableOpacity
-                    disabled={item.by !== "patient"}
+                    disabled={item.addedBy !== "patient"}
                     onPress={() => {
                       //console.log(item._id);
                       updateMedication(item._id);
                     }}
                   >
-                    <Text style={[styles.edittext, item.by !== "patient" && styles.disabledButton,]}>Edit</Text>
+                    <Text
+                      style={[
+                        styles.edittext,
+                        item.addedBy !== "patient" && styles.disabledButton,
+                      ]}
+                    >
+                      Edit
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      if (item.by !== "patient") {
+                      if (item.addedBy !== "patient") {
                         confirmDelete(item._id);
-                      } else{
-                      deleteOneResult(item._id);
+                      } else {
+                        deleteOneResult(item._id);
                       }
                     }}
                   >
@@ -194,8 +232,7 @@ const MedicationView = ({ navigation, route }) => {
             </View>
           )}
         />
-      )
-      }
+      )}
       <TouchableOpacity
         style={styles.roundedPlusButton}
         onPress={() => {
@@ -205,8 +242,8 @@ const MedicationView = ({ navigation, route }) => {
         <Ionicons name="add-circle" size={60} color="#00567D" />
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   centered: {
@@ -306,7 +343,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     borderRadius: 10,
   },
-  disabledButton:{
+  disabledButton: {
     backgroundColor: "gray",
   },
   deletetext: {

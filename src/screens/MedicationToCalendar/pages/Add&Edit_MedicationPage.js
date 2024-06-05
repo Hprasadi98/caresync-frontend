@@ -9,14 +9,15 @@ import {
   Modal,
   Dimensions,
 } from "react-native";
-import Header from "../MedicalTestHomeScreen/components/Header";
+import Header from "../../MedicalTestHomeScreen/components/Header";
 import { TextInput, RadioButton } from "react-native-paper";
 import { EvilIcons, AntDesign } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
-import api from "../../Services/AuthService";
-import { baseUrl } from "../../constants/constants";
+import api from "../../../Services/AuthService";
+import { baseUrl } from "../../../constants/constants";
 import { format, addDays, eachDayOfInterval } from "date-fns";
 import DatePicker from "react-native-modern-datepicker";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const AddMedication = ({ navigation, route }) => {
   const [medicineName, setMedicineName] = useState("");
@@ -28,15 +29,16 @@ const AddMedication = ({ navigation, route }) => {
   const [description, setdescription] = useState("");
   const [isModalVisible, setisModalVisible] = useState(false);
   const [checked, setChecked] = useState("before");
+
   const padtoTwo = (number) => (number <= 9 ? `0${number}` : number);
   var date = new Date().getDate();
   var month = new Date().getMonth() + 1;
   var year = new Date().getFullYear();
   let sDate = `${year}-${padtoTwo(month)}-${padtoTwo(date)}`;
+
   const [isEdit, setisEdit] = useState(false);
-
   const { selectedItem } = route.params;
-
+  const { user } = useAuthContext();
   const today = new Date();
   const startingDate = format(new Date(today), "yyyy-MM-dd");
 
@@ -74,9 +76,10 @@ const AddMedication = ({ navigation, route }) => {
   //add new medication to the database
   const addmedication = () => {
     const payload = {
-      by: by,
+      userID: user._id,
+      addedBy: by,
       medicine: medicineName,
-      date: dateInput,
+      addedDate: dateInput,
       pills: pillAmount,
       days: noofdays,
       dayArray: dayArray,
@@ -85,7 +88,7 @@ const AddMedication = ({ navigation, route }) => {
       description: description,
     };
     api
-      .post(`${baseUrl}/medication`, payload)
+      .post(`${baseUrl}/medication/add`, payload)
       .then(() => {
         console.log("add");
         setisEdit(false);
@@ -98,8 +101,9 @@ const AddMedication = ({ navigation, route }) => {
   //update existing medication in the database
   const updatemedication = (id) => {
     const payload = {
+      userID: user._id,
       medicine: medicineName,
-      date: dateInput,
+      addedDate: dateInput,
       pills: pillAmount,
       days: noofdays,
       dayArray: dayArray,
@@ -108,7 +112,7 @@ const AddMedication = ({ navigation, route }) => {
       description: description,
     };
     api
-      .put(`${baseUrl}/medication/${id}`, payload)
+      .put(`${baseUrl}/medication/update/${id}`, payload)
       .then((response) => {
         console.log("updated");
         setisEdit(false);
@@ -172,7 +176,7 @@ const AddMedication = ({ navigation, route }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Header name="Add Medication" />
+      <Header name={isEdit ? "Update Medications" : "Add Medications"} />
       <ScrollView>
         <View style={styles.container}>
           <Text style={styles.topics}>Name of Medicine</Text>

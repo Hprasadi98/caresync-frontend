@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React, { useState,useEffect } from "react";
-import { launchCameraAsync } from "expo-image-picker";
+import { launchCameraAsync,launchImageLibraryAsync } from "expo-image-picker";
 import axios from "axios";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { baseUrl } from "../../../constants/constants";
@@ -48,13 +48,13 @@ const ImagePicker = ({ userId ,picture}) => {
 
 
   const takeImageHandler = async () => {
-    const result = await launchCameraAsync({
+    const result = await launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [16, 9],
       quality: 0.5,
     });
 
-    if (!result.cancelled) {
+    if (!result) {
       setImage(result.uri);
       uploadImage(result.uri);
     }

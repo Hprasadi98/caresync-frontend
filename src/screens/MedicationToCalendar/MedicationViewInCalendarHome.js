@@ -17,6 +17,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 //navigate to medication adding form
 const MedicationView = ({ navigation, route }) => {
+  
   const { user } = useAuthContext();
   const { refresh } = route.params ? route.params : { refresh: false };
 

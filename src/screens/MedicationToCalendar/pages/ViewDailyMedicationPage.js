@@ -1,9 +1,19 @@
-import { StyleSheet, Text, View, FlatList ,ActivityIndicator} from "react-native";
-import Header from "../MedicalTestHomeScreen/components/Header";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
+import Header from "../../MedicalTestHomeScreen/components/Header";
 import { useState, useEffect } from "react";
-import { baseUrl } from "../../constants/constants";
+import { baseUrl } from "../../../constants/constants";
+import api from "../../../Services/AuthService";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const ViewMedication = ({ route }) => {
+  const { user } = useAuthContext();
+
   const [medidetail, setmedidetail] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -18,23 +28,39 @@ const ViewMedication = ({ route }) => {
     getmedicationforDay(selectedday.dateString);
   }, [selectedday.dateString]);
 
+  //get medication when touch calendar day
   const getmedicationforDay = (day) => {
     setLoading(true);
     console.log(day);
-    const URL = `${baseUrl}/medication/${day}`;
-    fetch(URL)
-      .then((res) => {
-        return res.json();
+    api
+      .get(`${baseUrl}/medication/date/${day}`, {
+        params: {
+          patientID: user._id,
+        },
       })
-      .then((data) => {
-        setmedidetail(data.response);
-        //console.log("Medi data",data.response);
+      .then((response) => {
+        console.log("Daily Data", response.data.response);
+        setmedidetail(response.data.response);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Axios Error : ", error);
         setLoading(false);
       });
+
+    // const URL = `${baseUrl}/medication/date/${day}`;
+    // fetch(URL)
+    //   .then((res) => {
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     setmedidetail(data.response);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error);
+    //     setLoading(false);
+    //   });
   };
 
   if (loading) {
@@ -56,6 +82,7 @@ const ViewMedication = ({ route }) => {
 
   return (
     <View>
+      {console.log("medidetail ", medidetail)}
       <Header name="View Medication" />
 
       <View style={styles.dateContainer}>
@@ -64,12 +91,14 @@ const ViewMedication = ({ route }) => {
         <Text style={styles.dateWeekDay}>{month}</Text>
         <Text style={styles.dateWeekDay}>{year}</Text>
       </View>
-
-      {Array.isArray(medidetail) && (
+      {console.log(Array.isArray(medidetail))}
+      {medidetail && (
         <FlatList
           data={medidetail}
           renderItem={({ item }) => (
             <View style={styles.listContainer}>
+              {console.log("test")}
+              {console.log("item ", item)}
               <Text style={styles.medicineNametext}>{item.medicine}</Text>
               <View style={styles.detailContainer}>
                 <Text style={styles.pilltext}>{item.pills} pill/s</Text>
@@ -81,7 +110,7 @@ const ViewMedication = ({ route }) => {
               {item.description !== null && item.description !== "" && (
                 <Text style={styles.descriptiontext}>{item.description}</Text>
               )}
-              <Text style={styles.bytext}>By {item.by}</Text>
+              <Text style={styles.bytext}>By {item.addedBy}</Text>
             </View>
           )}
         ></FlatList>

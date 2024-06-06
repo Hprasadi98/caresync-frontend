@@ -2,55 +2,55 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 const MedicalHistory = () => {
-  const [breathingExpanded, setBreathingExpanded] = useState(false);
-  const [coughExpanded, setCoughExpanded] = useState(false);
+  // const [breathingExpanded, setBreathingExpanded] = useState(false);
+  // const [coughExpanded, setCoughExpanded] = useState(false);
 
-  const toggleBreathingExpand = () => {
-    setBreathingExpanded(!breathingExpanded);
-    setCoughExpanded(false);
-  };
+  // const toggleBreathingExpand = () => {
+  //   setBreathingExpanded(!breathingExpanded);
+  //   setCoughExpanded(false);
+  // };
 
-  const toggleCoughExpand = () => {
-    setBreathingExpanded(false);
-    setCoughExpanded(!coughExpanded);
-  };
+  // const toggleCoughExpand = () => {
+  //   setBreathingExpanded(false);
+  //   setCoughExpanded(!coughExpanded);
+  // };
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.topPanel}>
-        <Text style={styles.titleMain}>Medical History</Text>
-        <TouchableOpacity style={styles.searchIcon}>
-          <Image source={require('../../assets/Vector.png')} style={styles.searchImage} />
-        </TouchableOpacity>
-      </View>
+  // return (
+  //   <View style={styles.container}>
+  //     <View style={styles.topPanel}>
+  //       <Text style={styles.titleMain}>Medical History</Text>
+  //       <TouchableOpacity style={styles.searchIcon}>
+  //         <Image source={require('../../assets/Vector.png')} style={styles.searchImage} />
+  //       </TouchableOpacity>
+  //     </View>
 
-      <TouchableOpacity style={styles.medicalDataContainer} onPress={toggleBreathingExpand}>
-        <Text style={styles.medicalDataTitle}>Breathing Issues</Text>
-        {breathingExpanded && (
-          <View style={styles.expandedMedicalData}>
-            <Text>12 Nov 2023: Hard to breathe</Text>
-            <Text>12 Nov 2023: Dr. Manusha appointment</Text>
-            <Text>13 Nov 2023: Hard to breathe</Text>
-          </View>
-        )}
-      </TouchableOpacity>
+  //     <TouchableOpacity style={styles.medicalDataContainer} onPress={toggleBreathingExpand}>
+  //       <Text style={styles.medicalDataTitle}>Breathing Issues</Text>
+  //       {breathingExpanded && (
+  //         <View style={styles.expandedMedicalData}>
+  //           <Text>12 Nov 2023: Hard to breathe</Text>
+  //           <Text>12 Nov 2023: Dr. Manusha appointment</Text>
+  //           <Text>13 Nov 2023: Hard to breathe</Text>
+  //         </View>
+  //       )}
+  //     </TouchableOpacity>
 
-      <TouchableOpacity style={styles.medicalDataContainer} onPress={toggleCoughExpand}>
-        <Text style={styles.medicalDataTitle}>Cough</Text>
-        {coughExpanded && (
-          <View style={styles.expandedMedicalData}>
-            <Text>12 Nov 2023: Persistent cough</Text>
-            <Text>14 Nov 2023: Dr. Smith appointment</Text>
-            <Text>15 Nov 2023: Cough with phlegm</Text>
-          </View>
-        )}
-      </TouchableOpacity>
+  //     <TouchableOpacity style={styles.medicalDataContainer} onPress={toggleCoughExpand}>
+  //       <Text style={styles.medicalDataTitle}>Cough</Text>
+  //       {coughExpanded && (
+  //         <View style={styles.expandedMedicalData}>
+  //           <Text>12 Nov 2023: Persistent cough</Text>
+  //           <Text>14 Nov 2023: Dr. Smith appointment</Text>
+  //           <Text>15 Nov 2023: Cough with phlegm</Text>
+  //         </View>
+  //       )}
+  //     </TouchableOpacity>
 
-      <TouchableOpacity style={styles.addButton} onPress={() => console.log('Add button pressed')}>
-        <Text style={styles.addButtonText}>+</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  //     <TouchableOpacity style={styles.addButton} onPress={() => console.log('Add button pressed')}>
+  //       <Text style={styles.addButtonText}>+</Text>
+  //     </TouchableOpacity>
+  //   </View>
+  // );
 };
 
 const styles = StyleSheet.create({

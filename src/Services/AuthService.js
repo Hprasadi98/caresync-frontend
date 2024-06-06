@@ -6,8 +6,6 @@ const api = axios.create({});
 
 api.defaults.baseURL = baseUrl;
 
-
-
 // Add a request interceptor
 api.interceptors.request.use(
   async (config) => {
@@ -17,7 +15,10 @@ api.interceptors.request.use(
     console.log("Intercepted");
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    Promise.reject(error);
+    console.log(error);
+  }
 );
 
 export default api;

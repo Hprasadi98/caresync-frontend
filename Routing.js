@@ -28,8 +28,8 @@ import MedicalIdFalseScreen from "./src/screens/AuthenticationScreens/DoctorAuth
 import Header from "./src/components/Header";
 import MedicationView from "./src/screens/MedicationToCalendar/MedicationViewInCalendarHome";
 import MedicationsScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/MedicationsScreen";
-import AddMedication from "./src/screens/MedicationToCalendar/AddMedicationPage";
-import ViewMedication from "./src/screens/MedicationToCalendar/ViewMedicationPage";
+import AddMedication from "./src/screens/MedicationToCalendar/pages/Add&Edit_MedicationPage";
+import ViewMedication from "./src/screens/MedicationToCalendar/pages/ViewDailyMedicationPage";
 import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedicalRecordScreen";
 import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
 import DoctorProfileScreen from "./src/screens/DoctorMyProfileScreen/DoctorProfileScreen";
@@ -46,6 +46,10 @@ import OTPVerificationScreen from "./src/screens/AuthenticationScreens/OtpVerify
 import DisplayMedicalRecords from "./src/screens/AddMedicalRecordScreen/DisplayMedicalRecords";
 import OtpVerifyScreen from "./src/screens/AuthenticationScreens/PatientAuthentication/OtpVerifyPatient";
 import ContactPatientScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/ContactPatientScreen";
+
+import MedicationHome from "./src/screens/DocSideMedicationView/MedicationHome";
+import AddMedicationByDoctor from "./src/screens/DocSideMedicationView/AddMedication";
+import ViewMedicationByDoctor from "./src/screens/DocSideMedicationView/ViewMedication";
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
@@ -139,6 +143,10 @@ export default function Routing() {
         <Stack.Screen name="MedicationView" component={MedicationView} />
         <Stack.Screen name="AddMedication" component={AddMedication} />
         <Stack.Screen name="ViewMedication" component={ViewMedication} />
+
+        <Stack.Screen name="MedicationHome" component={MedicationHome} />
+        <Stack.Screen name="AddMedicationByDoctor" component={AddMedicationByDoctor}/>
+        <Stack.Screen name="ViewMedicationByDoctor" component={ViewMedicationByDoctor}/>
 
         <Stack.Screen
           name="MyprofileScreen"

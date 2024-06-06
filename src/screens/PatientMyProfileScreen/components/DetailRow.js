@@ -27,7 +27,7 @@ const DetailRow = ({
   refreshUserData,
 }) => {
   const { user } = useAuthContext();
-  const id = user._id;
+  const id = user ? user._id : null;
 
   const [modalVisible, setModalVisible] = useState(false);
 

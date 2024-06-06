@@ -15,6 +15,7 @@ import Header from "../../components/Header";
 import DetailRowDoctor from "./components/DetailRowDoctor";
 import api from "../../Services/AuthService";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import ImagePickerDoctor from "./components/ImagePickerDoctor";
 
 const DoctorProfileScreen = ({ navigation }) => {
   const { user } = useAuthContext();
@@ -114,14 +115,15 @@ const DoctorProfileScreen = ({ navigation }) => {
       <ScrollView>
         <View style={styles.container}>
           {/* Profile Image */}
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <View style={styles.profileImageContainer}>
               <Image
                 source={require("../../../assets/patient.png")}
                 style={styles.profileImage}
               />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+             <ImagePickerDoctor picture={details.profileImage}/>
 
           <Text style={styles.yourinfo}>Your Info</Text>
           {details.map((data, index) => {

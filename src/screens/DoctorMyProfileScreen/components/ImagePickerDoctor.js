@@ -7,23 +7,24 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { launchImageLibraryAsync } from "expo-image-picker";
+import { launchImageLibraryAsync, launchCameraAsync } from "expo-image-picker";
 import axios from "axios";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { baseUrl } from "../../../constants/constants";
 
-const ImagePicker = ({ userId, picture }) => {
+const ImagePickerDoctor = ({ userId, picture }) => {
   const [image, setImage] = useState(picture);
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(true); // New state for loading user
   const { user } = useAuthContext();
+  const id = "6627c4c328a6a54a64fb544a";
 
   useEffect(() => {
     // Fetch the profile image when the component mounts, only if user is available
     const fetchProfileImage = async () => {
       if (user && user._id) {
         try {
-          const response = await axios.get(`${baseUrl}/patients/${user._id}`);
+          const response = await axios.get(`${baseUrl}/doctors/${id}`);
           setImage(response.data.profileImage); // Adjust the path as needed based on your response structure
         } catch (error) {
           console.error("Error fetching profile image:", error);
@@ -36,10 +37,10 @@ const ImagePicker = ({ userId, picture }) => {
     };
 
     fetchProfileImage();
-  }, [user]);
+  }, []);
 
   const takeImageHandler = async () => {
-    const result = await launchImageLibraryAsync({
+    const result = await launchCameraAsync({
       allowsEditing: true,
       aspect: [16, 9],
       quality: 0.5,
@@ -63,15 +64,11 @@ const ImagePicker = ({ userId, picture }) => {
     formData.append("userId", userId);
 
     try {
-      const response = await axios.post(
-        `${baseUrl}/patients/${user._id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`${baseUrl}/doctors/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log("Image upload response:", response.data);
       // Handle success (e.g., update state or show a message)
       setImage(response.data.profileImage);
@@ -107,7 +104,7 @@ const ImagePicker = ({ userId, picture }) => {
   );
 };
 
-export default ImagePicker;
+export default ImagePickerDoctor;
 
 const styles = StyleSheet.create({
   container: {

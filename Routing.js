@@ -69,8 +69,8 @@ export default function Routing() {
 
 
 
-        // initialRouteName="WelcomeScreen"
-        initialRouteName="DoctorDashboard"
+        initialRouteName="WelcomeScreen"
+        // initialRouteName="DoctorDashboard"
 
 
         // initialRouteName="PatientDashboard"

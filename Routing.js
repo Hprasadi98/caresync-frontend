@@ -70,7 +70,7 @@ export default function Routing() {
 
 
         initialRouteName="WelcomeScreen"
-        //initialRouteName="DoctorDashboard"
+        // initialRouteName="DoctorDashboard"
 
 
         // initialRouteName="PatientDashboard"

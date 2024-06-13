@@ -4,6 +4,7 @@ import { baseUrl } from "../../../constants/constants";
 import axios from "axios";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { LineChart } from "react-native-chart-kit";
+import BMIScale from "./BMIScale";
 
 function BMIGraph() {
   const { user } = useAuthContext();
@@ -39,6 +40,7 @@ function BMIGraph() {
 
   // Memoize BMI calculations to avoid unnecessary re-computation
   const bmiValues = useMemo(() => {
+    //useMemo is a React hook that helps optimize performance by memoizing the results of expensive computations
     console.log("Height: ", height);
     if (!height) return [];
     const heightInMeters = height / 100; // Convert height to meters
@@ -106,6 +108,7 @@ function BMIGraph() {
       <View style={styles.overlayDate}>
         <Text style={styles.overlayTextDate}>Month/Day</Text>
       </View>
+      <BMIScale bmi={bmiValues[bmiValues.length - 1]} />
     </View>
   );
 }
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
   overlay: {
     position: "absolute",
     top: 120, // Adjust as needed
-    left: -10, // Adjust as needed
+    left: 6, // Adjust as needed
   },
   overlayText: {
     fontSize: 14,

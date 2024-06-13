@@ -18,8 +18,6 @@ function WeightGraph() {
 
   const [id, setId] = useState();
 
-
-
   useEffect(() => {
     if (user && user._id) {
       getWeights(user._id);
@@ -31,12 +29,10 @@ function WeightGraph() {
       .get(`${baseUrl}/patients/${userId}`)
       .then((response) => {
         const weights = response.data.pastWeights || [];
-        // Include current weight if it's not already in pastWeights
-        // if (response.data.weight) {
-        //   weights.push({ weight: response.data.weight, date: new Date() });
-        // }
+
         setDetails(weights);
         console.log("Weight Details: ", weights);
+        console.log("Weight: ", response.data.weight);
       })
       .catch((error) => {
         console.error("Axios Error: ", error);
@@ -53,10 +49,59 @@ function WeightGraph() {
       day: "2-digit",
     })
   );
+
+  const datesNew = safeDetails.map(
+    (entry) =>
+      new Date(entry.date)
+        .toLocaleDateString("en-GB", {
+          month: "short",
+          day: "2-digit",
+        })
+        .replace(/\s/g, " ") //replace day and month
+  );
+
   const weights = safeDetails.map((entry) => entry.weight);
+  console.log(weights);
+  // Extract the first and last dates for the date range display
+  const firstDate = datesNew.length > 0 ? datesNew[0] : null;
+  const lastDate = datesNew.length > 0 ? datesNew[datesNew.length - 1] : null;
+
+  //   // Calculate average, min, and max weights
+  const totalWeight = weights.reduce((a, b) => a + b);
+  console.log("Sum of Weights: ", totalWeight);
+  let sum = 0;
+  let num = totalWeight;
+
+  while (num !== 0) {
+    sum += num % 100; // Add the last digit to sum
+    num = Math.floor(num / 100); // Remove the last digit
+  }
+  console.log("Sum of Digits of Total Weight: ", sum);
+
+  const averageWeight = sum / weights.length;
+  const averageWeightFormatted = averageWeight.toFixed(2); // Format to 2 decimal places
+
+  const minWeight = weights.length > 0 ? Math.min(...weights) : null;
+  const maxWeight = weights.length > 0 ? Math.max(...weights) : null;
 
   return (
     <View style={styles.container}>
+      <View style={styles.dateContainer}>
+        {firstDate && lastDate && (
+          <Text style={styles.dateRange}>
+            {firstDate} – {lastDate} ({details.length} records)
+          </Text>
+        )}
+      </View>
+      {averageWeightFormatted && minWeight && maxWeight && (
+        <View style={styles.statsContainer}>
+          <Text style={styles.statsText}>
+            Average Weight: {averageWeightFormatted} kg
+          </Text>
+          <Text style={styles.statsText}>Min Weight: {minWeight} kg</Text>
+          <Text style={styles.statsText}>Max Weight: {maxWeight} kg</Text>
+        </View>
+      )}
       {details.length > 0 ? (
         <LineChart
           data={{
@@ -114,30 +159,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     marginTop: 20,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  dateContainer: {
+    alignSelf: "flex-start", // Align text to the start (left)
+    marginLeft: 20, // Add some padding from the left sides
   },
-  modalContent: {
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 20,
-    alignItems: "center",
-    width: "90%",
+  dateRange: {
+    color: "black", // Adjust color to match your theme
+    fontSize: 15,
+    marginBottom: 10, // Space between the text and the graph
   },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  closeButton: {
-    backgroundColor: "#FBDABB",
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 20,
-  },
+
   overlay: {
     position: "absolute",
     top: 120, // Adjust as needed
@@ -156,7 +187,7 @@ const styles = StyleSheet.create({
   },
   overlayDate: {
     position: "absolute",
-    top: 228, // Adjust as needed
+    top: 258, // Adjust as needed
     left: 150, // Adjust as needed
     paddingBottom: 10,
   },

@@ -1,22 +1,23 @@
-import { View, StyleSheet, Text } from "react-native";
+import { ScrollView, View, StyleSheet, Text } from "react-native";
 import Header from "../../components/Header";
 import WeightGraph from "./Components/WeightGraph";
 import BMIGraph from "./Components/BMIGraph";
+import BMIScale from "./Components/BMIScale";
 
 function BodyCompositionScreen() {
   return (
     <View style={styles.container}>
       <Header name="Body Composition" />
-      <View style={styles.subcontainer}>
+      <ScrollView style={styles.subcontainer}>
         <View styles={styles.weightcontainer}>
-          <Text style={styles.text}>Weight</Text>
+          <Text style={styles.text}>Weight Graph</Text>
           <WeightGraph />
         </View>
         <View styles={styles.bmicontainer}>
-          <Text style={styles.text}>BMI</Text>
+          <Text style={styles.text}>BMI Graph</Text>
           <BMIGraph />
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }

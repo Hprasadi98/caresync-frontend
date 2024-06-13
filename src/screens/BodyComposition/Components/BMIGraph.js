@@ -1,24 +1,15 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import React, { useState, useEffect, useMemo } from "react";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { baseUrl } from "../../../constants/constants";
 import axios from "axios";
-
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { LineChart } from "react-native-chart-kit";
 
-function WeightGraph() {
+function BMIGraph() {
   const { user } = useAuthContext();
   const [details, setDetails] = useState([]);
-
-  const [id, setId] = useState();
-
-
+  const [height, setHeight] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user && user._id) {
@@ -31,39 +22,51 @@ function WeightGraph() {
       .get(`${baseUrl}/patients/${userId}`)
       .then((response) => {
         const weights = response.data.pastWeights || [];
-        // Include current weight if it's not already in pastWeights
-        // if (response.data.weight) {
-        //   weights.push({ weight: response.data.weight, date: new Date() });
-        // }
         setDetails(weights);
+        setHeight(response.data.height);
+        setLoading(false);
         console.log("Weight Details: ", weights);
+        console.log("Height: ", response.data.height);
       })
       .catch((error) => {
         console.error("Axios Error: ", error);
+        setLoading(false);
       });
   };
 
   // Ensure details is always an array
   const safeDetails = Array.isArray(details) ? details : [];
 
-  // Extract dates and weights for the graph
+  // Memoize BMI calculations to avoid unnecessary re-computation
+  const bmiValues = useMemo(() => {
+    console.log("Height: ", height);
+    if (!height) return [];
+    const heightInMeters = height / 100; // Convert height to meters
+    return safeDetails.map((entry) => {
+      const bmi = entry.weight / (heightInMeters * heightInMeters);
+      return parseFloat(bmi.toFixed(2)); // Return BMI with 2 decimal places
+    });
+  }, [safeDetails, height]);
+
+  // Extract dates for the graph
   const dates = safeDetails.map((entry) =>
     new Date(entry.date).toLocaleDateString("en-US", {
       month: "2-digit",
       day: "2-digit",
     })
   );
-  const weights = safeDetails.map((entry) => entry.weight);
 
   return (
     <View style={styles.container}>
-      {details.length > 0 ? (
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : details.length > 0 ? (
         <LineChart
           data={{
             labels: dates,
             datasets: [
               {
-                data: weights,
+                data: bmiValues,
               },
             ],
           }}
@@ -75,8 +78,7 @@ function WeightGraph() {
             backgroundColor: "#e26a00",
             backgroundGradientFrom: "#fb8c00",
             backgroundGradientTo: "#ffa726",
-            decimalPlaces: 0, // optional, defaults to 2dp
-
+            decimalPlaces: 2, // Display 2 decimal places for BMI
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -87,6 +89,7 @@ function WeightGraph() {
               strokeWidth: "2",
               stroke: "#ffa726",
             },
+            yAxisMinimum: Math.min(...bmiValues) - 5, // Adjust y-axis minimum for better visualization
           }}
           bezier
           style={{
@@ -98,7 +101,7 @@ function WeightGraph() {
         <Text>No weight data available.</Text>
       )}
       <View style={styles.overlay}>
-        <Text style={styles.overlayText}>Weight (kg)</Text>
+        <Text style={styles.overlayText}>BMI</Text>
       </View>
       <View style={styles.overlayDate}>
         <Text style={styles.overlayTextDate}>Month/Day</Text>
@@ -106,7 +109,9 @@ function WeightGraph() {
     </View>
   );
 }
-export default WeightGraph;
+
+export default BMIGraph;
+
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",

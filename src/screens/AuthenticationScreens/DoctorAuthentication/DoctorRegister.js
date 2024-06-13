@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { z } from "zod";
 import { baseUrl } from "../../../constants/constants";
+import api from "../../../Services/AuthService";
 
 const DoctorRegister = ({ navigation }) => {
   const [firstName, setFirstName] = useState("");
@@ -68,12 +69,8 @@ const DoctorRegister = ({ navigation }) => {
         Alert.alert("Error", result.error.errors[0].message);
         return;
       }
-      const response = await fetch(`${baseUrl}/doctors/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      api
+        .post(`${baseUrl}/doc/signup`, {
           firstName,
           lastName,
           nic,
@@ -81,21 +78,18 @@ const DoctorRegister = ({ navigation }) => {
           password,
           medicalId,
           medicalIdVerify: false,
-        }),
-      });
-      const data = await response;
-
-      if (response.ok) {
-        Alert.alert("Success", "Registration successful.", [
-          {
-            text: "OK",
-            onPress: () => navigation.navigate("DoctorLogin"), // Navigate back to login page
-          },
-        ]);
-      } else {
-        // Handle registration error
-        Alert.alert("Error", data.error);
-      }
+        })
+        .then((response) => {
+          Alert.alert("Success", "Registration successful.", [
+            {
+              text: "OK",
+              onPress: () => navigation.navigate("DoctorLogin"), // Navigate back to login page
+            },
+          ]);
+        })
+        .catch((error) => {
+          Alert.alert("Error", error);
+        });
     } catch (error) {
       console.error("Error registering:", error);
       Alert.alert(

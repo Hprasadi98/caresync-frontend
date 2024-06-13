@@ -8,7 +8,6 @@ import {
   Image,
   Alert,
 } from "react-native";
-
 import { useLogin } from "../../../hooks/useLogin";
 
 const DoctorLogin = ({ navigation }) => {
@@ -24,14 +23,18 @@ const DoctorLogin = ({ navigation }) => {
       return;
     }
 
-    const data = await login(email, password, "doctors/signin");
+    const data = await login(email, password, "doc/signin");
+    console.log("Data:", data);
     if (data.status === "success") {
       navigation.navigate("DoctorDashboard");
-    } else if (data.status === "failed") {
+    } else if (data.status === "invalid") {
       Alert.alert("Error", "Invalid email or password");
     } else if (data.status === "notVerified") {
       navigation.navigate("MedicalIdFalseScreen");
     } else if (data.status === "error") {
+      Alert.alert("Error", "An error occurred. Please try again later.");
+    }
+    else{
       Alert.alert("Error", "An error occurred. Please try again later.");
     }
   };

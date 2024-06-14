@@ -9,7 +9,7 @@ import DoctorRegister from "./src/screens/AuthenticationScreens/DoctorAuthentica
 import PatientRegister from "./src/screens/AuthenticationScreens/PatientAuthentication/PatientRegister";
 import PatientLogin from "./src/screens/AuthenticationScreens/PatientAuthentication/PatientLogin";
 import PatientDashboard from "./src/screens/DashboardScreens/PatientDashboard";
-import MedicalHistory from "./src/screens/MedicalHistory";
+// import MedicalHistory from "./src/screens/MedicalHistory";
 import TestSelection from "./src/screens/MedicalTestHomeScreen/TestSelectionScreen/TestSelectionHomeScreen";
 import StepCounterHome from "./src/screens/MedicalTestHomeScreen/TestSelectionScreen/StepCounterScreen/StepCounterHomeScreen";
 import BreathingHome from "./src/screens/MedicalTestHomeScreen/TestSelectionScreen/BreathingTestScreen/BreathingHomeScreen";
@@ -98,7 +98,7 @@ export default function Routing() {
         {/* * Patient Screens * */}
 
         <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
-        <Stack.Screen name="MedicalHistory" component={MedicalHistory} />
+        {/* <Stack.Screen name="MedicalHistory" component={MedicalHistory} /> */}
 
         <Stack.Screen name="TestSelection" component={TestSelection} />
         <Stack.Screen name="StepCounterHome" component={StepCounterHome} />

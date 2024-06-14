@@ -33,6 +33,7 @@ import ViewMedication from "./src/screens/MedicationToCalendar/pages/ViewDailyMe
 import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedicalRecordScreen";
 import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
 import DoctorProfileScreen from "./src/screens/DoctorMyProfileScreen/DoctorProfileScreen";
+import BodyCompositionScreen from "./src/screens/BodyComposition/BodyCompositionScreen";
 
 import TestResultScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/TestResultScreen";
 
@@ -64,17 +65,10 @@ export default function Routing() {
       {user?.roles === "doctor" ? console.log("Doctor") : console.log("Patient")} */}
 
       <Stack.Navigator
-
-
-
-
-
         initialRouteName="WelcomeScreen"
         // initialRouteName="DoctorDashboard"
-
-
         // initialRouteName="PatientDashboard"
-
+  
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,
@@ -145,20 +139,30 @@ export default function Routing() {
         <Stack.Screen name="ViewMedication" component={ViewMedication} />
 
         <Stack.Screen name="MedicationHome" component={MedicationHome} />
-        <Stack.Screen name="AddMedicationByDoctor" component={AddMedicationByDoctor}/>
-        <Stack.Screen name="ViewMedicationByDoctor" component={ViewMedicationByDoctor}/>
+        <Stack.Screen
+          name="AddMedicationByDoctor"
+          component={AddMedicationByDoctor}
+        />
+        <Stack.Screen
+          name="ViewMedicationByDoctor"
+          component={ViewMedicationByDoctor}
+        />
 
         <Stack.Screen
           name="MyprofileScreen"
           component={MyprofileScreen}
           options={{ headerShown: false }}
         />
-          <Stack.Screen
+        <Stack.Screen
+          name="BodyCompositionScreen"
+          component={BodyCompositionScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="DoctorProfileScreen"
           component={DoctorProfileScreen}
           options={{ headerShown: false }}
         />
-
 
         <Stack.Screen
           name="AddExternalTestResults"

@@ -55,6 +55,12 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     marginVertical: 20,
+    width: "90%",
+    height: 200,
+    borderColor: "grey",
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 20,
   },
   bmiText: {
     fontSize: 18,
@@ -68,7 +74,7 @@ const styles = StyleSheet.create({
   category: {
     fontSize: 16,
     marginTop: 10,
-    color: "grey",
+    color: "black",
   },
   svgtext: {
     margin: 20,

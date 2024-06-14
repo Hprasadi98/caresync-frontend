@@ -139,6 +139,7 @@ export default function Routing() {
         <Stack.Screen name="ViewMedication" component={ViewMedication} />
 
         <Stack.Screen name="MedicationHome" component={MedicationHome} />
+          
         <Stack.Screen
           name="AddMedicationByDoctor"
           component={AddMedicationByDoctor}
@@ -148,16 +149,19 @@ export default function Routing() {
           component={ViewMedicationByDoctor}
         />
 
+
         <Stack.Screen
           name="MyprofileScreen"
           component={MyprofileScreen}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="BodyCompositionScreen"
           component={BodyCompositionScreen}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="DoctorProfileScreen"
           component={DoctorProfileScreen}
@@ -178,6 +182,7 @@ export default function Routing() {
 
         {/* Doctor Screens */}
         <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
+          
         <Stack.Screen
           name="PatientsScreen"
           component={PatientsScreen}

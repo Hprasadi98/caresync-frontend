@@ -82,7 +82,7 @@ const AppointmentModal = ({
         <Text style={styles.topic}>Helathcare provider's Details</Text>
 
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Healthcare Provider's name:</Text>
+          <Text style={styles.label}>Healthcare provider's name </Text>
           <TextInput
             style={styles.input}
             placeholder="Type Healthcare provider's name"
@@ -91,10 +91,10 @@ const AppointmentModal = ({
           /></View>
 
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Healthcare provider's Contact No</Text>
+          <Text style={styles.label}>Healthcare Center Name</Text>
           <TextInput
             style={styles.input}
-            placeholder="Type the Contact Number"
+            placeholder="Type the Healthcare Center Name "
             onChangeText={(text) => setHealthProContact(text)}
 
           /></View>

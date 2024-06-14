@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native'; // Import navigation h
 import AppetiteRating from "../AppetiteRating";
 import SymptomFrequencyDropdown from "../SymptomFrequencyDropdown";
 import SymptomDurationDropdown from "../SymptomDurationDropdown"
+import { ScrollView, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const SymptomModal = ({
   selectedStartDate,
@@ -88,6 +89,7 @@ const SymptomModal = ({
   };
 
   return (
+
     <View style={styles.modalContainer}>
       <Text style={styles.modalText}>Add Symptom Details</Text>
 
@@ -152,7 +154,12 @@ const SymptomModal = ({
             placeholder="Enter weight in kg s"
             onChangeText={(text) => setWeight(text)}
           /></View>
+
+
       </View>
+
+
+
 
       <View style={styles.buttonContainer}>
         <View style={styles.buttonWrapper}>
@@ -163,6 +170,7 @@ const SymptomModal = ({
         </View>
       </View>
     </View>
+
   );
 };
 

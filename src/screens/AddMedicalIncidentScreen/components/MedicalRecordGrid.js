@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Pressable, Animated, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Linking, Text, Pressable, Animated, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ToochableIconDown from '../../ViewPatientSummaryHome Screen/Components/TouchableIconDown';
 
@@ -11,6 +11,19 @@ const formatDate = (dateString) => {
   const day = (`0${date.getDate()}`).slice(-2);
   return `${year}/${month}/${day}`;
 };
+
+const handleLinkPress = (url) => {
+  Linking.openURL(url).catch(err => console.error('An error occurred', err));
+};
+
+
+const truncateText = (text, maxLength) => {
+  if (text && text.length > maxLength) {
+    return `${text.substring(0, 30)}...`;
+  }
+  return text;
+};
+
 
 const incidentConfig = {
   TEST: {
@@ -57,13 +70,41 @@ const incidentConfig = {
           <View style={[styles.innertile, { backgroundColor: "#99FF99" }]}>
             <Text style={styles.innertext}>{incident.incidentType}</Text>
           </View>
-          <Text style={styles.subtext}>Dr.{incident.health_pro_name}</Text>
+          <Text style={styles.subtext}>Dr.{truncateText(incident.health_pro_name, 30)}</Text>
         </View>
         <Text style={styles.date}>{formatDate(incident.date)}</Text>
-        <Text style={styles.provider}>Tel:{incident.health_pro_contact}</Text>
+        <Text style={[styles.subtext, { marginTop: '0%', marginLeft: '36%', width: "60%" }]}>
+          {truncateText(incident.health_pro_contact, 30)}</Text>
+        <Text style={[styles.subtext, { marginTop: '-20%', marginLeft: '36%', width: "60%" }]}>
+          {truncateText(incident.appointmentPurpose, 30)}</Text>
       </>
     ),
   },
+
+  PRESCRIPTION: {
+    backgroundColor: '#ebded4',
+    renderContent: (incident) => (
+      <>
+        <View style={styles.subcom}>
+          <View style={[styles.innertile, { backgroundColor: "#c4a092" }]}>
+            <Text style={styles.innertext}>{incident.incidentType}</Text>
+          </View>
+          <Text style={[styles.subtext, { width: "60%" }]}>
+            {truncateText(incident.pres_note, 30)}</Text>
+        </View>
+        <Text style={styles.date}>{formatDate(incident.date)}</Text>
+        {incident.link && (
+          <TouchableOpacity onPress={() => handleLinkPress(incident.link)}>
+            <Text style={styles.provider}>
+              Link: {truncateText(incident.link, 30)} {/* Adjust 30 to desired max length */}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </>
+    ),
+  },
+
+
   MEDICATION: {
     backgroundColor: '#E0E0FF',
     renderContent: (incident) => (
@@ -72,14 +113,15 @@ const incidentConfig = {
           <View style={[styles.innertile, { backgroundColor: "#9999FF" }]}>
             <Text style={styles.innertext}>{incident.incidentType}</Text>
           </View>
-          <Text style={styles.subtext}>{incident.medi_name}</Text>
+          <Text style={styles.subtext}>{truncateText(incident.medi_name, 30)}</Text>
         </View>
         <Text style={styles.date}>{formatDate(incident.date)}</Text>
-        <Text style={[styles.provider, { marginTop: '-13.5%', marginLeft: '36%' }]}>Dosage: {incident.medi_dosage}</Text>
+        <Text style={[styles.provider, { marginTop: '-6%', marginLeft: '36%' }]}>Dosage: {incident.medi_dosage}</Text>
         <Text style={[styles.provider, { marginTop: '0', marginLeft: '35%' }]}> {incident.medi_Frequency}</Text>
       </>
     ),
   },
+
 };
 
 function MedicalRecordGrid({
@@ -235,7 +277,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 8,
   },
   innertile: {
-    width: "32%",
+    width: "33%",
     marginBottom: "2%",
     marginTop: "2%",
     marginLeft: "1%",
@@ -260,6 +302,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: "2%",
     fontWeight: "800",
+    maxWidth: "77%"
   },
   subcom: {
     flexDirection: "row",
@@ -285,5 +328,6 @@ const styles = StyleSheet.create({
     marginLeft: '36.5%',
     fontWeight: '600',
     marginTop: '-6%',
+    width: "70%"
   },
 });

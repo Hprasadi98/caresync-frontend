@@ -159,6 +159,50 @@ function BMIGraph() {
           }}
         />
       ) : (
+        // <LineChart
+        //   data={{
+        //     labels: dates,
+        //     datasets: [
+        //       {
+        //         data: bmiValues,
+        //         color: (opacity = 0) => `rgba(33, 204, 130, ${opacity})`, // Line color
+        //         strokeWidth: 5, // Line thickness
+        //       },
+        //     ],
+        //   }}
+        //   width={Dimensions.get("window").width - 16} // from react-native
+        //   height={240}
+        //   yAxisLabel=""
+        //   yAxisSuffix=""
+        //   chartConfig={{
+        //     backgroundColor: "white", // Background color
+        //     backgroundGradientFrom: "white", // Gradient start
+        //     backgroundGradientTo: "white", // Gradient end
+        //     decimalPlaces: 2, // Display 2 decimal places for BMI
+        //     color: () => "white", // Axis label color
+        //     labelColor: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`, // Label color
+        //     style: {
+        //       borderRadius: 16,
+        //     },
+        //     propsForDots: {
+        //       r: "6",
+        //       strokeWidth: "2",
+        //       stroke: "#21a66c", // Dot border color
+        //       fill: "#21a66c", // Dot fill color
+        //     },
+        //     propsForBackgroundLines: {
+        //       strokeDasharray: "", // Remove dashed lines
+        //       stroke: "", // Line color
+        //     },
+        //     fillShadowGradient: "#114d33", // Background fill
+        //     fillShadowGradientOpacity: 0, // Make the fill transparent
+        //   }}
+        //   bezier
+        //   style={{
+        //     marginVertical: 8,
+        //     borderRadius: 16,
+        //   }}
+        // />
         <Text>No weight data available.</Text>
       )}
 

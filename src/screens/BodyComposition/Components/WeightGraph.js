@@ -130,7 +130,7 @@ function WeightGraph() {
             decimalPlaces: 0, // optional, defaults to 2dp
 
             // color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Axis label color
             labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             style: {
               borderRadius: 16,
@@ -141,7 +141,8 @@ function WeightGraph() {
             propsForDots: {
               r: "6",
               strokeWidth: "2",
-              stroke: "",
+              stroke: "black",
+              fill: "black",
             },
           }}
           bezier

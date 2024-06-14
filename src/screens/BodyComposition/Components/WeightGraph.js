@@ -67,7 +67,7 @@ function WeightGraph() {
   const lastDate = datesNew.length > 0 ? datesNew[datesNew.length - 1] : null;
 
   //   // Calculate average, min, and max weights
-  const totalWeight = weights.reduce((a, b) => a + b);
+  const totalWeight = weights.reduce((a, b) => a + b, 0);
   console.log("Sum of Weights: ", totalWeight);
   let sum = 0;
   let num = totalWeight;
@@ -79,7 +79,7 @@ function WeightGraph() {
   console.log("Sum of Digits of Total Weight: ", sum);
 
   const averageWeight = sum / weights.length;
-  const averageWeightFormatted = averageWeight.toFixed(2); // Format to 2 decimal places
+  const averageWeightFormatted = averageWeight.toFixed(1); // Format to 2 decimal places
 
   const minWeight = weights.length > 0 ? Math.min(...weights) : null;
   const maxWeight = weights.length > 0 ? Math.max(...weights) : null;
@@ -95,17 +95,23 @@ function WeightGraph() {
       </View>
       {averageWeightFormatted && minWeight && maxWeight && (
         <View style={styles.statsContainer}>
-          <Text style={styles.statsText}>
-            Average Weight: {averageWeightFormatted} kg
-          </Text>
-          <Text style={styles.statsText}>Min Weight: {minWeight} kg</Text>
-          <Text style={styles.statsText}>Max Weight: {maxWeight} kg</Text>
+          <View style={styles.statsSubContainer}>
+            <Text style={styles.statsText}>Avg</Text>
+            <Text style={styles.statsNumAvg}>{averageWeightFormatted} kg</Text>
+          </View>
+          <View style={styles.statsSubContainer}>
+            <Text style={styles.statsText}>Min</Text>
+            <Text style={styles.statsNumMIn}>{minWeight} kg</Text>
+            <Text style={styles.statsText}>Max</Text>
+            <Text style={styles.statsNumMax}>{maxWeight} kg</Text>
+          </View>
         </View>
       )}
       {details.length > 0 ? (
         <LineChart
           data={{
             labels: dates,
+
             datasets: [
               {
                 data: weights,
@@ -117,20 +123,25 @@ function WeightGraph() {
           yAxisLabel=""
           yAxisSuffix=""
           chartConfig={{
-            backgroundColor: "#e26a00",
-            backgroundGradientFrom: "#fb8c00",
-            backgroundGradientTo: "#ffa726",
+            backgroundColor: "#36bfb6",
+            backgroundGradientFrom: "#ffa726",
+            backgroundGradientTo: "#42ebe0",
+
             decimalPlaces: 0, // optional, defaults to 2dp
 
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            // color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             style: {
               borderRadius: 16,
+            },
+            propsForBackgroundLines: {
+              stroke: "", // Color for background lines
             },
             propsForDots: {
               r: "6",
               strokeWidth: "2",
-              stroke: "#ffa726",
+              stroke: "",
             },
           }}
           bezier
@@ -142,12 +153,12 @@ function WeightGraph() {
       ) : (
         <Text>No weight data available.</Text>
       )}
-      <View style={styles.overlay}>
+      {/* <View style={styles.overlay}>
         <Text style={styles.overlayText}>Weight (kg)</Text>
       </View>
       <View style={styles.overlayDate}>
         <Text style={styles.overlayTextDate}>Month/Day</Text>
-      </View>
+      </View> */}
     </View>
   );
 }
@@ -161,12 +172,43 @@ const styles = StyleSheet.create({
   },
   dateContainer: {
     alignSelf: "flex-start", // Align text to the start (left)
-    marginLeft: 20, // Add some padding from the left sides
+    marginLeft: 30, // Add some padding from the left sides
   },
   dateRange: {
     color: "black", // Adjust color to match your theme
-    fontSize: 15,
+    fontSize: 16,
     marginBottom: 10, // Space between the text and the graph
+  },
+  statsContainer: {
+    marginBottom: 10, // Space between the stats and the graph
+    alignSelf: "flex-start", // Align text to the start (left)
+    marginLeft: 30, // Add some padding from the left sides
+    flexDirection: "row", // Align the stats in a row
+    marginTop: 0, // Space between the text and the graph
+  },
+  statsSubContainer: {
+    flexDirection: "row", // Align the stats in a row
+    marginRight: 20, // Space between the stats
+    alignItems: "baseline", // Align the text in the center
+  },
+  statsText: {
+    fontSize: 16,
+    color: "black",
+    marginRight: 5, // Space between the stats
+  },
+  statsNumAvg: {
+    fontSize: 24,
+    color: "green",
+  },
+  statsNumMIn: {
+    fontSize: 24,
+    color: "gold",
+    marginRight: 10, // Space between the stats
+  },
+  statsNumMax: {
+    fontSize: 24,
+    color: "red",
+    marginRight: 10, // Space between the stats
   },
 
   overlay: {

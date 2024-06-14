@@ -10,11 +10,11 @@ function BodyCompositionScreen() {
       <Header name="Body Composition" />
       <ScrollView style={styles.subcontainer}>
         <View styles={styles.weightcontainer}>
-          <Text style={styles.text}>Weight Graph</Text>
+          <Text style={styles.text}>Weight Composition </Text>
           <WeightGraph />
         </View>
         <View styles={styles.bmicontainer}>
-          <Text style={styles.text}>BMI Graph</Text>
+          <Text style={styles.text}>BMI Composition</Text>
           <BMIGraph />
         </View>
       </ScrollView>
@@ -42,6 +42,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 20,
     marginLeft: 20,
+    backgroundColor: "#99d1f2",
+    padding: 10,
+    marginRight: 20,
+    borderRadius: 20,
+    // width: "50%",
   },
   bmicontainer: {
     justifyContent: "center",

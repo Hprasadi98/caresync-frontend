@@ -10,7 +10,7 @@ const BMIScale = ({ bmi }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.bmiText}>BMI</Text>
+      <Text style={styles.bmiText}>Current BMI</Text>
       <Text style={styles.bmiValue}>{bmi.toFixed(1)}</Text>
       <Svg
         height="50"

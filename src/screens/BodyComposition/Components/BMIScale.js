@@ -11,7 +11,8 @@ const BMIScale = ({ bmi }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.bmiText}>Current BMI</Text>
-      <Text style={styles.bmiValue}>{bmi.toFixed(1)}</Text>
+      <Text style={styles.bmiValue}>{Math.round(bmi * 10) / 10}</Text>
+
       <Svg
         height="50"
         width="300"

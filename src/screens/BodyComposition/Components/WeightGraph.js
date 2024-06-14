@@ -77,91 +77,108 @@ function WeightGraph() {
     num = Math.floor(num / 100); // Remove the last digit
   }
   console.log("Sum of Digits of Total Weight: ", sum);
-
+  // Calculate the average weight
+  // let averageWeight = 0;
+  // if (weights.length > 0) {
+  //   averageWeight = sum / weights.length;
+  // }
+  // console.log("Average Weight: ", averageWeight);
+  // const averageWeightFormatted = !isNaN(averageWeight)
+  //   ? averageWeight.toFixed(1)
+  //   : "N/A"; // Format to 1 decimal place
   const averageWeight = sum / weights.length;
-  const averageWeightFormatted = averageWeight.toFixed(1); // Format to 2 decimal places
-
+  // Format to 1 decimal place using Math.round
+  const averageWeightFormatted = (
+    Math.round(averageWeight * 10) / 10
+  ).toString();
   const minWeight = weights.length > 0 ? Math.min(...weights) : null;
   const maxWeight = weights.length > 0 ? Math.max(...weights) : null;
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.dateContainer}>
-        {firstDate && lastDate && (
-          <Text style={styles.dateRange}>
-            {firstDate} – {lastDate} ({details.length} records)
-          </Text>
-        )}
-      </View>
-      {averageWeightFormatted && minWeight && maxWeight && (
-        <View style={styles.statsContainer}>
-          <View style={styles.statsSubContainer}>
-            <Text style={styles.statsText}>Avg</Text>
-            <Text style={styles.statsNumAvg}>{averageWeightFormatted} kg</Text>
-          </View>
-          <View style={styles.statsSubContainer}>
-            <Text style={styles.statsText}>Min</Text>
-            <Text style={styles.statsNumMIn}>{minWeight} kg</Text>
-            <Text style={styles.statsText}>Max</Text>
-            <Text style={styles.statsNumMax}>{maxWeight} kg</Text>
-          </View>
+  if (weights.length !== 1) {
+    return (
+      <View style={styles.container}>
+        {details.length === 0 && <Text>No data to show.</Text>}
+        <View style={styles.dateContainer}>
+          {firstDate && lastDate && (
+            <Text style={styles.dateRange}>
+              {firstDate} – {lastDate} ({details.length} records)
+            </Text>
+          )}
         </View>
-      )}
-      {details.length > 0 ? (
-        <LineChart
-          data={{
-            labels: dates,
+        {averageWeightFormatted && minWeight && maxWeight && (
+          <View style={styles.statsContainer}>
+            <View style={styles.statsSubContainer}>
+              <Text style={styles.statsText}>Avg</Text>
+              <Text style={styles.statsNumAvg}>
+                {averageWeightFormatted} kg
+              </Text>
+            </View>
+            <View style={styles.statsSubContainer}>
+              <Text style={styles.statsText}>Min</Text>
+              <Text style={styles.statsNumMIn}>{minWeight} kg</Text>
+              <Text style={styles.statsText}>Max</Text>
+              <Text style={styles.statsNumMax}>{maxWeight} kg</Text>
+            </View>
+          </View>
+        )}
+        {details.length > 0 ? (
+          <LineChart
+            data={{
+              labels: dates,
 
-            datasets: [
-              {
-                data: weights,
+              datasets: [
+                {
+                  data: weights,
+                },
+              ],
+            }}
+            width={Dimensions.get("window").width - 16} // from react-native
+            height={240}
+            yAxisLabel=""
+            yAxisSuffix=""
+            chartConfig={{
+              backgroundColor: "#36bfb6",
+              backgroundGradientFrom: "#ffa726",
+              backgroundGradientTo: "#42ebe0",
+
+              decimalPlaces: 0, // optional, defaults to 2dp
+
+              // color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Axis label color
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              style: {
+                borderRadius: 16,
               },
-            ],
-          }}
-          width={Dimensions.get("window").width - 16} // from react-native
-          height={240}
-          yAxisLabel=""
-          yAxisSuffix=""
-          chartConfig={{
-            backgroundColor: "#36bfb6",
-            backgroundGradientFrom: "#ffa726",
-            backgroundGradientTo: "#42ebe0",
-
-            decimalPlaces: 0, // optional, defaults to 2dp
-
-            // color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Axis label color
-            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-            style: {
+              propsForBackgroundLines: {
+                stroke: "", // Color for background lines
+              },
+              propsForDots: {
+                r: "6",
+                strokeWidth: "2",
+                stroke: "black",
+                fill: "black",
+              },
+            }}
+            bezier
+            style={{
+              marginVertical: 8,
               borderRadius: 16,
-            },
-            propsForBackgroundLines: {
-              stroke: "", // Color for background lines
-            },
-            propsForDots: {
-              r: "6",
-              strokeWidth: "2",
-              stroke: "black",
-              fill: "black",
-            },
-          }}
-          bezier
-          style={{
-            marginVertical: 8,
-            borderRadius: 16,
-          }}
-        />
-      ) : (
-        <Text>No weight data available.</Text>
-      )}
-      {/* <View style={styles.overlay}>
+            }}
+          />
+        ) : (
+          <Text>No weight data available</Text>
+        )}
+        {/* <View style={styles.overlay}>
         <Text style={styles.overlayText}>Weight (kg)</Text>
       </View>
       <View style={styles.overlayDate}>
         <Text style={styles.overlayTextDate}>Month/Day</Text>
       </View> */}
-    </View>
-  );
+      </View>
+    );
+  } else {
+    return null;
+  }
 }
 export default WeightGraph;
 const styles = StyleSheet.create({

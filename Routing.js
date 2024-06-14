@@ -65,10 +65,10 @@ export default function Routing() {
       {user?.roles === "doctor" ? console.log("Doctor") : console.log("Patient")} */}
 
       <Stack.Navigator
-        // initialRouteName="WelcomeScreen"
+        initialRouteName="WelcomeScreen"
         // initialRouteName="DoctorDashboard"
 
-        initialRouteName="PatientDashboard"
+        // initialRouteName="PatientDashboard"
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,

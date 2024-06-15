@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
   Modal,
-  Alert
+  Alert,
 } from "react-native";
 import { useState, useEffect } from "react";
 import api from "../../../Services/AuthService";
@@ -33,8 +33,11 @@ function StepCounterTest({ PID }) {
   };
 
   const testResultGraphModal = (data) => {
-    if(data.length === 0) {
-      Alert.alert("No test results to display", "Patient hasn't performed any tests to view the graph");
+    if (data.length === 0) {
+      Alert.alert(
+        "No test results to display",
+        "Patient hasn't performed any tests to view the graph"
+      );
       return;
     }
     // Sort the data based on date in ascending order

@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
 import { FlatList, View, ScrollView, Text } from "react-native";
-import { LIST } from "../Data/dummy-data";
 import PatientGridTile from "../Components/PatientGridTile";
-import Search from "../Components/Search";
+// import Search from "../Components/Search";
 import CustomHeader from "../Components/CustomHeader";
 import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
-import { useAuthContext } from "../../../hooks/useAuthContext";
 
 function PatientsScreen({ navigation }) {
-  const { dispatch, user } = useAuthContext();
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {

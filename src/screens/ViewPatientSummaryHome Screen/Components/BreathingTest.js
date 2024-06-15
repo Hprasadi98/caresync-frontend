@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  Alert,
+} from "react-native";
 import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
 import { DataTable } from "react-native-paper";
 import { LineChart } from "react-native-chart-kit";
 
 function BreathingTest({ PID }) {
-
   console.log("PID: ", PID);
 
   const [testResult, setTestResult] = useState([]);
@@ -28,8 +34,11 @@ function BreathingTest({ PID }) {
   };
 
   const testResultGraphModal = (data) => {
-    if(data.length === 0) {
-      Alert.alert("No test results to display", "Patient hasn't performed any tests to view the graph");
+    if (data.length === 0) {
+      Alert.alert(
+        "No test results to display",
+        "Patient hasn't performed any tests to view the graph"
+      );
       return;
     }
     // Sort the data based on date in ascending order

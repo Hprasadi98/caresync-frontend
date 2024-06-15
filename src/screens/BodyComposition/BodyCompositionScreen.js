@@ -1,10 +1,11 @@
+import React, { useState } from "react";
 import { ScrollView, View, StyleSheet, Text } from "react-native";
 import Header from "../../components/Header";
 import WeightGraph from "./Components/WeightGraph";
 import BMIGraph from "./Components/BMIGraph";
 import BMIScale from "./Components/BMIScale";
 
-function BodyCompositionScreen() {
+function BodyCompositionScreen({}) {
   return (
     <View style={styles.container}>
       <Header name="Body Composition" />

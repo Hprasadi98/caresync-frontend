@@ -68,7 +68,7 @@ export default function Routing() {
         initialRouteName="WelcomeScreen"
         // initialRouteName="DoctorDashboard"
         // initialRouteName="PatientDashboard"
-  
+
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,

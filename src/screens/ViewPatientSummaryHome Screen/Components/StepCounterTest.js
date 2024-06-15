@@ -7,7 +7,7 @@ import {
   Modal,
 } from "react-native";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
 import { DataTable } from "react-native-paper";
 import { LineChart } from "react-native-chart-kit";
@@ -23,7 +23,7 @@ function StepCounterTest() {
 
   const fetchTestResults = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/stepCounterTests`);
+      const response = await api.get(`${baseUrl}/stepCounterTests`);
       console.log("Response from backend:", response.data);
       setTestResult(response.data);
     } catch (error) {
@@ -80,56 +80,58 @@ function StepCounterTest() {
       </View>
 
       <DataTable>
-        {testResult.map((data, index) => (
-          <DataTable.Row key={index}>
-            <DataTable.Cell
-              style={{
-                justifyContent: "center",
-                backgroundColor: "#FEFFE0",
-                marginBottom: 5,
-                paddingLeft: 15,
+        {console.log("Test Result: ", testResult)}
+        {testResult.length > 0 &&
+          testResult.map((data, index) => (
+            <DataTable.Row key={index}>
+              <DataTable.Cell
+                style={{
+                  justifyContent: "center",
+                  backgroundColor: "#FEFFE0",
+                  marginBottom: 5,
+                  paddingLeft: 15,
 
-                paddingRight: 25,
-                borderBottomLeftRadius: 10,
-                borderTopLeftRadius: 10,
-              }}
-            >
-              {data.date}
-            </DataTable.Cell>
-            <DataTable.Cell
-              style={{
-                justifyContent: "center",
-                backgroundColor: "#FEFFE0",
-                marginBottom: 5,
-              }}
-            >
-              {data.stopwatchTime}
-            </DataTable.Cell>
-            <DataTable.Cell
-              style={{
-                justifyContent: "center",
-                backgroundColor: "#FEFFE0",
-                marginBottom: 5,
-              }}
-            >
-              {data.steps}
-            </DataTable.Cell>
+                  paddingRight: 25,
+                  borderBottomLeftRadius: 10,
+                  borderTopLeftRadius: 10,
+                }}
+              >
+                {data.date}
+              </DataTable.Cell>
+              <DataTable.Cell
+                style={{
+                  justifyContent: "center",
+                  backgroundColor: "#FEFFE0",
+                  marginBottom: 5,
+                }}
+              >
+                {data.stopwatchTime}
+              </DataTable.Cell>
+              <DataTable.Cell
+                style={{
+                  justifyContent: "center",
+                  backgroundColor: "#FEFFE0",
+                  marginBottom: 5,
+                }}
+              >
+                {data.steps}
+              </DataTable.Cell>
 
-            <DataTable.Cell
-              style={{
-                justifyContent: "center",
-                backgroundColor: "#FEFFE0",
-                marginBottom: 5,
-                paddingRight: 10,
+              <DataTable.Cell
+                style={{
+                  justifyContent: "center",
+                  backgroundColor: "#FEFFE0",
+                  marginBottom: 5,
+                  paddingRight: 10,
 
-                borderBottomRightRadius: 10,
-                borderTopRightRadius: 10,
-              }}
-            >
-              {data.distance}
-            </DataTable.Cell>
-          </DataTable.Row>
-        ))}
+                  borderBottomRightRadius: 10,
+                  borderTopRightRadius: 10,
+                }}
+              >
+                {data.distance}
+              </DataTable.Cell>
+            </DataTable.Row>
+          ))}
       </DataTable>
       <Modal
         visible={modalVisible}

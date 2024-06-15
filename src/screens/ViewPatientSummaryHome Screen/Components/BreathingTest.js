@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
-import axios from "axios";
+import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
 import { DataTable } from "react-native-paper";
 import { LineChart } from "react-native-chart-kit";
@@ -16,7 +16,9 @@ function BreathingTest() {
 
   const fetchTestResults = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/breathingTests`);
+      const response = await api.get(
+        `${baseUrl}/breathingTests/660309af6311d89fd82595cd`
+      );
       console.log("Response from backend:", response.data);
       setTestResult(response.data);
     } catch (error) {
@@ -71,33 +73,34 @@ function BreathingTest() {
         </View>
       </View>
       <DataTable>
-        {testResult.map((data, index) => (
-          <DataTable.Row key={index}>
-            <DataTable.Cell
-              style={{
-                justifyContent: "center",
-                backgroundColor: "#DEFFFB",
-                marginBottom: 5,
-                paddingRight: 10,
-                borderBottomLeftRadius: 10,
-                borderTopLeftRadius: 10,
-              }}
-            >
-              {data.date}
-            </DataTable.Cell>
-            <DataTable.Cell
-              style={{
-                justifyContent: "center",
-                backgroundColor: "#DEFFFB",
-                marginBottom: 5,
-                borderBottomRightRadius: 10,
-                borderTopRightRadius: 10,
-              }}
-            >
-              {data.stopwatchTime}
-            </DataTable.Cell>
-          </DataTable.Row>
-        ))}
+        {testResult &&
+          testResult.map((data, index) => (
+            <DataTable.Row key={index}>
+              <DataTable.Cell
+                style={{
+                  justifyContent: "center",
+                  backgroundColor: "#DEFFFB",
+                  marginBottom: 5,
+                  paddingRight: 10,
+                  borderBottomLeftRadius: 10,
+                  borderTopLeftRadius: 10,
+                }}
+              >
+                {data.date}
+              </DataTable.Cell>
+              <DataTable.Cell
+                style={{
+                  justifyContent: "center",
+                  backgroundColor: "#DEFFFB",
+                  marginBottom: 5,
+                  borderBottomRightRadius: 10,
+                  borderTopRightRadius: 10,
+                }}
+              >
+                {data.stopwatchTime}
+              </DataTable.Cell>
+            </DataTable.Row>
+          ))}
       </DataTable>
 
       <Modal

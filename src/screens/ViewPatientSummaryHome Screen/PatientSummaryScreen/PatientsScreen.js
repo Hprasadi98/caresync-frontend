@@ -4,11 +4,12 @@ import { LIST } from "../Data/dummy-data";
 import PatientGridTile from "../Components/PatientGridTile";
 import Search from "../Components/Search";
 import CustomHeader from "../Components/CustomHeader";
-import axios from "axios";
-
+import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 function PatientsScreen({ navigation }) {
+  const { dispatch, user } = useAuthContext();
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
@@ -17,22 +18,19 @@ function PatientsScreen({ navigation }) {
 
   const fetchPatients = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/patients`);
-
+      const response = await api.get(`${baseUrl}/patients`);
       setPatients(response.data);
-      
       console.log("Response from backend:", response.data);
     } catch (error) {
       console.error("Error fetching patients:", error);
     }
   };
 
-  
-
-  function renderCategoryItem({ item }) {
-    function presshandler() {
-      navigation.navigate("PatientProfileScreen", { ptid: item._id });
-    }
+  const renderCategoryItem = ({ item }) => {
+    const presshandler = () => {
+      console.log("Selected Patient:", item._id);
+      navigation.navigate("PatientProfileScreen", { PID: item._id });
+    };
 
     return (
       <View>
@@ -43,13 +41,13 @@ function PatientsScreen({ navigation }) {
           nic={item.nic}
           email={item.email}
           profileImage={item.profileImage}
-    
           onPress={presshandler}
         />
         {/* export data to PatientGridTile page */}
       </View>
     );
-  }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <CustomHeader />

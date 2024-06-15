@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert } from "react-native";
 import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
 import { DataTable } from "react-native-paper";
 import { LineChart } from "react-native-chart-kit";
 
-function BreathingTest() {
+function BreathingTest({ PID }) {
+
+  console.log("PID: ", PID);
+
   const [testResult, setTestResult] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTestData, setSelectedTestData] = useState([]);
@@ -16,9 +19,7 @@ function BreathingTest() {
 
   const fetchTestResults = async () => {
     try {
-      const response = await api.get(
-        `${baseUrl}/breathingTests/660309af6311d89fd82595cd`
-      );
+      const response = await api.get(`${baseUrl}/breathingTests/${PID}`);
       console.log("Response from backend:", response.data);
       setTestResult(response.data);
     } catch (error) {
@@ -27,6 +28,10 @@ function BreathingTest() {
   };
 
   const testResultGraphModal = (data) => {
+    if(data.length === 0) {
+      Alert.alert("No test results to display", "Patient hasn't performed any tests to view the graph");
+      return;
+    }
     // Sort the data based on date in ascending order
     const sortedData = data
       .slice()

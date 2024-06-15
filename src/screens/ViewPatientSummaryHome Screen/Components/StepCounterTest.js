@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   Modal,
+  Alert
 } from "react-native";
 import { useState, useEffect } from "react";
 import api from "../../../Services/AuthService";
@@ -12,7 +13,7 @@ import { baseUrl } from "../../../constants/constants";
 import { DataTable } from "react-native-paper";
 import { LineChart } from "react-native-chart-kit";
 
-function StepCounterTest() {
+function StepCounterTest({ PID }) {
   const [testResult, setTestResult] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTestData, setSelectedTestData] = useState([]);
@@ -23,7 +24,7 @@ function StepCounterTest() {
 
   const fetchTestResults = async () => {
     try {
-      const response = await api.get(`${baseUrl}/stepCounterTests`);
+      const response = await api.get(`${baseUrl}/stepCounterTests/${PID}`);
       console.log("Response from backend:", response.data);
       setTestResult(response.data);
     } catch (error) {
@@ -32,6 +33,10 @@ function StepCounterTest() {
   };
 
   const testResultGraphModal = (data) => {
+    if(data.length === 0) {
+      Alert.alert("No test results to display", "Patient hasn't performed any tests to view the graph");
+      return;
+    }
     // Sort the data based on date in ascending order
     const sortedData = data
       .slice()

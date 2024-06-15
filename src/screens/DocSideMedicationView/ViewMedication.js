@@ -10,88 +10,82 @@ import { useState, useEffect } from "react";
 import { baseUrl } from "../../constants/constants";
 
 const ViewMedicationByDoctor = ({ route }) => {
-  const [medidetail, setmedidetail] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const { selectedday } = route.params;
-  const day = new Date(selectedday.dateString);
-  const month = new Intl.DateTimeFormat("en-US", { month: "long" }).format(day);
-  const year = day.getFullYear();
-  const dayOfWeekFull = day.toLocaleDateString("en-US", { weekday: "long" });
-  const dayOfWeek = dayOfWeekFull.split(" ")[0];
-
-  useEffect(() => {
-    getmedicationforDay(selectedday.dateString);
-  }, [selectedday.dateString]);
-
-  //when touch a calendar dat get medication for selected day
-  const getmedicationforDay = (day) => {
-    setLoading(true);
-    console.log(day);
-    const URL = `${baseUrl}/medication/${day}`;
-    fetch(URL)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setmedidetail(data.response);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setLoading(false);
-      });
-  };
-
-  if (loading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-
-  if (!loading && medidetail.length === 0) {
-    return (
-      <View style={styles.centered}>
-        <Text>No Medications for {dayOfWeekFull}</Text>
-      </View>
-    );
-  }
-  return (
-    <View>
-      <Header name="View Medication" />
-      <View style={styles.dateContainer}>
-        <Text style={styles.dateWeekDay}>{dayOfWeek}</Text>
-        <Text style={styles.dateWeekDay}>{selectedday.day}</Text>
-        <Text style={styles.dateWeekDay}>{month}</Text>
-        <Text style={styles.dateWeekDay}>{year}</Text>
-      </View>
-
-      {Array.isArray(medidetail) && (
-        <FlatList
-          data={medidetail}
-          renderItem={({ item }) => (
-            <View style={styles.listContainer}>
-              <Text style={styles.medicineNametext}>{item.medicine}</Text>
-              <View style={styles.detailContainer}>
-                <Text style={styles.pilltext}>{item.pills} pill/s</Text>
-                <Text style={styles.timestext}>
-                  {item.times} time/s per day
-                </Text>
-                <Text style={styles.bawtext}>{item.baw} meal</Text>
-              </View>
-              {item.description !== null && item.description !== "" && (
-                <Text style={styles.descriptiontext}>{item.description}</Text>
-              )}
-              <Text style={styles.bytext}>By {item.by}</Text>
-            </View>
-          )}
-        ></FlatList>
-      )}
-    </View>
-  );
+  // const [medidetail, setmedidetail] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const { selectedday } = route.params;
+  // const day = new Date(selectedday.dateString);
+  // const month = new Intl.DateTimeFormat("en-US", { month: "long" }).format(day);
+  // const year = day.getFullYear();
+  // const dayOfWeekFull = day.toLocaleDateString("en-US", { weekday: "long" });
+  // const dayOfWeek = dayOfWeekFull.split(" ")[0];
+  // useEffect(() => {
+  //   getmedicationforDay(selectedday.dateString);
+  // }, [selectedday.dateString]);
+  // //when touch a calendar dat get medication for selected day
+  // const getmedicationforDay = (day) => {
+  //   setLoading(true);
+  //   console.log(day);
+  //   const URL = `${baseUrl}/medication/${day}`;
+  //   fetch(URL)
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setmedidetail(data.response);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //       setLoading(false);
+  //     });
+  // };
+  // if (loading) {
+  //   return (
+  //     <View style={styles.centered}>
+  //       <ActivityIndicator size="large" color="#0000ff" />
+  //       <Text>Loading...</Text>
+  //     </View>
+  //   );
+  // }
+  // if (!loading && medidetail.length === 0) {
+  //   return (
+  //     <View style={styles.centered}>
+  //       <Text>No Medications for {dayOfWeekFull}</Text>
+  //     </View>
+  //   );
+  // }
+  // return (
+  //   <View>
+  //     <Header name="View Medication" />
+  //     <View style={styles.dateContainer}>
+  //       <Text style={styles.dateWeekDay}>{dayOfWeek}</Text>
+  //       <Text style={styles.dateWeekDay}>{selectedday.day}</Text>
+  //       <Text style={styles.dateWeekDay}>{month}</Text>
+  //       <Text style={styles.dateWeekDay}>{year}</Text>
+  //     </View>
+  //     {Array.isArray(medidetail) && (
+  //       <FlatList
+  //         data={medidetail}
+  //         renderItem={({ item }) => (
+  //           <View style={styles.listContainer}>
+  //             <Text style={styles.medicineNametext}>{item.medicine}</Text>
+  //             <View style={styles.detailContainer}>
+  //               <Text style={styles.pilltext}>{item.pills} pill/s</Text>
+  //               <Text style={styles.timestext}>
+  //                 {item.times} time/s per day
+  //               </Text>
+  //               <Text style={styles.bawtext}>{item.baw} meal</Text>
+  //             </View>
+  //             {item.description !== null && item.description !== "" && (
+  //               <Text style={styles.descriptiontext}>{item.description}</Text>
+  //             )}
+  //             <Text style={styles.bytext}>By {item.by}</Text>
+  //           </View>
+  //         )}
+  //       ></FlatList>
+  //     )}
+  //   </View>
+  // );
 };
 
 const styles = StyleSheet.create({

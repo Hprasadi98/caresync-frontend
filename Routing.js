@@ -68,7 +68,7 @@ export default function Routing() {
         initialRouteName="WelcomeScreen"
         // initialRouteName="DoctorDashboard"
         // initialRouteName="PatientDashboard"
-  
+
         screenOptions={{
           headerStyle: { backgroundColor: "#FBDABB" },
           headerShown: false,
@@ -138,17 +138,16 @@ export default function Routing() {
         <Stack.Screen name="AddMedication" component={AddMedication} />
         <Stack.Screen name="ViewMedication" component={ViewMedication} />
 
-        <Stack.Screen name="MedicationHome" component={MedicationHome} />
-          
-        <Stack.Screen
+        {/* <Stack.Screen name="MedicationHome" component={MedicationHome} /> */}
+
+        {/* <Stack.Screen
           name="AddMedicationByDoctor"
           component={AddMedicationByDoctor}
-        />
-        <Stack.Screen
+        /> */}
+        {/* <Stack.Screen
           name="ViewMedicationByDoctor"
           component={ViewMedicationByDoctor}
-        />
-
+        /> */}
 
         <Stack.Screen
           name="MyprofileScreen"
@@ -182,7 +181,7 @@ export default function Routing() {
 
         {/* Doctor Screens */}
         <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} />
-          
+
         <Stack.Screen
           name="PatientsScreen"
           component={PatientsScreen}

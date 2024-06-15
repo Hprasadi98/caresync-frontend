@@ -80,10 +80,21 @@ const AddMedication = ({ navigation, route }) => {
 
   //refresh medications when add a new medication
   const refreshMedicationView = () => {
-    console.log("refresh", route.params ? (route.params.PID ? route.params.PID : undefined ) : undefined);
+    console.log(
+      "refresh",
+      route.params
+        ? route.params.PID
+          ? route.params.PID
+          : undefined
+        : undefined
+    );
     navigation.navigate("MedicationView", {
       refresh: true,
-      PID: route.params ? (route.params.PID ? route.params.PID : undefined ) : undefined,
+      PID: route.params
+        ? route.params.PID
+          ? route.params.PID
+          : undefined
+        : undefined,
     });
   };
 

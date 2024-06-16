@@ -14,7 +14,8 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
 import Dropdown from "./Dropdown";
-
+import DatePicker from "react-native-modern-datepicker";
+import { format, addDays, eachDayOfInterval } from "date-fns";
 import { Picker } from "@react-native-picker/picker";
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 import { useAuthContext } from "../../../hooks/useAuthContext";
@@ -38,7 +39,7 @@ const DetailRow = ({
   const [second, setSecond] = useState("");
   const [address, setAddress] = useState("");
 
-  const [selectedDate, setSelectedDate] = useState("");
+  // const [selectedDate, setSelectedDate] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
@@ -48,6 +49,10 @@ const DetailRow = ({
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
   const [nic, setNic] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const today = new Date().toLocaleDateString("en-CA"); // Format: yyyy/MM/dd
+  console.log("Today:", today);
+  const startingDate = format(new Date(today), "yyyy-MM-dd");
 
   const checkEmailExists = async (email) => {
     try {
@@ -59,30 +64,43 @@ const DetailRow = ({
     }
   };
 
-  const generateYears = () => {
-    const years = [];
-    const currentYear = new Date().getFullYear();
-    for (let i = currentYear; i >= currentYear - 100; i--) {
-      years.push(i.toString());
-    }
+  // const generateYears = () => {
+  //   const years = [];
+  //   const currentYear = new Date().getFullYear();
+  //   for (let i = currentYear; i >= currentYear - 100; i--) {
+  //     years.push(i.toString());
+  //   }
 
-    return years;
-  };
+  //   return years;
+  // };
 
-  const generateDays = () => {
-    const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-    const days = Array.from({ length: daysInMonth }, (_, index) =>
-      (index + 1).toString()
-    );
-    return days;
-  };
+  // const generateDays = () => {
+  //   const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+  //   const days = Array.from({ length: daysInMonth }, (_, index) =>
+  //     (index + 1).toString()
+  //   );
+  //   return days;
+  // };
 
   const handleBloodGroupSelect = (selectedGroup) => {
     setBloodGroup(selectedGroup);
   };
 
+  const handleDateChange = (date) => {
+    // Ensure the date is not null or undefined
+    if (date) {
+      const formattedDate = formatDate(date);
+      setSelectedDate(formattedDate);
+    }
+  };
+
+  const formatDate = (date) => {
+    if (!date) return ""; // Handle null or undefined case gracefully
+
+    // Assuming date is already in YYYY-MM-DD format, directly return it
+    return date;
+  };
   const handleUpdateProfile = async () => {
-    console.log(selectedYear, selectedMonth, selectedDay);
     // Check if the email is valid
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{10}$/;
@@ -108,10 +126,6 @@ const DetailRow = ({
       );
     }
 
-    console.log(
-      "Selected date:",
-      `${selectedYear}-${selectedMonth}-${selectedDay}`
-    );
     let updatedData = {};
     switch (category) {
       case "fullName":
@@ -166,7 +180,6 @@ const DetailRow = ({
         }
 
       case "birthday":
-        const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
         if (selectedDate.trim() === "") {
         } else {
           updatedData = { birthday: selectedDate };
@@ -315,7 +328,7 @@ const DetailRow = ({
           <View style={styles.modalContent}>
             <Text style={styles.title}>Select Birthday</Text>
             <View style={styles.pickerContainer}>
-              <Picker
+              {/* <Picker
                 style={styles.picker}
                 selectedValue={selectedYear}
                 onValueChange={(itemValue) => setSelectedYear(itemValue)}
@@ -364,7 +377,38 @@ const DetailRow = ({
                     style={styles.pickeritem}
                   />
                 ))}
-              </Picker>
+              </Picker> */}
+              {/* <DatePicker
+                mode="calendar"
+                minimumDate={startingDate}
+                onSelectedChange={(day) => {
+                  const formattedDate = day.replace(/\//g, "-");
+                  setDateInput(formattedDate);
+                  console.log(formattedDate);
+                }}
+                options={{
+                  backgroundColor: "white",
+                  textHeaderColor: "#469ab6",
+                  textDefaultColor: "black",
+                  selectedTextColor: "black",
+                  mainColor: "#469ab6",
+                  textSecondaryColor: "black",
+                  borderColor: "rgba(122, 146, 165, 0.1)",
+                }}
+              /> */}
+              <DatePicker
+                mode="date"
+                maximumDate={today} // Set minimum date to today
+                onSelectedChange={handleDateChange}
+                options={{
+                  backgroundColor: "#ffffff",
+                  textHeaderColor: "#333333",
+                  selectedTextColor: "#ffffff",
+                  mainColor: "#f6d147",
+                  textSecondaryColor: "#666666",
+                  borderColor: "#f6d147",
+                }}
+              />
             </View>
 
             <Button title="Save" onPress={handleUpdateProfile} />

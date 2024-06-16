@@ -22,7 +22,7 @@ import PatientProfileScreen from "./src/screens/ViewPatientSummaryHome Screen/Pa
 import PatientHistoryScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/PatientsHistoryScreen";
 import DoctorDashboard from "./src/screens/DashboardScreens/DoctorDashboard";
 import SelectDocForAccessScreen from "./src/screens/GiveDocAccess/SelectDocForAccessScreen";
-import GiveDocAcessScreen from "./src/screens/GiveDocAccess/GiveDocAccessScreen";
+import GiveDocAccessScreen from "./src/screens/GiveDocAccess/GiveDocAccessScreen";
 import CustomHeader from "./src/screens/ViewPatientSummaryHome Screen/Components/CustomHeader";
 import MedicalIdFalseScreen from "./src/screens/AuthenticationScreens/DoctorAuthentication/MedicalIdFalseScreen";
 import Header from "./src/components/Header";
@@ -43,6 +43,8 @@ import OTPVerificationScreen from "./src/screens/AuthenticationScreens/OtpVerify
 import DisplayMedicalRecords from "./src/screens/AddMedicalRecordScreen/DisplayMedicalRecords";
 import OtpVerifyScreen from "./src/screens/AuthenticationScreens/PatientAuthentication/OtpVerifyPatient";
 import ContactPatientScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/ContactPatientScreen";
+import DocAccessHomeScreen from "./src/screens/GiveDocAccess/DocAccessHomeScreen";
+import ViewDoctorsWithAccess from "./src/screens/GiveDocAccess/ViewDoctorsWithAccess";
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
@@ -116,10 +118,22 @@ export default function Routing() {
           component={SelectDocForAccessScreen}
           options={{ headerShown: false }}
         />
+        
+        <Stack.Screen
+          name="ViewDoctorsWithAccess"
+          component={ViewDoctorsWithAccess}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="DocAccessHomeScreen"
+          component={DocAccessHomeScreen}
+          options={{ headerShown: false }}
+        />
 
         <Stack.Screen
           name="GiveDocAccessScreen"
-          component={GiveDocAcessScreen}
+          component={GiveDocAccessScreen}
           options={{ headerShown: false }}
         />
 

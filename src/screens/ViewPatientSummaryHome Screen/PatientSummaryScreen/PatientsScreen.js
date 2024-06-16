@@ -8,6 +8,7 @@ import { baseUrl } from "../../../constants/constants";
 
 function PatientsScreen({ navigation }) {
   const [patients, setPatients] = useState([]);
+  const [filteredPatients, setFilteredPatients] = useState([]);
 
   useEffect(() => {
     fetchPatients();
@@ -21,6 +22,9 @@ function PatientsScreen({ navigation }) {
     } catch (error) {
       console.error("Error fetching patients:", error);
     }
+  };
+  const handleSearch = (filteredData) => {
+    setFilteredPatients(filteredData);
   };
 
   const renderCategoryItem = ({ item }) => {
@@ -47,10 +51,10 @@ function PatientsScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <CustomHeader />
+      <CustomHeader patients={patients} onSearch={handleSearch} />
 
       <FlatList
-        data={patients}
+        data={filteredPatients.length > 0 ? filteredPatients : patients}
         keyExtractor={(item) => item._id}
         renderItem={renderCategoryItem}
         style={{ flex: 1 }}

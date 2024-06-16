@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { launchImageLibraryAsync, launchCameraAsync } from "expo-image-picker";
-import axios from "axios";
+import api from "../../../Services/AuthService";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { baseUrl } from "../../../constants/constants";
 
@@ -17,14 +17,13 @@ const ImagePickerDoctor = ({ userId, picture }) => {
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(true); // New state for loading user
   const { user } = useAuthContext();
-  const id = "6627c4c328a6a54a64fb544a";
 
   useEffect(() => {
     // Fetch the profile image when the component mounts, only if user is available
     const fetchProfileImage = async () => {
       if (user && user._id) {
         try {
-          const response = await axios.get(`${baseUrl}/doctors/${id}`);
+          const response = await api.get(`${baseUrl}/doctors/${user._id}`);
           setImage(response.data.profileImage); // Adjust the path as needed based on your response structure
         } catch (error) {
           console.error("Error fetching profile image:", error);
@@ -40,7 +39,7 @@ const ImagePickerDoctor = ({ userId, picture }) => {
   }, []);
 
   const takeImageHandler = async () => {
-    const result = await launchCameraAsync({
+    const result = await launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [16, 9],
       quality: 0.5,
@@ -64,11 +63,15 @@ const ImagePickerDoctor = ({ userId, picture }) => {
     formData.append("userId", userId);
 
     try {
-      const response = await axios.post(`${baseUrl}/doctors/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await api.post(
+        `${baseUrl}/doctors/${user._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       console.log("Image upload response:", response.data);
       // Handle success (e.g., update state or show a message)
       setImage(response.data.profileImage);

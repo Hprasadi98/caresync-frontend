@@ -14,7 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
 import Dropdown from "./Dropdown";
-import BirthdayCalendar from "./BirthdayCalendar";
+
 import { Picker } from "@react-native-picker/picker";
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 import { useAuthContext } from "../../../hooks/useAuthContext";
@@ -47,20 +47,17 @@ const DetailRow = ({
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
-  const [nic, setNic] = useState("")
-
+  const [nic, setNic] = useState("");
 
   const checkEmailExists = async (email) => {
     try {
       const response = await api.get(`${baseUrl}/${email}`);
       return response.data.exists;
     } catch (error) {
-      console.error('Error checking email:', error);
+      console.error("Error checking email:", error);
       throw error;
     }
   };
-
-
 
   // Function to generate years array (adjust as needed)
   const generateYears = () => {
@@ -73,7 +70,6 @@ const DetailRow = ({
     return years;
   };
 
- 
   const generateDays = () => {
     const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
     const days = Array.from({ length: daysInMonth }, (_, index) =>
@@ -86,32 +82,32 @@ const DetailRow = ({
     setBloodGroup(selectedGroup);
   };
 
-
-
   const handleUpdateProfile = async () => {
     console.log(selectedYear, selectedMonth, selectedDay);
-     // Check if the email is valid
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^[0-9]{10}$/;
-  const weightRegex = /^[0-9]{1,3}$/;
-  const heightRegex = /^[0-9]{1,3}$/;
+    // Check if the email is valid
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
+    const weightRegex = /^[0-9]{1,3}$/;
+    const heightRegex = /^[0-9]{1,3}$/;
 
- 
-
-  try {
-    // Check if the email already exists in the database
-    const emailExists = await checkEmailExists(email);
-    if (emailExists) {
-      Alert.alert('Error', 'This email is already in use. Please choose another one.');
-      return;
+    try {
+      // Check if the email already exists in the database
+      const emailExists = await checkEmailExists(email);
+      if (emailExists) {
+        Alert.alert(
+          "Error",
+          "This email is already in use. Please choose another one."
+        );
+        return;
+      }
+    } catch (error) {
+      console.error("Failed to update patient information:", error);
+      // Optionally, you can handle error cases
+      Alert.alert(
+        "Error",
+        "Failed to update patient information. Please try again later."
+      );
     }
-  }
-catch (error) {
-  console.error('Failed to update patient information:', error);
-  // Optionally, you can handle error cases
-  Alert.alert('Error', 'Failed to update patient information. Please try again later.');
-}
-
 
     // Prepare the updated data based on the category
     console.log(
@@ -122,7 +118,7 @@ catch (error) {
     switch (category) {
       case "fullName":
         if (first.trim() === "" || second.trim() === "") {
-          Alert.alert('Error', 'Please enter a valid name');
+          Alert.alert("Error", "Please enter a valid name");
           return;
           // Handle empty inputs, show error message, etc.
         } else {
@@ -140,29 +136,26 @@ catch (error) {
           // Alert.alert("Error", "Please enter a name");
         }
         if (!emailRegex.test(email)) {
-          Alert.alert('Error', 'Please enter a valid email address');
-          return;
-        }
-        
-        else {
-          updatedData = { email: email }; 
-          break;
-        }
-        case "nic":
-          if (nic.trim() === "") {
-            Alert.alert('Error', 'Please enter a valid NIC');
-          return;
-            
-          } else {
-            updatedData = { nic: nic }; 
-            break;
-          }
-      case "address":
-        if (address.trim() === "") {
-          Alert.alert('Error', 'Please enter a valid Address');
+          Alert.alert("Error", "Please enter a valid email address");
           return;
         } else {
-          updatedData = { address: address }; 
+          updatedData = { email: email };
+          break;
+        }
+      case "nic":
+        if (nic.trim() === "") {
+          Alert.alert("Error", "Please enter a valid NIC");
+          return;
+        } else {
+          updatedData = { nic: nic };
+          break;
+        }
+      case "address":
+        if (address.trim() === "") {
+          Alert.alert("Error", "Please enter a valid Address");
+          return;
+        } else {
+          updatedData = { address: address };
           break;
         }
       case "mobile":
@@ -170,11 +163,10 @@ catch (error) {
           // Alert.alert("Error", "Please enter a name");
         }
         if (!phoneRegex.test(mobileNumber)) {
-          Alert.alert('Error', 'Please enter a valid 10-digit phone number');
+          Alert.alert("Error", "Please enter a valid 10-digit phone number");
           return;
-        } 
-        else {
-          updatedData = { mobileNumber: mobileNumber }; 
+        } else {
+          updatedData = { mobileNumber: mobileNumber };
           break;
         }
 
@@ -190,33 +182,33 @@ catch (error) {
         if (selectedGender.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
         } else {
-          updatedData = { gender: selectedGender }; 
+          updatedData = { gender: selectedGender };
           break;
         }
       case "weight":
         if (weight.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
-        } 
+        }
         if (!weightRegex.test(weight)) {
-          Alert.alert('Error', 'Please enter a valid weight');
+          Alert.alert("Error", "Please enter a valid weight");
           return;
-        }else {
-          updatedData = {  weight: weight };
+        } else {
+          updatedData = { weight: weight };
           break;
         }
-        
 
       case "height":
         if (height.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
-        }  if (!heightRegex.test(height)) {
-          Alert.alert('Error', 'Please enter a valid height');
+        }
+        if (!heightRegex.test(height)) {
+          Alert.alert("Error", "Please enter a valid height");
           return;
-        }else {
-          updatedData = { height: height }; 
+        } else {
+          updatedData = { height: height };
           break;
         }
-      
+
       case "blood":
         if (bloodGroup.trim() === "") {
           // Alert.alert("Error", "Please enter a name");
@@ -237,8 +229,6 @@ catch (error) {
           response.data
         );
         refreshUserData();
-
-
       })
       .catch((error) => {
         console.error("Failed to update patient information: ", error);
@@ -248,8 +238,6 @@ catch (error) {
     // Close the modal
     setModalVisible(false);
   };
-
-
 
   // Define modal content based on category
   const renderModalContent = () => {
@@ -288,20 +276,20 @@ catch (error) {
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         );
-        case "nic":
-          return (
-            <View style={styles.modalContent}>
-              <Text style={styles.title}>Edit NIC Number</Text>
-              <TextInput
-                style={styles.input}
-                value={nic}
-                onChangeText={(text) => setNic(text)}
-                placeholder="Enter NIC Number"
-              />
-              <Button title="Save" onPress={handleUpdateProfile} />
-              <Button title="Cancel" onPress={() => setModalVisible(false)} />
-            </View>
-          );
+      case "nic":
+        return (
+          <View style={styles.modalContent}>
+            <Text style={styles.title}>Edit NIC Number</Text>
+            <TextInput
+              style={styles.input}
+              value={nic}
+              onChangeText={(text) => setNic(text)}
+              placeholder="Enter NIC Number"
+            />
+            <Button title="Save" onPress={handleUpdateProfile} />
+            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+          </View>
+        );
       case "address":
         return (
           <View style={styles.modalContent}>
@@ -431,7 +419,7 @@ catch (error) {
         return (
           <View style={styles.modalContent}>
             <Text style={styles.title}>Edit Your Weight</Text>
-          
+
             <TextInput
               style={styles.input}
               value={weight}
@@ -453,7 +441,7 @@ catch (error) {
               onChangeText={(text) => setHeight(text)}
               placeholder="Enter your height in cm"
             />
-            
+
             <Button title="Save" onPress={handleUpdateProfile} />
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>

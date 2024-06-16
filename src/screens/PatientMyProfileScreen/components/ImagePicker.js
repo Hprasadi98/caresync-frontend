@@ -8,9 +8,10 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { launchImageLibraryAsync } from "expo-image-picker";
-import axios from "axios";
+import api from "../../../Services/AuthService";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { baseUrl } from "../../../constants/constants";
+import axios from "axios";
 
 const ImagePicker = ({ userId, picture }) => {
   const [image, setImage] = useState(picture);
@@ -23,7 +24,7 @@ const ImagePicker = ({ userId, picture }) => {
     const fetchProfileImage = async () => {
       if (user && user._id) {
         try {
-          const response = await axios.get(`${baseUrl}/patients/${user._id}`);
+          const response = await api.get(`${baseUrl}/patients/${user._id}`);
           setImage(response.data.profileImage); // Adjust the path as needed based on your response structure
         } catch (error) {
           console.error("Error fetching profile image:", error);
@@ -63,7 +64,7 @@ const ImagePicker = ({ userId, picture }) => {
     formData.append("userId", userId);
 
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `${baseUrl}/patients/${user._id}`,
         formData,
         {

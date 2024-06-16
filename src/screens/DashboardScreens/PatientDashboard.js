@@ -125,7 +125,7 @@ const PatientDashboard = ({ navigation }) => {
             <TouchableOpacity
               style={styles.dashboardButton}
               onPress={() => {
-                navigation.navigate("SelectDocForAccessScreen");
+                navigation.navigate("DocAccessHomeScreen");
               }}
             >
               <Image

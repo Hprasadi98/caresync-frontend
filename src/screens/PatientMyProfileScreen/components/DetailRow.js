@@ -299,7 +299,7 @@ const DetailRow = ({
             <Text style={styles.title}>Select Birthday</Text>
             <View style={styles.pickerContainer}>
               <DatePicker
-                mode="date"
+                mode="calendar"
                 maximumDate={today} // Set minimum date to today
                 onSelectedChange={handleDateChange}
                 options={{

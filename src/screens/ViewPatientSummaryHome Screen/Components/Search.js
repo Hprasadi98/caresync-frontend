@@ -15,10 +15,7 @@ function Search({ patients, onSearch }) {
       const newData = patients.filter((item) => {
         const itemData = `${item.firstName.toUpperCase()} ${item.lastName.toUpperCase()}`;
         console.log("itemData", itemData);
-        // const textData = text.toUpperCase();
-        // console.log("textData", textData);
 
-        // return itemData.indexOf(textData) >= 0;
         return textParts.every((part) => itemData.includes(part));
       });
       setFilteredData(newData);

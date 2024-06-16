@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-// import { Ionicons } from '@expo/vector-icons';
-
-const Dropdown = ({ options,onSelect  }) => {
+const Dropdown = ({ options, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [placeholderText, setPlaceholderText] = useState("Select Blood Group");
 
@@ -32,7 +30,6 @@ const Dropdown = ({ options,onSelect  }) => {
               style={styles.dropdownItem}
             >
               <Text style={styles.itemText}>{item}</Text>
-              
             </TouchableOpacity>
           ))}
         </View>
@@ -82,7 +79,7 @@ const styles = StyleSheet.create({
     marginLeft: "-5%",
   },
   placeholderText: {
-    fontWeight: "00", // Adjust font weight as needed
+    fontWeight: "00",
   },
 });
 

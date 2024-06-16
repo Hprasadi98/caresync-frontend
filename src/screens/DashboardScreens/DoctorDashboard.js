@@ -8,7 +8,6 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useLogout } from "../../hooks/useLogout";
-import Icon from "react-native-vector-icons/FontAwesome5";
 
 const DoctorDashboard = ({ navigation }) => {
   const { logout } = useLogout();
@@ -29,7 +28,6 @@ const DoctorDashboard = ({ navigation }) => {
               source={require("../../../assets/Person.png")}
               style={styles.dashboardImage}
             />
-            {/* <Icon name="user-alt" size={30} color="black" /> */}
           </View>
         </TouchableOpacity>
       </View>

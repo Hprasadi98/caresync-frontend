@@ -6,7 +6,7 @@ const BMIScale = ({ bmi }) => {
   if (bmi === undefined || bmi === null) {
     return <Text style={styles.errorText}>BMI data is not available.</Text>;
   }
-  const progress = Math.min(bmi / 40, 1); // Assuming the scale goes from 0 to 40
+  const progress = Math.min(bmi / 40, 1);
 
   return (
     <View style={styles.container}>

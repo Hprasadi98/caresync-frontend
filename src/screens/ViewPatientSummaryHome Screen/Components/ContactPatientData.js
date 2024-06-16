@@ -73,9 +73,9 @@ const styles = StyleSheet.create({
     color: "black",
   },
   horizontalLine: {
-    borderBottomWidth: 1, // Change the width as needed
-    borderBottomColor: "#ccc", // Change the color as needed
-    marginVertical: 15, // Adjust vertical spacing as needed
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginVertical: 15,
     width: 230,
   },
   iconContainer: {

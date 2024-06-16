@@ -114,15 +114,6 @@ const DoctorProfileScreen = ({ navigation }) => {
       <Header name="My Profile" />
       <ScrollView>
         <View style={styles.container}>
-          {/* Profile Image */}
-          {/* <TouchableOpacity>
-            <View style={styles.profileImageContainer}>
-              <Image
-                source={require("../../../assets/patient.png")}
-                style={styles.profileImage}
-              />
-            </View>
-          </TouchableOpacity> */}
           <ImagePickerDoctor picture={details.profileImage} />
 
           <Text style={styles.yourinfo}>Your Info</Text>

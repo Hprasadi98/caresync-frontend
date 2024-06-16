@@ -39,8 +39,6 @@ const DetailRowDoctor = ({
 
   const _id = "6627c4c328a6a54a64fb544a";
 
-
-
   const checkEmailExists = async (email) => {
     try {
       const response = await api.get(`${baseUrl}/:doctors/${email}`);
@@ -67,7 +65,7 @@ const DetailRowDoctor = ({
       }
     } catch (error) {
       console.error("Failed to update patient information:", error);
-      // Optionally, you can handle error cases
+
       Alert.alert(
         "Error",
         "Failed to update patient information. Please try again later."
@@ -82,7 +80,6 @@ const DetailRowDoctor = ({
         if (first.trim() === "" || second.trim() === "") {
           Alert.alert("Error", "Please enter a valid name");
           return;
-          // Handle empty inputs, show error message, etc.
         } else {
           console.log("Updating profile with:", first, second);
           // Combine first and last names into one object
@@ -150,7 +147,6 @@ const DetailRowDoctor = ({
       })
       .catch((error) => {
         console.error("Failed to update doctor information: ", error);
-        // Optionally, you can handle error cases
       });
 
     // Close the modal
@@ -222,7 +218,6 @@ const DetailRowDoctor = ({
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         );
-      // Add more cases for other categories as needed
 
       case "specialization":
         return (
@@ -335,9 +330,9 @@ const styles = StyleSheet.create({
     color: "black",
   },
   horizontalLine: {
-    borderBottomWidth: 1, // Change the width as needed
-    borderBottomColor: "#ccc", // Change the color as needed
-    marginVertical: 15, // Adjust vertical spacing as needed
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginVertical: 15,
     width: 230,
   },
   arrowRight: {
@@ -347,14 +342,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 10,
     width: "80%",
-    maxHeight: "60%", // Limit the height of the modal content
+    maxHeight: "60%",
   },
   title: {
     fontSize: 20,

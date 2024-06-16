@@ -24,7 +24,7 @@ const ImagePickerDoctor = ({ userId, picture }) => {
       if (user && user._id) {
         try {
           const response = await api.get(`${baseUrl}/doctors/${user._id}`);
-          setImage(response.data.profileImage); // Adjust the path as needed based on your response structure
+          setImage(response.data.profileImage);
         } catch (error) {
           console.error("Error fetching profile image:", error);
         } finally {
@@ -73,11 +73,10 @@ const ImagePickerDoctor = ({ userId, picture }) => {
         }
       );
       console.log("Image upload response:", response.data);
-      // Handle success (e.g., update state or show a message)
+
       setImage(response.data.profileImage);
     } catch (error) {
       console.error("Error uploading image:", error);
-      // Handle error (e.g., show an error message)
     } finally {
       setLoading(false);
     }
@@ -119,11 +118,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 15,
-    width: 100, // Adjust size as needed
-    height: 100, // Adjust size as needed
-    borderRadius: 50, // Adjust radius for rounded corners
+    width: 100,
+    height: 100,
+    borderRadius: 50,
     overflow: "hidden",
-    backgroundColor: "#eee", // Placeholder color
+    backgroundColor: "#eee",
   },
   profileImage: {
     width: "100%",

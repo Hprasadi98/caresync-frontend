@@ -59,7 +59,6 @@ const DetailRow = ({
     }
   };
 
-  // Function to generate years array (adjust as needed)
   const generateYears = () => {
     const years = [];
     const currentYear = new Date().getFullYear();
@@ -102,14 +101,13 @@ const DetailRow = ({
       }
     } catch (error) {
       console.error("Failed to update patient information:", error);
-      // Optionally, you can handle error cases
+
       Alert.alert(
         "Error",
         "Failed to update patient information. Please try again later."
       );
     }
 
-    // Prepare the updated data based on the category
     console.log(
       "Selected date:",
       `${selectedYear}-${selectedMonth}-${selectedDay}`
@@ -120,7 +118,6 @@ const DetailRow = ({
         if (first.trim() === "" || second.trim() === "") {
           Alert.alert("Error", "Please enter a valid name");
           return;
-          // Handle empty inputs, show error message, etc.
         } else {
           console.log("Updating profile with:", first, second);
           // Combine first and last names into one object
@@ -133,7 +130,6 @@ const DetailRow = ({
 
       case "email":
         if (email.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         }
         if (!emailRegex.test(email)) {
           Alert.alert("Error", "Please enter a valid email address");
@@ -160,7 +156,6 @@ const DetailRow = ({
         }
       case "mobile":
         if (mobileNumber.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         }
         if (!phoneRegex.test(mobileNumber)) {
           Alert.alert("Error", "Please enter a valid 10-digit phone number");
@@ -173,21 +168,18 @@ const DetailRow = ({
       case "birthday":
         const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
         if (selectedDate.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         } else {
           updatedData = { birthday: selectedDate };
           break;
         }
       case "gender":
         if (selectedGender.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         } else {
           updatedData = { gender: selectedGender };
           break;
         }
       case "weight":
         if (weight.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         }
         if (!weightRegex.test(weight)) {
           Alert.alert("Error", "Please enter a valid weight");
@@ -199,7 +191,6 @@ const DetailRow = ({
 
       case "height":
         if (height.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         }
         if (!heightRegex.test(height)) {
           Alert.alert("Error", "Please enter a valid height");
@@ -211,7 +202,6 @@ const DetailRow = ({
 
       case "blood":
         if (bloodGroup.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         } else {
           updatedData = { blood: bloodGroup };
           break;
@@ -521,9 +511,9 @@ const styles = StyleSheet.create({
     color: "black",
   },
   horizontalLine: {
-    borderBottomWidth: 1, // Change the width as needed
-    borderBottomColor: "#ccc", // Change the color as needed
-    marginVertical: 15, // Adjust vertical spacing as needed
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginVertical: 15,
     width: 230,
   },
   arrowRight: {
@@ -533,14 +523,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 10,
     width: "80%",
-    maxHeight: "60%", // Limit the height of the modal content
+    maxHeight: "60%",
   },
   title: {
     fontSize: 20,

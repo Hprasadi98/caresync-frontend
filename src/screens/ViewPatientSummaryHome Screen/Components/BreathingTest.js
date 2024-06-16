@@ -64,7 +64,7 @@ function BreathingTest({ PID }) {
 
   // Function to map stopwatch time to scale
   const mapStopwatchTimeToScale = (stopwatchTime) => {
-    const lastTwoDigits = parseInt(stopwatchTime.slice(-2)); // Extract last two digits
+    const lastTwoDigits = parseInt(stopwatchTime.slice(-2));
     return lastTwoDigits; // Map it to a scale of 0 to 20
   };
 
@@ -275,8 +275,8 @@ const styles = StyleSheet.create({
   },
   overlay: {
     position: "absolute",
-    top: 160, // Adjust as needed
-    left: -5, // Adjust as needed
+    top: 160,
+    left: -5,
   },
   overlayText: {
     fontSize: 14,
@@ -291,8 +291,8 @@ const styles = StyleSheet.create({
   },
   overlayDate: {
     position: "absolute",
-    top: 310, // Adjust as needed
-    left: 150, // Adjust as needed
+    top: 310,
+    left: 150,
   },
 });
 

@@ -39,6 +39,7 @@ const MyprofileScreen = ({ navigation }) => {
       .get(`${baseUrl}/patients/${user._id}`)
       .then((response) => {
         setDetails(response.data);
+        console.log("Details in MyProfileScreen:", response.data);
       })
       .catch((error) => {
         console.error("Axios Error: ", error);

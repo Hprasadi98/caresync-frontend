@@ -5,8 +5,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { launchImageLibraryAsync } from "expo-image-picker";
 import api from "../../../Services/AuthService";
 import { useAuthContext } from "../../../hooks/useAuthContext";
@@ -16,6 +17,8 @@ const ImagePicker = ({ userId, picture }) => {
   const [image, setImage] = useState(picture);
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(true);
+  const [shouldRefetch, setShouldRefetch] = useState(false);
+
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -36,7 +39,13 @@ const ImagePicker = ({ userId, picture }) => {
     };
 
     fetchProfileImage();
-  }, [user]);
+  }, [shouldRefetch]);
+
+  useEffect(() => {
+    if (shouldRefetch) {
+      setShouldRefetch(false);
+    }
+  }, [shouldRefetch]);
 
   const takeImageHandler = async () => {
     const result = await launchImageLibraryAsync({
@@ -46,8 +55,9 @@ const ImagePicker = ({ userId, picture }) => {
     });
 
     if (!result.canceled) {
-      setImage(result.uri);
-      uploadImage(result.uri);
+      const selectedImage = result.assets[0].uri;
+      setImage(selectedImage);
+      uploadImage(selectedImage);
     }
   };
 
@@ -75,6 +85,8 @@ const ImagePicker = ({ userId, picture }) => {
       console.log("Image upload response:", response.data);
 
       setImage(response.data.profileImage);
+
+      setShouldRefetch(true);
     } catch (error) {
       console.error("Error uploading image:", error);
     } finally {

@@ -16,6 +16,7 @@ const ImagePickerDoctor = ({ userId, picture }) => {
   const [image, setImage] = useState(picture);
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(true); // New state for loading user
+  const [shouldRefetch, setShouldRefetch] = useState(false);
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -36,7 +37,13 @@ const ImagePickerDoctor = ({ userId, picture }) => {
     };
 
     fetchProfileImage();
-  }, []);
+  }, [shouldRefetch]);
+
+  useEffect(() => {
+    if (shouldRefetch) {
+      setShouldRefetch(false);
+    }
+  }, [user, shouldRefetch]);
 
   const takeImageHandler = async () => {
     const result = await launchImageLibraryAsync({
@@ -46,8 +53,9 @@ const ImagePickerDoctor = ({ userId, picture }) => {
     });
 
     if (!result.canceled) {
-      setImage(result.uri);
-      uploadImage(result.uri);
+      const selectedImage = result.assets[0].uri;
+      setImage(selectedImage);
+      uploadImage(selectedImage);
     }
   };
 
@@ -75,6 +83,7 @@ const ImagePickerDoctor = ({ userId, picture }) => {
       console.log("Image upload response:", response.data);
 
       setImage(response.data.profileImage);
+      setShouldRefetch(true);
     } catch (error) {
       console.error("Error uploading image:", error);
     } finally {

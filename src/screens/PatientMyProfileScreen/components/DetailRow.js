@@ -15,9 +15,7 @@ import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
 import Dropdown from "./Dropdown";
 import DatePicker from "react-native-modern-datepicker";
-import { format, addDays, eachDayOfInterval } from "date-fns";
-import { Picker } from "@react-native-picker/picker";
-const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+
 import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const DetailRow = ({
@@ -31,28 +29,22 @@ const DetailRow = ({
   const id = user ? user._id : null;
 
   const [modalVisible, setModalVisible] = useState(false);
-
-  const [fullname, setfullName] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNumber, setmobileNumber] = useState("");
   const [first, setFirst] = useState("");
   const [second, setSecond] = useState("");
   const [address, setAddress] = useState("");
 
-  // const [selectedDate, setSelectedDate] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
 
   const [bloodGroup, setBloodGroup] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedDay, setSelectedDay] = useState("");
+
   const [nic, setNic] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const today = new Date().toLocaleDateString("en-CA"); // Format: yyyy/MM/dd
+  const today = new Date().toLocaleDateString("en-CA");
   console.log("Today:", today);
-  const startingDate = format(new Date(today), "yyyy-MM-dd");
 
   const checkEmailExists = async (email) => {
     try {
@@ -63,24 +55,6 @@ const DetailRow = ({
       throw error;
     }
   };
-
-  // const generateYears = () => {
-  //   const years = [];
-  //   const currentYear = new Date().getFullYear();
-  //   for (let i = currentYear; i >= currentYear - 100; i--) {
-  //     years.push(i.toString());
-  //   }
-
-  //   return years;
-  // };
-
-  // const generateDays = () => {
-  //   const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-  //   const days = Array.from({ length: daysInMonth }, (_, index) =>
-  //     (index + 1).toString()
-  //   );
-  //   return days;
-  // };
 
   const handleBloodGroupSelect = (selectedGroup) => {
     setBloodGroup(selectedGroup);
@@ -95,8 +69,7 @@ const DetailRow = ({
   };
 
   const formatDate = (date) => {
-    if (!date) return ""; // Handle null or undefined case gracefully
-
+    if (!date) return "";
     // Assuming date is already in YYYY-MM-DD format, directly return it
     return date;
   };
@@ -235,14 +208,12 @@ const DetailRow = ({
       })
       .catch((error) => {
         console.error("Failed to update patient information: ", error);
-        // Optionally, you can handle error cases
       });
 
     // Close the modal
     setModalVisible(false);
   };
 
-  // Define modal content based on category
   const renderModalContent = () => {
     switch (category) {
       case "fullName":
@@ -321,81 +292,12 @@ const DetailRow = ({
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         );
-      // Add more cases for other categories as needed
 
       case "birthday":
         return (
           <View style={styles.modalContent}>
             <Text style={styles.title}>Select Birthday</Text>
             <View style={styles.pickerContainer}>
-              {/* <Picker
-                style={styles.picker}
-                selectedValue={selectedYear}
-                onValueChange={(itemValue) => setSelectedYear(itemValue)}
-              >
-                {generateYears().map((years) => (
-                  <Picker.Item
-                    style={styles.years}
-                    key={years}
-                    label={years}
-                    value={years}
-                    placeholder="Select Year"
-                  />
-                ))}
-
-                <Text>{selectedYear}</Text>
-              </Picker>
-
-              <Picker
-                style={styles.picker}
-                selectedValue={selectedMonth}
-                onValueChange={(itemValue) => setSelectedMonth(itemValue)}
-              >
-                <Picker.Item label="January" value="01" />
-                <Picker.Item label="February" value="02" />
-                <Picker.Item label="March" value="03" />
-                <Picker.Item label="April" value="04" />
-                <Picker.Item label="May" value="05" />
-                <Picker.Item label="June" value="06" />
-                <Picker.Item label="July" value="07" />
-                <Picker.Item label="August" value="08" />
-                <Picker.Item label="September" value="09" />
-                <Picker.Item label="October" value="10" />
-                <Picker.Item label="November" value="11" />
-                <Picker.Item label="December" value="12" />
-              </Picker>
-              <Picker
-                style={styles.picker}
-                selectedValue={selectedDay}
-                onValueChange={(itemValue) => setSelectedDay(itemValue)}
-              >
-                {generateDays().map((day) => (
-                  <Picker.Item
-                    key={day}
-                    label={day}
-                    value={day}
-                    style={styles.pickeritem}
-                  />
-                ))}
-              </Picker> */}
-              {/* <DatePicker
-                mode="calendar"
-                minimumDate={startingDate}
-                onSelectedChange={(day) => {
-                  const formattedDate = day.replace(/\//g, "-");
-                  setDateInput(formattedDate);
-                  console.log(formattedDate);
-                }}
-                options={{
-                  backgroundColor: "white",
-                  textHeaderColor: "#469ab6",
-                  textDefaultColor: "black",
-                  selectedTextColor: "black",
-                  mainColor: "#469ab6",
-                  textSecondaryColor: "black",
-                  borderColor: "rgba(122, 146, 165, 0.1)",
-                }}
-              /> */}
               <DatePicker
                 mode="date"
                 maximumDate={today} // Set minimum date to today

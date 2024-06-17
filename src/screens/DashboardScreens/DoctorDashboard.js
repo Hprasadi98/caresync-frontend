@@ -1,38 +1,39 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
 import { useLogout } from "../../hooks/useLogout";
 
 const DoctorDashboard = ({ navigation }) => {
-
   const { logout } = useLogout();
 
   return (
     <View style={styles.container}>
-
-    {/* // Top Panel */}
+      {/* // Top Panel */}
       <View style={styles.topPanel}>
         <Text style={styles.titleMain}>CareSync</Text>
-        <TouchableOpacity style={styles.profileButton}  onPress={() => {
-              navigation.navigate("DoctorProfileScreen");
-            }}>
-          <View style={styles.profileImageContainer}>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("DoctorProfileScreen");
+          }}
+        >
+          <View style={styles.iconContainer}>
             <Image
               source={require("../../../assets/Person.png")}
-              style={styles.profileImage}
+              style={styles.dashboardImage}
             />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bellIcon}>
-          <Image
-            source={require("../../../assets/Notification.png")}
-            style={styles.bellImage}
-          />
-        </TouchableOpacity>
       </View>
 
-    {/* // Dashboard Buttons */}
+      {/* // Dashboard Buttons */}
       <View style={styles.dashboardContainer}>
-
         {/* // View Patient Summery Button */}
         <TouchableOpacity
           style={styles.dashboardButton}
@@ -46,7 +47,6 @@ const DoctorDashboard = ({ navigation }) => {
           />
           <Text style={styles.dashboardButtonText}>View Patient Summary</Text>
         </TouchableOpacity>
-
 
         {/* // Logout Button */}
         <TouchableOpacity
@@ -62,14 +62,11 @@ const DoctorDashboard = ({ navigation }) => {
           />
           <Text style={styles.dashboardButtonText}>LogOut</Text>
         </TouchableOpacity>
-
-
       </View>
 
       {/* <TouchableOpacity style={styles.roundedPlusButton}>
         <Text style={styles.plusButtonText}>+</Text>
       </TouchableOpacity> */}
-
     </View>
   );
 };
@@ -163,6 +160,16 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: "#fff",
     fontWeight: "bold",
+  },
+  iconContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 15,
+    width: 40, // Adjust size as needed
+    height: 40, // Adjust size as needed
+    borderRadius: 50, // Adjust radius for rounded corners
+    overflow: "hidden",
+    backgroundColor: "#eee", // Placeholder color
   },
 });
 

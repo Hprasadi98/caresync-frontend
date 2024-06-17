@@ -7,7 +7,7 @@ import {
   Dimensions,
 } from "react-native";
 import { baseUrl } from "../../../constants/constants";
-import axios from "axios";
+import api from "../../../Services/AuthService";
 
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { LineChart } from "react-native-chart-kit";
@@ -25,7 +25,7 @@ function WeightGraph() {
   }, [user]);
 
   const getWeights = (userId) => {
-    axios
+    api
       .get(`${baseUrl}/patients/${userId}`)
       .then((response) => {
         const weights = response.data.pastWeights || [];
@@ -39,10 +39,8 @@ function WeightGraph() {
       });
   };
 
-  // Ensure details is always an array
   const safeDetails = Array.isArray(details) ? details : [];
 
-  // Extract dates and weights for the graph
   const dates = safeDetails.map((entry) =>
     new Date(entry.date).toLocaleDateString("en-US", {
       month: "2-digit",
@@ -66,26 +64,17 @@ function WeightGraph() {
   const firstDate = datesNew.length > 0 ? datesNew[0] : null;
   const lastDate = datesNew.length > 0 ? datesNew[datesNew.length - 1] : null;
 
-  //   // Calculate average, min, and max weights
   const totalWeight = weights.reduce((a, b) => a + b, 0);
   console.log("Sum of Weights: ", totalWeight);
   let sum = 0;
   let num = totalWeight;
 
   while (num !== 0) {
-    sum += num % 100; // Add the last digit to sum
-    num = Math.floor(num / 100); // Remove the last digit
+    sum += num % 100;
+    num = Math.floor(num / 100);
   }
   console.log("Sum of Digits of Total Weight: ", sum);
-  // Calculate the average weight
-  // let averageWeight = 0;
-  // if (weights.length > 0) {
-  //   averageWeight = sum / weights.length;
-  // }
-  // console.log("Average Weight: ", averageWeight);
-  // const averageWeightFormatted = !isNaN(averageWeight)
-  //   ? averageWeight.toFixed(1)
-  //   : "N/A"; // Format to 1 decimal place
+
   const averageWeight = sum / weights.length;
   // Format to 1 decimal place using Math.round
   const averageWeightFormatted = (
@@ -132,7 +121,7 @@ function WeightGraph() {
                 },
               ],
             }}
-            width={Dimensions.get("window").width - 16} // from react-native
+            width={Dimensions.get("window").width - 16}
             height={240}
             yAxisLabel=""
             yAxisSuffix=""
@@ -141,16 +130,15 @@ function WeightGraph() {
               backgroundGradientFrom: "#ffa726",
               backgroundGradientTo: "#42ebe0",
 
-              decimalPlaces: 0, // optional, defaults to 2dp
+              decimalPlaces: 0,
 
-              // color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Axis label color
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
               labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
               style: {
                 borderRadius: 16,
               },
               propsForBackgroundLines: {
-                stroke: "", // Color for background lines
+                stroke: "",
               },
               propsForDots: {
                 r: "6",
@@ -168,12 +156,6 @@ function WeightGraph() {
         ) : (
           <Text>No weight data available</Text>
         )}
-        {/* <View style={styles.overlay}>
-        <Text style={styles.overlayText}>Weight (kg)</Text>
-      </View>
-      <View style={styles.overlayDate}>
-        <Text style={styles.overlayTextDate}>Month/Day</Text>
-      </View> */}
       </View>
     );
   } else {
@@ -189,30 +171,30 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   dateContainer: {
-    alignSelf: "flex-start", // Align text to the start (left)
-    marginLeft: 30, // Add some padding from the left sides
+    alignSelf: "flex-start",
+    marginLeft: 30,
   },
   dateRange: {
-    color: "black", // Adjust color to match your theme
+    color: "black",
     fontSize: 16,
-    marginBottom: 10, // Space between the text and the graph
+    marginBottom: 10,
   },
   statsContainer: {
-    marginBottom: 10, // Space between the stats and the graph
-    alignSelf: "flex-start", // Align text to the start (left)
-    marginLeft: 30, // Add some padding from the left sides
-    flexDirection: "row", // Align the stats in a row
-    marginTop: 0, // Space between the text and the graph
+    marginBottom: 10,
+    alignSelf: "flex-start",
+    marginLeft: 30,
+    flexDirection: "row",
+    marginTop: 0,
   },
   statsSubContainer: {
-    flexDirection: "row", // Align the stats in a row
-    marginRight: 20, // Space between the stats
-    alignItems: "baseline", // Align the text in the center
+    flexDirection: "row",
+    marginRight: 20,
+    alignItems: "baseline",
   },
   statsText: {
     fontSize: 16,
     color: "black",
-    marginRight: 5, // Space between the stats
+    marginRight: 5,
   },
   statsNumAvg: {
     fontSize: 24,
@@ -221,18 +203,17 @@ const styles = StyleSheet.create({
   statsNumMIn: {
     fontSize: 24,
     color: "gold",
-    marginRight: 10, // Space between the stats
+    marginRight: 10,
   },
   statsNumMax: {
     fontSize: 24,
     color: "red",
-    marginRight: 10, // Space between the stats
+    marginRight: 10,
   },
 
   overlay: {
     position: "absolute",
-    top: 120, // Adjust as needed
-    left: -10, // Adjust as needed
+    left: -10,
   },
   overlayText: {
     fontSize: 14,
@@ -247,8 +228,8 @@ const styles = StyleSheet.create({
   },
   overlayDate: {
     position: "absolute",
-    top: 258, // Adjust as needed
-    left: 150, // Adjust as needed
+    top: 258,
+    left: 150,
     paddingBottom: 10,
   },
 });

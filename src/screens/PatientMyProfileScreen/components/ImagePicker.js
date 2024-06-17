@@ -5,17 +5,20 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { launchImageLibraryAsync } from "expo-image-picker";
-import axios from "axios";
+import api from "../../../Services/AuthService";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { baseUrl } from "../../../constants/constants";
 
 const ImagePicker = ({ userId, picture }) => {
   const [image, setImage] = useState(picture);
   const [loading, setLoading] = useState(false);
-  const [userLoading, setUserLoading] = useState(true); // New state for loading user
+  const [userLoading, setUserLoading] = useState(true);
+  const [shouldRefetch, setShouldRefetch] = useState(false);
+
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -23,8 +26,8 @@ const ImagePicker = ({ userId, picture }) => {
     const fetchProfileImage = async () => {
       if (user && user._id) {
         try {
-          const response = await axios.get(`${baseUrl}/patients/${user._id}`);
-          setImage(response.data.profileImage); // Adjust the path as needed based on your response structure
+          const response = await api.get(`${baseUrl}/patients/${user._id}`);
+          setImage(response.data.profileImage);
         } catch (error) {
           console.error("Error fetching profile image:", error);
         } finally {
@@ -36,7 +39,13 @@ const ImagePicker = ({ userId, picture }) => {
     };
 
     fetchProfileImage();
-  }, [user]);
+  }, [shouldRefetch]);
+
+  useEffect(() => {
+    if (shouldRefetch) {
+      setShouldRefetch(false);
+    }
+  }, [shouldRefetch]);
 
   const takeImageHandler = async () => {
     const result = await launchImageLibraryAsync({
@@ -46,8 +55,9 @@ const ImagePicker = ({ userId, picture }) => {
     });
 
     if (!result.canceled) {
-      setImage(result.uri);
-      uploadImage(result.uri);
+      const selectedImage = result.assets[0].uri;
+      setImage(selectedImage);
+      uploadImage(selectedImage);
     }
   };
 
@@ -63,7 +73,7 @@ const ImagePicker = ({ userId, picture }) => {
     formData.append("userId", userId);
 
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `${baseUrl}/patients/${user._id}`,
         formData,
         {
@@ -73,11 +83,12 @@ const ImagePicker = ({ userId, picture }) => {
         }
       );
       console.log("Image upload response:", response.data);
-      // Handle success (e.g., update state or show a message)
+
       setImage(response.data.profileImage);
+
+      setShouldRefetch(true);
     } catch (error) {
       console.error("Error uploading image:", error);
-      // Handle error (e.g., show an error message)
     } finally {
       setLoading(false);
     }
@@ -119,11 +130,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 15,
-    width: 100, // Adjust size as needed
-    height: 100, // Adjust size as needed
-    borderRadius: 50, // Adjust radius for rounded corners
+    width: 100,
+    height: 100,
+    borderRadius: 50,
     overflow: "hidden",
-    backgroundColor: "#eee", // Placeholder color
+    backgroundColor: "#eee",
   },
   profileImage: {
     width: "100%",

@@ -6,7 +6,6 @@ const BirthdayCalendar = ({ onselect }) => {
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
 
   // Function to generate years array (adjust as needed)
   const generateYears = () => {
@@ -78,7 +77,6 @@ const BirthdayCalendar = ({ onselect }) => {
           ))}
         </Picker>
       </View>
-      
     </View>
   );
 };

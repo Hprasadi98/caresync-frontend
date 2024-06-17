@@ -14,9 +14,8 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
 import Dropdown from "./Dropdown";
-import BirthdayCalendar from "./BirthdayCalendar";
-import { Picker } from "@react-native-picker/picker";
-const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+import DatePicker from "react-native-modern-datepicker";
+
 import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const DetailRow = ({
@@ -30,101 +29,82 @@ const DetailRow = ({
   const id = user ? user._id : null;
 
   const [modalVisible, setModalVisible] = useState(false);
-
-  const [fullname, setfullName] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNumber, setmobileNumber] = useState("");
   const [first, setFirst] = useState("");
   const [second, setSecond] = useState("");
   const [address, setAddress] = useState("");
 
-  const [selectedDate, setSelectedDate] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
 
   const [bloodGroup, setBloodGroup] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedDay, setSelectedDay] = useState("");
-  const [nic, setNic] = useState("")
 
+  const [nic, setNic] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const today = new Date().toLocaleDateString("en-CA");
+  console.log("Today:", today);
 
   const checkEmailExists = async (email) => {
     try {
       const response = await api.get(`${baseUrl}/${email}`);
       return response.data.exists;
     } catch (error) {
-      console.error('Error checking email:', error);
+      console.error("Error checking email:", error);
       throw error;
     }
-  };
-
-
-
-  // Function to generate years array (adjust as needed)
-  const generateYears = () => {
-    const years = [];
-    const currentYear = new Date().getFullYear();
-    for (let i = currentYear; i >= currentYear - 100; i--) {
-      years.push(i.toString());
-    }
-
-    return years;
-  };
-
- 
-  const generateDays = () => {
-    const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-    const days = Array.from({ length: daysInMonth }, (_, index) =>
-      (index + 1).toString()
-    );
-    return days;
   };
 
   const handleBloodGroupSelect = (selectedGroup) => {
     setBloodGroup(selectedGroup);
   };
 
-
-
-  const handleUpdateProfile = async () => {
-    console.log(selectedYear, selectedMonth, selectedDay);
-     // Check if the email is valid
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^[0-9]{10}$/;
-  const weightRegex = /^[0-9]{1,3}$/;
-  const heightRegex = /^[0-9]{1,3}$/;
-
- 
-
-  try {
-    // Check if the email already exists in the database
-    const emailExists = await checkEmailExists(email);
-    if (emailExists) {
-      Alert.alert('Error', 'This email is already in use. Please choose another one.');
-      return;
+  const handleDateChange = (date) => {
+    // Ensure the date is not null or undefined
+    if (date) {
+      const formattedDate = formatDate(date);
+      setSelectedDate(formattedDate);
     }
-  }
-catch (error) {
-  console.error('Failed to update patient information:', error);
-  // Optionally, you can handle error cases
-  Alert.alert('Error', 'Failed to update patient information. Please try again later.');
-}
+  };
 
+  const formatDate = (date) => {
+    if (!date) return "";
+    // Assuming date is already in YYYY-MM-DD format, directly return it
+    return date;
+  };
+  const handleUpdateProfile = async () => {
+    // Check if the email is valid
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
+    const weightRegex = /^[0-9]{1,3}$/;
+    const heightRegex = /^[0-9]{1,3}$/;
 
-    // Prepare the updated data based on the category
-    console.log(
-      "Selected date:",
-      `${selectedYear}-${selectedMonth}-${selectedDay}`
-    );
+    try {
+      // Check if the email already exists in the database
+      const emailExists = await checkEmailExists(email);
+      if (emailExists) {
+        Alert.alert(
+          "Error",
+          "This email is already in use. Please choose another one."
+        );
+        return;
+      }
+    } catch (error) {
+      console.error("Failed to update patient information:", error);
+
+      Alert.alert(
+        "Error",
+        "Failed to update patient information. Please try again later."
+      );
+    }
+
     let updatedData = {};
     switch (category) {
       case "fullName":
         if (first.trim() === "" || second.trim() === "") {
-          Alert.alert('Error', 'Please enter a valid name');
+          Alert.alert("Error", "Please enter a valid name");
           return;
-          // Handle empty inputs, show error message, etc.
         } else {
           console.log("Updating profile with:", first, second);
           // Combine first and last names into one object
@@ -137,89 +117,77 @@ catch (error) {
 
       case "email":
         if (email.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         }
         if (!emailRegex.test(email)) {
-          Alert.alert('Error', 'Please enter a valid email address');
-          return;
-        }
-        
-        else {
-          updatedData = { email: email }; 
-          break;
-        }
-        case "nic":
-          if (nic.trim() === "") {
-            Alert.alert('Error', 'Please enter a valid NIC');
-          return;
-            
-          } else {
-            updatedData = { nic: nic }; 
-            break;
-          }
-      case "address":
-        if (address.trim() === "") {
-          Alert.alert('Error', 'Please enter a valid Address');
+          Alert.alert("Error", "Please enter a valid email address");
           return;
         } else {
-          updatedData = { address: address }; 
+          updatedData = { email: email };
+          break;
+        }
+      case "nic":
+        if (nic.trim() === "") {
+          Alert.alert("Error", "Please enter a valid NIC");
+          return;
+        } else {
+          updatedData = { nic: nic };
+          break;
+        }
+      case "address":
+        if (address.trim() === "") {
+          Alert.alert("Error", "Please enter a valid Address");
+          return;
+        } else {
+          updatedData = { address: address };
           break;
         }
       case "mobile":
         if (mobileNumber.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         }
         if (!phoneRegex.test(mobileNumber)) {
-          Alert.alert('Error', 'Please enter a valid 10-digit phone number');
+          Alert.alert("Error", "Please enter a valid 10-digit phone number");
           return;
-        } 
-        else {
-          updatedData = { mobileNumber: mobileNumber }; 
+        } else {
+          updatedData = { mobileNumber: mobileNumber };
           break;
         }
 
       case "birthday":
-        const selectedDate = `${selectedYear}-${selectedMonth}-${selectedDay}`;
         if (selectedDate.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         } else {
           updatedData = { birthday: selectedDate };
           break;
         }
       case "gender":
         if (selectedGender.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         } else {
-          updatedData = { gender: selectedGender }; 
+          updatedData = { gender: selectedGender };
           break;
         }
       case "weight":
         if (weight.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
-        } 
+        }
         if (!weightRegex.test(weight)) {
-          Alert.alert('Error', 'Please enter a valid weight');
+          Alert.alert("Error", "Please enter a valid weight");
           return;
-        }else {
-          updatedData = {  weight: weight };
+        } else {
+          updatedData = { weight: weight };
           break;
         }
-        
 
       case "height":
         if (height.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
-        }  if (!heightRegex.test(height)) {
-          Alert.alert('Error', 'Please enter a valid height');
+        }
+        if (!heightRegex.test(height)) {
+          Alert.alert("Error", "Please enter a valid height");
           return;
-        }else {
-          updatedData = { height: height }; 
+        } else {
+          updatedData = { height: height };
           break;
         }
-      
+
       case "blood":
         if (bloodGroup.trim() === "") {
-          // Alert.alert("Error", "Please enter a name");
         } else {
           updatedData = { blood: bloodGroup };
           break;
@@ -237,21 +205,15 @@ catch (error) {
           response.data
         );
         refreshUserData();
-
-
       })
       .catch((error) => {
         console.error("Failed to update patient information: ", error);
-        // Optionally, you can handle error cases
       });
 
     // Close the modal
     setModalVisible(false);
   };
 
-
-
-  // Define modal content based on category
   const renderModalContent = () => {
     switch (category) {
       case "fullName":
@@ -288,20 +250,20 @@ catch (error) {
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         );
-        case "nic":
-          return (
-            <View style={styles.modalContent}>
-              <Text style={styles.title}>Edit NIC Number</Text>
-              <TextInput
-                style={styles.input}
-                value={nic}
-                onChangeText={(text) => setNic(text)}
-                placeholder="Enter NIC Number"
-              />
-              <Button title="Save" onPress={handleUpdateProfile} />
-              <Button title="Cancel" onPress={() => setModalVisible(false)} />
-            </View>
-          );
+      case "nic":
+        return (
+          <View style={styles.modalContent}>
+            <Text style={styles.title}>Edit NIC Number</Text>
+            <TextInput
+              style={styles.input}
+              value={nic}
+              onChangeText={(text) => setNic(text)}
+              placeholder="Enter NIC Number"
+            />
+            <Button title="Save" onPress={handleUpdateProfile} />
+            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+          </View>
+        );
       case "address":
         return (
           <View style={styles.modalContent}>
@@ -330,63 +292,25 @@ catch (error) {
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         );
-      // Add more cases for other categories as needed
 
       case "birthday":
         return (
           <View style={styles.modalContent}>
             <Text style={styles.title}>Select Birthday</Text>
             <View style={styles.pickerContainer}>
-              <Picker
-                style={styles.picker}
-                selectedValue={selectedYear}
-                onValueChange={(itemValue) => setSelectedYear(itemValue)}
-              >
-                {generateYears().map((years) => (
-                  <Picker.Item
-                    style={styles.years}
-                    key={years}
-                    label={years}
-                    value={years}
-                    placeholder="Select Year"
-                  />
-                ))}
-
-                <Text>{selectedYear}</Text>
-              </Picker>
-
-              <Picker
-                style={styles.picker}
-                selectedValue={selectedMonth}
-                onValueChange={(itemValue) => setSelectedMonth(itemValue)}
-              >
-                <Picker.Item label="January" value="01" />
-                <Picker.Item label="February" value="02" />
-                <Picker.Item label="March" value="03" />
-                <Picker.Item label="April" value="04" />
-                <Picker.Item label="May" value="05" />
-                <Picker.Item label="June" value="06" />
-                <Picker.Item label="July" value="07" />
-                <Picker.Item label="August" value="08" />
-                <Picker.Item label="September" value="09" />
-                <Picker.Item label="October" value="10" />
-                <Picker.Item label="November" value="11" />
-                <Picker.Item label="December" value="12" />
-              </Picker>
-              <Picker
-                style={styles.picker}
-                selectedValue={selectedDay}
-                onValueChange={(itemValue) => setSelectedDay(itemValue)}
-              >
-                {generateDays().map((day) => (
-                  <Picker.Item
-                    key={day}
-                    label={day}
-                    value={day}
-                    style={styles.pickeritem}
-                  />
-                ))}
-              </Picker>
+              <DatePicker
+                mode="calendar"
+                maximumDate={today} // Set minimum date to today
+                onSelectedChange={handleDateChange}
+                options={{
+                  backgroundColor: "#ffffff",
+                  textHeaderColor: "#333333",
+                  selectedTextColor: "#ffffff",
+                  mainColor: "#f6d147",
+                  textSecondaryColor: "#666666",
+                  borderColor: "#f6d147",
+                }}
+              />
             </View>
 
             <Button title="Save" onPress={handleUpdateProfile} />
@@ -431,7 +355,7 @@ catch (error) {
         return (
           <View style={styles.modalContent}>
             <Text style={styles.title}>Edit Your Weight</Text>
-          
+
             <TextInput
               style={styles.input}
               value={weight}
@@ -453,7 +377,7 @@ catch (error) {
               onChangeText={(text) => setHeight(text)}
               placeholder="Enter your height in cm"
             />
-            
+
             <Button title="Save" onPress={handleUpdateProfile} />
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
@@ -533,9 +457,9 @@ const styles = StyleSheet.create({
     color: "black",
   },
   horizontalLine: {
-    borderBottomWidth: 1, // Change the width as needed
-    borderBottomColor: "#ccc", // Change the color as needed
-    marginVertical: 15, // Adjust vertical spacing as needed
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginVertical: 15,
     width: 230,
   },
   arrowRight: {
@@ -545,14 +469,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 10,
     width: "80%",
-    maxHeight: "60%", // Limit the height of the modal content
+    maxHeight: "60%",
   },
   title: {
     fontSize: 20,

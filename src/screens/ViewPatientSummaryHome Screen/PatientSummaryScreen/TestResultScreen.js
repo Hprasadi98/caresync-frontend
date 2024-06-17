@@ -2,6 +2,7 @@ import { Text, StyleSheet, FlatList, View, ScrollView } from "react-native";
 import Header2 from "../Components/Header2";
 import BreathingTest from "../Components/BreathingTest";
 import StepCounterTest from "../Components/StepCounterTest";
+import TestLinkResults from "../Components/TestLinkResults";
 
 function TestResultScreen({ route, navigation }) {
   const PID = route.params.PID;
@@ -12,6 +13,7 @@ function TestResultScreen({ route, navigation }) {
         <ScrollView>
           <BreathingTest PID={PID} />
           <StepCounterTest PID={PID} />
+          <TestLinkResults PID={PID} />
         </ScrollView>
       </View>
     </View>

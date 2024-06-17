@@ -5,8 +5,10 @@ import PatientGridTile from "../Components/PatientGridTile";
 import CustomHeader from "../Components/CustomHeader";
 import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 function PatientsScreen({ navigation }) {
+  const { user } = useAuthContext();
   const [patients, setPatients] = useState([]);
   const [filteredPatients, setFilteredPatients] = useState([]);
 
@@ -16,7 +18,9 @@ function PatientsScreen({ navigation }) {
 
   const fetchPatients = async () => {
     try {
-      const response = await api.get(`${baseUrl}/patients`);
+      const response = await api.get(
+        `${baseUrl}/doctors/getPatientsWithAccess/${user._id}`
+      );
       setPatients(response.data);
       console.log("Response from backend:", response.data);
     } catch (error) {

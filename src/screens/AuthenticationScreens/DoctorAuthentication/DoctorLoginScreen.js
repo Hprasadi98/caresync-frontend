@@ -15,8 +15,6 @@ const DoctorLogin = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  
-
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Error", "Please fill in all fields.");
@@ -27,14 +25,16 @@ const DoctorLogin = ({ navigation }) => {
     console.log("Data:", data);
     if (data.status === "success") {
       navigation.navigate("DoctorDashboard");
-    } else if (data.status === "invalid") {
+    } else if (
+      data.status === "invalid email" ||
+      data.status === "invalid password"
+    ) {
       Alert.alert("Error", "Invalid email or password");
     } else if (data.status === "notVerified") {
       navigation.navigate("MedicalIdFalseScreen");
     } else if (data.status === "error") {
       Alert.alert("Error", "An error occurred. Please try again later.");
-    }
-    else{
+    } else {
       Alert.alert("Error", "An error occurred. Please try again later.");
     }
   };
@@ -71,7 +71,7 @@ const DoctorLogin = ({ navigation }) => {
 
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("ForgotPassword",{userType : "doctor"})
+          navigation.navigate("ForgotPassword", { userType: "doctor" })
         }
       >
         <Text style={styles.linkText}>Forgot Password?</Text>

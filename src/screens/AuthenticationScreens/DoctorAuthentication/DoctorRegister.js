@@ -66,6 +66,7 @@ const DoctorRegister = ({ navigation }) => {
 
     try {
       if (!result.success) {
+        console.log(result.error.errors[0].message);
         Alert.alert("Error", result.error.errors[0].message);
         return;
       }
@@ -80,6 +81,7 @@ const DoctorRegister = ({ navigation }) => {
           medicalIdVerify: false,
         })
         .then((response) => {
+          console.log("Response:", response);
           Alert.alert("Success", "Registration successful.", [
             {
               text: "OK",
@@ -88,10 +90,12 @@ const DoctorRegister = ({ navigation }) => {
           ]);
         })
         .catch((error) => {
-          Alert.alert("Error", error);
+          console.log("Error registering1:", error.response.data.error);
+
+          Alert.alert("Error", error.response.data.error);
         });
     } catch (error) {
-      console.error("Error registering:", error);
+      console.error("Error registering2:", error);
       Alert.alert(
         "Error",
         "An error occurred while registering. Please try again."

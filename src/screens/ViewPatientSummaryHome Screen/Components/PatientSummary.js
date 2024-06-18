@@ -9,6 +9,21 @@ import {
 import axios from "axios";
 import { useState, useEffect } from "react";
 import MedicationScreen from "../PatientSummaryScreen/MedicationsScreen";
+function calculateAge(birthday) {
+  const birthDate = new Date(birthday);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
+}
 
 function PatientSummary({
   id,
@@ -20,7 +35,18 @@ function PatientSummary({
   height,
   gender,
   nic,
+  profileImage,
+  birthday,
 }) {
+  const defaultProfileImage = require("../../../../assets/personProfile.png");
+
+  const imageSource =
+    profileImage && profileImage.startsWith("http")
+      ? { uri: profileImage }
+      : defaultProfileImage;
+
+  const age = calculateAge(birthday);
+  console.log("Age:", age);
   return (
     <View style={styles.innerContainer}>
       <View style={styles.first}>
@@ -28,19 +54,22 @@ function PatientSummary({
           <Text style={styles.title}>
             {firstName} {lastName}
           </Text>
+          <Image source={imageSource} style={styles.image} />
         </View>
 
-        <View style={styles.main1}>
-          <View style={styles.cat1}>
-            <Text style={styles.text1}> NIC</Text>
-            <Text style={styles.nic}>{nic}</Text>
-          </View>
-          <View style={styles.cat2}>
-            <Text style={styles.text2}> Gender</Text>
-            <Text style={styles.gender}>{gender}</Text>
+        <View style={styles.mainlineOne}>
+          <View style={styles.category}>
+            <View>
+              <Text style={styles.textYrs}> Age</Text>
+              <Text style={styles.gender}>{age} yrs</Text>
+            </View>
+            <View>
+              <Text style={styles.textGen}> Gender</Text>
+              <Text style={styles.gender}>{gender}</Text>
+            </View>
           </View>
         </View>
-        <View style={styles.main2}>
+        <View style={styles.mainlineTwo}>
           <View style={styles.categaryDown}>
             <Text style={styles.TextLineDownweight}>Weight</Text>
             <Text style={styles.weight}>{weight} kg</Text>
@@ -113,9 +142,7 @@ const styles = StyleSheet.create({
     color: "#00567D",
     fontWeight: "bold",
   },
-  cat1: {
-    flexDirection: "column",
-  },
+
   categaryDown: {
     flexDirection: "column",
   },
@@ -123,19 +150,15 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginLeft: 60,
   },
-  cat2: {
+  egory: {
     flexDirection: "column",
   },
-  main1: {
+  mainlineOne: {
     flexDirection: "row",
     marginTop: 20,
     marginRight: "10%",
-    position: "relative",
   },
-  cat3: {
-    flexDirection: "column",
-    marginLeft: 50,
-  },
+
   weight: {
     fontSize: 20,
     color: "#00567D",
@@ -155,9 +178,13 @@ const styles = StyleSheet.create({
     marginLeft: 70,
   },
 
-  text2: {
+  textGen: {
     fontSize: 15,
     marginLeft: 55,
+  },
+  textYrs: {
+    fontSize: 15,
+    marginLeft: 65,
   },
   text2: {
     fontSize: 15,
@@ -167,7 +194,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 
-  main2: {
+  mainlineTwo: {
     flexDirection: "row",
     marginTop: 20,
     marginRight: "22%",
@@ -200,5 +227,15 @@ const styles = StyleSheet.create({
   TextLineDownblood: {
     fontSize: 15,
     marginLeft: 40,
+  },
+  image: {
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+  },
+  category: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

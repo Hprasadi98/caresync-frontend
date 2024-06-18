@@ -11,6 +11,12 @@ function PatientGridTile({
   onPress,
   profileImage,
 }) {
+  console.log("Profile Image:", profileImage);
+  const defaultProfileImage = require("../../../../assets/personProfile.png");
+  const imageSource =
+    profileImage && profileImage.startsWith("http")
+      ? { uri: profileImage }
+      : defaultProfileImage;
   return (
     <View style={[styles.gridItem, { backgroundColor: "#E3F7FF" }]}>
       <Pressable
@@ -19,7 +25,8 @@ function PatientGridTile({
         onPress={onPress}
       >
         <View style={styles.innerContainer}>
-          <Image source={{ uri: profileImage }} style={styles.image} />
+          <Image source={imageSource} style={styles.image} />
+          {/* <Image source={{ uri: profileImage }} style={styles.image} /> */}
 
           <View style={styles.subcontainer}>
             <Text style={styles.title}>

@@ -82,20 +82,8 @@ const DoctorDashboard = ({ navigation }) => {
 
       {/* // Dashboard Buttons */}
       <View style={styles.dashboardContainer}>
-        {/* // View Patient Summery Button */}
         <View style={styles.dashboardButtonContainer}>
-          <TouchableOpacity
-            style={styles.dashboardButtonLogout}
-            onPress={() => {
-              logout();
-              navigation.navigate("WelcomeScreen");
-            }}
-          >
-            <SimpleLineIcons name="logout" size={60} color="black" />
-            <Text style={styles.dashboardButtonText}>Log Out</Text>
-          </TouchableOpacity>
-
-          {/* // Logout Button */}
+          {/* /* // View Patient Summery Button * */}
           <TouchableOpacity
             style={styles.dashboardButtonMyPatient}
             onPress={() => {
@@ -103,7 +91,17 @@ const DoctorDashboard = ({ navigation }) => {
             }}
           >
             <Fontisto name="stethoscope" size={60} color="black" />
-            <Text style={styles.dashboardButtonText}>My Patients</Text>
+            <Text style={styles.dashboardButtonTextMypatient}>My Patients</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.dashboardButtonLogout}
+            onPress={() => {
+              logout();
+              navigation.navigate("WelcomeScreen");
+            }}
+          >
+            <SimpleLineIcons name="logout" size={30} color="white" />
+            <Text style={styles.dashboardButtonTextLogOut}>Log Out</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -160,14 +158,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    top: 70,
+    top: 100,
   },
   allPatientCon: {
     width: 110,
-    height: 180,
+    height: 160,
     borderRadius: 40,
     color: "white",
-    marginLeft: 20,
+    marginLeft: 0,
     borderColor: "#43E5E8",
     borderWidth: 5,
     backgroundColor: "#F7FEFF",
@@ -197,18 +195,19 @@ const styles = StyleSheet.create({
     marginTop: 80,
     paddingHorizontal: 15,
   },
-  dashboardButtonContainer: {},
+
   dashboardButtonContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
-    marginTop: 80,
+    alignItems: "center",
+    marginTop: 50,
   },
   dashboardButtonMyPatient: {
     width: 160,
     height: 180,
     backgroundColor: "#F7FEFF",
     borderRadius: 15,
-    marginBottom: 20,
+    marginBottom: 60,
     borderColor: "#B368DE",
     borderWidth: 5,
     alignItems: "center",
@@ -216,16 +215,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   dashboardButtonLogout: {
-    width: 160,
-    height: 180,
-    backgroundColor: "#F7FEFF",
-    borderRadius: 15,
+    width: 200,
+    height: 60,
+    backgroundColor: "#E35977",
+    borderRadius: 30,
     marginBottom: 20,
     borderColor: "#E35977",
     borderWidth: 5,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 10,
+    marginLeft: 10,
   },
   dashboardImage: {
     width: "80%",
@@ -233,12 +233,20 @@ const styles = StyleSheet.create({
 
     backgroundColor: "#fff",
   },
-  dashboardButtonText: {
-    marginTop: 20,
-    fontSize: 14,
+  dashboardButtonTextMypatient: {
+    marginTop: 30,
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
     color: "#2c3e50",
+  },
+  dashboardButtonTextLogOut: {
+    fontSize: 18,
+    left: 10,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+    marginHorizontal: 10,
   },
 
   iconContainer: {

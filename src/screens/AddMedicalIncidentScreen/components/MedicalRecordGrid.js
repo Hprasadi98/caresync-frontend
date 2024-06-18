@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ToochableIconDown from "../../ViewPatientSummaryHome Screen/Components/TouchableIconDown";
+import api from "../../../Services/AuthService";
+import { baseUrl } from "../../../constants/constants";
 
 // Utility function to format date
 const formatDate = (dateString) => {
@@ -20,9 +22,12 @@ const formatDate = (dateString) => {
   return `${year}/${month}/${day}`;
 };
 
+
 const handleLinkPress = (url) => {
   Linking.openURL(url).catch((err) => console.error("An error occurred", err));
 };
+
+
 
 const truncateText = (text, maxLength) => {
   if (text && text.length > maxLength) {
@@ -31,160 +36,50 @@ const truncateText = (text, maxLength) => {
   return text;
 };
 
-const incidentConfig = {
-  TEST: {
-    backgroundColor: "#FEFFE0",
-
-    renderContent: (incident) => (
-      <>
-        <View style={styles.subcom}>
-          <View style={[styles.innertile, { backgroundColor: "#FFEBA5" }]}>
-            <Text style={styles.innertext}>{incident.incidentType}</Text>
-          </View>
-          <Text style={styles.subtext}>{incident.testType}</Text>
-        </View>
-        <Text style={styles.date}>{formatDate(incident.date)}</Text>
-        <Text style={styles.provider}>
-          Test Provider: {incident.testProvider}
-        </Text>
-      </>
-    ),
-  },
-  SYMPTOM: {
-    backgroundColor: "#FFE0E0",
-    renderContent: (incident) => (
-      <>
-        <View style={styles.subcom}>
-          <View style={[styles.innertile, { backgroundColor: "#FF9999" }]}>
-            <Text style={styles.innertext}>{incident.incidentType}</Text>
-          </View>
-          <Text style={[styles.subtext, { marginTop: "0%" }]}>
-            {incident.symptomType}
-          </Text>
-        </View>
-        <Text style={[styles.date, {}]}>{formatDate(incident.date)}</Text>
-        <Text style={[styles.provider, { marginTop: "-18%" }]}>
-          Freq: {incident.symptomFrequency}
-        </Text>
-        <Text style={[styles.provider, { marginTop: "-1.3%" }]}>
-          Severity: {incident.severity}/10
-        </Text>
-        <Text style={[styles.provider, { marginTop: "-1.5%" }]}>
-          Duration: {incident.SymptomDuration}
-        </Text>
-        <Text style={[styles.provider, { marginTop: "-1.3%" }]}>
-          Appetite: {incident.appetite}/10
-        </Text>
-        <Text style={[styles.provider, { marginTop: "-1%" }]}>
-          Weight: {incident.weight}kg
-        </Text>
-      </>
-    ),
-  },
-  APPOINTMENT: {
-    backgroundColor: "#E0FFE0",
-    renderContent: (incident) => (
-      <>
-        <View style={styles.subcom}>
-          <View style={[styles.innertile, { backgroundColor: "#99FF99" }]}>
-            <Text style={styles.innertext}>{incident.incidentType}</Text>
-          </View>
-          <Text style={styles.subtext}>
-            Dr.{truncateText(incident.health_pro_name, 30)}
-          </Text>
-        </View>
-        <Text style={styles.date}>{formatDate(incident.date)}</Text>
-        <Text
-          style={[
-            styles.subtext,
-            { marginTop: "0%", marginLeft: "36%", width: "60%" },
-          ]}
-        >
-          {truncateText(incident.health_pro_contact, 30)}
-        </Text>
-        <Text
-          style={[
-            styles.subtext,
-            { marginTop: "-20%", marginLeft: "36%", width: "60%" },
-          ]}
-        >
-          {truncateText(incident.appointmentPurpose, 30)}
-        </Text>
-      </>
-    ),
-  },
-
-  PRESCRIPTION: {
-    backgroundColor: "#ebded4",
-    renderContent: (incident) => (
-      <>
-        <View style={styles.subcom}>
-          <View style={[styles.innertile, { backgroundColor: "#c4a092" }]}>
-            <Text style={styles.innertext}>{incident.incidentType}</Text>
-          </View>
-          <Text style={[styles.subtext, { width: "60%" }]}>
-            {truncateText(incident.pres_note, 30)}
-          </Text>
-        </View>
-        <Text style={styles.date}>{formatDate(incident.date)}</Text>
-        {incident.link && (
-          <TouchableOpacity onPress={() => handleLinkPress(incident.link)}>
-            <Text style={styles.provider}>
-              Link: {truncateText(incident.link, 30)}{" "}
-              {/* Adjust 30 to desired max length */}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </>
-    ),
-  },
-
-  MEDICATION: {
-    backgroundColor: "#E0E0FF",
-    renderContent: (incident) => (
-      <>
-        <View style={styles.subcom}>
-          <View style={[styles.innertile, { backgroundColor: "#9999FF" }]}>
-            <Text style={styles.innertext}>{incident.incidentType}</Text>
-          </View>
-          <Text style={styles.subtext}>
-            {truncateText(incident.medi_name, 30)}
-          </Text>
-        </View>
-        <Text style={styles.date}>{formatDate(incident.date)}</Text>
-        <Text
-          style={[styles.provider, { marginTop: "-6%", marginLeft: "36%" }]}
-        >
-          Dosage: {incident.medi_dosage}
-        </Text>
-        <Text style={[styles.provider, { marginTop: "0", marginLeft: "35%" }]}>
-          {" "}
-          {incident.medi_Frequency}
-        </Text>
-      </>
-    ),
-  },
-};
-
 function MedicalRecordGrid({
   recordName,
   recordID,
-  date,
+  selectedStartDate,
   recordDescription,
   incidents = [],
 }) {
   const [expanded, setExpanded] = useState(false);
   const [contentHeight, setContentHeight] = useState(100); // Initial height
+  const [medicalincidents, setMedicalincidents] = useState([]);
   const heightAnim = useRef(new Animated.Value(100)).current;
 
   const calculateContentHeight = () => {
-    const baseHeight = 120; // Base height without incidents
-    const incidentHeight = incidents.length * 120;
-    return baseHeight + incidentHeight;
+    const baseHeight = 150; // Base height without incidents
+    const testIncidentHeight = (medicalincidents.testIncidents?.length || 0) * 120;
+    const symptomIncidentHeight = (medicalincidents.symptomIncidents?.length || 0) * 120;
+    const appointmentIncidentHeight = (medicalincidents.appointmentIncidents?.length || 0) * 120;
+    const prescriptionIncidentHeight = (medicalincidents.prescriptionIncidents?.length || 0) * 120;
+
+    return baseHeight + testIncidentHeight + symptomIncidentHeight + appointmentIncidentHeight + prescriptionIncidentHeight;
+  };
+
+  const fetchMedicalIncidents = async () => {
+    try {
+      const response = await api.get(`${baseUrl}/medicalRecord/getRecord`, {
+        params: {
+          recordID: recordID,
+          date: selectedStartDate
+        },
+      });
+      setMedicalincidents(response.data.currentRecord.incidents); // Update state with fetched records
+    } catch (error) {
+      console.error("Error fetching medical incidents:", error);
+    }
   };
 
   useEffect(() => {
-    if (expanded && incidents.length > 0) {
+    if (expanded) {
+      fetchMedicalIncidents();
+    }
+  }, [expanded]);
+
+  useEffect(() => {
+    if (expanded) {
       const newHeight = calculateContentHeight();
       setContentHeight(newHeight);
       Animated.timing(heightAnim, {
@@ -195,25 +90,28 @@ function MedicalRecordGrid({
     } else {
       setContentHeight(100); // Reset to initial height
       Animated.timing(heightAnim, {
-        toValue: 95,
+        toValue: 100,
         duration: 300,
         useNativeDriver: false,
       }).start();
     }
-  }, [expanded, incidents]);
+  }, [expanded, medicalincidents]);
 
   const handlePress = () => {
     setExpanded(!expanded);
   };
 
+
   const navigation = useNavigation();
+
+  console.log(medicalincidents.symptomIncidents);
 
   const handleAddNew = () => {
     navigation.navigate("MedicalIncidentHomeScreen", {
       recordName,
       recordDescription,
       date,
-      recordID
+      recordID,
     });
   };
 
@@ -239,30 +137,97 @@ function MedicalRecordGrid({
       <View>
         <Text style={styles.description}>{recordDescription}</Text>
       </View>
-      {incidents.length > 0 && expanded && (
-        <View style={styles.incidentContainer}>
-          {incidents.map((incident, index) => {
-            const config = incidentConfig[incident.incidentType] || {};
-            return (
-              <View
-                key={index}
-                style={[
-                  styles.subtile,
-                  { backgroundColor: config.backgroundColor },
-                ]}
-              >
-                {config.renderContent ? (
-                  config.renderContent(incident)
-                ) : (
-                  <Text>Unknown Incident Type</Text>
+      {/* Render Test Incidents */}
+      {expanded &&
+        medicalincidents.testIncidents &&
+        medicalincidents.testIncidents.length > 0 && (
+          <View style={styles.incidentContainer}>
+            {medicalincidents.testIncidents.map((incident, index) => (
+              <View key={index} style={[styles.subcom, { backgroundColor: '#FEFFE0' }]}>
+                <View
+                  style={[styles.innertile, { backgroundColor: "#FFEBA5" }]}
+                >
+                  <Text style={styles.innertext}>TEST</Text>
+                </View>
+                <Text style={[styles.subtext, { marginTop: '-10%', marginLeft: '38%' }]}>{incident.testType}</Text>
+                <Text style={styles.date}>{formatDate(incident.testDate)}</Text>
+                <Text style={[styles.provider, { marginTop: '-10%', marginLeft: '38%' }]}>Test Provider:{incident.provider} </Text>
+                <Text style={[styles.provider, { marginLeft: '38%' }]}>Result: {incident.result} </Text>
+                {incident.resultLink && (
+                  <TouchableOpacity onPress={() => handleLinkPress(incident.resultLink)}>
+                    <Text style={[styles.provider, { marginLeft: '38%', color: 'blue' }]}>{incident.resultLink} </Text>
+
+                  </TouchableOpacity>
                 )}
               </View>
-            );
-          })}
-          <Pressable style={styles.btn} onPress={handleAddNew}>
-            <Text style={styles.btntext}>+ New Incident</Text>
-          </Pressable>
-        </View>
+            ))}
+          </View>
+        )}
+      {/* Render Symptom Incidents */}
+      {expanded &&
+        medicalincidents.symptomIncidents &&
+        medicalincidents.symptomIncidents.length > 0 && (
+          <View style={styles.incidentContainer}>
+            {medicalincidents.symptomIncidents.map((incident, index) => (
+              <View key={index} style={[styles.subcom, { backgroundColor: '#FFEBEB' }]}>
+                <View style={[styles.innertile, { backgroundColor: "#FF9999" }]}
+                >
+                  <Text style={styles.innertext}>SYMPTOM</Text>
+                </View>
+                <Text style={styles.subtext}>{incident.symptomType}</Text>
+                <Text style={styles.provider}>{incident.symptomType}</Text>
+                <Text style={styles.provider}>Frequency: {incident.symptomFrequency}, Severity: {incident.severity}
+                </Text>
+              </View>
+            ))}
+          </View>
+        )}
+      {/* Render Appointment Incidents */}
+      {expanded &&
+        medicalincidents.appointmentIncidents &&
+        medicalincidents.appointmentIncidents.length > 0 && (
+          <View style={styles.incidentContainer}>
+            {medicalincidents.appointmentIncidents.map((incident, index) => (
+              <View key={index} style={[styles.subcom, { backgroundColor: '#E0FFE0' }]}>
+                <View
+                  style={[styles.innertile, { backgroundColor: "#99FF99" }]}
+                >
+                  <Text style={styles.innertext}>APPOINTMENT</Text>
+                </View>
+                <Text style={styles.subtext}>{incident.description}</Text>
+                <Text style={styles.date}>
+                  {formatDate(incident.appointmentDate)}
+                </Text>
+                <Text style={styles.provider}> Dr. {incident.doctorName}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+      {/* Render Prescription Incidents */}
+      {expanded &&
+        medicalincidents.prescriptionIncidents &&
+        medicalincidents.prescriptionIncidents.length > 0 && (
+          <View style={styles.incidentContainer}>
+            {medicalincidents.prescriptionIncidents.map((incident, index) => (
+              <View key={index} style={[styles.subcom, { backgroundColor: '#ebded4' }]}>
+                <View
+                  style={[styles.innertile, { backgroundColor: "#c4a092" }]}
+                >
+                  <Text style={styles.innertext}>PRESCRIPTION</Text>
+                </View>
+                <Text style={styles.subtext}>{incident.description}</Text>
+                <Text style={styles.date}>
+                  {formatDate(incident.prescriptionDate)}
+                </Text>
+                <Text style={styles.provider}> {incident.prescriberName}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+      {expanded && (
+        <Pressable style={styles.btn} onPress={handleAddNew}>
+          <Text style={styles.btntext}>+ New Incident</Text>
+        </Pressable>
       )}
     </Animated.View>
   );
@@ -310,6 +275,7 @@ const styles = StyleSheet.create({
   description: {
     paddingLeft: 25,
     fontSize: 15,
+    paddingBottom: 5,
     marginTop: 10,
     fontWeight: "600",
   },
@@ -340,7 +306,6 @@ const styles = StyleSheet.create({
     height: 22,
     borderRadius: 10,
     elevation: 2,
-
     shadowColor: "black",
     shadowOpacity: 0.25,
     textShadowRadius: 8,
@@ -353,14 +318,21 @@ const styles = StyleSheet.create({
   },
   subtext: {
     paddingLeft: 2,
-    marginRight: "3%",
+
     fontSize: 13,
     marginTop: "2%",
-    fontWeight: "800",
-    maxWidth: "77%",
+    fontWeight: "900",
+    // maxWidth: "77%",
   },
   subcom: {
-    flexDirection: "row",
+    flexDirection: "column",
+    borderRadius: 10,
+    elevation: 2,
+    shadowColor: "black",
+    shadowOpacity: 0.25,
+    textShadowRadius: 8,
+    width: "100%",
+    marginBottom: '2%'
   },
   date: {
     marginLeft: "5%",
@@ -381,7 +353,7 @@ const styles = StyleSheet.create({
   provider: {
     marginLeft: "36.5%",
     fontWeight: "600",
-    marginTop: "-6%",
+    // marginTop: "-6%",
     width: "70%",
   },
 });

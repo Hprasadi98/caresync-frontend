@@ -11,10 +11,11 @@ import api from "../../../../Services/AuthService";
 
 
 const SymptomModal = ({
-  selectedStartDate,
+  selectedStartDate:date,
   selectedOption,
   onClose,
   recordID,
+
   recordName,
   description,
 }) => {
@@ -33,6 +34,7 @@ const SymptomModal = ({
       .post(`${baseUrl}/medicalIncident/symptomIn/create`, {
         type: "symptom",
         recordID: recordID,
+        date: selectedStartDate,
         symptomType: selectedSymptomType,
         symptomFrequency: selectedSymptomFrequency,
         symptomDescription: symptomDescription,

@@ -7,21 +7,19 @@ import { useNavigation } from "@react-navigation/native"; // Import navigation h
 import AppetiteRating from "../AppetiteRating";
 import SymptomFrequencyDropdown from "../SymptomFrequencyDropdown";
 import SymptomDurationDropdown from "../SymptomDurationDropdown";
-import {
-  ScrollView,
-  GestureHandlerRootView,
-} from "react-native-gesture-handler";
+import api from "../../../../Services/AuthService";
+
 
 const SymptomModal = ({
   selectedStartDate,
   selectedOption,
   onClose,
+  recordID,
   recordName,
   description,
 }) => {
   const [selectedSymptomType, setSelectedSymptomType] = useState(null);
-  const [selectedSymptomFrequency, setSelectedSymptomFrequency] =
-    useState(null);
+  const [selectedSymptomFrequency, setSelectedSymptomFrequency] = useState(null);
   const [symptomDescription, setSymptomDescription] = useState("");
   const [painRating, setPainRating] = useState(0);
   const [selectedSymptomDuration, setSelectedSymptomDuration] = useState(null);
@@ -30,59 +28,31 @@ const SymptomModal = ({
 
   const navigation = useNavigation(); // Get navigation object
 
-  console.log(recordName);
-  console.log(description);
-  console.log(selectedOption);
-  console.log(selectedStartDate);
-  console.log(selectedSymptomType);
-  console.log(symptomDescription);
-  console.log(selectedSymptomFrequency);
-  console.log(painRating);
-  console.log(selectedSymptomDuration);
-  console.log(appetiteRating);
-  console.log(weight);
+  const saveSymptomIncident = () => {
+    api
+      .post(`${baseUrl}/medicalIncident/symptomIn/create`, {
+        type: "symptom",
+        recordID: recordID,
+        symptomType: selectedSymptomType,
+        symptomFrequency: selectedSymptomFrequency,
+        symptomDescription: symptomDescription,
+        severity: painRating,
+        symptomDuration: selectedSymptomDuration,
+        appetite: appetiteRating,
+        weight: weight,
+      })
+      .then((response) => {
+        console.log("Success:", response.data);
 
-  const saveSymptomIncident = async () => {
-    try {
-      const res = await fetch(`${baseUrl}/medicalIncident`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: "symptom",
-          recordName: recordName,
-          recordDescription: description,
-          incidentType: selectedOption,
-          date: selectedStartDate,
-          symptomType: selectedSymptomType,
-          symptomFrequency: selectedSymptomFrequency,
-          symptom_Description: symptomDescription,
-          severity: painRating,
-          SymptomDuration: selectedSymptomDuration,
-          appetite: appetiteRating,
-          weight: weight,
-        }),
+        // Navigate or perform other actions as needed
+        navigation.navigate("DisplayMedicalRecords");
+      })
+      .catch((error) => {
+        console.error("Error saving incident:", error);
       });
-
-      console.log("Response status:", res.status);
-
-      const responseData = await res.json(); // Parse response body as JSON
-
-      if (!res.ok) {
-        throw new Error(
-          `Failed to save incident. Server response: ${JSON.stringify(
-            responseData
-          )}`
-        );
-      }
-
-      console.log("Success:", responseData);
-      navigation.navigate("DisplayMedicalRecords"); // Navigate to Display Medical Record page
-    } catch (error) {
-      console.error("Error saving symptom incident:", error.message);
-    }
   };
+
+
 
   return (
     <View style={styles.modalContainer}>

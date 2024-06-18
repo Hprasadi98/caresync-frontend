@@ -11,9 +11,8 @@ import Calendar from "./Calendar";
 import TestModal from "./Modals/TestModal";
 import SymptomModal from "./Modals/SymptomModal";
 import PrescriptionModal from "./Modals/PrescriptionModal";
-import MedicationModal from "./Modals/MedicationModal";
 import AppointmentModal from "./Modals/AppointmentModal";
-import PainRating from "./PainRating";
+
 
 const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +21,7 @@ const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
   const handleDropdownPress = () => {
     setIsOpen(!isOpen);
   };
-
+  2
   const handleItemPress = (item) => {
     setSelectedItem(item);
     setIsOpen(false);
@@ -55,12 +54,11 @@ const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
   );
 };
 
-const IncidentTypeDropdown = ({ recordName, description }) => {
+const IncidentTypeDropdown = ({ recordName, description, recordID }) => {
   const dropdownItems = [
     "TEST",
     "SYMPTOM",
     "PRESCRIPTION",
-    "MEDICATION",
     "APPOINTMENT",
   ];
   const [selectedOption, setSelectedOption] = useState(null);
@@ -89,6 +87,7 @@ const IncidentTypeDropdown = ({ recordName, description }) => {
           <TestModal
             recordName={recordName}
             description={description}
+            recordID={recordID}
             selectedStartDate={selectedStartDate}
             selectedOption={selectedOption}
             onClose={handleCloseModal}
@@ -99,6 +98,7 @@ const IncidentTypeDropdown = ({ recordName, description }) => {
           <SymptomModal
             recordName={recordName}
             description={description}
+            recordID={recordID}
             selectedStartDate={selectedStartDate}
             selectedOption={selectedOption}
             onClose={handleCloseModal}
@@ -108,26 +108,19 @@ const IncidentTypeDropdown = ({ recordName, description }) => {
         return (
           <PrescriptionModal
             recordName={recordName}
+            recordID={recordID}
             description={description}
             selectedStartDate={selectedStartDate}
             selectedOption={selectedOption}
             onClose={handleCloseModal}
           />
         );
-      case "MEDICATION":
-        return (
-          <MedicationModal
-            recordName={recordName}
-            description={description}
-            selectedStartDate={selectedStartDate}
-            selectedOption={selectedOption}
-            onClose={handleCloseModal}
-          />
-        );
+
       case "APPOINTMENT":
         return (
           <AppointmentModal
             recordName={recordName}
+            recordID={recordID}
             description={description}
             selectedStartDate={selectedStartDate}
             selectedOption={selectedOption}

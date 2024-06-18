@@ -168,6 +168,7 @@ const incidentConfig = {
 
 function MedicalRecordGrid({
   recordName,
+  recordID,
   date,
   recordDescription,
   incidents = [],
@@ -211,6 +212,8 @@ function MedicalRecordGrid({
     navigation.navigate("MedicalIncidentHomeScreen", {
       recordName,
       recordDescription,
+      date,
+      recordID
     });
   };
 

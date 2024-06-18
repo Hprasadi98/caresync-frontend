@@ -12,17 +12,26 @@ import Header from "../../components/Header";
 import MedicalRecordGrid from "../AddMedicalIncidentScreen/components/MedicalRecordGrid";
 import { baseUrl } from "../../constants/constants";
 import api from "../../Services/AuthService";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import { ScrollView } from "react-native-gesture-handler";
 
-function DisplayMedicalRecords({ navigation }) {
+function DisplayMedicalRecords({ navigation, recordName, recordDescription }) {
+  const { user } = useAuthContext();
+  user && console.log("User ID:", user._id);
   const [medicalRecords, setMedicalRecords] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchMedicalHistory = async () => {
     try {
-      const response = await api.get(`${baseUrl}/medicalIncident`);
-      // console.log("Response from backend:", response.data);
-      setMedicalRecords(response.data);
+      const response = await api.get(`${baseUrl}/medicalRecord/getRecordsPatient`,
+        {
+          params: {
+            patientID: user._id,
+          },
+        }
+      );
+      console.log("Response from backend:", response.data);
+      setMedicalRecords(response.data.patientRecords.medicalRecords); // Update state with fetched records
     } catch (error) {
       console.error("Error fetching medical records:", error);
     }
@@ -42,8 +51,10 @@ function DisplayMedicalRecords({ navigation }) {
       <View>
         <MedicalRecordGrid
           recordName={item.recordName}
-          recordDescription={item.recordDescription}
-          incidents={item.incident}
+          recordDescription={item.description}
+          recordID={item._id}
+          date={item.recordDate}
+          incidents={item.incidents.testIncidents}
         />
       </View>
     );

@@ -1,56 +1,49 @@
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native"; // Import navigation hook
 import CustomDropdown from "../CustomDropdown";
 import TestProviderDropDown from "../TestProviderDropDown";
 import { baseUrl } from "../../../../constants/constants";
+import api from "../../../../Services/AuthService";
 
 const TestModal = ({
   selectedStartDate,
   selectedOption,
   onClose,
+  recordID,
   recordName,
   description,
 }) => {
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [selectedOption2, setSelectedOption2] = useState(null);
+  const [testDate, setTestDate] = useState(null);
+  const [result, setResult] = useState("");
+  const [resultLink, setResultLink] = useState("");
   const navigation = useNavigation(); // Get navigation object
 
-  const saveIncident = async () => {
-    try {
-      const res = await fetch(`${baseUrl}/medicalIncident`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: "test",
-          recordName: recordName,
-          recordDescription: description,
-          incidentType: selectedOption,
-          date: selectedStartDate,
-          testType: selectedOption1,
-          testProvider: selectedOption2,
-        }),
+  const saveIncident = () => {
+    api
+      .post(`${baseUrl}/medicalIncident/testIn/create`, {
+        type: "test",
+        recordID: recordID,
+        testType: selectedOption1,
+        provider: selectedOption2,
+        // description: description,
+        testDate: testDate,
+        result: result,
+        resultLink: resultLink,
+      })
+      .then((response) => {
+        console.log("Success:", response.data);
+
+        // Navigate or perform other actions as needed
+        navigation.navigate("DisplayMedicalRecords");
+      })
+      .catch((error) => {
+        console.error("Error saving incident:", error);
       });
-
-      console.log("Response status:", res.status);
-      const responseData = await res.json(); // Parse response body as JSON
-
-      if (!res.ok) {
-        throw new Error(
-          `Failed to save incident. Server response: ${JSON.stringify(
-            responseData
-          )}`
-        );
-      }
-
-      console.log("Success:", responseData);
-      navigation.navigate("DisplayMedicalRecords"); // Navigate to Display Medical Record page
-    } catch (error) {
-      console.error("Error saving incident:", error.message);
-    }
   };
+  // Call the postMedicalIncident function with the provided arguments
 
   return (
     <View style={styles.modalContainer}>
@@ -82,6 +75,33 @@ const TestModal = ({
             placeholderText="Select from the list"
           />
         </View>
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Test Date:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Test Date Here"
+            onChangeText={(text) => setTestDate(text)}
+          />
+        </View>
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Result:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Result Here"
+            onChangeText={(text) => setResult(text)}
+          />
+        </View>
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Result Link:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Result Link Here"
+            value={resultLink}
+            onChangeText={setResultLink}
+
+          />
+        </View>
+
       </View>
 
       <View style={styles.buttonContainer}>
@@ -144,11 +164,27 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     fontSize: 16,
     fontWeight: "700",
-    marginLeft: "4%",
+    marginLeft: "4%"
+
   },
   dropdowncontainer: {
     marginVertical: "-5%",
   },
+
+  input: {
+    borderColor: "#8e8e8e",
+    borderWidth: 1,
+    padding: 10,
+    height: 38,
+    marginVertical: "-5%",
+    borderRadius: 10,
+    fontSize: 16,
+    marginLeft: 10,
+    marginTop: 10,
+    width: "90%",
+
+  },
+
 });
 
 export default TestModal;

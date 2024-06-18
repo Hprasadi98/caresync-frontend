@@ -1,68 +1,78 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-} from "react-native";
+import { View, Text, Button, StyleSheet, ScrollView, TextInput, } from "react-native";
 import { useNavigation } from "@react-navigation/native"; // Import navigation hook
 import { baseUrl } from "../../../../constants/constants";
+import api from "../../../../Services/AuthService";
 
 const PrescriptionModal = ({
-  selectedStartDate,
-  selectedOption,
+  recordID,
   onClose,
-  recordName,
-  description,
+
 }) => {
   const navigation = useNavigation(); // Get navigation object
   const [presLink, setPresLink] = useState("");
+  const [doctorID, setDoctorID] = useState("");
+  const [doctorName, setDoctorName] = useState("");
+  const [prescriptionDate, setPrescriptionDate] = useState("");
   const [prescriptionNote, setPrescriptionNote] = useState("");
 
-  const saveIncident = async () => {
-    try {
-      const res = await fetch(`${baseUrl}/medicalIncident`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: "prescription",
-          recordName: recordName,
-          recordDescription: description,
-          incidentType: selectedOption,
-          date: selectedStartDate,
-          pres_note: prescriptionNote,
-          link: presLink,
-        }),
-      });
-
-      console.log("Response status:", res.status);
-      const responseData = await res.json(); // Parse response body as JSON
-
-      if (!res.ok) {
-        throw new Error(
-          `Failed to save incident. Server response: ${JSON.stringify(
-            responseData
-          )}`
-        );
+  const savePrescriptionIncident = () => {
+    api
+      .post(`${baseUrl}/medicalIncident/PrescriptionIn/create`, {
+        type: "symptom",
+        recordID: recordID,
+        doctorID: doctorID,
+        doctorName: doctorName,
+        PrescriptionDate: prescriptionDate,
+        description: prescriptionNote,
+        link: presLink
       }
+      )
+      .then((response) => {
+        console.log("Success:", response.data);
 
-      console.log("Success:", responseData);
-      navigation.navigate("DisplayMedicalRecords"); // Navigate to Display Medical Record page
-    } catch (error) {
-      console.error("Error saving incident:", error.message);
-    }
+        // Navigate or perform other actions as needed
+        navigation.navigate("DisplayMedicalRecords");
+      })
+      .catch((error) => {
+        console.error("Error saving incident:", error);
+      });
   };
+
 
   return (
     <View style={styles.modalContainer}>
       <Text style={styles.modalText}>Add Prescription Details</Text>
       <View style={styles.contentContainer}>
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Precription Note:</Text>
+          <Text style={styles.label}>Doctor ID:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter the Doctor ID"
+            onChangeText={(text) => setDoctorID(text)}
+          />
+        </View>
+
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Doctor Name:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Doctor's Name"
+            onChangeText={(text) => setDoctorName(text)}
+          />
+        </View>
+
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Prescription Date:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter prescripton date"
+            onChangeText={(text) => setPrescriptionDate(text)}
+          />
+        </View>
+
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Description:</Text>
           <TextInput
             style={styles.input}
             placeholder="max 30 characters"
@@ -85,7 +95,7 @@ const PrescriptionModal = ({
           <Button title="Close" onPress={onClose} color="#00567D" />
         </View>
         <View style={styles.buttonWrapper}>
-          <Button title="OK" onPress={saveIncident} color="#00567D" />
+          <Button title="OK" onPress={savePrescriptionIncident} color="#00567D" />
         </View>
       </View>
     </View>

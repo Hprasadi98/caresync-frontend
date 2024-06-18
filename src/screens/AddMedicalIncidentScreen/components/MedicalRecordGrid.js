@@ -39,7 +39,7 @@ const truncateText = (text, maxLength) => {
 function MedicalRecordGrid({
   recordName,
   recordID,
-  selectedStartDate,
+
   recordDescription,
   incidents = [],
 }) {
@@ -49,7 +49,7 @@ function MedicalRecordGrid({
   const heightAnim = useRef(new Animated.Value(100)).current;
 
   const calculateContentHeight = () => {
-    const baseHeight = 150; // Base height without incidents
+    const baseHeight = 120; // Base height without incidents
     const testIncidentHeight = (medicalincidents.testIncidents?.length || 0) * 120;
     const symptomIncidentHeight = (medicalincidents.symptomIncidents?.length || 0) * 120;
     const appointmentIncidentHeight = (medicalincidents.appointmentIncidents?.length || 0) * 120;
@@ -63,7 +63,7 @@ function MedicalRecordGrid({
       const response = await api.get(`${baseUrl}/medicalRecord/getRecord`, {
         params: {
           recordID: recordID,
-          date: selectedStartDate
+
         },
       });
       setMedicalincidents(response.data.currentRecord.incidents); // Update state with fetched records
@@ -110,7 +110,7 @@ function MedicalRecordGrid({
     navigation.navigate("MedicalIncidentHomeScreen", {
       recordName,
       recordDescription,
-      date,
+
       recordID,
     });
   };
@@ -149,22 +149,27 @@ function MedicalRecordGrid({
                 >
                   <Text style={styles.innertext}>TEST</Text>
                 </View>
-                <Text style={[styles.subtext, { marginTop: '-10%', marginLeft: '38%' }]}>{incident.testType}</Text>
-                <Text style={styles.date}>{formatDate(incident.testDate)}</Text>
-                <Text style={[styles.provider, { marginTop: '-10%', marginLeft: '38%' }]}>Test Provider:{incident.provider} </Text>
-                <Text style={[styles.provider, { marginLeft: '38%' }]}>Result: {incident.result} </Text>
-                {incident.resultLink && (
-                  <TouchableOpacity onPress={() => handleLinkPress(incident.resultLink)}>
-                    <Text style={[styles.provider, { marginLeft: '38%', color: 'blue' }]}>{incident.resultLink} </Text>
+                <Text style={styles.date}>{formatDate(incident.date)}</Text>
+                <Text style={styles.subtext}>{incident.testType}</Text>
+                <Text style={styles.provider}>Tested On: {formatDate(incident.testDate)} </Text>
+                <Text style={styles.provider}>Test Provider:{incident.provider} </Text>
+                <Text style={styles.provider}>Result: {incident.result} </Text>
+                {
+                  incident.resultLink && (
+                    <TouchableOpacity onPress={() => handleLinkPress(incident.resultLink)}>
+                      <Text style={[styles.provider, { color: 'blue' }]}>{incident.resultLink} </Text>
 
-                  </TouchableOpacity>
-                )}
+                    </TouchableOpacity>
+                  )
+                }
               </View>
             ))}
           </View>
-        )}
+        )
+      }
       {/* Render Symptom Incidents */}
-      {expanded &&
+      {
+        expanded &&
         medicalincidents.symptomIncidents &&
         medicalincidents.symptomIncidents.length > 0 && (
           <View style={styles.incidentContainer}>
@@ -174,16 +179,22 @@ function MedicalRecordGrid({
                 >
                   <Text style={styles.innertext}>SYMPTOM</Text>
                 </View>
+                <Text style={styles.date}>{formatDate(incident.symptomDate)}</Text>
                 <Text style={styles.subtext}>{incident.symptomType}</Text>
-                <Text style={styles.provider}>{incident.symptomType}</Text>
-                <Text style={styles.provider}>Frequency: {incident.symptomFrequency}, Severity: {incident.severity}
-                </Text>
+                <Text style={[styles.provider, { width: '60%', color: 'brown' }]}>Note:{incident.symptomDescription}</Text>
+                <Text style={styles.provider}>Frequency: {incident.symptomFrequency}</Text>
+                <Text style={styles.provider}>Severity: {incident.severity}</Text>
+                <Text style={styles.provider}>Duration: {incident.symptomDuration}</Text>
+                <Text style={styles.provider}>appetite: {incident.appetite}</Text>
+                <Text style={styles.provider}>weight: {incident.weight}</Text>
               </View>
             ))}
           </View>
-        )}
+        )
+      }
       {/* Render Appointment Incidents */}
-      {expanded &&
+      {
+        expanded &&
         medicalincidents.appointmentIncidents &&
         medicalincidents.appointmentIncidents.length > 0 && (
           <View style={styles.incidentContainer}>
@@ -194,17 +205,19 @@ function MedicalRecordGrid({
                 >
                   <Text style={styles.innertext}>APPOINTMENT</Text>
                 </View>
-                <Text style={styles.subtext}>{incident.description}</Text>
-                <Text style={styles.date}>
-                  {formatDate(incident.appointmentDate)}
-                </Text>
-                <Text style={styles.provider}> Dr. {incident.doctorName}</Text>
+                <Text style={styles.date}>{formatDate(incident.date)}</Text>
+                <Text style={styles.subtext}>Dr.{incident.doctorName}</Text>
+                <Text style={styles.provider}>Scheduled On: {formatDate(incident.appointmentDateTime)}</Text>
+                <Text style={styles.provider}>Type: {incident.appointmentType}</Text>
+                <Text style={[styles.provider, { width: '60%', color: 'brown' }]}>Note:{incident.description}</Text>
               </View>
             ))}
           </View>
-        )}
+        )
+      }
       {/* Render Prescription Incidents */}
-      {expanded &&
+      {
+        expanded &&
         medicalincidents.prescriptionIncidents &&
         medicalincidents.prescriptionIncidents.length > 0 && (
           <View style={styles.incidentContainer}>
@@ -213,23 +226,32 @@ function MedicalRecordGrid({
                 <View
                   style={[styles.innertile, { backgroundColor: "#c4a092" }]}
                 >
+
                   <Text style={styles.innertext}>PRESCRIPTION</Text>
                 </View>
-                <Text style={styles.subtext}>{incident.description}</Text>
-                <Text style={styles.date}>
-                  {formatDate(incident.prescriptionDate)}
-                </Text>
-                <Text style={styles.provider}> {incident.prescriberName}</Text>
+                <Text style={styles.date}>{formatDate(incident.date)}</Text>
+                <Text style={styles.subtext}>Dr. {incident.doctorName}</Text>
+                <Text style={styles.provider}>Prescripted Date: {formatDate(incident.PrescriptionDate)}</Text>
+                <Text style={[styles.provider, { color: 'brown', width: '60%' }]}>Note: {incident.description}</Text>
+                {incident.link && (
+                  <TouchableOpacity onPress={() => handleLinkPress(incident.link)}>
+                    <Text style={[styles.provider, { marginLeft: '38%', color: 'blue' }]}>{incident.link} </Text>
+
+                  </TouchableOpacity>
+                )}
               </View>
             ))}
           </View>
-        )}
-      {expanded && (
-        <Pressable style={styles.btn} onPress={handleAddNew}>
-          <Text style={styles.btntext}>+ New Incident</Text>
-        </Pressable>
-      )}
-    </Animated.View>
+        )
+      }
+      {
+        expanded && (
+          <Pressable style={styles.btn} onPress={handleAddNew}>
+            <Text style={styles.btntext}>+ New Incident</Text>
+          </Pressable>
+        )
+      }
+    </Animated.View >
   );
 }
 
@@ -318,9 +340,9 @@ const styles = StyleSheet.create({
   },
   subtext: {
     paddingLeft: 2,
+    marginLeft: "38%",
 
-    fontSize: 13,
-    marginTop: "2%",
+    marginTop: "-20%",
     fontWeight: "900",
     // maxWidth: "77%",
   },
@@ -351,9 +373,10 @@ const styles = StyleSheet.create({
     marginTop: 10, // Adjust as needed
   },
   provider: {
-    marginLeft: "36.5%",
+    marginLeft: "38%",
     fontWeight: "600",
     // marginTop: "-6%",
     width: "70%",
+
   },
 });

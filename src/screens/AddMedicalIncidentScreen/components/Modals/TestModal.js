@@ -7,7 +7,7 @@ import { baseUrl } from "../../../../constants/constants";
 import api from "../../../../Services/AuthService";
 
 const TestModal = ({
-  selectedStartDate,
+  // selectedStartDate,
   selectedOption,
   onClose,
   recordID,
@@ -28,7 +28,7 @@ const TestModal = ({
         recordID: recordID,
         testType: selectedOption1,
         provider: selectedOption2,
-        // description: description,
+        description: description,
         testDate: testDate,
         result: result,
         resultLink: resultLink,

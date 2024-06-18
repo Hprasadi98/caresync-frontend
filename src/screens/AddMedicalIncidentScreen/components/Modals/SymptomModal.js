@@ -11,11 +11,10 @@ import api from "../../../../Services/AuthService";
 
 
 const SymptomModal = ({
-  selectedStartDate:date,
+  selectedStartDate,
   selectedOption,
   onClose,
   recordID,
-
   recordName,
   description,
 }) => {
@@ -29,12 +28,14 @@ const SymptomModal = ({
 
   const navigation = useNavigation(); // Get navigation object
 
+  console.log(selectedStartDate);
+
   const saveSymptomIncident = () => {
     api
       .post(`${baseUrl}/medicalIncident/symptomIn/create`, {
         type: "symptom",
         recordID: recordID,
-        date: selectedStartDate,
+        symptomDate: selectedStartDate,
         symptomType: selectedSymptomType,
         symptomFrequency: selectedSymptomFrequency,
         symptomDescription: symptomDescription,
@@ -74,7 +75,7 @@ const SymptomModal = ({
           <Text style={styles.label}>Symptom Description </Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter the description"
+            placeholder="Maximum 30 characters"
             onChangeText={(text) => setSymptomDescription(text)}
           />
         </View>

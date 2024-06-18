@@ -52,7 +52,7 @@ const AppointmentModal = ({
           <Text style={styles.label}>Description:</Text>
           <TextInput
             style={styles.input}
-            placeholder="Type the purpose "
+            placeholder="Maximum 30 characters"
             onChangeText={(text) => setAppointmentPurpose(text)}
           />
         </View>
@@ -61,7 +61,7 @@ const AppointmentModal = ({
           <Text style={styles.label}>Doctor ID:</Text>
           <TextInput
             style={styles.input}
-            placeholder="Type the purpose "
+            placeholder="Type the Doctor ID"
             onChangeText={(text) => setDocID(text)}
           />
         </View>
@@ -70,7 +70,7 @@ const AppointmentModal = ({
           <Text style={styles.label}>Doctor's Name:</Text>
           <TextInput
             style={styles.input}
-            placeholder="Type Healthcare provider's name"
+            placeholder="Type Doctor's name"
             onChangeText={(text) => setHealthProName(text)}
           />
         </View>
@@ -79,7 +79,7 @@ const AppointmentModal = ({
           <Text style={styles.label}>Appointment Date and Time: </Text>
           <TextInput
             style={styles.input}
-            placeholder="Type Healthcare provider's name"
+            placeholder="Appointment Date"
             onChangeText={(text) => setAppDateTime(text)}
           />
         </View>

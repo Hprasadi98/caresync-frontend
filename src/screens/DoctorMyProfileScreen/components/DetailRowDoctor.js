@@ -14,9 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 
 import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
-
-import { Picker } from "@react-native-picker/picker";
-const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const DetailRowDoctor = ({
   name,
@@ -25,6 +23,8 @@ const DetailRowDoctor = ({
   category,
   refreshUserData,
 }) => {
+  const { user } = useAuthContext();
+  const id = user ? user._id : null;
   const [modalVisible, setModalVisible] = useState(false);
 
   const [fullname, setfullName] = useState("");
@@ -36,8 +36,6 @@ const DetailRowDoctor = ({
   const [specialization, setSpecialization] = useState("");
 
   const [selectedGender, setSelectedGender] = useState("");
-
-  const _id = "6627c4c328a6a54a64fb544a";
 
   const checkEmailExists = async (email) => {
     try {
@@ -140,7 +138,7 @@ const DetailRowDoctor = ({
 
     // Make an HTTP PUT request to update the doctor's information
     api
-      .put(`${baseUrl}/doctors/${_id}`, updatedData)
+      .put(`${baseUrl}/doctors/${id}`, updatedData)
       .then((response) => {
         console.log("Doctor information updated successfully: ", response.data);
         refreshUserData();

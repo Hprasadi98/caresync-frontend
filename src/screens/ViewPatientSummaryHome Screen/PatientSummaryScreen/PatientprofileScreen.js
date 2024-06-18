@@ -11,7 +11,10 @@ import {
 import api from "../../../Services/AuthService";
 import { useState, useEffect } from "react";
 import { baseUrl } from "../../../constants/constants";
-
+import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+import { Foundation } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 function PatientProfileScreen({ route, navigation }) {
   const [patients, setPatients] = useState([]);
   const PID = route.params.PID;
@@ -50,95 +53,57 @@ function PatientProfileScreen({ route, navigation }) {
               weight={item.weight}
               height={item.height}
               gender={item.gender}
+              profileImage={item.profileImage}
+              birthday={item.birthday}
             />
           </View>
         </View>
 
         <View style={styles.row1}>
-          <View style={styles.tile1}>
+          <View style={styles.tile}>
             <TouchableOpacity
-              style={{
-                backgroundColor: "white",
-                height: 120,
-                width: 160,
-                borderRadius: 15,
-                marginLeft: 20,
-                marginTop: 20,
-              }}
-              // onPress={() =>
-              //   // navigation.navigate("PatientHistoryScreen", { PID: PID })
-              // }
+
+            // onPress={() =>
+            //   // navigation.navigate("PatientHistoryScreen", { PID: PID })
+            // }
             >
-              <Image
-                style={styles.img}
-                source={require("../../ViewPatientSummaryHome Screen/Images/doc.png")}
-              />
+              <FontAwesome5 name="hospital-user" size={40} color="black" />
               <Text style={styles.text}>Patient History</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={styles.tile1}>
+          <View style={styles.tile}>
             <TouchableOpacity
-              style={{
-                backgroundColor: "white",
-                height: 120,
-                width: 160,
-                borderRadius: 15,
-                marginLeft: 20,
-                marginTop: 20,
-              }}
               onPress={() =>
                 navigation.navigate("MedicationView", { PID: PID })
               }
             >
-              <Image
-                style={styles.img}
-                source={require("../../ViewPatientSummaryHome Screen/Images/doc.png")}
-              />
+              <FontAwesome name="calendar-plus-o" size={40} color="black" />
               <Text style={styles.text}>Medications</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.row1}>
-          <View style={styles.tile1}>
+          <View style={styles.tile}>
             <TouchableOpacity
-              style={{
-                backgroundColor: "white",
-                height: 120,
-                width: 160,
-                borderRadius: 15,
-                marginLeft: 20,
-                marginTop: 20,
-              }}
               onPress={() =>
                 navigation.navigate("ContactPatientScreen", { PID: PID })
               }
             >
-              <Image
-                style={styles.img}
-                source={require("../../ViewPatientSummaryHome Screen/Images/doc.png")}
-              />
+              <AntDesign name="contacts" size={40} color="black" />
               <Text style={styles.text}>Contact Patient</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.tile1}>
+          <View style={styles.tile}>
             <TouchableOpacity
-              style={{
-                backgroundColor: "white",
-                height: 120,
-                width: 160,
-                borderRadius: 15,
-                marginLeft: 20,
-                marginTop: 20,
-              }}
               onPress={() =>
                 navigation.navigate("TestResultScreen", { PID: PID })
               }
             >
-              <Image
-                style={styles.img}
-                source={require("../../ViewPatientSummaryHome Screen/Images/doc.png")}
-              />
+              <View style={styles.icon}>
+                <Foundation name="results" size={40} color="black" />
+              </View>
+
               <Text style={styles.text}>Test Results</Text>
             </TouchableOpacity>
           </View>
@@ -161,7 +126,7 @@ export default PatientProfileScreen;
 const styles = StyleSheet.create({
   con: {
     flex: 1,
-    backgroundColor: "#D0F1FF",
+    backgroundColor: "white",
   },
   subcon: {
     width: "100%",
@@ -179,6 +144,10 @@ const styles = StyleSheet.create({
     marginLeft: "5%", // 5% of the parent container's width
     marginRight: "5%",
     paddingBottom: "5%",
+    height: 300,
+    marginBottom: "5%",
+    borderColor: "#00567D",
+    borderWidth: 3,
   },
 
   // tile1:{
@@ -206,5 +175,17 @@ const styles = StyleSheet.create({
     height: 70,
     marginLeft: 40,
     marginTop: 10,
+  },
+  tile: {
+    width: "40%",
+    height: 120,
+    backgroundColor: "white",
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 20,
+    marginTop: 20,
+    borderColor: "#00567D",
+    borderWidth: 3,
   },
 });

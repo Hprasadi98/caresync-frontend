@@ -2,60 +2,46 @@ import React, { useState } from "react";
 import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import { baseUrl } from "../../../../constants/constants";
 import { useNavigation } from "@react-navigation/native";
+import api from "../../../../Services/AuthService";
 
 const AppointmentModal = ({
-  selectedStartDate,
-  selectedOption,
+  recordID,
   onClose,
-  recordName,
-  description,
+
 }) => {
-  const [appointmentPurpose, setAppointmentPurpose] = useState("");
+
+  const [docID, setDocID] = useState("");
   const [healthProName, setHealthProName] = useState("");
-  const [healthProContact, setHealthProContact] = useState("");
+  const [appDateTime, setAppDateTime] = useState("");
+  const [appType, setAppType] = useState("");
+  const [appointmentPurpose, setAppointmentPurpose] = useState("");
 
   const navigation = useNavigation(); // Get navigation object
 
-  console.log(appointmentPurpose);
-  console.log(healthProName);
-  console.log(healthProContact);
 
-  const saveAppointmentIncident = async () => {
-    try {
-      const res = await fetch(`${baseUrl}/medicalIncident`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: "appointment",
-          recordName: recordName,
-          recordDescription: description,
-          incidentType: selectedOption,
-          date: selectedStartDate,
-          appointmentPurpose: appointmentPurpose,
-          health_pro_name: healthProName,
-          health_pro_contact: healthProContact,
-        }),
+  const saveAppointmentIncident = () => {
+    api
+      .post(`${baseUrl}/medicalIncident/AppointmentIn/create`, {
+        type: "appointment",
+        recordID: recordID,
+        doctorID: docID,
+        doctorName: healthProName,
+        appointmentDateTime: appDateTime,
+        appointmentType: appType,
+        description: appointmentPurpose
+
+      })
+      .then((response) => {
+        console.log("Success:", response.data);
+
+        // Navigate or perform other actions as needed
+        navigation.navigate("DisplayMedicalRecords");
+      })
+      .catch((error) => {
+        console.error("Error saving incident:", error);
       });
-
-      console.log("Response status:", res.status);
-      const responseData = await res.json(); // Parse response body as JSON
-
-      if (!res.ok) {
-        throw new Error(
-          `Failed to save incident. Server response: ${JSON.stringify(
-            responseData
-          )}`
-        );
-      }
-
-      console.log("Success:", responseData);
-      navigation.navigate("DisplayMedicalRecords"); // Navigate to Display Medical Record page
-    } catch (error) {
-      console.error("Error saving incident:", error.message);
-    }
   };
+
 
   return (
     <View style={styles.modalContainer}>
@@ -63,7 +49,7 @@ const AppointmentModal = ({
       {/* <ScrollView style={styles.scrollview}> */}
       <View style={styles.contentContainer}>
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Purpose of the appoinment:</Text>
+          <Text style={styles.label}>Description:</Text>
           <TextInput
             style={styles.input}
             placeholder="Type the purpose "
@@ -71,10 +57,17 @@ const AppointmentModal = ({
           />
         </View>
 
-        <Text style={styles.topic}>Helathcare provider's Details</Text>
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Doctor ID:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Type the purpose "
+            onChangeText={(text) => setDocID(text)}
+          />
+        </View>
 
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Healthcare provider's name </Text>
+          <Text style={styles.label}>Doctor's Name:</Text>
           <TextInput
             style={styles.input}
             placeholder="Type Healthcare provider's name"
@@ -83,13 +76,23 @@ const AppointmentModal = ({
         </View>
 
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Healthcare Center Name</Text>
+          <Text style={styles.label}>Appointment Date and Time: </Text>
           <TextInput
             style={styles.input}
-            placeholder="Type the Healthcare Center Name "
-            onChangeText={(text) => setHealthProContact(text)}
+            placeholder="Type Healthcare provider's name"
+            onChangeText={(text) => setAppDateTime(text)}
           />
         </View>
+
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Appointment Type: </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Type Healthcare provider's name"
+            onChangeText={(text) => setAppType(text)}
+          />
+        </View>
+
       </View>
 
       <View style={styles.buttonContainer}>

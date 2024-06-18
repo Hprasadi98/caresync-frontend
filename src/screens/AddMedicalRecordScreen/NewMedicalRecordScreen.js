@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import api from "../../Services/AuthService";
 
 import Header from "../../components/Header";
 import { baseUrl } from "../../constants/constants";
@@ -15,34 +16,43 @@ import { baseUrl } from "../../constants/constants";
 const NewMedicalRecordScreen = () => {
   const navigation = useNavigation();
 
-  const handleAddNew = () => {
-    fetch(`${baseUrl}/medicalIncident`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        recordName: recordName,
-        recordDescription: recordDescription,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
+  function handleAddNew() {
+    const postMedicalIncident = (
+      recordName,
+      recordDescription,
+      date,
+      patientID
+    ) => {
+      api
+        .post(`${baseUrl}/medicalRecord/create`, {
+          recordName: recordName,
+          recordDescription: recordDescription,
+          date: date,
+          patientID: patientID,
+        })
+        .then((response) => {
+          console.log("Success:", response.data);
 
-        navigation.navigate("DisplayMedicalRecords", {
-          recordName,
-          recordDescription,
+          // Navigate or perform other actions as needed
+          navigation.navigate("DisplayMedicalRecords", {
+            recordName,
+            recordDescription,
+            date: date,
+            patientID: patientID,
+          });
+        })
+        .catch((error) => {
+          console.error("Error posting medical incident:", error);
         });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        // Handle error
-      });
-  };
+    };
+    // Call the postMedicalIncident function with the provided arguments
+    postMedicalIncident(recordName, recordDescription, date, patientID);
+  }
 
   const [recordName, setRecordName] = useState("");
   const [recordDescription, setRecordDescription] = useState("");
+  const [date, setDate] = useState("");
+  const [patientID, setPatientID] = useState("");
 
   console.log(recordName);
   console.log(recordDescription);
@@ -67,6 +77,22 @@ const NewMedicalRecordScreen = () => {
               style={styles.input}
               placeholder="Enter Description Here"
               onChangeText={(text) => setRecordDescription(text)}
+            />
+          </View>
+          <View style={styles.inputcontainer}>
+            <Text style={styles.text1}>Date</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Description Here"
+              onChangeText={(text) => setDate(text)}
+            />
+          </View>
+          <View style={styles.inputcontainer}>
+            <Text style={styles.text1}>Patient Id</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Description Here"
+              onChangeText={(text) => setPatientID(text)}
             />
           </View>
         </View>

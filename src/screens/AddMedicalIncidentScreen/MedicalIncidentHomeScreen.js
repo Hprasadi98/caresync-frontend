@@ -4,7 +4,7 @@ import IncidentTypeDropdown from "./components/IncidentTypeDropdown";
 import React, { useState } from "react";
 
 const MedicalIncidentHomeScreen = ({ route }) => {
-  const { recordName, recordDescription } = route.params;
+  const { recordName, recordDescription, recordID } = route.params;
 
   return (
     <SafeAreaView>
@@ -14,8 +14,9 @@ const MedicalIncidentHomeScreen = ({ route }) => {
           <IncidentTypeDropdown
             recordName={recordName}
             description={recordDescription}
-            // weight={weight}
-            // rating={rating}
+            recordID={recordID}
+          // weight={weight}
+          // rating={rating}
           />
         </View>
       </View>

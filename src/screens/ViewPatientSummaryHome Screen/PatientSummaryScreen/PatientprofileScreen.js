@@ -67,7 +67,10 @@ function PatientProfileScreen({ route, navigation }) {
             //   // navigation.navigate("PatientHistoryScreen", { PID: PID })
             // }
             >
-              <FontAwesome5 name="hospital-user" size={40} color="black" />
+              <View style={styles.icon}>
+                <FontAwesome5 name="hospital-user" size={40} color="black" />
+              </View>
+
               <Text style={styles.text}>Patient History</Text>
             </TouchableOpacity>
           </View>
@@ -78,7 +81,10 @@ function PatientProfileScreen({ route, navigation }) {
                 navigation.navigate("MedicationView", { PID: PID })
               }
             >
-              <FontAwesome name="calendar-plus-o" size={40} color="black" />
+              <View style={styles.icon}>
+                <FontAwesome name="calendar-plus-o" size={40} color="black" />
+              </View>
+
               <Text style={styles.text}>Medications</Text>
             </TouchableOpacity>
           </View>
@@ -90,7 +96,10 @@ function PatientProfileScreen({ route, navigation }) {
                 navigation.navigate("ContactPatientScreen", { PID: PID })
               }
             >
-              <AntDesign name="contacts" size={40} color="black" />
+              <View style={styles.icon}>
+                <AntDesign name="contacts" size={40} color="black" />
+              </View>
+
               <Text style={styles.text}>Contact Patient</Text>
             </TouchableOpacity>
           </View>
@@ -145,9 +154,9 @@ const styles = StyleSheet.create({
     marginRight: "5%",
     paddingBottom: "5%",
     height: 300,
-    marginBottom: "5%",
+    marginBottom: "10%",
     borderColor: "#00567D",
-    borderWidth: 3,
+    borderWidth: 5,
   },
 
   // tile1:{
@@ -187,5 +196,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderColor: "#00567D",
     borderWidth: 3,
+  },
+  icon: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

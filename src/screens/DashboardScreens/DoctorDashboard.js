@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     top: 100,
   },
   allPatientCon: {
-    width: 120,
+    width: 110,
     height: 160,
     borderRadius: 40,
     color: "white",

@@ -89,18 +89,19 @@ const ViewMedication = ({ route }) => {
             <View style={styles.listContainer}>
               {console.log("test")}
               {console.log("item ", item)}
-              <Text style={styles.medicineNametext}>{item.medicine}</Text>
+              <Text style={styles.medicineNametext}>{item.medicine} - {item.meditype} ({item.unit})</Text>
               <View style={styles.detailContainer}>
-                <Text style={styles.pilltext}>{item.pills} pill/s</Text>
+                <Text style={styles.pilltext}>{item.pills} {item.unit}</Text>
                 <Text style={styles.timestext}>
-                  {item.times} time/s per day
+                  {item.times} time/s per {item.frequency}
                 </Text>
                 <Text style={styles.bawtext}>{item.baw} meal</Text>
               </View>
+              <Text>For {item.days} {item.duration}</Text>
               {item.description !== null && item.description !== "" && (
                 <Text>{item.description}</Text>
               )}
-              <Text style={styles.bytext}>added by : {item.addedBy}</Text>
+              <Text style={styles.bytext}>added by {item.addedBy} on {item.sDate}</Text>
             </View>
           )}
         ></FlatList>
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
   bytext: {
     color: "gray",
     fontSize: 11,
-    marginTop: 10,
+    marginTop: 8,
   },
   noMediText: {
     alignSelf: "center",

@@ -3,9 +3,6 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
-  ActivityIndicator,
-  Alert,
 } from "react-native";
 import Header from "../MedicalTestHomeScreen/components/Header";
 import { Calendar } from "react-native-calendars";

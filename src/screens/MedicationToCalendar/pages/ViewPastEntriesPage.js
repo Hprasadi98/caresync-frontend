@@ -8,14 +8,13 @@ import {
   Alert,
 } from "react-native";
 import Header from "../../MedicalTestHomeScreen/components/Header";
-import { Calendar } from "react-native-calendars";
-import { Ionicons } from "@expo/vector-icons";
 import { baseUrl } from "../../../constants/constants";
 import { useEffect, useState } from "react";
 import api from "../../../Services/AuthService";
 import { useAuthContext } from "../../../hooks/useAuthContext";
-
 import { useIsFocused } from "@react-navigation/native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 //navigate to medication adding form
 const MedicationView = ({ navigation, route }) => {
@@ -144,15 +143,13 @@ const MedicationView = ({ navigation, route }) => {
           data={medidetail}
           renderItem={({ item }) => (
             <View style={styles.listContainer}>
-              <View style={styles.dateContainer}>
-                <Text style={styles.datetext}>{item.addedDate}</Text>
-              </View>
-              <Text style={styles.medicineNametext}>{item.medicine}</Text>
-              <Text style={styles.daystext}>For {item.days} Day/s</Text>
+              <Text style={styles.medicineNametext}>{item.medicine} - {item.meditype} ({item.unit})</Text>
+              <Text>Medication from : {item.addedDate}</Text>
+              <Text style={styles.daystext}>For {item.days} {item.duration}</Text>
               <View style={styles.detailContainer}>
-                <Text style={styles.pilltext}>{item.pills} pill/s</Text>
+                <Text style={styles.pilltext}>{item.pills} {item.unit}</Text>
                 <Text style={styles.timestext}>
-                  {item.times} time/s per day
+                  {item.times} time/s per {item.frequency}
                 </Text>
                 <Text style={styles.bawtext}>{item.baw} meal</Text>
               </View>
@@ -161,7 +158,8 @@ const MedicationView = ({ navigation, route }) => {
               )}
               <View style={styles.listbottom}>
                 <View style={styles.byContainer}>
-                  <Text style={styles.bytext}>By {item.addedBy}</Text>
+                  <Text style={styles.bytext}>added by : {item.addedBy}</Text>
+                  <Text style={styles.bytext}>{item.sDate}</Text>
                 </View>
                 <View style={styles.editdeleteContainer}>
                   <TouchableOpacity
@@ -174,16 +172,17 @@ const MedicationView = ({ navigation, route }) => {
                       updateMedication(item._id);
                     }}
                   >
-                    <Text
+                    <Feather
                       style={[
                         styles.edittext,
-                        (docMode
+                        docMode
                           ? item.addedBy !== user.fName
-                          : item.addedBy !== "patient")
+                          : item.addedBy !== "patient",
                       ]}
-                    >
-                      Edit
-                    </Text>
+                      name="edit-2"
+                      size={16}
+                      color="black"
+                    />
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
@@ -198,7 +197,12 @@ const MedicationView = ({ navigation, route }) => {
                       }
                     }}
                   >
-                    <Text style={styles.deletetext}>Delete</Text>
+                    <MaterialIcons
+                      name="delete-outline"
+                      size={16}
+                      color="black"
+                      style={styles.deletetext}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -226,22 +230,10 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 4,
   },
-  dateContainer: {
-    backgroundColor: "#00567D",
-    padding: 7,
-    width: "40%",
-    alignItems: "center",
-    borderRadius: 10,
-    marginTop: -25,
-  },
-  datetext: {
-    color: "white",
-    fontSize: 16,
-  },
   medicineNametext: {
     fontWeight: "bold",
     fontSize: 20,
-    color: "#00567D"
+    color: "#00567D",
   },
   daystext: {
     marginTop: -20,
@@ -274,10 +266,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
   },
-  bytext: {
+  byContainer: {
     marginTop: 10,
+  },
+  bytext: {
+    marginTop: 2,
     color: "gray",
-    fontSize: 11
+    fontSize: 11,
   },
   editdeleteContainer: {
     display: "flex",
@@ -288,11 +283,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   edittext: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 80,
+    paddingRight: 5,
     padding: 5,
-    backgroundColor: "black",
-    color: "white",
+    color: "black",
     alignSelf: "center",
     alignContent: "center",
     borderRadius: 10,
@@ -301,11 +295,10 @@ const styles = StyleSheet.create({
     backgroundColor: "gray",
   },
   deletetext: {
-    paddingLeft: 10,
+    paddingLeft: 5,
     paddingRight: 10,
     padding: 5,
-    backgroundColor: "red",
-    color: "white",
+    color: "black",
     alignSelf: "center",
     alignContent: "center",
     borderRadius: 10,

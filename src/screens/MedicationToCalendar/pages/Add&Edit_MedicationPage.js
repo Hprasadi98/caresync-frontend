@@ -29,7 +29,6 @@ const AddMedication = ({ navigation, route }) => {
   const [noofdays, setnoofDays] = useState("");
   const [choosePeriod, setchoosePeriod] = useState(1);
   const [description, setdescription] = useState("");
-  // const [isModalVisible, setisModalVisible] = useState(false);
   const [checked, setChecked] = useState("before");
 
   const [frequency, setfrequency] = useState("day");
@@ -37,11 +36,11 @@ const AddMedication = ({ navigation, route }) => {
   const [unit, setunit] = useState("mg");
   const [duration, setDuration] = useState("days");
 
-  // const padtoTwo = (number) => (number <= 9 ? `0${number}` : number);
-  // var date = new Date().getDate();
-  // var month = new Date().getMonth() + 1;
-  // var year = new Date().getFullYear();
-  // let sDate = `${year}-${padtoTwo(month)}-${padtoTwo(date)}`;
+  const padtoTwo = (number) => (number <= 9 ? `0${number}` : number);
+  var date = new Date().getDate();
+  var month = new Date().getMonth() + 1;
+  var year = new Date().getFullYear();
+  let sDate = `${year}-${padtoTwo(month)}-${padtoTwo(date)}`;
 
   const [isEdit, setisEdit] = useState(false);
   const { selectedItem } = route.params;
@@ -119,16 +118,16 @@ const AddMedication = ({ navigation, route }) => {
 
   const durationList = [
     {
-      key: "days",
-      value: "days",
+      key: "day/s",
+      value: "day/s",
     },
     {
-      key: "weeks",
-      value: "weeks",
+      key: "week/s",
+      value: "week/s",
     },
     {
-      key: "months",
-      value: "months",
+      key: "month/s",
+      value: "month/s",
     },
   ];
 
@@ -189,6 +188,13 @@ const AddMedication = ({ navigation, route }) => {
 
   //generate and store all dates between start date and end date in an array
   const generateDateRange = (startDate, numberOfDays) => {
+    if(duration=="month/s"){
+      numberOfDays=numberOfDays*30;
+    }else if(duration=="week/s"){
+      numberOfDays=numberOfDays*7;
+    }else{
+      numberOfDays=numberOfDays*1;
+    }
     const endDate = addDays(startDate, numberOfDays - 1);
     const dates = eachDayOfInterval({ start: startDate, end: endDate });
     return dates.map((date) => format(date, "yyyy-MM-dd"));
@@ -213,14 +219,19 @@ const AddMedication = ({ navigation, route }) => {
       Alert.alert("Please select the starting date and number of days", "");
     } else {
       const payload = {
+        sDate : sDate,
         userID: currentUserID,
         addedBy: by,
         medicine: medicineName,
+        meditype: mediType,
+        unit:unit,
         addedDate: dateInput,
         pills: pillAmount,
         days: noofdays,
         dayArray: dayArray,
         times: choosePeriod,
+        frequency:frequency,
+        duration: duration,
         baw: checked,
         description: description,
       };
@@ -242,13 +253,18 @@ const AddMedication = ({ navigation, route }) => {
   const updatemedication = (id) => {
     updateUserID();
     const payload = {
+      sDate: sDate,
       userID: currentUserID,
       medicine: medicineName,
+      meditype: mediType,
+      unit: unit,
       addedDate: dateInput,
       pills: pillAmount,
       days: noofdays,
       dayArray: dayArray,
       times: choosePeriod,
+      frequency: frequency,
+      duration: duration,
       baw: checked,
       description: description,
     };
@@ -273,36 +289,9 @@ const AddMedication = ({ navigation, route }) => {
     );
   };
 
-  //function with modal visibility changing, parameter value boolean
-  // const changeModalVisibility = (bool) => {
-  //   setisModalVisible(bool);
-  // };
-
-  // const OPTIONS = [1, 2, 3, 4]; //period options
-  // const WIDTH = Dimensions.get("window").width;
-  // const HEIGHT = Dimensions.get("window").height;
-
-  // const onPressItem = (option) => {
-  //   changeModalVisibility(false);
-  //   setchoosePeriod(option);
-  // };
-
   const handleOnPressStartDate = () => {
     setOpenStartDatePicker(!openStartDatePicker);
   };
-
-  //map time options with the modal items
-  // const option = OPTIONS.map((item, index) => {
-  //   return (
-  //     <TouchableOpacity
-  //       style={styles.option}
-  //       key={index}
-  //       onPress={() => onPressItem(item)}
-  //     >
-  //       <Text style={styles.textItem}>{item}</Text>
-  //     </TouchableOpacity>
-  //   );
-  // });
 
   return (
     <View style={{ flex: 1 }}>
@@ -327,7 +316,7 @@ const AddMedication = ({ navigation, route }) => {
                 setSelected={setmediType}
                 data={mediTypeList}
                 placeholder="Tablet"
-                boxStyles={{ borderRadius: 0, backgroundColor: "white" }}
+                boxStyles={{ borderRadius: 15, backgroundColor: "white" }}
                 // inputStyles={{ backgroundColor: "white" }}
                 defaultOption={{ key: "Tablet", value: "Tablet" }}
               />
@@ -336,13 +325,13 @@ const AddMedication = ({ navigation, route }) => {
               setSelected={setunit}
               data={unitList[mediType]}
               placeholder="mg"
-              boxStyles={{ borderRadius: 0, backgroundColor: "white" }}
+              boxStyles={{ borderRadius: 15, backgroundColor: "white" }}
               defaultOption={unitList[mediType][0]}
             />
           </View>
 
           <Text style={styles.topics}>Starting Date</Text>
-          <Text style={styles.subtopics}>When do you start medication?</Text>
+          {/* <Text style={styles.subtopics}>When do you start medication?</Text> */}
           <View style={styles.nameContainer}>
             <TextInput
               placeholder="yyyy-mm-dd"
@@ -365,7 +354,7 @@ const AddMedication = ({ navigation, route }) => {
               <View style={styles.modalView}>
                 <DatePicker
                   mode="calendar"
-                  minimumDate={startingDate}
+                  //minimumDate={startingDate}
                   onSelectedChange={(day) => {
                     const formattedDate = day.replace(/\//g, "-");
                     setDateInput(formattedDate);
@@ -390,9 +379,9 @@ const AddMedication = ({ navigation, route }) => {
           </Modal>
 
           <Text style={styles.topics}>Dosage</Text>
-          <Text style={styles.subtopics}>
+          {/* <Text style={styles.subtopics}>
             How many pills need to take at once? & How long?
-          </Text>
+          </Text> */}
           <View style={styles.topicContainer}>
             <View style={styles.nametimeContainer}>
               <TextInput
@@ -401,9 +390,6 @@ const AddMedication = ({ navigation, route }) => {
                 keyboardType="numeric"
                 style={styles.texttime}
               />
-              {/* <TouchableOpacity onPress={() => {}}>
-                <AntDesign name="down" size={16} color="gray" />
-              </TouchableOpacity> */}
             </View>
             <Text>{unit}</Text>
           </View>
@@ -411,75 +397,30 @@ const AddMedication = ({ navigation, route }) => {
             <View style={{ display: "flex", flexDirection: "column" }}>
               <Text style={styles.topics}>Time</Text>
               <View style={styles.nametimeContainer}>
-                {/* <View style={styles.nameContainer2}> */}
                 <TextInput
                   placeholder="times"
                   onChangeText={setchoosePeriod}
                   keyboardType="numeric"
                   style={styles.texttime}
                 />
-                {/* <TouchableOpacity onPress={() => {}}>
-                <AntDesign name="down" size={16} color="gray" />
-              </TouchableOpacity> */}
               </View>
             </View>
-          </View>
-
-          {/* <Text style={styles.topics}>Time</Text>
-          <Text style={styles.subtopics}>
-            Add times per day when you need to take pills
-          </Text>
-          <View style={{ display: "flex", flexDirection: "row" }}>
-            <TouchableOpacity
-              onPress={() => changeModalVisibility(true)}
-              style={styles.nameContainer3}
-            >
-              <Text style={styles.textName3}>{choosePeriod}</Text>
-            </TouchableOpacity>
-
-            <Modal
-              transparent={true}
-              animationType="fade"
-              visible={isModalVisible}
-              nRequestClose={() => changeModalVisibility(false)}
-            >
-              <TouchableOpacity
-                onPress={() => changeModalVisibility(false)}
-                style={styles.modalContainer2}
-              >
-                <View
-                  style={[
-                    styles.modal,
-                    { width: WIDTH - 230, height: HEIGHT - 570 },
-                  ]}
-                >
-                  {option}
-                </View>
-              </TouchableOpacity>
-            </Modal>
-          </View> */}
-
-          <View style={{ display: "flex", flexDirection: "column" }}>
+            <View style={{ display: "flex", flexDirection: "column" }}>
             <Text style={styles.topics}>Frequency</Text>
             <View style={styles.freqdropdown}>
               <SelectList
                 setSelected={setfrequency}
                 data={frequencyList}
                 placeholder="day"
+                boxStyles={{ borderRadius: 15, backgroundColor: "white" }}
                 defaultOption={{ label: "day", value: "day" }}
               />
             </View>
-
-            {/* <View
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          ></View> */}
+            </View>
+          </View>
 
             <Text style={styles.topics}>Duration</Text>
-            <View style={styles.topicContainerr}>
+            <View style={{ display: "flex", flexDirection: "row" }}>
               <View style={styles.nametimeContainer}>
                 <TextInput
                   placeholder="duration"
@@ -488,18 +429,21 @@ const AddMedication = ({ navigation, route }) => {
                   style={styles.texttime}
                 />
               </View>
+              <View>
               <SelectList
                 setSelected={setDuration}
                 data={durationList}
-                placeholder="days"
-                defaultOption={{ key: "days", value: "days" }}
+                placeholder="day/s"
+                boxStyles={{ borderRadius: 15, backgroundColor: "white" }}
+                defaultOption={{ key: "day/s", value: "day/s" }}
               />
+              </View>
             </View>
 
             <Text style={styles.topics}>Food & Pill</Text>
-            <Text style={styles.subtopics}>
+            {/* <Text style={styles.subtopics}>
               What's the time you need to take pill?
-            </Text>
+            </Text> */}
             <View style={styles.radioButtons}>
               <RadioButton
                 value="before"
@@ -546,7 +490,6 @@ const AddMedication = ({ navigation, route }) => {
                 </Text>
               </TouchableOpacity>
             </View>
-          </View>
         </View>
       </ScrollView>
     </View>
@@ -557,10 +500,10 @@ const styles = StyleSheet.create({
   strengthContainer: {
     paddingTop: 10,
     display: "flex",
-    // flexDirection: "row",
+    flexDirection: "row",
   },
   topicContainer: {
-    // paddingTop: 10,
+    paddingTop: 10,
     display: "flex",
     flexDirection: "row",
   },
@@ -616,7 +559,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   topics: {
-    marginTop: 20,
+    marginTop: 5,
     fontSize: 16,
     fontWeight: "bold",
   },

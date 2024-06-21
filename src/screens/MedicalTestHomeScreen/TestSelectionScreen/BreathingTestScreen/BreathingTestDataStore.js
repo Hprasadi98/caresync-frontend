@@ -28,31 +28,35 @@ const BreathingTestDataStore = ({ sampleData, deleteOne }) => {
             <DataTable.Title style={styles.headcellsStyle}>
               Test Time
             </DataTable.Title>
-            <DataTable.Title>      </DataTable.Title>
+            <DataTable.Title> </DataTable.Title>
           </DataTable.Header>
-          {sampleData.map((data, id) => (
-            <DataTable.Row key={id}>
-              <DataTable.Cell style={styles.cellsStyle}>
-                {data.date}
-              </DataTable.Cell>
-              <DataTable.Cell style={styles.cellsStyle}>
-                {data.systime}
-              </DataTable.Cell>
-              <DataTable.Cell style={styles.cellsStyle}>
-                {data.stopwatchTime}
-              </DataTable.Cell>
-              <DataTable.Cell>
-                <TouchableOpacity
-                  onPress={() => {
-                    console.log("Data ID",data._id);
-                    deleteOne(data._id);
-                  }}
-                >
-                  <MaterialCommunityIcons name="delete-outline" color="red" />
-                </TouchableOpacity>
-              </DataTable.Cell>
-            </DataTable.Row>
-          ))}
+          {sampleData.length === 0 ? (
+            <Text style={styles.textnoResults}>No past results</Text>
+          ) : (
+            sampleData.map((data, id) => (
+              <DataTable.Row key={id}>
+                <DataTable.Cell style={styles.cellsStyle}>
+                  {data.date}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.cellsStyle}>
+                  {data.systime}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.cellsStyle}>
+                  {data.stopwatchTime}
+                </DataTable.Cell>
+                <DataTable.Cell>
+                  <TouchableOpacity
+                    onPress={() => {
+                      console.log("Data ID", data._id);
+                      deleteOne(data._id);
+                    }}
+                  >
+                    <MaterialCommunityIcons name="delete-outline" color="red" />
+                  </TouchableOpacity>
+                </DataTable.Cell>
+              </DataTable.Row>
+            ))
+          )}
         </DataTable>
       </ScrollView>
     </View>
@@ -82,6 +86,10 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     paddingLeft: 20,
   },
+  textnoResults:{
+    padding:5,
+    marginLeft:20
+  }
 });
 
 export default BreathingTestDataStore;

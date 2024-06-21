@@ -30,6 +30,7 @@ import MedicationView from "./src/screens/MedicationToCalendar/MedicationViewInC
 import MedicationsScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/MedicationsScreen";
 import AddMedication from "./src/screens/MedicationToCalendar/pages/Add&Edit_MedicationPage";
 import ViewMedication from "./src/screens/MedicationToCalendar/pages/ViewDailyMedicationPage";
+import ViewPastEntries from "./src/screens/MedicationToCalendar/pages/ViewPastEntriesPage";
 import NewMedicalRecordScreen from "./src/screens/AddMedicalRecordScreen/NewMedicalRecordScreen";
 import MyprofileScreen from "./src/screens/PatientMyProfileScreen/MyprofileScreen";
 import DoctorProfileScreen from "./src/screens/DoctorMyProfileScreen/DoctorProfileScreen";
@@ -140,6 +141,7 @@ export default function Routing() {
         <Stack.Screen name="MedicationView" component={MedicationView} />
         <Stack.Screen name="AddMedication" component={AddMedication} />
         <Stack.Screen name="ViewMedication" component={ViewMedication} />
+        <Stack.Screen name="ViewPastEntries" component={ViewPastEntries} />
 
         <Stack.Screen
           name="MyprofileScreen"

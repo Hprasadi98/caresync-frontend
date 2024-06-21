@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet, TextInput } from "react-native";
+import { View, Text, Button, StyleSheet, TextInput, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native"; // Import navigation hook
 import CustomDropdown from "../CustomDropdown";
 import TestProviderDropDown from "../TestProviderDropDown";
@@ -35,6 +35,7 @@ const TestModal = ({
       })
       .then((response) => {
         console.log("Success:", response.data);
+        Alert.alert("Success", "Test Added Successfully");
 
         // Navigate or perform other actions as needed
         navigation.navigate("DisplayMedicalRecords");

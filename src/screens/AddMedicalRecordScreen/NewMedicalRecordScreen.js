@@ -5,6 +5,7 @@ import {
   Text,
   TextInput,
   Pressable,
+  Alert,
   SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -32,6 +33,7 @@ const NewMedicalRecordScreen = () => {
         })
         .then((response) => {
           console.log("Success:", response.data);
+          Alert.alert("Success", "Medical Record added successfully.");
 
           // Navigate or perform other actions as needed
           navigation.navigate("DisplayMedicalRecords", {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet, TextInput } from "react-native";
+import { View, Text, Button, StyleSheet, TextInput, Alert } from "react-native";
 import PainRating from "../PainRating";
 import SymptomTypeDropdown from "../SymptomTypeDropdown";
 import { baseUrl } from "../../../../constants/constants";
@@ -46,6 +46,7 @@ const SymptomModal = ({
       })
       .then((response) => {
         console.log("Success:", response.data);
+        Alert.alert("Success", "Symptom Added Successfully");
 
         // Navigate or perform other actions as needed
         navigation.navigate("DisplayMedicalRecords");

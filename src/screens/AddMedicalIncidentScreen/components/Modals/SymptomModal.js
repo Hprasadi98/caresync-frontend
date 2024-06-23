@@ -52,7 +52,8 @@ const SymptomModal = ({
         navigation.navigate("DisplayMedicalRecords");
       })
       .catch((error) => {
-        console.error("Error saving incident:", error);
+        Alert.alert("Error saving incident", error.response.data.error);
+        console.log("Error saving incident:", error);
       });
   };
 

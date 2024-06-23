@@ -4,12 +4,7 @@ import { baseUrl } from "../../../../constants/constants";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../../../Services/AuthService";
 
-const AppointmentModal = ({
-  recordID,
-  onClose,
-
-}) => {
-
+const AppointmentModal = ({ recordID, onClose }) => {
   const [docID, setDocID] = useState("");
   const [healthProName, setHealthProName] = useState("");
   const [appDateTime, setAppDateTime] = useState("");
@@ -17,7 +12,6 @@ const AppointmentModal = ({
   const [appointmentPurpose, setAppointmentPurpose] = useState("");
 
   const navigation = useNavigation(); // Get navigation object
-
 
   const saveAppointmentIncident = () => {
     api
@@ -28,8 +22,7 @@ const AppointmentModal = ({
         doctorName: healthProName,
         appointmentDateTime: appDateTime,
         appointmentType: appType,
-        description: appointmentPurpose
-
+        description: appointmentPurpose,
       })
       .then((response) => {
         console.log("Success:", response.data);
@@ -39,10 +32,10 @@ const AppointmentModal = ({
         navigation.navigate("DisplayMedicalRecords");
       })
       .catch((error) => {
-        console.error("Error saving incident:", error);
+        Alert.alert("Error saving incident", error.response.data.error);
+        console.log("Error saving incident:", error);
       });
   };
-
 
   return (
     <View style={styles.modalContainer}>
@@ -93,7 +86,6 @@ const AppointmentModal = ({
             onChangeText={(text) => setAppType(text)}
           />
         </View>
-
       </View>
 
       <View style={styles.buttonContainer}>

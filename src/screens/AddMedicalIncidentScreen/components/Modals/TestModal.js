@@ -41,7 +41,8 @@ const TestModal = ({
         navigation.navigate("DisplayMedicalRecords");
       })
       .catch((error) => {
-        console.error("Error saving incident:", error);
+        Alert.alert("Error saving incident", error.response.data.error);
+        console.log("Error saving incident:", error);
       });
   };
   // Call the postMedicalIncident function with the provided arguments
@@ -99,10 +100,8 @@ const TestModal = ({
             placeholder="Enter Result Link Here"
             value={resultLink}
             onChangeText={setResultLink}
-
           />
         </View>
-
       </View>
 
       <View style={styles.buttonContainer}>
@@ -165,8 +164,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     fontSize: 16,
     fontWeight: "700",
-    marginLeft: "4%"
-
+    marginLeft: "4%",
   },
   dropdowncontainer: {
     marginVertical: "-5%",
@@ -183,9 +181,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
     width: "90%",
-
   },
-
 });
 
 export default TestModal;

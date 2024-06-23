@@ -10,26 +10,22 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../Services/AuthService";
-
 import Header from "../../components/Header";
 import { baseUrl } from "../../constants/constants";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const NewMedicalRecordScreen = () => {
+  const { user } = useAuthContext();
   const navigation = useNavigation();
 
   function handleAddNew() {
-    const postMedicalIncident = (
-      recordName,
-      recordDescription,
-      date,
-      patientID
-    ) => {
+    const postMedicalIncident = (recordName, recordDescription, date) => {
       api
         .post(`${baseUrl}/medicalRecord/create`, {
           recordName: recordName,
           recordDescription: recordDescription,
           date: date,
-          patientID: patientID,
+          patientID: user._id,
         })
         .then((response) => {
           console.log("Success:", response.data);
@@ -40,7 +36,7 @@ const NewMedicalRecordScreen = () => {
             recordName,
             recordDescription,
             date: date,
-            patientID: patientID,
+            patientID: user._id,
           });
         })
         .catch((error) => {
@@ -48,16 +44,12 @@ const NewMedicalRecordScreen = () => {
         });
     };
     // Call the postMedicalIncident function with the provided arguments
-    postMedicalIncident(recordName, recordDescription, date, patientID);
+    postMedicalIncident(recordName, recordDescription, date);
   }
 
   const [recordName, setRecordName] = useState("");
   const [recordDescription, setRecordDescription] = useState("");
   const [date, setDate] = useState("");
-  const [patientID, setPatientID] = useState("");
-
-  console.log(recordName);
-  console.log(recordDescription);
 
   return (
     <SafeAreaView>
@@ -87,14 +79,6 @@ const NewMedicalRecordScreen = () => {
               style={styles.input}
               placeholder="Enter Description Here"
               onChangeText={(text) => setDate(text)}
-            />
-          </View>
-          <View style={styles.inputcontainer}>
-            <Text style={styles.text1}>Patient Id</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter Description Here"
-              onChangeText={(text) => setPatientID(text)}
             />
           </View>
         </View>

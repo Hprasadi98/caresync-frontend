@@ -23,7 +23,8 @@ function DisplayMedicalRecords({ navigation, recordName, recordDescription }) {
 
   const fetchMedicalHistory = async () => {
     try {
-      const response = await api.get(`${baseUrl}/medicalRecord/getRecordsPatient`,
+      const response = await api.get(
+        `${baseUrl}/medicalRecord/getRecordsPatient`,
         {
           params: {
             patientID: user._id,

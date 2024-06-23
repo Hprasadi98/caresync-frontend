@@ -13,7 +13,6 @@ import SymptomModal from "./Modals/SymptomModal";
 import PrescriptionModal from "./Modals/PrescriptionModal";
 import AppointmentModal from "./Modals/AppointmentModal";
 
-
 const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -21,7 +20,6 @@ const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
   const handleDropdownPress = () => {
     setIsOpen(!isOpen);
   };
-  2
   const handleItemPress = (item) => {
     setSelectedItem(item);
     setIsOpen(false);
@@ -55,12 +53,7 @@ const Inputbar = ({ text1, placeholder, dropdownItems, onSelect }) => {
 };
 
 const IncidentTypeDropdown = ({ recordName, description, recordID }) => {
-  const dropdownItems = [
-    "TEST",
-    "SYMPTOM",
-    "PRESCRIPTION",
-    "APPOINTMENT",
-  ];
+  const dropdownItems = ["TEST", "SYMPTOM", "PRESCRIPTION", "APPOINTMENT"];
   const [selectedOption, setSelectedOption] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
@@ -145,11 +138,6 @@ const IncidentTypeDropdown = ({ recordName, description, recordID }) => {
 
   return (
     <View style={styles.container}>
-      <Calendar
-        selectedStartDate={selectedStartDate}
-        setSelectedStartDate={setSelectedStartDate}
-        onDateChange={handleDateChange}
-      />
       <Inputbar
         text1="Incident Type"
         placeholder="Select Incident type"
@@ -157,6 +145,11 @@ const IncidentTypeDropdown = ({ recordName, description, recordID }) => {
         onSelect={handleSelect}
         selectedIncidentType={selectedIncidentType}
         setSelectedIncidentType={setSelectedIncidentType}
+      />
+      <Calendar
+        selectedStartDate={selectedStartDate}
+        setSelectedStartDate={setSelectedStartDate}
+        onDateChange={handleDateChange}
       />
 
       <TouchableOpacity style={styles.btn} onPress={handleCombinedPress}>
@@ -193,7 +186,7 @@ const styles = StyleSheet.create({
   },
   selectedItem: {
     fontSize: 16,
-    fontWeight: "bold",
+    // fontWeight: "100",
   },
   dropdownMenu: {
     position: "absolute",
@@ -214,8 +207,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   itemText: {
-    fontSize: 17,
-    fontWeight: "bold",
+    fontSize: 16,
+    // fontWeight: "bold",
     color: "#1e1e1e",
   },
   modalContainer: {
@@ -246,8 +239,8 @@ const styles = StyleSheet.create({
   },
   text1: {
     marginLeft: 28,
-    fontWeight: "500",
-    fontSize: 16,
+    // fontWeight: "500",
+    fontSize: 20,
     color: "#1e1e1e",
     // fontFamily: 'poppins regular,',
   },

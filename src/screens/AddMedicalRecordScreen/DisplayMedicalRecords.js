@@ -23,7 +23,7 @@ function DisplayMedicalRecords({ route, navigation }) {
   const [PID, setPID] = useState(route.params?.PID);
   const fetchMedicalHistory = async () => {
     try {
-      console.log("User PID:", PID);
+      // console.log("User PID:", PID);
       const response = await api.get(
         `${baseUrl}/medicalRecord/getRecordsPatient`,
         {
@@ -44,6 +44,12 @@ function DisplayMedicalRecords({ route, navigation }) {
     setPID(route.params?.PID ? route.params.PID : null);
     fetchMedicalHistory();
   }, []);
+
+  useEffect(() => {
+    navigation.addListener("focus", () => {
+      fetchMedicalHistory();
+    });
+  }, [navigation]);
 
   function renderCategoryItem({ item }) {
     return (

@@ -146,6 +146,7 @@ const IncidentTypeDropdown = ({ recordName, description, recordID }) => {
         selectedIncidentType={selectedIncidentType}
         setSelectedIncidentType={setSelectedIncidentType}
       />
+      <Text style={styles.text2}>Incident Date</Text>
       <Calendar
         selectedStartDate={selectedStartDate}
         setSelectedStartDate={setSelectedStartDate}
@@ -174,6 +175,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#1e1e1e",
     marginTop: 50,
+  },
+  text2: {
+    marginLeft: 28,
+    fontSize: 20,
+    color: "#1e1e1e",
+    marginTop: 15,
+    marginBottom: -40,
   },
   dropdownTrigger: {
     marginLeft: 28,
@@ -223,7 +231,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: "100%",
     padding: 2,
-    top: "235%",
+    top: "220%",
     alignItems: "center",
     elevation: 4,
   },

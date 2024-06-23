@@ -3,13 +3,14 @@ import { View, Text, Button, StyleSheet, TextInput, Alert } from "react-native";
 import { baseUrl } from "../../../../constants/constants";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../../../Services/AuthService";
+import Calendar from "../Calendar";
 
 const AppointmentModal = ({ recordID, onClose }) => {
   const [docID, setDocID] = useState("");
   const [healthProName, setHealthProName] = useState("");
-  const [appDateTime, setAppDateTime] = useState("");
   const [appType, setAppType] = useState("");
   const [appointmentPurpose, setAppointmentPurpose] = useState("");
+  const [selectedStartDate, setSelectedStartDate] = useState("");
 
   const navigation = useNavigation(); // Get navigation object
 
@@ -18,9 +19,9 @@ const AppointmentModal = ({ recordID, onClose }) => {
       .post(`${baseUrl}/medicalIncident/AppointmentIn/create`, {
         type: "appointment",
         recordID: recordID,
-        doctorID: docID,
+        doctorID: docID ? docID : null,
         doctorName: healthProName,
-        appointmentDateTime: appDateTime,
+        appointmentDateTime: selectedStartDate,
         appointmentType: appType,
         description: appointmentPurpose,
       })
@@ -55,7 +56,7 @@ const AppointmentModal = ({ recordID, onClose }) => {
           <Text style={styles.label}>Doctor ID:</Text>
           <TextInput
             style={styles.input}
-            placeholder="Type the Doctor ID"
+            placeholder="Type the Doctor's ID"
             onChangeText={(text) => setDocID(text)}
           />
         </View>
@@ -70,20 +71,18 @@ const AppointmentModal = ({ recordID, onClose }) => {
         </View>
 
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Appointment Date and Time: </Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Appointment Date"
-            onChangeText={(text) => setAppDateTime(text)}
-          />
-        </View>
-
-        <View style={styles.inputcontainer}>
           <Text style={styles.label}>Appointment Type: </Text>
           <TextInput
             style={styles.input}
-            placeholder="Type Healthcare provider's name"
+            placeholder="Type of the Appointment"
             onChangeText={(text) => setAppType(text)}
+          />
+        </View>
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Appointment Date: </Text>
+          <Calendar
+            selectedStartDate={selectedStartDate}
+            setSelectedStartDate={setSelectedStartDate}
           />
         </View>
       </View>

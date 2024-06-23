@@ -15,19 +15,19 @@ import api from "../../Services/AuthService";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { ScrollView } from "react-native-gesture-handler";
 
-function DisplayMedicalRecords({ navigation, recordName, recordDescription }) {
+function DisplayMedicalRecords({ route, navigation }) {
   const { user } = useAuthContext();
-  user && console.log("User ID:", user._id);
+  user && console.log("User ID:", user);
   const [medicalRecords, setMedicalRecords] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-
+  const PID = route.params?.PID;
   const fetchMedicalHistory = async () => {
     try {
       const response = await api.get(
         `${baseUrl}/medicalRecord/getRecordsPatient`,
         {
           params: {
-            patientID: user._id,
+            patientID: user.roles == "patient" ? user._id : PID,
           },
         }
       );
@@ -62,7 +62,9 @@ function DisplayMedicalRecords({ navigation, recordName, recordDescription }) {
   }
 
   const handleAddNew = () => {
-    navigation.navigate("NewMedicalRecordScreen");
+    navigation.navigate("NewMedicalRecordScreen", {
+      PID: user.roles == "patient" ? user._id : PID,
+    });
   };
 
   const onRefresh = React.useCallback(() => {

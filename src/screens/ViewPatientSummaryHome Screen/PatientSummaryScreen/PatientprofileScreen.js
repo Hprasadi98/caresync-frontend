@@ -18,7 +18,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 function PatientProfileScreen({ route, navigation }) {
   const [patients, setPatients] = useState([]);
   const PID = route.params.PID;
-
+  // console.log("PID:", PID);
   useEffect(() => {
     fetchPatients();
   }, []);
@@ -62,10 +62,9 @@ function PatientProfileScreen({ route, navigation }) {
         <View style={styles.row1}>
           <View style={styles.tile}>
             <TouchableOpacity
-
-            // onPress={() =>
-            //   // navigation.navigate("PatientHistoryScreen", { PID: PID })
-            // }
+              onPress={() =>
+                navigation.navigate("DisplayMedicalRecords", { PID: PID })
+              }
             >
               <View style={styles.icon}>
                 <FontAwesome5 name="hospital-user" size={40} color="black" />

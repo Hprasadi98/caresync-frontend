@@ -8,15 +8,19 @@ import {
   Alert,
   SafeAreaView,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import api from "../../Services/AuthService";
 import Header from "../../components/Header";
 import { baseUrl } from "../../constants/constants";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-const NewMedicalRecordScreen = () => {
+const NewMedicalRecordScreen = ({ route, navigation, PID }) => {
   const { user } = useAuthContext();
-  const navigation = useNavigation();
+  const [userID, setUserID] = useState(user._id);
+
+  useEffect(() => {
+    route.params?.PID ? setUserID(route.params.PID) : setUserID(user._id);
+  }, []);
+
 
   function handleAddNew() {
     const postMedicalIncident = (recordName, recordDescription, date) => {
@@ -25,7 +29,7 @@ const NewMedicalRecordScreen = () => {
           recordName: recordName,
           recordDescription: recordDescription,
           date: date,
-          patientID: user._id,
+          patientID: userID,
         })
         .then((response) => {
           console.log("Success:", response.data);
@@ -36,7 +40,7 @@ const NewMedicalRecordScreen = () => {
             recordName,
             recordDescription,
             date: date,
-            patientID: user._id,
+            patientID: userID,
           });
         })
         .catch((error) => {
@@ -44,6 +48,7 @@ const NewMedicalRecordScreen = () => {
         });
     };
     // Call the postMedicalIncident function with the provided arguments
+    console.log("User ID:", userID);
     postMedicalIncident(recordName, recordDescription, date);
   }
 

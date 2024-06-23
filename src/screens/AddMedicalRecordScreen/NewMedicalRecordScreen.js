@@ -13,14 +13,13 @@ import Header from "../../components/Header";
 import { baseUrl } from "../../constants/constants";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-const NewMedicalRecordScreen = ({ route, navigation, PID }) => {
+const NewMedicalRecordScreen = ({ route, navigation }) => {
   const { user } = useAuthContext();
   const [userID, setUserID] = useState(user._id);
 
   useEffect(() => {
     route.params?.PID ? setUserID(route.params.PID) : setUserID(user._id);
   }, []);
-
 
   function handleAddNew() {
     const postMedicalIncident = (recordName, recordDescription, date) => {
@@ -34,7 +33,7 @@ const NewMedicalRecordScreen = ({ route, navigation, PID }) => {
         .then((response) => {
           console.log("Success:", response.data);
           Alert.alert("Success", "Medical Record added successfully.");
-
+          console.log("User ID:", userID);
           // Navigate or perform other actions as needed
           navigation.navigate("DisplayMedicalRecords", {
             recordName,

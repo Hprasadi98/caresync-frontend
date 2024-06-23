@@ -20,9 +20,10 @@ function DisplayMedicalRecords({ route, navigation }) {
   user && console.log("User ID:", user);
   const [medicalRecords, setMedicalRecords] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const PID = route.params?.PID;
+  const [PID, setPID] = useState(route.params?.PID);
   const fetchMedicalHistory = async () => {
     try {
+      console.log("User PID:", PID);
       const response = await api.get(
         `${baseUrl}/medicalRecord/getRecordsPatient`,
         {
@@ -34,18 +35,15 @@ function DisplayMedicalRecords({ route, navigation }) {
       console.log("Response from backend:", response.data);
       setMedicalRecords(response.data.patientRecords.medicalRecords); // Update state with fetched records
     } catch (error) {
+      console.log("Error fetching medical records:", error.response.data);
       console.error("Error fetching medical records:", error);
     }
   };
 
   useEffect(() => {
+    setPID(route.params?.PID ? route.params.PID : null);
     fetchMedicalHistory();
-    const unsubscribe = navigation.addListener("focus", () => {
-      // Refresh the data whenever the screen gains focus
-      fetchMedicalHistory();
-    });
-    return unsubscribe;
-  }, [navigation]);
+  }, []);
 
   function renderCategoryItem({ item }) {
     return (

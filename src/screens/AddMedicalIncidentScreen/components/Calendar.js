@@ -23,23 +23,12 @@ function Calendar({ selectedStartDate, setSelectedStartDate, onDateChange }) {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ width: "100%", height: "100%", backgroundColor: "#fff" }}>
-        <Text
-          style={{
-            fontSize: 20,
-            color: "#1e1e1e",
-            marginLeft: 25,
-            marginTop: -25,
-          }}
-        >
-          Date
-        </Text>
-
+      <View style={{}}>
         <TouchableOpacity
           style={styles.inputBtn}
           onPress={handleOnPressStartDate}
         >
-          <Text style={{ fontWeight: "bold" }}>{selectedStartDate}</Text>
+          <Text style={{}}>{selectedStartDate}</Text>
         </TouchableOpacity>
 
         <Modal
@@ -92,7 +81,7 @@ const styles = StyleSheet.create({
     padding: 8,
     width: "88%",
     height: 38,
-    marginTop: 10,
+    // marginTop: 10,
     marginLeft: 25,
     borderRadius: 10,
     fontSize: 16,

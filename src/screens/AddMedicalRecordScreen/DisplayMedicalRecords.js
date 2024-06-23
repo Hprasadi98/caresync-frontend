@@ -15,35 +15,40 @@ import api from "../../Services/AuthService";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { ScrollView } from "react-native-gesture-handler";
 
-function DisplayMedicalRecords({ navigation, recordName, recordDescription }) {
+function DisplayMedicalRecords({ route, navigation }) {
   const { user } = useAuthContext();
-  user && console.log("User ID:", user._id);
+  user && console.log("User ID:", user);
   const [medicalRecords, setMedicalRecords] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-
+  const [PID, setPID] = useState(route.params?.PID);
   const fetchMedicalHistory = async () => {
     try {
-      const response = await api.get(`${baseUrl}/medicalRecord/getRecordsPatient`,
+      // console.log("User PID:", PID);
+      const response = await api.get(
+        `${baseUrl}/medicalRecord/getRecordsPatient`,
         {
           params: {
-            patientID: user._id,
+            patientID: user.roles == "patient" ? user._id : PID,
           },
         }
       );
       console.log("Response from backend:", response.data);
       setMedicalRecords(response.data.patientRecords.medicalRecords); // Update state with fetched records
     } catch (error) {
+      console.log("Error fetching medical records:", error.response.data);
       console.error("Error fetching medical records:", error);
     }
   };
 
   useEffect(() => {
+    setPID(route.params?.PID ? route.params.PID : null);
     fetchMedicalHistory();
-    const unsubscribe = navigation.addListener("focus", () => {
-      // Refresh the data whenever the screen gains focus
+  }, []);
+
+  useEffect(() => {
+    navigation.addListener("focus", () => {
       fetchMedicalHistory();
     });
-    return unsubscribe;
   }, [navigation]);
 
   function renderCategoryItem({ item }) {
@@ -61,7 +66,9 @@ function DisplayMedicalRecords({ navigation, recordName, recordDescription }) {
   }
 
   const handleAddNew = () => {
-    navigation.navigate("NewMedicalRecordScreen");
+    navigation.navigate("NewMedicalRecordScreen", {
+      PID: user.roles == "patient" ? user._id : PID,
+    });
   };
 
   const onRefresh = React.useCallback(() => {

@@ -34,10 +34,10 @@ export const useLogin = () => {
         return { status: "notVerified" };
       } else if (data.error === "Medical Id not verified") {
         return { status: "notVerified" };
-      } else if (data.error === "Invalid Password") {
-        return { status: "invalid password" };
+      } else if (data.error === "Invalid password or email") {
+        return { status: "invalid" };
       } else if (data.error === "Invalid email") {
-        return { status: "invalid email" };
+        return { status: "invalid" };
       } else {
         return { status: "failed" };
       }

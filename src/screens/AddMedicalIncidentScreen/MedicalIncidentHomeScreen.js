@@ -15,8 +15,6 @@ const MedicalIncidentHomeScreen = ({ route }) => {
             recordName={recordName}
             description={recordDescription}
             recordID={recordID}
-          // weight={weight}
-          // rating={rating}
           />
         </View>
       </View>

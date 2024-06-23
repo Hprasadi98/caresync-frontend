@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet, ScrollView, TextInput, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ScrollView,
+  TextInput,
+  Alert,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native"; // Import navigation hook
 import { baseUrl } from "../../../../constants/constants";
 import api from "../../../../Services/AuthService";
 
-const PrescriptionModal = ({
-  recordID,
-  onClose,
-
-}) => {
+const PrescriptionModal = ({ recordID, onClose }) => {
   const navigation = useNavigation(); // Get navigation object
   const [presLink, setPresLink] = useState("");
   const [doctorID, setDoctorID] = useState("");
@@ -25,9 +29,8 @@ const PrescriptionModal = ({
         doctorName: doctorName,
         PrescriptionDate: prescriptionDate,
         description: prescriptionNote,
-        link: presLink
-      }
-      )
+        link: presLink,
+      })
       .then((response) => {
         console.log("Success:", response.data);
         Alert.alert("Success", "Prescription Added Successfully");
@@ -36,10 +39,10 @@ const PrescriptionModal = ({
         navigation.navigate("DisplayMedicalRecords");
       })
       .catch((error) => {
-        console.error("Error saving incident:", error);
+        Alert.alert("Error saving incident", error.response.data.error);
+        console.log("Error saving incident:", error);
       });
   };
-
 
   return (
     <View style={styles.modalContainer}>
@@ -96,7 +99,11 @@ const PrescriptionModal = ({
           <Button title="Close" onPress={onClose} color="#00567D" />
         </View>
         <View style={styles.buttonWrapper}>
-          <Button title="OK" onPress={savePrescriptionIncident} color="#00567D" />
+          <Button
+            title="OK"
+            onPress={savePrescriptionIncident}
+            color="#00567D"
+          />
         </View>
       </View>
     </View>

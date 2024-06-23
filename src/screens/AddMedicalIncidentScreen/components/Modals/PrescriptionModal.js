@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet, ScrollView, TextInput, } from "react-native";
+import { View, Text, Button, StyleSheet, ScrollView, TextInput, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native"; // Import navigation hook
 import { baseUrl } from "../../../../constants/constants";
 import api from "../../../../Services/AuthService";
@@ -30,6 +30,7 @@ const PrescriptionModal = ({
       )
       .then((response) => {
         console.log("Success:", response.data);
+        Alert.alert("Success", "Prescription Added Successfully");
 
         // Navigate or perform other actions as needed
         navigation.navigate("DisplayMedicalRecords");

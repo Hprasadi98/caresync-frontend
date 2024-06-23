@@ -7,11 +7,13 @@ import {
   Pressable,
   Animated,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ToochableIconDown from "../../ViewPatientSummaryHome Screen/Components/TouchableIconDown";
 import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
+import { MaterialIcons } from "@expo/vector-icons";
 
 // Utility function to format date
 const formatDate = (dateString) => {
@@ -22,12 +24,9 @@ const formatDate = (dateString) => {
   return `${year}/${month}/${day}`;
 };
 
-
 const handleLinkPress = (url) => {
   Linking.openURL(url).catch((err) => console.error("An error occurred", err));
 };
-
-
 
 const truncateText = (text, maxLength) => {
   if (text && text.length > maxLength) {
@@ -50,12 +49,22 @@ function MedicalRecordGrid({
 
   const calculateContentHeight = () => {
     const baseHeight = 120; // Base height without incidents
-    const testIncidentHeight = (medicalincidents.testIncidents?.length || 0) * 120;
-    const symptomIncidentHeight = (medicalincidents.symptomIncidents?.length || 0) * 120;
-    const appointmentIncidentHeight = (medicalincidents.appointmentIncidents?.length || 0) * 120;
-    const prescriptionIncidentHeight = (medicalincidents.prescriptionIncidents?.length || 0) * 120;
+    const testIncidentHeight =
+      (medicalincidents.testIncidents?.length || 0) * 200;
+    const symptomIncidentHeight =
+      (medicalincidents.symptomIncidents?.length || 0) * 200;
+    const appointmentIncidentHeight =
+      (medicalincidents.appointmentIncidents?.length || 0) * 200;
+    const prescriptionIncidentHeight =
+      (medicalincidents.prescriptionIncidents?.length || 0) * 200;
 
-    return baseHeight + testIncidentHeight + symptomIncidentHeight + appointmentIncidentHeight + prescriptionIncidentHeight;
+    return (
+      baseHeight +
+      testIncidentHeight +
+      symptomIncidentHeight +
+      appointmentIncidentHeight +
+      prescriptionIncidentHeight
+    );
   };
 
   const fetchMedicalIncidents = async () => {
@@ -63,7 +72,6 @@ function MedicalRecordGrid({
       const response = await api.get(`${baseUrl}/medicalRecord/getRecord`, {
         params: {
           recordID: recordID,
-
         },
       });
       setMedicalincidents(response.data.currentRecord.incidents); // Update state with fetched records
@@ -101,10 +109,9 @@ function MedicalRecordGrid({
     setExpanded(!expanded);
   };
 
-
   const navigation = useNavigation();
 
-  console.log(medicalincidents.symptomIncidents);
+  // console.log(medicalincidents.symptomIncidents);
 
   const handleAddNew = () => {
     navigation.navigate("MedicalIncidentHomeScreen", {
@@ -113,6 +120,41 @@ function MedicalRecordGrid({
 
       recordID,
     });
+  };
+
+  const deleteHandler = (incidentID, recordID, incidentType) => {
+    Alert.alert(
+      "Confirm Deletion",
+      "Are you sure you want to delete this incident?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: async () => {
+            try {
+              const response = await api.delete(
+                `${baseUrl}/medicalIncident/${incidentType}/delete/${recordID}/${incidentID}`
+              );
+              if (response.status === 200) {
+                // Remove the incident from the state
+                setMedicalincidents((prevIncidents) => {
+                  const updatedIncidents = { ...prevIncidents };
+                  updatedIncidents[incidentType] = updatedIncidents[
+                    incidentType
+                  ].filter((incident) => incident._id !== incidentID);
+                  return updatedIncidents;
+                });
+              }
+            } catch (error) {
+              console.error("Error deleting incident:", error);
+            }
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -143,7 +185,10 @@ function MedicalRecordGrid({
         medicalincidents.testIncidents.length > 0 && (
           <View style={styles.incidentContainer}>
             {medicalincidents.testIncidents.map((incident, index) => (
-              <View key={index} style={[styles.subcom, { backgroundColor: '#FEFFE0' }]}>
+              <View
+                key={index}
+                style={[styles.subcom, { backgroundColor: "#FEFFE0" }]}
+              >
                 <View
                   style={[styles.innertile, { backgroundColor: "#FFEBA5" }]}
                 >
@@ -151,55 +196,93 @@ function MedicalRecordGrid({
                 </View>
                 <Text style={styles.date}>{formatDate(incident.date)}</Text>
                 <Text style={styles.subtext}>{incident.testType}</Text>
-                <Text style={styles.provider}>Tested On: {formatDate(incident.testDate)} </Text>
-                <Text style={styles.provider}>Test Provider:{incident.provider} </Text>
+                <Text style={styles.provider}>
+                  Tested On: {formatDate(incident.testDate)}{" "}
+                </Text>
+                <Text style={styles.provider}>
+                  Test Provider:{incident.provider}{" "}
+                </Text>
                 <Text style={styles.provider}>Result: {incident.result} </Text>
-                {
-                  incident.resultLink && (
-                    <TouchableOpacity onPress={() => handleLinkPress(incident.resultLink)}>
-                      <Text style={[styles.provider, { color: 'blue' }]}>{incident.resultLink} </Text>
-
-                    </TouchableOpacity>
-                  )
-                }
+                {incident.resultLink && (
+                  <TouchableOpacity
+                    onPress={() => handleLinkPress(incident.resultLink)}
+                  >
+                    <Text style={[styles.provider, { color: "blue" }]}>
+                      {incident.resultLink}{" "}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+                <TouchableOpacity
+                  onPress={() =>
+                    deleteHandler(incident._id, recordID, "testIncidents")
+                  }
+                  style={styles.deletebutton}
+                >
+                  <MaterialIcons name="delete" size={24} color="black" />
+                </TouchableOpacity>
               </View>
             ))}
           </View>
-        )
-      }
+        )}
       {/* Render Symptom Incidents */}
-      {
-        expanded &&
+      {expanded &&
         medicalincidents.symptomIncidents &&
         medicalincidents.symptomIncidents.length > 0 && (
           <View style={styles.incidentContainer}>
             {medicalincidents.symptomIncidents.map((incident, index) => (
-              <View key={index} style={[styles.subcom, { backgroundColor: '#FFEBEB' }]}>
-                <View style={[styles.innertile, { backgroundColor: "#FF9999" }]}
+              <View
+                key={index}
+                style={[styles.subcom, { backgroundColor: "#FFEBEB" }]}
+              >
+                <View
+                  style={[styles.innertile, { backgroundColor: "#FF9999" }]}
                 >
                   <Text style={styles.innertext}>SYMPTOM</Text>
                 </View>
-                <Text style={styles.date}>{formatDate(incident.symptomDate)}</Text>
+                <Text style={styles.date}>
+                  {formatDate(incident.symptomDate)}
+                </Text>
                 <Text style={styles.subtext}>{incident.symptomType}</Text>
-                <Text style={[styles.provider, { width: '60%', color: 'brown' }]}>Note:{incident.symptomDescription}</Text>
-                <Text style={styles.provider}>Frequency: {incident.symptomFrequency}</Text>
-                <Text style={styles.provider}>Severity: {incident.severity}</Text>
-                <Text style={styles.provider}>Duration: {incident.symptomDuration}</Text>
-                <Text style={styles.provider}>appetite: {incident.appetite}</Text>
+                <Text
+                  style={[styles.provider, { width: "60%", color: "brown" }]}
+                >
+                  Note:{incident.symptomDescription}
+                </Text>
+                <Text style={styles.provider}>
+                  Frequency: {incident.symptomFrequency}
+                </Text>
+                <Text style={styles.provider}>
+                  Severity: {incident.severity}
+                </Text>
+                <Text style={styles.provider}>
+                  Duration: {incident.symptomDuration}
+                </Text>
+                <Text style={styles.provider}>
+                  appetite: {incident.appetite}
+                </Text>
                 <Text style={styles.provider}>weight: {incident.weight}</Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    deleteHandler(incident._id, recordID, "symptomIncidents")
+                  }
+                  style={styles.deletebutton}
+                >
+                  <MaterialIcons name="delete" size={24} color="black" />
+                </TouchableOpacity>
               </View>
             ))}
           </View>
-        )
-      }
+        )}
       {/* Render Appointment Incidents */}
-      {
-        expanded &&
+      {expanded &&
         medicalincidents.appointmentIncidents &&
         medicalincidents.appointmentIncidents.length > 0 && (
           <View style={styles.incidentContainer}>
             {medicalincidents.appointmentIncidents.map((incident, index) => (
-              <View key={index} style={[styles.subcom, { backgroundColor: '#E0FFE0' }]}>
+              <View
+                key={index}
+                style={[styles.subcom, { backgroundColor: "#E0FFE0" }]}
+              >
                 <View
                   style={[styles.innertile, { backgroundColor: "#99FF99" }]}
                 >
@@ -207,51 +290,94 @@ function MedicalRecordGrid({
                 </View>
                 <Text style={styles.date}>{formatDate(incident.date)}</Text>
                 <Text style={styles.subtext}>Dr.{incident.doctorName}</Text>
-                <Text style={styles.provider}>Scheduled On: {formatDate(incident.appointmentDateTime)}</Text>
-                <Text style={styles.provider}>Type: {incident.appointmentType}</Text>
-                <Text style={[styles.provider, { width: '60%', color: 'brown' }]}>Note:{incident.description}</Text>
+                <Text style={styles.provider}>
+                  Scheduled On: {formatDate(incident.appointmentDateTime)}
+                </Text>
+                <Text style={styles.provider}>
+                  Type: {incident.appointmentType}
+                </Text>
+                <Text
+                  style={[styles.provider, { width: "60%", color: "brown" }]}
+                >
+                  Note:{incident.description}
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    deleteHandler(
+                      incident._id,
+                      recordID,
+                      "appointmentIncidents"
+                    )
+                  }
+                  style={styles.deletebutton}
+                >
+                  <MaterialIcons name="delete" size={24} color="black" />
+                </TouchableOpacity>
               </View>
             ))}
           </View>
-        )
-      }
+        )}
       {/* Render Prescription Incidents */}
-      {
-        expanded &&
+      {expanded &&
         medicalincidents.prescriptionIncidents &&
         medicalincidents.prescriptionIncidents.length > 0 && (
           <View style={styles.incidentContainer}>
             {medicalincidents.prescriptionIncidents.map((incident, index) => (
-              <View key={index} style={[styles.subcom, { backgroundColor: '#ebded4' }]}>
+              <View
+                key={index}
+                style={[styles.subcom, { backgroundColor: "#ebded4" }]}
+              >
                 <View
                   style={[styles.innertile, { backgroundColor: "#c4a092" }]}
                 >
-
                   <Text style={styles.innertext}>PRESCRIPTION</Text>
                 </View>
                 <Text style={styles.date}>{formatDate(incident.date)}</Text>
                 <Text style={styles.subtext}>Dr. {incident.doctorName}</Text>
-                <Text style={styles.provider}>Prescripted Date: {formatDate(incident.PrescriptionDate)}</Text>
-                <Text style={[styles.provider, { color: 'brown', width: '60%' }]}>Note: {incident.description}</Text>
+                <Text style={styles.provider}>
+                  Prescripted Date: {formatDate(incident.PrescriptionDate)}
+                </Text>
+                <Text
+                  style={[styles.provider, { color: "brown", width: "60%" }]}
+                >
+                  Note: {incident.description}
+                </Text>
                 {incident.link && (
-                  <TouchableOpacity onPress={() => handleLinkPress(incident.link)}>
-                    <Text style={[styles.provider, { marginLeft: '38%', color: 'blue' }]}>{incident.link} </Text>
-
+                  <TouchableOpacity
+                    onPress={() => handleLinkPress(incident.link)}
+                  >
+                    <Text
+                      style={[
+                        styles.provider,
+                        { marginLeft: "38%", color: "blue" },
+                      ]}
+                    >
+                      {incident.link}{" "}
+                    </Text>
                   </TouchableOpacity>
                 )}
+                <TouchableOpacity
+                  onPress={() =>
+                    deleteHandler(
+                      incident._id,
+                      recordID,
+                      "prescriptionIncidents"
+                    )
+                  }
+                  style={styles.deletebutton}
+                >
+                  <MaterialIcons name="delete" size={24} color="black" />
+                </TouchableOpacity>
               </View>
             ))}
           </View>
-        )
-      }
-      {
-        expanded && (
-          <Pressable style={styles.btn} onPress={handleAddNew}>
-            <Text style={styles.btntext}>+ New Incident</Text>
-          </Pressable>
-        )
-      }
-    </Animated.View >
+        )}
+      {expanded && (
+        <Pressable style={styles.btn} onPress={handleAddNew}>
+          <Text style={styles.btntext}>+ New Incident</Text>
+        </Pressable>
+      )}
+    </Animated.View>
   );
 }
 
@@ -354,7 +480,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     textShadowRadius: 8,
     width: "100%",
-    marginBottom: '2%'
+    marginBottom: "2%",
   },
   date: {
     marginLeft: "5%",
@@ -377,6 +503,10 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     // marginTop: "-6%",
     width: "70%",
-
+  },
+  deletebutton: {
+    marginLeft: "88%",
+    marginTop: "3%",
+    marginBottom: "3%",
   },
 });

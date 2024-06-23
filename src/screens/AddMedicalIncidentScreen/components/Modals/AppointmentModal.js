@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet, TextInput } from "react-native";
+import { View, Text, Button, StyleSheet, TextInput, Alert } from "react-native";
 import { baseUrl } from "../../../../constants/constants";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../../../Services/AuthService";
@@ -33,6 +33,7 @@ const AppointmentModal = ({
       })
       .then((response) => {
         console.log("Success:", response.data);
+        Alert.alert("Success", "Appointment Added Successfully");
 
         // Navigate or perform other actions as needed
         navigation.navigate("DisplayMedicalRecords");

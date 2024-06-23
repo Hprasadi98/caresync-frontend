@@ -25,10 +25,7 @@ const DoctorLogin = ({ navigation }) => {
     console.log("Data:", data);
     if (data.status === "success") {
       navigation.navigate("DoctorDashboard");
-    } else if (
-      data.status === "invalid email" ||
-      data.status === "invalid password"
-    ) {
+    } else if (data.status === "invalid") {
       Alert.alert("Error", "Invalid email or password");
     } else if (data.status === "notVerified") {
       navigation.navigate("MedicalIdFalseScreen");

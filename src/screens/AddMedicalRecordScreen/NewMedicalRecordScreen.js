@@ -18,7 +18,7 @@ const NewMedicalRecordScreen = ({ route, navigation }) => {
   const [userID, setUserID] = useState(user._id);
 
   useEffect(() => {
-    route.params?.PID ? setUserID(route.params.PID) : setUserID(user._id);
+    user.roles == "patient" ? setUserID(user._id) : setUserID(route.params.PID);
   }, []);
 
   function handleAddNew() {
@@ -65,7 +65,7 @@ const NewMedicalRecordScreen = ({ route, navigation }) => {
             <Text style={styles.text1}>Record Name</Text>
             <TextInput
               style={styles.input}
-              placeholder="Enter Record Name Here"
+              placeholder="Enter Record Name"
               onChangeText={(text) => setRecordName(text)}
             />
           </View>
@@ -73,7 +73,7 @@ const NewMedicalRecordScreen = ({ route, navigation }) => {
             <Text style={styles.text1}>Description</Text>
             <TextInput
               style={styles.input}
-              placeholder="Enter Description Here"
+              placeholder="Enter Description"
               onChangeText={(text) => setRecordDescription(text)}
             />
           </View>
@@ -81,7 +81,7 @@ const NewMedicalRecordScreen = ({ route, navigation }) => {
             <Text style={styles.text1}>Date</Text>
             <TextInput
               style={styles.input}
-              placeholder="Enter Description Here"
+              placeholder="Enter Record Date"
               onChangeText={(text) => setDate(text)}
             />
           </View>

@@ -13,10 +13,10 @@ import PatientDashboard from "./src/screens/DashboardScreens/PatientDashboard";
 import TestSelection from "./src/screens/MedicalTestHomeScreen/TestSelectionScreen/TestSelectionHomeScreen";
 import StepCounterHome from "./src/screens/MedicalTestHomeScreen/TestSelectionScreen/StepCounterScreen/StepCounterHomeScreen";
 import BreathingHome from "./src/screens/MedicalTestHomeScreen/TestSelectionScreen/BreathingTestScreen/BreathingHomeScreen";
-import HomeScreen from "./src/screens/HomeScreen/HomeScreen";
+// import HomeScreen from "./src/screens/HomeScreen/HomeScreen";
 import DoctorLogin from "./src/screens/AuthenticationScreens/DoctorAuthentication/DoctorLoginScreen";
 import MedicalIncidentHomeScreen from "./src/screens/AddMedicalIncidentScreen/MedicalIncidentHomeScreen";
-import MedicalIncidentDetailScreen from "./src/screens/AddMedicalIncidentScreen/MedicalIncidentDetailScreen";
+// import MedicalIncidentDetailScreen from "./src/screens/AddMedicalIncidentScreen/MedicalIncidentDetailScreen";
 import PatientsScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/PatientsScreen";
 import PatientProfileScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/PatientprofileScreen";
 import PatientHistoryScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/PatientsHistoryScreen";
@@ -119,7 +119,7 @@ export default function Routing() {
           component={SelectDocForAccessScreen}
           options={{ headerShown: false }}
         />
-        
+
         <Stack.Screen
           name="ViewDoctorsWithAccess"
           component={ViewDoctorsWithAccess}

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Modal,
   Alert,
+  Linking,
 } from "react-native";
 import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
@@ -33,6 +34,18 @@ const TestLinkResults = ({ PID }) => {
   useEffect(() => {
     getTestResults();
   }, []);
+  const handleOpenURL = async (url) => {
+    try {
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert("Error", `Don't know how to open this URL: ${url}`);
+      }
+    } catch (error) {
+      Alert.alert("Error", `Failed to open URL: ${url}`);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -75,7 +88,10 @@ const TestLinkResults = ({ PID }) => {
                   textAlign: "center",
                 }}
               >
-                {data.link}
+                {/* {data.link} */}
+                <TouchableOpacity onPress={() => handleOpenURL(data.link)}>
+                  <Text style={styles.linkText}>{data.link}</Text>
+                </TouchableOpacity>
               </DataTable.Cell>
             </DataTable.Row>
           ))}
@@ -106,7 +122,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   tablecontainer: {
-    
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#d4ffde",
@@ -198,5 +213,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 310,
     left: 150,
+  },
+  linkText: {
+    color: "blue",
+    textDecorationLine: "underline",
   },
 });

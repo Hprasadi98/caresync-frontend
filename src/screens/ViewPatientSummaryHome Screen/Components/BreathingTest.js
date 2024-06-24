@@ -76,7 +76,7 @@ function BreathingTest({ PID }) {
           style={styles.button}
           onPress={() => testResultGraphModal(testResult)}
         >
-          <Text>View</Text>
+          <Text style={styles.buttonText}>View</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.tablecontainer}>
@@ -144,13 +144,15 @@ function BreathingTest({ PID }) {
               width={350}
               height={270}
               chartConfig={{
-                backgroundColor: "#e26a00",
-                backgroundGradientFrom: "#fb8c00",
-                backgroundGradientTo: "#ffa726",
+                backgroundColor: "#bf766f",
+                backgroundGradientFrom: "#ffa726",
+                backgroundGradientTo: "#eda6e6",
 
                 yAxisLabelPosition: "topLeft",
                 decimalPlaces: 0,
-                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+
+                labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                 style: {
                   borderRadius: 16,
                 },
@@ -159,6 +161,14 @@ function BreathingTest({ PID }) {
                 },
                 propsForHorizontalLabels: {
                   fontWeight: "bold", // Set the font weight of horizontal labels
+                },
+                propsForBackgroundLines: {
+                  stroke: "",
+                },
+                propsForDots: {
+                  r: "6",
+                  strokeWidth: "2",
+                  stroke: "",
                 },
               }}
               style={{
@@ -239,7 +249,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   button: {
-    backgroundColor: "#FBDABB",
+    backgroundColor: "#DEFFFB",
     height: 30,
     width: 70,
     borderRadius: 10,
@@ -248,6 +258,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 20,
     top: 10,
+
+    borderWidth: 2,
+    borderColor: "#00567D",
+  },
+  buttonText: {
+    fontSize: 14,
+
+    fontWeight: "bold",
   },
   modalContainer: {
     flex: 1,
@@ -281,13 +299,13 @@ const styles = StyleSheet.create({
   overlayText: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "white",
+    color: "black",
     transform: [{ rotate: "-90deg" }],
   },
   overlayTextDate: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "white",
+    color: "black",
   },
   overlayDate: {
     position: "absolute",

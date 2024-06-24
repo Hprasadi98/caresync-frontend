@@ -60,17 +60,24 @@ const DetailRow = ({
     setBloodGroup(selectedGroup);
   };
 
+  // const handleDateChange = (date) => {
+  //   // Ensure the date is not null or undefined
+  //   if (date) {
+  //     // const formattedDate = formatDate(date);
+  //     setSelectedDate(date);
+  //     console.log("Selected Date: ", date);
+  //   }
+  // };
   const handleDateChange = (date) => {
-    // Ensure the date is not null or undefined
-    if (date) {
-      const formattedDate = formatDate(date);
-      setSelectedDate(formattedDate);
-    }
+    // Convert date format from YYYY/MM/DD to YYYY-MM-DD
+    const formattedDate = date.replace(/\//g, "-");
+    setSelectedDate(formattedDate);
   };
 
   const formatDate = (date) => {
     if (!date) return "";
     // Assuming date is already in YYYY-MM-DD format, directly return it
+
     return date;
   };
   const handleUpdateProfile = async () => {
@@ -160,6 +167,7 @@ const DetailRow = ({
         }
       case "gender":
         if (selectedGender.trim() === "") {
+          Alert.alert("Error", "Please choose a gender");
         } else {
           updatedData = { gender: selectedGender };
           break;

@@ -23,6 +23,7 @@ const DoctorDashboard = ({ navigation }) => {
     month: "",
     year: "",
   });
+
   useEffect(() => {
     const getCurrentGreeting = () => {
       const currentHour = new Date().getHours();
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     color: "white",
     marginLeft: 0,
-    borderColor: "#43E5E8",
+    borderColor: "#00567D",
     borderWidth: 5,
     backgroundColor: "#F7FEFF",
     justifyContent: "center",
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
   day: {
     fontSize: 40,
     fontWeight: "bold",
-    color: "#7a1270",
+    color: "#E35977",
   },
   month: {
     fontSize: 18,
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F7FEFF",
     borderRadius: 15,
     marginBottom: 60,
-    borderColor: "#B368DE",
+    borderColor: "#00567D",
     borderWidth: 5,
     alignItems: "center",
     justifyContent: "center",

@@ -46,6 +46,7 @@ import OtpVerifyScreen from "./src/screens/AuthenticationScreens/PatientAuthenti
 import ContactPatientScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/ContactPatientScreen";
 import DocAccessHomeScreen from "./src/screens/GiveDocAccess/DocAccessHomeScreen";
 import ViewDoctorsWithAccess from "./src/screens/GiveDocAccess/ViewDoctorsWithAccess";
+import IncidentListScreen from "./src/screens/AddMedicalRecordScreen/IncidentListScreen"
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
@@ -105,6 +106,12 @@ export default function Routing() {
         <Stack.Screen
           name="DisplayMedicalRecords"
           component={DisplayMedicalRecords}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="IncidentListScreen"
+          component={IncidentListScreen}
           options={{ headerShown: false }}
         />
 

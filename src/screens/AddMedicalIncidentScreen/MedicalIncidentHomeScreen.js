@@ -4,8 +4,9 @@ import IncidentTypeDropdown from "./components/IncidentTypeDropdown";
 import React, { useState } from "react";
 
 const MedicalIncidentHomeScreen = ({ route }) => {
-  const { recordName, recordDescription, recordID } = route.params;
+  const { recordID, recordName, recordDescription } = route.params;
 
+  console.log(recordID)
   return (
     <SafeAreaView>
       <Header name="Medical Incident" />
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     height: "76%",
-    // backgroundColor: '#FFFF',
+    backgroundColor: '#FFFF',
   },
 
   background: {

@@ -146,12 +146,12 @@ const IncidentTypeDropdown = ({ recordName, description, recordID }) => {
         selectedIncidentType={selectedIncidentType}
         setSelectedIncidentType={setSelectedIncidentType}
       />
-      <Text style={styles.text2}>Incident Date</Text>
+      {/* <Text style={styles.text2}>Incident Date</Text>
       <Calendar
         selectedStartDate={selectedStartDate}
         setSelectedStartDate={setSelectedStartDate}
         onDateChange={handleDateChange}
-      />
+      /> */}
 
       <TouchableOpacity style={styles.btn} onPress={handleCombinedPress}>
         <Text style={styles.btntext}>Next</Text>
@@ -232,6 +232,7 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
     padding: 2,
     top: "220%",
+
     alignItems: "center",
     elevation: 4,
   },

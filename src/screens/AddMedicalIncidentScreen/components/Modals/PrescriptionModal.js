@@ -11,14 +11,16 @@ import {
 import { useNavigation } from "@react-navigation/native"; // Import navigation hook
 import { baseUrl } from "../../../../constants/constants";
 import api from "../../../../Services/AuthService";
+import Calendar from "../Calendar";
 
 const PrescriptionModal = ({ recordID, onClose }) => {
   const navigation = useNavigation(); // Get navigation object
   const [presLink, setPresLink] = useState("");
   const [doctorID, setDoctorID] = useState("");
   const [doctorName, setDoctorName] = useState("");
-  const [prescriptionDate, setPrescriptionDate] = useState("");
+  // const [prescriptionDate, setPrescriptionDate] = useState("");
   const [prescriptionNote, setPrescriptionNote] = useState("");
+  const [selectedStartDate, setSelectedStartDate] = useState("");
 
   const savePrescriptionIncident = () => {
     api
@@ -27,7 +29,7 @@ const PrescriptionModal = ({ recordID, onClose }) => {
         recordID: recordID,
         doctorID: doctorID,
         doctorName: doctorName,
-        PrescriptionDate: prescriptionDate,
+        PrescriptionDate: selectedStartDate,
         description: prescriptionNote,
         link: presLink,
       })
@@ -67,15 +69,6 @@ const PrescriptionModal = ({ recordID, onClose }) => {
         </View>
 
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Prescription Date:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter prescripton date"
-            onChangeText={(text) => setPrescriptionDate(text)}
-          />
-        </View>
-
-        <View style={styles.inputcontainer}>
           <Text style={styles.label}>Description:</Text>
           <TextInput
             style={styles.input}
@@ -83,8 +76,8 @@ const PrescriptionModal = ({ recordID, onClose }) => {
             onChangeText={(text) => setPrescriptionNote(text)}
           />
         </View>
-        <Text style={styles.label}>Upload the link</Text>
         <View style={styles.container}>
+          <Text style={styles.label}>Upload the link</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter your prescription link"
@@ -92,6 +85,17 @@ const PrescriptionModal = ({ recordID, onClose }) => {
             onChangeText={setPresLink}
           />
         </View>
+
+        <View style={styles.inputcontainer}>
+          <Text style={[styles.label, { marginTop: "-7%" }]}>Prescription Date: </Text>
+          <Calendar
+            selectedStartDate={selectedStartDate}
+            setSelectedStartDate={setSelectedStartDate}
+          />
+        </View>
+
+
+
       </View>
 
       <View style={styles.buttonContainer}>

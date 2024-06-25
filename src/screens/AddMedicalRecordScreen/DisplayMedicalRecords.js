@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
-  View, StyleSheet, Text, Pressable, SafeAreaView, FlatList, RefreshControl,
+  View,
+  StyleSheet,
+  Text,
+  Pressable,
+  SafeAreaView,
+  FlatList,
+  RefreshControl,
 } from "react-native";
 import Header from "../../components/Header";
 import { baseUrl } from "../../constants/constants";
@@ -23,7 +29,11 @@ function DisplayMedicalRecords({ route, navigation }) {
           },
         }
       );
-      setMedicalRecords(response.data.patientRecords.medicalRecords); // Update state with fetched records
+      // Sort records by recordDate in descending order
+      const sortedRecords = response.data.patientRecords.medicalRecords.sort(
+        (a, b) => new Date(b.recordDate) - new Date(a.recordDate)
+      );
+      setMedicalRecords(sortedRecords); // Update state with sorted records
     } catch (error) {
       console.log("Error fetching medical records:", error.response?.data);
       console.error("Error fetching medical records:", error);
@@ -61,17 +71,15 @@ function DisplayMedicalRecords({ route, navigation }) {
     navigation.navigate("IncidentListScreen", { record });
   };
 
-  function renderCategoryItem({ item }) {
-    return (
-      <Pressable onPress={() => handleRecordPress(item)}>
-        <View style={styles.recordItem}>
-          <Text style={styles.recordName}>{formatDate(item.recordDate)} | {item.recordName}</Text>
-          <Text style={styles.recordDescription}>{item.description}</Text>
-
-        </View>
-      </Pressable>
-    );
-  }
+  const renderCategoryItem = ({ item }) => (
+    <Pressable onPress={() => handleRecordPress(item)}>
+      <View style={styles.recordItem}>
+        <Text style={styles.recordName}>{item.recordName}</Text>
+        <Text style={styles.recordDate}>{formatDate(item.recordDate)}</Text>
+        <Text style={styles.recordDescription}>{item.description}</Text>
+      </View>
+    </Pressable>
+  );
 
   const handleAddNew = () => {
     navigation.navigate("NewMedicalRecordScreen", {
@@ -141,7 +149,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   recordItem: {
-    backgroundColor: "white",
+    backgroundColor: "#f9f9f7",
     padding: 15,
     marginVertical: 8,
     borderRadius: 10,
@@ -151,12 +159,22 @@ const styles = StyleSheet.create({
     textShadowRadius: 8,
   },
   recordName: {
-    fontWeight: "bold",
+    fontWeight: "900",
     fontSize: 18,
+    color: "#00567D",
+
+
   },
   recordDescription: {
     marginTop: 5,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "600",
+  },
+  recordDate: {
+    fontWeight: "800",
+    textAlign: "right",
+    marginTop: "-6%",
+
+
   },
 });

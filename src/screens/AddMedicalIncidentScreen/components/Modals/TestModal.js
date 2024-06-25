@@ -60,13 +60,16 @@ const TestModal = ({
             selectedOption1={selectedOption1}
             setSelectedOption1={setSelectedOption1}
             options={[
+              "Rapid Antigen Test (RAT)",
+              "Polymerase Chain Reaction(PCR) Test",
               "Spirometry",
               "Arterial Blood Gas (ABG) Test",
               "Bronchoscopy",
               "Chest X-ray",
-              "CT Scan",
+              "Computed Tomography (CT) Scan",
               "Peak Expiratory Flow (PEF) Test",
-              "Other",
+              "Ventilation-Perfusion (V/Q) Scan"
+
             ]}
             placeholderText="Select from the list"
           />
@@ -76,7 +79,13 @@ const TestModal = ({
           <TestProviderDropDown
             selectedOption2={selectedOption2}
             setSelectedOption2={setSelectedOption2}
-            options={["HOSPITAL", "LAB", "CLINIC", "Other"]}
+            options={[
+              "HOSPITAL",
+              "LAB",
+              "CLINIC",
+              "Community Health Center",
+              "Pharmacy Clinic",
+              "Telehealth Service"]}
             placeholderText="Select from the list"
           />
         </View>
@@ -99,7 +108,7 @@ const TestModal = ({
           />
         </View>
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Symptom Date: </Text>
+          <Text style={styles.label}>Test Date: </Text>
           <Calendar
             selectedStartDate={selectedStartDate}
             setSelectedStartDate={setSelectedStartDate}
@@ -125,7 +134,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: "50%",
     position: "absolute",
-    height: "75%",
+    height: "98%",
     left: 0,
     right: 0,
     bottom: 10,
@@ -158,7 +167,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "92%",
     left: 30,
-    top: 580,
+    top: 780,
   },
   buttonWrapper: {
     width: "40%", // Adjust as needed
@@ -171,6 +180,7 @@ const styles = StyleSheet.create({
   },
   dropdowncontainer: {
     marginVertical: "-5%",
+    marginLeft: "-10%",
   },
 
   input: {
@@ -181,7 +191,7 @@ const styles = StyleSheet.create({
     marginVertical: "-5%",
     borderRadius: 10,
     fontSize: 16,
-    marginLeft: 10,
+    marginLeft: "10",
     marginTop: 10,
     width: "90%",
   },

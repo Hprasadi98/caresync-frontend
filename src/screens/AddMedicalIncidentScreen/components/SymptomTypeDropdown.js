@@ -55,11 +55,12 @@ const styles = StyleSheet.create({
     marginTop: "1%",
   },
   dropdownTrigger: {
-    padding: 10,
+    padding: 8,
     borderColor: "#8e8e8e",
     borderWidth: 1,
     borderRadius: 10,
-    marginLeft: "2%",
+    marginLeft: "3%",
+    width: "92%"
   },
   selectedItem: {
     fontSize: 16,
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
     borderColor: "#8e8e8e",
     borderWidth: 1,
-    width: "100%",
+    width: "98%",
     zIndex: 2,
     borderRadius: 10,
   },

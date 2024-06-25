@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: "54%",
     position: "absolute",
-    height: "75%",
+    height: "98%",
     left: 0,
     right: 0,
     bottom: 10,
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     width: "92%",
     left: 30,
     // right: 15,
-    top: 580,
+    top: 780,
   },
   buttonWrapper: {
     width: "40%", // Adjust as needed

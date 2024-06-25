@@ -6,6 +6,7 @@ import {
   Text,
   ScrollView,
   Alert,
+  Modal,
 } from "react-native";
 import DisplayTime from "../../components/StopwatchDisplay";
 import StepCountDataStore from "./StepCountDataStore";
@@ -16,6 +17,7 @@ import { useAuthContext } from "../../../../hooks/useAuthContext";
 import api from "../../../../Services/AuthService";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { baseUrl } from "../../../../constants/constants";
+import { LineChart } from "react-native-chart-kit";
 
 const StepCountButton = () => {
   const { user } = useAuthContext();
@@ -40,6 +42,8 @@ const StepCountButton = () => {
   const [pedoAvailability, setpedoAvailability] = useState("");
   const [stepcount, setstepcount] = useState(0);
   const [pID, setPID] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedTestData, setSelectedTestData] = useState([]);
 
   //get distance using step count
   var dist = stepcount / 1300;
@@ -187,6 +191,40 @@ const StepCountButton = () => {
     ]);
   };
 
+  const testResultGraphModal = (data) => {
+    if (data.length === 0) {
+      Alert.alert(
+        "No test results to display",
+        "Patient hasn't performed any tests to view the graph"
+      );
+      return;
+    }
+    // Sort the data based on date in ascending order
+    const sortedData = data
+      .slice()
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+    setSelectedTestData(sortedData);
+    setModalVisible(true);
+  };
+
+  // Function to extract month and day from the date
+  const extractMonthAndDay = (date) => {
+    console.log("Date: ", date);
+    const day = date.substring(0, 2);
+    const month = date.substring(3, 5);
+
+    // Combine day and month components
+    const formattedDate = `${month}/${day}`;
+    console.log("Formatted Date: ", formattedDate);
+
+    return formattedDate;
+  };
+  // Function to map steps to scale
+  const mapStepsToScale = (steps) => {
+    const scaledValue = parseInt(steps); // Convert steps to integer
+    return Math.floor(scaledValue / 500) * 500; // Map it to a scale of 0 to 6000 increasing by 500
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -235,6 +273,84 @@ const StepCountButton = () => {
         >
           <Text style={{ color: "#990000" }}>Reset Results</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonGraph}
+          onPress={() => testResultGraphModal(testResult)}
+        >
+          <Text style={styles.buttonTextGraph}>View</Text>
+        </TouchableOpacity>
+        <Modal
+          visible={modalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Step Counting Test Graph</Text>
+              <LineChart
+                data={{
+                  labels: selectedTestData
+                    .map((data) => extractMonthAndDay(data.date))
+                    .reverse(),
+                  datasets: [
+                    {
+                      data: selectedTestData
+                        .map((data) => mapStepsToScale(data.steps))
+                        .reverse(),
+                    },
+                  ],
+                }}
+                width={350}
+                height={270}
+                chartConfig={{
+                  backgroundColor: "#36bfb6",
+                  backgroundGradientFrom: "#ffa726",
+                  backgroundGradientTo: "#42ebe0",
+
+                  yAxisLabelPosition: "topLeft",
+                  decimalPlaces: 0,
+                  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  style: {
+                    borderRadius: 16,
+                  },
+                  propsForVerticalLabels: {
+                    fontWeight: "bold", // Set the font weight of vertical labels
+                  },
+                  propsForHorizontalLabels: {
+                    fontWeight: "bold", // Set the font weight of horizontal labels
+                  },
+                  propsForBackgroundLines: {
+                    stroke: "",
+                  },
+                  propsForDots: {
+                    r: "6",
+                    strokeWidth: "2",
+                    stroke: "black",
+                    fill: "black",
+                  },
+                }}
+                style={{
+                  marginVertical: 8,
+                  borderRadius: 16,
+                }}
+              />
+              <View style={styles.overlay}>
+                <Text style={styles.overlayText}>Steps</Text>
+              </View>
+              <View style={styles.overlayDate}>
+                <Text style={styles.overlayTextDate}>Month/Day</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   );

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     marginLeft: 28,
-    fontWeight: "500",
+    fontWeight: "900",
     fontSize: 16,
     color: "#1e1e1e",
     // fontFamily: 'poppins regular,',

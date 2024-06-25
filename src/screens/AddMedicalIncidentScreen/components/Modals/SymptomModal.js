@@ -8,10 +8,11 @@ import AppetiteRating from "../AppetiteRating";
 import SymptomFrequencyDropdown from "../SymptomFrequencyDropdown";
 import SymptomDurationDropdown from "../SymptomDurationDropdown";
 import api from "../../../../Services/AuthService";
+import Calendar from "../Calendar";
 
 
 const SymptomModal = ({
-  selectedStartDate,
+
   selectedOption,
   onClose,
   recordID,
@@ -25,10 +26,11 @@ const SymptomModal = ({
   const [selectedSymptomDuration, setSelectedSymptomDuration] = useState(null);
   const [appetiteRating, setAppetiteRating] = useState(0);
   const [weight, setWeight] = useState("");
+  const [selectedStartDate, setSelectedStartDate] = useState("");
 
   const navigation = useNavigation(); // Get navigation object
 
-  console.log(selectedStartDate);
+  console.log(recordID);
 
   const saveSymptomIncident = () => {
     api
@@ -131,6 +133,14 @@ const SymptomModal = ({
             onChangeText={(text) => setWeight(text)}
           />
         </View>
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Symptom Date: </Text>
+          <Calendar
+            selectedStartDate={selectedStartDate}
+            setSelectedStartDate={setSelectedStartDate}
+          />
+        </View>
+
       </View>
 
       <View style={styles.buttonContainer}>

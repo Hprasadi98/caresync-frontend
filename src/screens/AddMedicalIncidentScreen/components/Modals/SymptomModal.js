@@ -69,7 +69,18 @@ const SymptomModal = ({
         <Text style={styles.label}>Symptom Type:</Text>
         <View style={styles.dropdowncontainer}>
           <SymptomTypeDropdown
-            options={["Cough", "Chest Pain", "Fever", "Wheeze", "Other"]}
+            options={[
+              "Cough",
+              "Chest Pain",
+              "Fever",
+              "Wheezing",
+              "Chest tightness",
+              "Difficulty breathing (dyspnea)",
+              "Sore throat",
+              "Sneezing",
+              "Frequent respiratory infections"
+
+            ]}
             placeholderText="Select from the list"
             selectedSymptomType={selectedSymptomType}
             setSelectedSymptomType={setSelectedSymptomType}
@@ -88,10 +99,13 @@ const SymptomModal = ({
         <View style={styles.dropdowncontainer}>
           <SymptomFrequencyDropdown
             options={[
-              "Single time a day",
-              "Once in two days",
-              "Once in a week",
-              "Other",
+              "Rarely (less than once a month)",
+              "Occasionally (a few times a month)",
+              "Sometimes (a few times a week)",
+              "Often (daily)",
+              "Multiple times a day",
+              "Constantly",
+              "Not sure"
             ]}
             placeholderText="Select from the list"
             selectedSymptomFrequency={selectedSymptomFrequency}
@@ -109,11 +123,13 @@ const SymptomModal = ({
         <View style={styles.dropdowncontainer}>
           <SymptomDurationDropdown
             options={[
-              "Immediate",
-              "about 1,2 minutes",
-              "more that 2 minutes",
-              "about half of hour",
-              "other",
+              "Less than a day",
+              "1-2 days",
+              "3-5 days",
+              "Intermittent/ On and off",
+              "Chronic (ongoing for several months)",
+              "Not sure"
+
             ]}
             placeholderText="Select from the list"
             selectedSymptomDuration={selectedSymptomDuration}
@@ -161,7 +177,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: "55%",
     position: "absolute",
-    height: "96%",
+    height: "98%",
     left: 0,
     right: 0,
     bottom: 10,
@@ -184,7 +200,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     width: "100%",
-    top: 2,
+    top: 5,
     position: "absolute",
     paddingTop: "6%",
   },
@@ -194,7 +210,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "92%",
     left: 30,
-    top: 770,
+    top: 780,
   },
   buttonWrapper: {
     width: "40%", // Adjust as needed
@@ -203,11 +219,12 @@ const styles = StyleSheet.create({
     marginTop: 25,
     fontSize: 16,
     fontWeight: "700",
-    marginLeft: "8%",
+    marginLeft: "3%",
   },
   inputcontainer: {
     marginVertical: "-16%",
     marginTop: 2,
+    width: "105%"
   },
 
   input: {
@@ -217,13 +234,13 @@ const styles = StyleSheet.create({
     width: "88%",
     height: 38,
     marginBottom: 40,
-    marginLeft: 25,
+    marginLeft: "3%",
     marginTop: 10,
     borderRadius: 10,
     fontSize: 16,
   },
   dropdowncontainer: {
-    marginLeft: "4%",
+    marginLeft: "0%",
     marginVertical: "-6%",
     marginTop: "1%",
   },

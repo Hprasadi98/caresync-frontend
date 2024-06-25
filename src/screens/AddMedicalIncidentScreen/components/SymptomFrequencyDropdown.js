@@ -58,13 +58,14 @@ const SymptomFrequencyDropdown = ({
 
 const styles = StyleSheet.create({
   dropdownTrigger: {
-    marginLeft: 10,
+    marginLeft: "3%",
     marginTop: 10,
     borderColor: "#8e8e8e",
     borderWidth: 1,
     padding: 8,
-    width: "90%",
+    width: "92%",
     borderRadius: 10,
+
   },
   selectedItem: {
     fontSize: 16,

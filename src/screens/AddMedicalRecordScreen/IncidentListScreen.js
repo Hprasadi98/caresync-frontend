@@ -154,97 +154,101 @@ const IncidentListScreen = ({
             </View>
 
             <View style={styles.incidentsContainer}>
-              {sortedIncidents.map((incident, index) => (
-                <View
-                  key={index}
-                  style={[
-                    styles.subcom,
-                    {
-                      backgroundColor: incident.type === "testIncidents" ? "#FEFFE0" :
-                        incident.type === "symptomIncidents" ? "#FFEBEB" :
-                          incident.type === "appointmentIncidents" ? "#E0FFE0" :
-                            "#ebded4"
-                    },
-                  ]}
-                >
+              {sortedIncidents.length === 0 ? (
+                <Text style={styles.noIncidentsText}>No incidents added</Text>
+              ) : (
+                sortedIncidents.map((incident, index) => (
                   <View
+                    key={index}
                     style={[
-                      styles.innertile,
+                      styles.subcom,
                       {
-                        backgroundColor: incident.type === "testIncidents" ? "#FFEBA5" :
-                          incident.type === "symptomIncidents" ? "#FF9999" :
-                            incident.type === "appointmentIncidents" ? "#99FF99" :
-                              "#c4a092"
+                        backgroundColor: incident.type === "testIncidents" ? "#FEFFE0" :
+                          incident.type === "symptomIncidents" ? "#FFEBEB" :
+                            incident.type === "appointmentIncidents" ? "#E0FFE0" :
+                              "#ebded4"
                       },
                     ]}
                   >
-                    <Text style={styles.innertext}>
-                      {incident.type === "testIncidents" ? "TEST" :
-                        incident.type === "symptomIncidents" ? "SYMPTOM" :
-                          incident.type === "appointmentIncidents" ? "APPOINTMENT" :
-                            "PRESCRIPTION"}
-                    </Text>
-                  </View>
-
-                  {incident.type === "testIncidents" && (
-                    <>
-                      <Text style={styles.date}>{formatDate(incident.testDate)}</Text>
-                      <Text style={styles.subtext}>{incident.testType}</Text>
-
-                      <Text style={styles.provider}>Test Provider: {incident.provider} </Text>
-                      <Text style={styles.provider}>Result: {incident.result} </Text>
-                      {incident.resultLink && (
-                        <TouchableOpacity onPress={() => handleLinkPress(incident.resultLink)}>
-                          <Text style={[styles.provider, { color: "blue" }]}>
-                            {incident.resultLink}
-                          </Text>
-                        </TouchableOpacity>
-                      )}
-                    </>
-                  )}
-                  {incident.type === "symptomIncidents" && (
-                    <>
-                      <Text style={styles.date}>{formatDate(incident.symptomDate)}</Text>
-                      <Text style={styles.subtext}>{incident.symptomType}</Text>
-                      <Text style={[styles.provider, { color: "brown" }]}>
-                        Note: {incident.symptomDescription}
+                    <View
+                      style={[
+                        styles.innertile,
+                        {
+                          backgroundColor: incident.type === "testIncidents" ? "#FFEBA5" :
+                            incident.type === "symptomIncidents" ? "#FF9999" :
+                              incident.type === "appointmentIncidents" ? "#99FF99" :
+                                "#c4a092"
+                        },
+                      ]}
+                    >
+                      <Text style={styles.innertext}>
+                        {incident.type === "testIncidents" ? "TEST" :
+                          incident.type === "symptomIncidents" ? "SYMPTOM" :
+                            incident.type === "appointmentIncidents" ? "APPOINTMENT" :
+                              "PRESCRIPTION"}
                       </Text>
-                      <Text style={styles.provider}>Frequency: {incident.symptomFrequency}</Text>
-                      <Text style={styles.provider}>Severity: {incident.severity} /10</Text>
-                      <Text style={styles.provider}>Duration: {incident.symptomDuration}</Text>
-                      <Text style={styles.provider}>Appetite: {incident.appetite} /10</Text>
-                      <Text style={styles.provider}>Weight: {incident.weight}</Text>
-                    </>
-                  )}
-                  {incident.type === "appointmentIncidents" && (
-                    <>
-                      <Text style={styles.date}>{formatDate(incident.addedDate)}</Text>
-                      <Text style={styles.subtext}>Dr. {incident.doctorName}</Text>
-                      <Text style={styles.provider}>Scheduled On: {formatDate(incident.appointmentDateTime)}</Text>
-                      <Text style={styles.provider}>Type: {incident.appointmentType}</Text>
-                      <Text style={[styles.provider, { color: "brown" }]}>Note: {incident.description}</Text>
-                    </>
-                  )}
-                  {incident.type === "prescriptionIncidents" && (
-                    <>
-                      <Text style={styles.subtext}>Dr. {incident.doctorName}</Text>
-                      <Text style={styles.provider}>Prescripted Date: {formatDate(incident.PrescriptionDate)}</Text>
-                      <Text style={[styles.provider, { color: "brown" }]}>Note: {incident.description}</Text>
-                      {incident.link && (
-                        <TouchableOpacity onPress={() => handleLinkPress(incident.link)}>
-                          <Text style={[styles.provider, { color: "blue" }]}>{incident.link}</Text>
-                        </TouchableOpacity>
-                      )}
-                    </>
-                  )}
-                  <TouchableOpacity
-                    onPress={() => deleteHandler(incident._id, recordID, incident.type)}
-                    style={styles.deletebutton}
-                  >
-                    <MaterialIcons name="delete" size={24} color="black" />
-                  </TouchableOpacity>
-                </View>
-              ))}
+                    </View>
+
+                    {incident.type === "testIncidents" && (
+                      <>
+                        <Text style={styles.date}>{formatDate(incident.testDate)}</Text>
+                        <Text style={styles.subtext}>{incident.testType}</Text>
+
+                        <Text style={styles.provider}>Test Provider: {incident.provider} </Text>
+                        <Text style={styles.provider}>Result: {incident.result} </Text>
+                        {incident.resultLink && (
+                          <TouchableOpacity onPress={() => handleLinkPress(incident.resultLink)}>
+                            <Text style={[styles.provider, { color: "blue" }]}>
+                              {incident.resultLink}
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                      </>
+                    )}
+                    {incident.type === "symptomIncidents" && (
+                      <>
+                        <Text style={styles.date}>{formatDate(incident.symptomDate)}</Text>
+                        <Text style={styles.subtext}>{incident.symptomType}</Text>
+                        <Text style={[styles.provider, { color: "brown" }]}>
+                          Note: {incident.symptomDescription}
+                        </Text>
+                        <Text style={styles.provider}>Frequency: {incident.symptomFrequency}</Text>
+                        <Text style={styles.provider}>Severity: {incident.severity} /10</Text>
+                        <Text style={styles.provider}>Duration: {incident.symptomDuration}</Text>
+                        <Text style={styles.provider}>Appetite: {incident.appetite} /10</Text>
+                        <Text style={styles.provider}>Weight: {incident.weight}</Text>
+                      </>
+                    )}
+                    {incident.type === "appointmentIncidents" && (
+                      <>
+                        <Text style={styles.date}>{formatDate(incident.addedDate)}</Text>
+                        <Text style={styles.subtext}>Dr. {incident.doctorName}</Text>
+                        <Text style={styles.provider}>Scheduled On: {formatDate(incident.appointmentDateTime)}</Text>
+                        <Text style={styles.provider}>Type: {incident.appointmentType}</Text>
+                        <Text style={[styles.provider, { color: "brown" }]}>Note: {incident.description}</Text>
+                      </>
+                    )}
+                    {incident.type === "prescriptionIncidents" && (
+                      <>
+                        <Text style={styles.subtext}>Dr. {incident.doctorName}</Text>
+                        <Text style={styles.provider}>Prescripted Date: {formatDate(incident.PrescriptionDate)}</Text>
+                        <Text style={[styles.provider, { color: "brown" }]}>Note: {incident.description}</Text>
+                        {incident.link && (
+                          <TouchableOpacity onPress={() => handleLinkPress(incident.link)}>
+                            <Text style={[styles.provider, { color: "blue" }]}>{incident.link}</Text>
+                          </TouchableOpacity>
+                        )}
+                      </>
+                    )}
+                    <TouchableOpacity
+                      onPress={() => deleteHandler(incident._id, recordID, incident.type)}
+                      style={styles.deletebutton}
+                    >
+                      <MaterialIcons name="delete" size={24} color="black" />
+                    </TouchableOpacity>
+                  </View>
+                ))
+              )}
             </View>
           </View>
         </View>
@@ -273,14 +277,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     backgroundColor: "#FFFF",
-
   },
   background: {
     backgroundColor: "#DEFFFB",
     width: "100%",
     height: "100%",
     padding: 15,
-
   },
   label: {
     fontWeight: "bold",
@@ -345,5 +347,11 @@ const styles = StyleSheet.create({
     padding: 8,
     fontSize: 17,
     fontWeight: "bold",
+  },
+  noIncidentsText: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "gray",
+    marginVertical: 20,
   },
 });

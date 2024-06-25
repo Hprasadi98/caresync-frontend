@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: "50%",
     position: "absolute",
-    height: "75%",
+    height: "98%",
     left: 0,
     right: 0,
     bottom: 10,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     width: "100%",
-    top: 6,
+    top: 9,
     position: "absolute",
     paddingTop: "6%",
   },
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "92%",
     left: 30,
-    top: 580,
+    top: 780,
   },
   buttonWrapper: {
     width: "40%", // Adjust as needed
@@ -163,11 +163,12 @@ const styles = StyleSheet.create({
     marginTop: 25,
     fontSize: 16,
     fontWeight: "700",
-    marginLeft: "8%",
+    marginLeft: "3%",
   },
   inputcontainer: {
-    marginVertical: "-16%",
+    marginVertical: "-14%",
     marginTop: 2,
+    width: "95%",
   },
 
   input: {
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
 
     height: 38,
     marginBottom: 40,
-    marginLeft: 25,
+    marginLeft: "3%",
     marginTop: 10,
     borderRadius: 10,
     fontSize: 16,

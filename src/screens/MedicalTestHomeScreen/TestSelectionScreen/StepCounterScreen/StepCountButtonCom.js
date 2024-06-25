@@ -275,7 +275,7 @@ const StepCountButton = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonGraph}
-          onPress={() => testResultGraphModal(testResult)}
+          onPress={() => testResultGraphModal(result)}
         >
           <Text style={styles.buttonTextGraph}>View</Text>
         </TouchableOpacity>

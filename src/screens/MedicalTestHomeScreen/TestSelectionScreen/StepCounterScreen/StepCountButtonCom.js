@@ -416,5 +416,68 @@ const styles = StyleSheet.create({
     marginTop: 2,
     fontWeight: "bold",
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    width: "90%",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  closeButton: {
+    backgroundColor: "#FBDABB",
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  overlay: {
+    position: "absolute",
+    top: 160, // Adjust as needed
+    left: 10, // Adjust as needed
+  },
+  overlayText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "black",
+    transform: [{ rotate: "-90deg" }],
+  },
+  overlayTextDate: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "black",
+  },
+  overlayDate: {
+    position: "absolute",
+    top: 310, // Adjust as needed
+    left: 150, // Adjust as needed
+  },
+  buttonGraph: {
+    backgroundColor: "#FEFFE0",
+    height: 40,
+    width: 100,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: 20,
+    paddingRight: 20,
+
+    borderWidth: 0.5,
+    borderColor: "#00567D",
+  },
+  buttonTextGraph: {
+    fontSize: 18,
+
+    fontWeight: "bold",
+  },
 });
 export default StepCountButton;

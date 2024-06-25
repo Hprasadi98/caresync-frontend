@@ -38,12 +38,13 @@ const PatientDashboard = ({ navigation }) => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bellIcon}>
-            <Image
+          <View style={styles.bellIcon}>
+            {/* <Image
               source={require("../../../assets/Notification.png")}
               style={styles.bellImage}
-            />
-          </TouchableOpacity>
+            /> */}
+          </View>
+          
         </View>
 
         <View style={styles.dashboardContainer}>

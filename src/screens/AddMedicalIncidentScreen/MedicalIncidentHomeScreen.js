@@ -9,7 +9,7 @@ const MedicalIncidentHomeScreen = ({ route }) => {
   console.log(recordID)
   return (
     <SafeAreaView>
-      <Header name="Medical Incident" />
+      <Header name="New Medical Incident" />
       <View style={styles.background}>
         <View style={styles.container}>
           <IncidentTypeDropdown

@@ -10,6 +10,7 @@ const AppointmentModal = ({ recordID, onClose }) => {
   const [healthProName, setHealthProName] = useState("");
   const [appType, setAppType] = useState("");
   const [appointmentPurpose, setAppointmentPurpose] = useState("");
+  const [selectedStartDate1, setSelectedStartDate1] = useState("");
   const [selectedStartDate, setSelectedStartDate] = useState("");
 
   const navigation = useNavigation(); // Get navigation object
@@ -24,6 +25,7 @@ const AppointmentModal = ({ recordID, onClose }) => {
         appointmentDateTime: selectedStartDate,
         appointmentType: appType,
         description: appointmentPurpose,
+        addedDate: selectedStartDate1
       })
       .then((response) => {
         console.log("Success:", response.data);
@@ -79,10 +81,20 @@ const AppointmentModal = ({ recordID, onClose }) => {
           />
         </View>
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Appointment Date: </Text>
+          <Text style={styles.label}>Date: </Text>
+          <Calendar
+            selectedStartDate={selectedStartDate1}
+            setSelectedStartDate={setSelectedStartDate1}
+
+          />
+        </View>
+
+        <View style={[styles.inputcontainer, { marginTop: "12%" }]}>
+          <Text style={styles.label}>Scheduled date: </Text>
           <Calendar
             selectedStartDate={selectedStartDate}
             setSelectedStartDate={setSelectedStartDate}
+
           />
         </View>
       </View>
@@ -159,7 +171,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     fontSize: 16,
     fontWeight: "700",
-    marginLeft: "8%",
+    marginLeft: "4%",
   },
   inputcontainer: {
     marginVertical: "-16%",
@@ -173,7 +185,7 @@ const styles = StyleSheet.create({
     width: "88%",
     height: 38,
     marginBottom: 40,
-    marginLeft: 25,
+    marginLeft: "4%",
     marginTop: 10,
     borderRadius: 10,
     fontSize: 16,

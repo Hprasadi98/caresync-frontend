@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: "100%",
     padding: 2,
-    top: "220%",
+    top: '320%',
 
     alignItems: "center",
     elevation: 4,

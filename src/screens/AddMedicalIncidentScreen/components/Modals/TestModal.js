@@ -5,6 +5,7 @@ import CustomDropdown from "../CustomDropdown";
 import TestProviderDropDown from "../TestProviderDropDown";
 import { baseUrl } from "../../../../constants/constants";
 import api from "../../../../Services/AuthService";
+import Calendar from "../Calendar";
 
 const TestModal = ({
   // selectedStartDate,
@@ -16,7 +17,7 @@ const TestModal = ({
 }) => {
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [selectedOption2, setSelectedOption2] = useState(null);
-  const [testDate, setTestDate] = useState(null);
+  const [selectedStartDate, setSelectedStartDate] = useState("");
   const [result, setResult] = useState("");
   const [resultLink, setResultLink] = useState("");
   const navigation = useNavigation(); // Get navigation object
@@ -29,7 +30,7 @@ const TestModal = ({
         testType: selectedOption1,
         provider: selectedOption2,
         description: description,
-        testDate: testDate,
+        testDate: selectedStartDate,
         result: result,
         resultLink: resultLink,
       })
@@ -44,6 +45,8 @@ const TestModal = ({
         Alert.alert("Error saving incident", error.response.data.error);
         console.log("Error saving incident:", error);
       });
+
+
   };
   // Call the postMedicalIncident function with the provided arguments
 
@@ -77,14 +80,7 @@ const TestModal = ({
             placeholderText="Select from the list"
           />
         </View>
-        <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Test Date:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Test Date Here"
-            onChangeText={(text) => setTestDate(text)}
-          />
-        </View>
+
         <View style={styles.inputcontainer}>
           <Text style={styles.label}>Result:</Text>
           <TextInput
@@ -100,6 +96,13 @@ const TestModal = ({
             placeholder="Enter Result Link Here"
             value={resultLink}
             onChangeText={setResultLink}
+          />
+        </View>
+        <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Symptom Date: </Text>
+          <Calendar
+            selectedStartDate={selectedStartDate}
+            setSelectedStartDate={setSelectedStartDate}
           />
         </View>
       </View>

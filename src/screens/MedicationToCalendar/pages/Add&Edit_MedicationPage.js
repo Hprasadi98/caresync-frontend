@@ -30,7 +30,6 @@ const AddMedication = ({ navigation, route }) => {
   const [choosePeriod, setchoosePeriod] = useState(1);
   const [description, setdescription] = useState("");
   const [checked, setChecked] = useState("before");
-
   const [frequency, setfrequency] = useState("day");
   const [mediType, setmediType] = useState("Tablet");
   const [unit, setunit] = useState("mg");
@@ -45,13 +44,8 @@ const AddMedication = ({ navigation, route }) => {
   const [isEdit, setisEdit] = useState(false);
   const { selectedItem } = route.params;
   const { user } = useAuthContext();
-  const today = new Date();
-  const startingDate = format(new Date(today), "yyyy-MM-dd");
-
-  // const frequencyList = ["hour", "day", "every other day", "week", "month"];
-  // const mediTypeList = ["Tablet", "Injection", "Syrup"];
-  // const unitList = ["mg", "micrograme", "ml"];
-  // const durationList = ["days", "weeks", "months"];
+  // const today = new Date();
+  // const startingDate = format(new Date(today), "yyyy-MM-dd");
 
   const frequencyList = [
     {
@@ -148,6 +142,8 @@ const AddMedication = ({ navigation, route }) => {
   };
 
   useEffect(() => {
+    console.log("Add Medication Page");
+    console.log("Selected Item", selectedItem);
     updateUserID();
   }, []);
 
@@ -188,12 +184,12 @@ const AddMedication = ({ navigation, route }) => {
 
   //generate and store all dates between start date and end date in an array
   const generateDateRange = (startDate, numberOfDays) => {
-    if(duration=="month/s"){
-      numberOfDays=numberOfDays*30;
-    }else if(duration=="week/s"){
-      numberOfDays=numberOfDays*7;
-    }else{
-      numberOfDays=numberOfDays*1;
+    if (duration == "month/s") {
+      numberOfDays = numberOfDays * 30;
+    } else if (duration == "week/s") {
+      numberOfDays = numberOfDays * 7;
+    } else {
+      numberOfDays = numberOfDays * 1;
     }
     const endDate = addDays(startDate, numberOfDays - 1);
     const dates = eachDayOfInterval({ start: startDate, end: endDate });
@@ -219,18 +215,18 @@ const AddMedication = ({ navigation, route }) => {
       Alert.alert("Please select the starting date and number of days", "");
     } else {
       const payload = {
-        sDate : sDate,
+        sDate: sDate,
         userID: currentUserID,
         addedBy: by,
         medicine: medicineName,
         meditype: mediType,
-        unit:unit,
+        unit: unit,
         addedDate: dateInput,
         pills: pillAmount,
         days: noofdays,
         dayArray: dayArray,
         times: choosePeriod,
-        frequency:frequency,
+        frequency: frequency,
         duration: duration,
         baw: checked,
         description: description,
@@ -406,30 +402,30 @@ const AddMedication = ({ navigation, route }) => {
               </View>
             </View>
             <View style={{ display: "flex", flexDirection: "column" }}>
-            <Text style={styles.topics}>Frequency</Text>
-            <View style={styles.freqdropdown}>
-              <SelectList
-                setSelected={setfrequency}
-                data={frequencyList}
-                placeholder="day"
-                boxStyles={{ borderRadius: 15, backgroundColor: "white" }}
-                defaultOption={{ label: "day", value: "day" }}
-              />
-            </View>
+              <Text style={styles.topics}>Frequency</Text>
+              <View style={styles.freqdropdown}>
+                <SelectList
+                  setSelected={setfrequency}
+                  data={frequencyList}
+                  placeholder="day"
+                  boxStyles={{ borderRadius: 15, backgroundColor: "white" }}
+                  defaultOption={{ label: "day", value: "day" }}
+                />
+              </View>
             </View>
           </View>
 
-            <Text style={styles.topics}>Duration</Text>
-            <View style={{ display: "flex", flexDirection: "row" }}>
-              <View style={styles.nametimeContainer}>
-                <TextInput
-                  placeholder="duration"
-                  onChangeText={setnoofDays}
-                  keyboardType="numeric"
-                  style={styles.texttime}
-                />
-              </View>
-              <View>
+          <Text style={styles.topics}>Duration</Text>
+          <View style={{ display: "flex", flexDirection: "row" }}>
+            <View style={styles.nametimeContainer}>
+              <TextInput
+                placeholder="duration"
+                onChangeText={setnoofDays}
+                keyboardType="numeric"
+                style={styles.texttime}
+              />
+            </View>
+            <View>
               <SelectList
                 setSelected={setDuration}
                 data={durationList}
@@ -437,59 +433,59 @@ const AddMedication = ({ navigation, route }) => {
                 boxStyles={{ borderRadius: 15, backgroundColor: "white" }}
                 defaultOption={{ key: "day/s", value: "day/s" }}
               />
-              </View>
             </View>
+          </View>
 
-            <Text style={styles.topics}>Food & Pill</Text>
-            {/* <Text style={styles.subtopics}>
+          <Text style={styles.topics}>Food & Pill</Text>
+          {/* <Text style={styles.subtopics}>
               What's the time you need to take pill?
             </Text> */}
-            <View style={styles.radioButtons}>
-              <RadioButton
-                value="before"
-                status={checked === "before" ? "checked" : "unchecked"}
-                onPress={() => setChecked("before")}
-              />
-              <Text style={styles.radioText}>Before</Text>
-              <RadioButton
-                value="after"
-                status={checked === "after" ? "checked" : "unchecked"}
-                onPress={() => setChecked("after")}
-              />
-              <Text style={styles.radioText}>After</Text>
-              <RadioButton
-                value="with"
-                status={checked === "with" ? "checked" : "unchecked"}
-                onPress={() => setChecked("with")}
-              />
-              <Text style={styles.radioText}>With Food</Text>
-            </View>
-
-            <Text style={styles.topics}>Add notes</Text>
-            <TextInput
-              multiline
-              numberOfLines={3}
-              maxLength={50}
-              placeholder="Description"
-              onChangeText={setdescription}
-              style={{ padding: 5, backgroundColor: "white", marginTop: 5 }}
+          <View style={styles.radioButtons}>
+            <RadioButton
+              value="before"
+              status={checked === "before" ? "checked" : "unchecked"}
+              onPress={() => setChecked("before")}
             />
-            <View style={{ alignItems: "center", padding: 10 }}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  if (!isEdit) {
-                    addmedication();
-                  } else {
-                    updatemedication(selectedItem._id);
-                  }
-                }}
-              >
-                <Text style={styles.buttontext}>
-                  {isEdit ? "Update Medication" : "Add Medication"}
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.radioText}>Before</Text>
+            <RadioButton
+              value="after"
+              status={checked === "after" ? "checked" : "unchecked"}
+              onPress={() => setChecked("after")}
+            />
+            <Text style={styles.radioText}>After</Text>
+            <RadioButton
+              value="with"
+              status={checked === "with" ? "checked" : "unchecked"}
+              onPress={() => setChecked("with")}
+            />
+            <Text style={styles.radioText}>With Food</Text>
+          </View>
+
+          <Text style={styles.topics}>Add notes</Text>
+          <TextInput
+            multiline
+            numberOfLines={3}
+            maxLength={50}
+            placeholder="Description"
+            onChangeText={setdescription}
+            style={{ padding: 5, backgroundColor: "white", marginTop: 5 }}
+          />
+          <View style={{ alignItems: "center", padding: 10 }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                if (!isEdit) {
+                  addmedication();
+                } else {
+                  updatemedication(selectedItem._id);
+                }
+              }}
+            >
+              <Text style={styles.buttontext}>
+                {isEdit ? "Update Medication" : "Add Medication"}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </View>

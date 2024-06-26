@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Header from "../MedicalTestHomeScreen/components/Header";
 import { Calendar } from "react-native-calendars";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,13 +6,12 @@ import { baseUrl } from "../../constants/constants";
 import { useEffect, useState } from "react";
 import api from "../../Services/AuthService";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
 import { useIsFocused } from "@react-navigation/native";
 
 //navigate to medication adding form
 const MedicationView = ({ navigation, route }) => {
   const { user } = useAuthContext();
-  const { refresh } = route.params ? route.params : { refresh: false };
+  // const { refresh } = route.params ? route.params : { refresh: false };
   const [currentUserID, setCurrentUserID] = useState(undefined);
   const [markedDates, setMarkedDates] = useState({});
   const [loading, setLoading] = useState(true);
@@ -38,10 +32,7 @@ const MedicationView = ({ navigation, route }) => {
 
   useEffect(() => {
     updateUser();
-    if (currentUserID !== undefined) {
-      getmedication();
-    }
-  }, [useIsFocused()]);
+  }, [useIsFocused]);
 
   useEffect(() => {
     if (currentUserID !== undefined) {
@@ -52,9 +43,9 @@ const MedicationView = ({ navigation, route }) => {
   //API integration for get results of dates
   const getmedication = () => {
     setLoading(true);
-    console.log("Current User ID", currentUserID);
+    console.log("Current User ID VIEW", currentUserID);
     api
-      .get(`${baseUrl}/medication/${currentUserID}`)
+      .get(`${baseUrl}/medication/getOne/${currentUserID}`)
       .then((response) => {
         markDates(response.data);
         setLoading(false);
@@ -121,7 +112,9 @@ const MedicationView = ({ navigation, route }) => {
       <TouchableOpacity
         style={styles.pastEntriesButton}
         onPress={() => {
-          navigation.navigate("ViewPastEntries");
+          navigation.navigate("ViewPastEntries", {
+            PID: currentUserID,
+          });
         }}
       >
         <Text style={styles.pastEntriesText}>Past Entries</Text>
@@ -171,7 +164,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
   },
-  
 });
 
 export default MedicationView;

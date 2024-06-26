@@ -8,9 +8,10 @@ import {
   Alert,
 } from "react-native";
 import Header from "../../MedicalTestHomeScreen/components/Header";
+import api from "../../../Services/AuthService";
+
 import { baseUrl } from "../../../constants/constants";
 import { useEffect, useState } from "react";
-import api from "../../../Services/AuthService";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useIsFocused } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -19,7 +20,7 @@ import { Feather } from "@expo/vector-icons";
 //navigate to medication adding form
 const MedicationView = ({ navigation, route }) => {
   const { user } = useAuthContext();
-  const { refresh } = route.params ? route.params : { refresh: false };
+  // const { refresh } = route.params ? route.params : { refresh: false };
   const [currentUserID, setCurrentUserID] = useState(undefined);
   const [medidetail, setmedidetail] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,30 +35,34 @@ const MedicationView = ({ navigation, route }) => {
     } else {
       setCurrentUserID(route.params.PID);
       setDocMode(true);
+      console.log("User", user.fName);
       console.log("PID is defined", route.params.PID);
     }
   };
 
   useEffect(() => {
+    console.log("Medication View Page");
     updateUser();
-    if (currentUserID !== undefined) {
-      getmedication();
-    }
-  }, [useIsFocused()]);
+  }, []);
 
   useEffect(() => {
+    console.log("Current User ID", currentUserID);
     if (currentUserID !== undefined) {
       getmedication();
     }
   }, [currentUserID]);
 
+
+
+
   //API integration for get results
   const getmedication = () => {
     setLoading(true);
-    console.log("Current User ID", currentUserID);
+    // console.log("Current User ID", currentUserID);
     api
-      .get(`${baseUrl}/medication/${currentUserID}`)
+      .get(`${baseUrl}/medication/getOne/${currentUserID}`)
       .then((response) => {
+        // console.log("Medication Data : ", response.data);
         setmedidetail(response.data);
         setLoading(false);
       })
@@ -97,32 +102,12 @@ const MedicationView = ({ navigation, route }) => {
     );
   };
 
-  const confirmDelete = (id) => {
-    console.log(id);
-    Alert.alert(
-      "Confirm Delete",
-      "Added by doctor, Are you sure you want to delete this medication?",
-      [
-        {
-          text: "Cancel",
-          onPress: () => {
-            console.log("Cancel deletion");
-          },
-        },
-        {
-          text: "OK",
-          onPress: () => deleteOneResult(id),
-        },
-      ]
-    );
-  };
-
   const updateMedication = (id) => {
     const selectedItem = medidetail.find((item) => item._id === id);
     navigation.navigate("AddMedication", {
       refreshMedicationView: true,
       selectedItem,
-      PID: docMode ? route.params.PID : null,
+      PID: docMode ? currentUserID : null,
     });
   };
 
@@ -143,11 +128,17 @@ const MedicationView = ({ navigation, route }) => {
           data={medidetail}
           renderItem={({ item }) => (
             <View style={styles.listContainer}>
-              <Text style={styles.medicineNametext}>{item.medicine} - {item.meditype} ({item.unit})</Text>
+              <Text style={styles.medicineNametext}>
+                {item.medicine} - {item.meditype} ({item.unit})
+              </Text>
               <Text>Medication from : {item.addedDate}</Text>
-              <Text style={styles.daystext}>For {item.days} {item.duration}</Text>
+              <Text style={styles.daystext}>
+                For {item.days} {item.duration}
+              </Text>
               <View style={styles.detailContainer}>
-                <Text style={styles.pilltext}>{item.pills} {item.unit}</Text>
+                <Text style={styles.pilltext}>
+                  {item.pills} {item.unit}
+                </Text>
                 <Text style={styles.timestext}>
                   {item.times} time/s per {item.frequency}
                 </Text>
@@ -165,8 +156,8 @@ const MedicationView = ({ navigation, route }) => {
                   <TouchableOpacity
                     disabled={
                       docMode
-                        ? item.addedBy === user.fName
-                        : item.addedBy === "patient"
+                        ? item.addedBy !== user.fName
+                        : item.addedBy !== "patient"
                     }
                     onPress={() => {
                       updateMedication(item._id);
@@ -186,15 +177,7 @@ const MedicationView = ({ navigation, route }) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      if (
-                        docMode
-                          ? item.addedBy !== user.fName
-                          : item.addedBy !== "patient"
-                      ) {
-                        confirmDelete(item._id);
-                      } else {
-                        deleteOneResult(item._id);
-                      }
+                      deleteOneResult(item._id);
                     }}
                   >
                     <MaterialIcons

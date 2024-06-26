@@ -77,36 +77,44 @@ const ViewMedication = ({ route }) => {
         <Text style={styles.dateWeekDay}>{month}</Text>
         <Text style={styles.dateWeekDay}>{year}</Text>
       </View>
-      {(!loading && medidetail.length === 0)?(
+      {!loading && medidetail.length === 0 ? (
         <Text style={styles.noMediText}>No Medications</Text>
-      ):(
-      <>
-      {console.log(Array.isArray(medidetail))}
-      {medidetail && (
-        <FlatList
-          data={medidetail}
-          renderItem={({ item }) => (
-            <View style={styles.listContainer}>
-              {console.log("test")}
-              {console.log("item ", item)}
-              <Text style={styles.medicineNametext}>{item.medicine} - {item.meditype} ({item.unit})</Text>
-              <View style={styles.detailContainer}>
-                <Text style={styles.pilltext}>{item.pills} {item.unit}</Text>
-                <Text style={styles.timestext}>
-                  {item.times} time/s per {item.frequency}
-                </Text>
-                <Text style={styles.bawtext}>{item.baw} meal</Text>
-              </View>
-              <Text>For {item.days} {item.duration}</Text>
-              {item.description !== null && item.description !== "" && (
-                <Text>{item.description}</Text>
+      ) : (
+        <>
+          {console.log(Array.isArray(medidetail))}
+          {medidetail && (
+            <FlatList
+              data={medidetail}
+              renderItem={({ item }) => (
+                <View style={styles.listContainer}>
+                  {console.log("test")}
+                  {console.log("item ", item)}
+                  <Text style={styles.medicineNametext}>
+                    {item.medicine} - {item.meditype} ({item.unit})
+                  </Text>
+                  <View style={styles.detailContainer}>
+                    <Text style={styles.pilltext}>
+                      {item.pills} {item.unit}
+                    </Text>
+                    <Text style={styles.timestext}>
+                      {item.times} time/s per {item.frequency}
+                    </Text>
+                    <Text style={styles.bawtext}>{item.baw} meal</Text>
+                  </View>
+                  <Text>
+                    For {item.days} {item.duration}
+                  </Text>
+                  {item.description !== null && item.description !== "" && (
+                    <Text>{item.description}</Text>
+                  )}
+                  <Text style={styles.bytext}>
+                    added by {item.addedBy} on {item.sDate}
+                  </Text>
+                </View>
               )}
-              <Text style={styles.bytext}>added by {item.addedBy} on {item.sDate}</Text>
-            </View>
+            ></FlatList>
           )}
-        ></FlatList>
-      )}
-      </>
+        </>
       )}
     </View>
   );
@@ -175,6 +183,6 @@ const styles = StyleSheet.create({
   noMediText: {
     alignSelf: "center",
     marginTop: 200,
-  }
+  },
 });
 export default ViewMedication;

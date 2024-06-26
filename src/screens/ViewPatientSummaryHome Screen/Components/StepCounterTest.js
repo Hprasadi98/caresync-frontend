@@ -70,12 +70,11 @@ function StepCounterTest({ PID }) {
     <View style={styles.container}>
       <View style={styles.titlecontainer}>
         <Text style={styles.title}>Step Counter Test</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => testResultGraphModal(testResult)}
-        >
-          <Text style={styles.buttonText}>View</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonGraph}>
+          <TouchableOpacity onPress={() => testResultGraphModal(testResult)}>
+            <Text style={styles.buttonTextGraph}>View</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={styles.tablecontainer}>
         <Text style={styles.headtext}>Past Results</Text>
@@ -166,9 +165,9 @@ function StepCounterTest({ PID }) {
               width={350}
               height={270}
               chartConfig={{
-                backgroundColor: "#36bfb6",
-                backgroundGradientFrom: "#ffa726",
-                backgroundGradientTo: "#42ebe0",
+                backgroundColor: "#ffffff",
+                backgroundGradientFrom: "#FEFFE0",
+                backgroundGradientTo: "#FEFFE0",
 
                 yAxisLabelPosition: "topLeft",
                 decimalPlaces: 0,
@@ -178,10 +177,10 @@ function StepCounterTest({ PID }) {
                   borderRadius: 16,
                 },
                 propsForVerticalLabels: {
-                  fontWeight: "bold", // Set the font weight of vertical labels
+                  fontWeight: "bold",
                 },
                 propsForHorizontalLabels: {
-                  fontWeight: "bold", // Set the font weight of horizontal labels
+                  fontWeight: "bold",
                 },
                 propsForBackgroundLines: {
                   stroke: "",
@@ -197,6 +196,9 @@ function StepCounterTest({ PID }) {
                 marginVertical: 8,
                 borderRadius: 16,
               }}
+              withShadow={false}
+              withInnerLines={false}
+              withOuterLines={false}
             />
             <View style={styles.overlay}>
               <Text style={styles.overlayText}>Steps</Text>
@@ -208,7 +210,7 @@ function StepCounterTest({ PID }) {
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
             >
-              <Text>Close</Text>
+              <Text style={styles.closeButtonText}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -290,6 +292,27 @@ const styles = StyleSheet.create({
 
     fontWeight: "bold",
   },
+  buttonGraph: {
+    backgroundColor: "#FEFFE0",
+    height: 35,
+    width: 100,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: 20,
+    paddingRight: 20,
+    position: "absolute",
+    right: 20,
+    top: 10,
+
+    borderWidth: 0.5,
+    borderColor: "#00567D",
+  },
+  buttonTextGraph: {
+    fontSize: 18,
+
+    fontWeight: "bold",
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -309,15 +332,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   closeButton: {
-    backgroundColor: "#FBDABB",
+    backgroundColor: "#eaed91",
+    width: 80,
+    height: 40,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 20,
     marginTop: 20,
+  },
+  closeButtonText: {
+    fontSize: 16,
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   overlay: {
     position: "absolute",
-    top: 160, // Adjust as needed
-    left: 10, // Adjust as needed
+    top: 160,
+    left: 10,
   },
   overlayText: {
     fontSize: 14,

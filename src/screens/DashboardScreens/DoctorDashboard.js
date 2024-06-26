@@ -218,10 +218,10 @@ const styles = StyleSheet.create({
   dashboardButtonLogout: {
     width: 200,
     height: 60,
-    backgroundColor: "#E35977",
+    backgroundColor: "#00567D",
     borderRadius: 30,
     marginBottom: 20,
-    borderColor: "#E35977",
+    borderColor: "#00567D",
     borderWidth: 5,
     flexDirection: "row",
     alignItems: "center",

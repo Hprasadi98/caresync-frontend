@@ -302,9 +302,9 @@ const HoldButton = () => {
               yAxisLabel=""
               yAxisSuffix=""
               chartConfig={{
-                backgroundColor: "#bf766f",
-                backgroundGradientFrom: "#ffa726",
-                backgroundGradientTo: "#eda6e6",
+                backgroundColor: "#ffffff",
+                backgroundGradientFrom: "#e0f7fa",
+                backgroundGradientTo: "#80deea",
 
                 yAxisLabelPosition: "topLeft",
                 decimalPlaces: 0,
@@ -333,6 +333,9 @@ const HoldButton = () => {
                 marginVertical: 8,
                 borderRadius: 16,
               }}
+              withShadow={false}
+              withInnerLines={false}
+              withOuterLines={false}
             />
 
             <View style={styles.overlay}>
@@ -345,7 +348,7 @@ const HoldButton = () => {
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
             >
-              <Text>Close</Text>
+              <Text style={styles.closeButtonText}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -399,8 +402,8 @@ const styles = StyleSheet.create({
   },
   buttonGraph: {
     backgroundColor: "#DEFFFB",
-    height: 40,
-    width: 100,
+    height: 45,
+    width: 120,
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
@@ -434,10 +437,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   closeButton: {
-    backgroundColor: "#FBDABB",
+    backgroundColor: "#00567D",
+    width: 80,
+    height: 40,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 20,
     marginTop: 20,
+  },
+  closeButtonText: {
+    fontSize: 16,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   overlay: {
     position: "absolute",

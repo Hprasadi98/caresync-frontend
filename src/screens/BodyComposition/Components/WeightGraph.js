@@ -122,13 +122,13 @@ function WeightGraph() {
               ],
             }}
             width={Dimensions.get("window").width - 16}
-            height={240}
+            height={440}
             yAxisLabel=""
             yAxisSuffix=""
             chartConfig={{
-              backgroundColor: "#36bfb6",
-              backgroundGradientFrom: "#ffa726",
-              backgroundGradientTo: "#42ebe0",
+              backgroundColor: "#ffffff",
+              backgroundGradientFrom: "#DEFFFB",
+              backgroundGradientTo: "#DEFFFB",
 
               decimalPlaces: 0,
 
@@ -146,12 +146,24 @@ function WeightGraph() {
                 stroke: "black",
                 fill: "black",
               },
+              propsForVerticalLabels: {
+                fontWeight: "bold",
+                fontSize: 14,
+              },
+              propsForHorizontalLabels: {
+                fontWeight: "bold",
+                fontSize: 14,
+              },
             }}
             bezier
             style={{
-              marginVertical: 8,
+              marginVertical: 10,
+
               borderRadius: 16,
             }}
+            withShadow={false}
+            withInnerLines={false}
+            withOuterLines={false}
           />
         ) : (
           <Text>No weight data available</Text>
@@ -169,10 +181,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
     marginTop: 20,
+    marginBottom: 20,
   },
   dateContainer: {
     alignSelf: "flex-start",
     marginLeft: 30,
+    marginBottom: 5,
+    marginTop: 10,
   },
   dateRange: {
     color: "black",
@@ -190,6 +205,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginRight: 20,
     alignItems: "baseline",
+    marginBottom: 15,
   },
   statsText: {
     fontSize: 16,

@@ -269,7 +269,7 @@ const StepCountButton = () => {
         </View>
         <TouchableOpacity
           onPress={showDecisionBox}
-          style={{ paddingBottom: 120 }}
+          style={{ paddingBottom: 20 }}
         >
           <Text style={{ color: "#990000" }}>Reset Results</Text>
         </TouchableOpacity>
@@ -304,9 +304,9 @@ const StepCountButton = () => {
                 width={350}
                 height={270}
                 chartConfig={{
-                  backgroundColor: "#36bfb6",
-                  backgroundGradientFrom: "#ffa726",
-                  backgroundGradientTo: "#42ebe0",
+                  backgroundColor: "#ffffff",
+                  backgroundGradientFrom: "#e0f7fa",
+                  backgroundGradientTo: "#80deea",
 
                   yAxisLabelPosition: "topLeft",
                   decimalPlaces: 0,
@@ -335,6 +335,9 @@ const StepCountButton = () => {
                   marginVertical: 8,
                   borderRadius: 16,
                 }}
+                withShadow={false}
+                withInnerLines={false}
+                withOuterLines={false}
               />
               <View style={styles.overlay}>
                 <Text style={styles.overlayText}>Steps</Text>
@@ -346,7 +349,7 @@ const StepCountButton = () => {
                 style={styles.closeButton}
                 onPress={() => setModalVisible(false)}
               >
-                <Text>Close</Text>
+                <Text style={styles.closeButtonText}>Close</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -435,10 +438,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   closeButton: {
-    backgroundColor: "#FBDABB",
+    backgroundColor: "#00567D",
+    width: 80,
+    height: 40,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 20,
     marginTop: 20,
+  },
+  closeButtonText: {
+    fontSize: 16,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   overlay: {
     position: "absolute",
@@ -462,9 +473,9 @@ const styles = StyleSheet.create({
     left: 150, // Adjust as needed
   },
   buttonGraph: {
-    backgroundColor: "#FEFFE0",
-    height: 40,
-    width: 100,
+    backgroundColor: "#DEFFFB",
+    height: 45,
+    width: 120,
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",

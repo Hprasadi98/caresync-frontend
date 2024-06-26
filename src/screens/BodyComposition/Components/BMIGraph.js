@@ -161,13 +161,14 @@ function BMIGraph() {
               ],
             }}
             width={Dimensions.get("window").width - 16}
-            height={240}
+            height={440}
             yAxisLabel=""
             yAxisSuffix=""
             chartConfig={{
-              backgroundColor: "#bf766f",
-              backgroundGradientFrom: "#ffa726",
-              backgroundGradientTo: "#eda6e6",
+              backgroundColor: "#ffffff",
+              backgroundGradientFrom: "#FEFFE0",
+              backgroundGradientTo: "#FEFFE0",
+
               decimalPlaces: 2,
               color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
 
@@ -183,6 +184,14 @@ function BMIGraph() {
                 strokeWidth: "2",
                 stroke: "",
               },
+              propsForVerticalLabels: {
+                fontWeight: "bold",
+                fontSize: 14,
+              },
+              propsForHorizontalLabels: {
+                fontWeight: "bold",
+                fontSize: 14,
+              },
 
               yAxisMinimum: Math.min(...bmiValues) - 5,
             }}
@@ -191,6 +200,9 @@ function BMIGraph() {
               marginVertical: 8,
               borderRadius: 16,
             }}
+            withShadow={false}
+            withInnerLines={false}
+            withOuterLines={false}
           />
         ) : (
           <Text>No BMI data available</Text>
@@ -226,10 +238,11 @@ const styles = StyleSheet.create({
   dateRange: {
     color: "black",
     fontSize: 16,
+    marginTop: 10,
     marginBottom: 10,
   },
   statsContainer: {
-    marginBottom: 10,
+    marginBottom: 20,
     alignSelf: "flex-start",
     marginLeft: 30,
     flexDirection: "row",

@@ -72,12 +72,12 @@ function BreathingTest({ PID }) {
     <View style={styles.container}>
       <View style={styles.titlecontainer}>
         <Text style={styles.title}>Breathing Test</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => testResultGraphModal(testResult)}
-        >
-          <Text style={styles.buttonText}>View</Text>
-        </TouchableOpacity>
+
+        <View style={styles.buttonGraph}>
+          <TouchableOpacity onPress={() => testResultGraphModal(testResult)}>
+            <Text style={styles.buttonTextGraph}>View</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={styles.tablecontainer}>
         <Text style={styles.headtext}>Past Results</Text>
@@ -138,15 +138,16 @@ function BreathingTest({ PID }) {
                         mapStopwatchTimeToScale(data.stopwatchTime)
                       )
                       .reverse(),
+                    fill: false,
                   },
                 ],
               }}
               width={350}
               height={270}
               chartConfig={{
-                backgroundColor: "#bf766f",
-                backgroundGradientFrom: "#ffa726",
-                backgroundGradientTo: "#eda6e6",
+                backgroundColor: "#ffffff",
+                backgroundGradientFrom: "#e0f7fa",
+                backgroundGradientTo: "#80deea",
 
                 yAxisLabelPosition: "topLeft",
                 decimalPlaces: 0,
@@ -157,10 +158,10 @@ function BreathingTest({ PID }) {
                   borderRadius: 16,
                 },
                 propsForVerticalLabels: {
-                  fontWeight: "bold", // Set the font weight of vertical labels
+                  fontWeight: "bold",
                 },
                 propsForHorizontalLabels: {
-                  fontWeight: "bold", // Set the font weight of horizontal labels
+                  fontWeight: "bold",
                 },
                 propsForBackgroundLines: {
                   stroke: "",
@@ -175,6 +176,9 @@ function BreathingTest({ PID }) {
                 marginVertical: 8,
                 borderRadius: 16,
               }}
+              withShadow={false}
+              withInnerLines={false}
+              withOuterLines={false}
             />
             <View style={styles.overlay}>
               <Text style={styles.overlayText}>Time (s)</Text>
@@ -186,7 +190,7 @@ function BreathingTest({ PID }) {
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
             >
-              <Text>Close</Text>
+              <Text style={styles.closeButtonText}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -248,22 +252,25 @@ const styles = StyleSheet.create({
     margin: "10%",
     borderRadius: 20,
   },
-  button: {
+
+  buttonGraph: {
     backgroundColor: "#DEFFFB",
-    height: 30,
-    width: 70,
-    borderRadius: 10,
+    height: 35,
+    width: 100,
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
+    paddingLeft: 20,
+    paddingRight: 20,
     position: "absolute",
     right: 20,
     top: 10,
 
-    borderWidth: 2,
+    borderWidth: 0.5,
     borderColor: "#00567D",
   },
-  buttonText: {
-    fontSize: 14,
+  buttonTextGraph: {
+    fontSize: 18,
 
     fontWeight: "bold",
   },
@@ -286,10 +293,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   closeButton: {
-    backgroundColor: "#FBDABB",
+    backgroundColor: "#00567D",
+    width: 80,
+    height: 40,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 20,
     marginTop: 20,
+  },
+  closeButtonText: {
+    fontSize: 16,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   overlay: {
     position: "absolute",

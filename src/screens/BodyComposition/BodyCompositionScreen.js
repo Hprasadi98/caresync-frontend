@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: "bold",
-    marginTop: 20,
+    marginTop: 30,
     marginLeft: 20,
     backgroundColor: "#99d1f2",
     padding: 10,
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     // width: "50%",
   },
   bmicontainer: {
+    marginBottom: 20,
     justifyContent: "center",
     alignItems: "center",
   },

@@ -14,7 +14,7 @@ api.interceptors.request.use(
       //TODO: Redirect to login
       return config;
     }
-    console.log("Token found", token);
+    // console.log("Token found", token);
     config.headers.Authorization = `Bearer ${token}`;
     console.log("Intercepted");
     return config;

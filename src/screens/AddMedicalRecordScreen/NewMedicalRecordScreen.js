@@ -12,6 +12,7 @@ import api from "../../Services/AuthService";
 import Header from "../../components/Header";
 import { baseUrl } from "../../constants/constants";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import Calendar from "../AddMedicalIncidentScreen/components/Calendar";
 
 const NewMedicalRecordScreen = ({ route, navigation }) => {
   const { user } = useAuthContext();
@@ -27,7 +28,7 @@ const NewMedicalRecordScreen = ({ route, navigation }) => {
         .post(`${baseUrl}/medicalRecord/create`, {
           recordName: recordName,
           recordDescription: recordDescription,
-          date: date,
+          date: selectedStartDate,
           patientID: userID,
         })
         .then((response) => {
@@ -38,7 +39,7 @@ const NewMedicalRecordScreen = ({ route, navigation }) => {
           navigation.navigate("DisplayMedicalRecords", {
             recordName,
             recordDescription,
-            date: date,
+            date: selectedStartDate,
             patientID: userID,
           });
         })
@@ -48,12 +49,13 @@ const NewMedicalRecordScreen = ({ route, navigation }) => {
     };
     // Call the postMedicalIncident function with the provided arguments
     console.log("User ID:", userID);
-    postMedicalIncident(recordName, recordDescription, date);
+    postMedicalIncident(recordName, recordDescription, selectedStartDate);
   }
 
   const [recordName, setRecordName] = useState("");
   const [recordDescription, setRecordDescription] = useState("");
-  const [date, setDate] = useState("");
+
+  const [selectedStartDate, setSelectedStartDate] = useState("");
 
   return (
     <SafeAreaView>
@@ -78,12 +80,13 @@ const NewMedicalRecordScreen = ({ route, navigation }) => {
             />
           </View>
           <View style={styles.inputcontainer}>
-            <Text style={styles.text1}>Date</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter Record Date"
-              onChangeText={(text) => setDate(text)}
-            />
+            <Text style={styles.text1}>Date: </Text>
+            <View style={styles.calendar}>
+              <Calendar
+                selectedStartDate={selectedStartDate}
+                setSelectedStartDate={setSelectedStartDate}
+              />
+            </View>
           </View>
         </View>
         <View style={styles.btn}>
@@ -101,7 +104,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     width: "100%",
-    height: "72%",
+    height: "87%",
     backgroundColor: "#FFFF",
   },
   btn: {
@@ -109,8 +112,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    maxWidth: "100%",
+    width: "95%",
     padding: 2,
+    marginTop: "-2%",
+    alignSelf: "center",
+
   },
   btntext: {
     color: "#FFF",
@@ -118,12 +124,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  background: {
-    backgroundColor: "#DEFFFB",
-    width: "100%",
-    height: "100%",
-    padding: 15,
-  },
+  // background: {
+  //   backgroundColor: "#DEFFFB",
+  //   width: "100%",
+  //   height: "100%",
+  //   padding: 15,
+  // },
   text1: {
     marginLeft: 28,
     fontWeight: "500",
@@ -134,6 +140,7 @@ const styles = StyleSheet.create({
     // flex: 0.4,
     paddingTop: "6%",
     justifyContent: "center",
+
   },
   text1: {
     marginLeft: 28,
@@ -154,4 +161,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 16,
   },
+  calendar: {
+    marginLeft: "3%",
+    marginTop: "-7%"
+  }
+
+
 });

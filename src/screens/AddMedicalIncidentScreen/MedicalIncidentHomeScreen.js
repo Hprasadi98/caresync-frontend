@@ -32,19 +32,23 @@ const styles = StyleSheet.create({
     color: "#1e1e1e",
   },
 
+  SafeAreaView: {
+    flex: 1,
+    backgroundColor: "white"
+  },
   container: {
     flexDirection: "column",
     width: "100%",
-    height: "76%",
+    height: "100%",
     backgroundColor: '#FFFF',
   },
 
-  background: {
-    backgroundColor: "#DEFFFB",
-    width: "100%",
-    height: "100%",
-    padding: 15,
-  },
+  // background: {
+  //   backgroundColor: "#DEFFFB",
+  //   width: "100%",
+  //   height: "100%",
+  //   padding: 15,
+  // },
 
   input2: {
     borderColor: "#8e8e8e",

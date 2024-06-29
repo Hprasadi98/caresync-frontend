@@ -139,15 +139,15 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     width: "100%",
-    height: "77%",
+    height: "91%",
     backgroundColor: "#FFFF",
   },
-  background: {
-    backgroundColor: "#DEFFFB",
-    width: "100%",
-    height: "100%",
-    padding: 15,
-  },
+  // background: {
+  //   backgroundColor: "#DEFFFB",
+  //   width: "100%",
+  //   height: "100%",
+  //   padding: 15,
+  // },
   recordItem: {
     backgroundColor: "#f9f9f7",
     padding: 15,

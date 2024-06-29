@@ -9,6 +9,11 @@ import {
   SafeAreaView,
   ScrollView,
   Pressable,
+  Modal,
+  TextInput,
+  Button,
+  RefreshControl,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../Services/AuthService";
@@ -38,6 +43,11 @@ const IncidentListScreen = ({
   const { record } = route.params;
   const [medicalincidents, setMedicalincidents] = useState([]);
   const [sortedIncidents, setSortedIncidents] = useState([]);
+  const [medicalRecords, setMedicalRecords] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [recordname, setRecordname] = useState("");
+  const [description, setDescription] = useState("");
+  const [date, setDate] = useState("");
 
   const fetchMedicalIncidents = async () => {
     try {
@@ -46,9 +56,10 @@ const IncidentListScreen = ({
           recordID: record._id,
         },
       });
+
       setMedicalincidents(response.data.currentRecord.incidents);
     } catch (error) {
-      console.error("Error fetching medical incidents:", error);
+      console.error("Error fetching medical records:", error);
     }
   };
 
@@ -95,6 +106,129 @@ const IncidentListScreen = ({
       recordID: record._id,
     });
   };
+  const deleteRecordHandler = (recordID) => {
+    Alert.alert(
+      "Confirm Deletion",
+      "Are you sure you want to delete this medical record?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: async () => {
+            try {
+              const response = await api.delete(
+                `${baseUrl}/medicalRecord/record/${record._id}`
+              );
+              if (response.status === 200) {
+                setMedicalRecords((prevRecords) => {
+                  return prevRecords.filter(
+                    (record) => record._id !== recordID
+                  );
+                });
+                console.log("Medical Record deleted successfully");
+              } else {
+                console.error(
+                  "Failed to delete medical record:",
+                  response.data
+                );
+              }
+              navigation.navigate("DisplayMedicalRecords");
+            } catch (error) {
+              console.error("Error deleting medical record:", error);
+            }
+          },
+        },
+      ]
+    );
+  };
+  const updateRecordHandler = async (recordID) => {
+    try {
+      const updatedFields = {};
+
+      if (recordname.trim() !== "") {
+        updatedFields.recordName = recordname;
+      }
+      if (description.trim() !== "") {
+        updatedFields.recordDescription = description;
+      }
+      if (date.trim() !== "") {
+        updatedFields.date = date;
+      }
+
+      if (Object.keys(updatedFields).length === 0) {
+        Alert.alert("Error", "Please fill at least one field to update.");
+        return;
+      }
+
+      const response = await api.put(
+        `${baseUrl}/medicalRecord/update/${record._id}`,
+        updatedFields
+      );
+
+      if (response.status === 200) {
+        Alert.alert("Success", "Record updated successfully");
+        setModalVisible(false);
+        setMedicalRecords((prevRecords) =>
+          prevRecords.map((record) =>
+            record._id === recordID
+              ? {
+                ...record,
+                ...updatedFields,
+              }
+              : record
+          )
+        );
+      } else {
+        Alert.alert("Error", response.data.error || "Failed to update record");
+      }
+      navigation.navigate("DisplayMedicalRecords");
+    } catch (error) {
+      console.error("Error updating record:", error);
+      Alert.alert("Error", "An error occurred while updating the record");
+    }
+  };
+
+  const renderModalContent = () => {
+    return (
+
+      <View style={styles.modalContent}>
+        <Text style={styles.title}>Edit Record</Text>
+        <TextInput
+          style={styles.input}
+          value={recordname}
+          onChangeText={(text) => setRecordname(text)}
+          placeholder="Enter Record Name"
+        />
+        <TextInput
+          style={styles.input}
+          value={description}
+          onChangeText={(text) => setDescription(text)}
+          placeholder="Enter Description"
+        />
+        <TextInput
+          style={styles.input}
+          value={date}
+          onChangeText={(text) => setDate(text)}
+          placeholder="Enter Date"
+        />
+        <View style={styles.buttonContainer}>
+          <View style={styles.buttonWrapper}>
+            <Button color="#00567D" title="Save" onPress={updateRecordHandler} />
+          </View>
+          <View style={styles.buttonWrapper}>
+            <Button color="#00567D" title="Cancel" onPress={() => setModalVisible(false)} />
+          </View>
+        </View>
+
+
+
+      </View >
+
+    );
+  };
 
   const deleteHandler = (incidentID, recordID, incidentType) => {
     Alert.alert(
@@ -115,9 +249,9 @@ const IncidentListScreen = ({
               if (response.status === 200) {
                 setMedicalincidents((prevIncidents) => {
                   const updatedIncidents = { ...prevIncidents };
-                  updatedIncidents[incidentType] = updatedIncidents[incidentType].filter(
-                    (item) => item._id !== incidentID
-                  );
+                  updatedIncidents[incidentType] = updatedIncidents[
+                    incidentType
+                  ].filter((item) => item._id !== incidentID);
                   return updatedIncidents;
                 });
               } else {
@@ -131,6 +265,8 @@ const IncidentListScreen = ({
       ]
     );
   };
+
+  console.log("Record:", record._id);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -149,8 +285,40 @@ const IncidentListScreen = ({
               </View>
               <View>
                 <Text style={styles.label}>Date:</Text>
-                <Text style={styles.recordValue}>{formatDate(record.recordDate)}</Text>
+                <Text style={styles.recordValue}>
+                  {formatDate(record.recordDate)}
+                </Text>
               </View>
+              <View style={styles.recButtons}>
+                <TouchableOpacity
+                  onPress={() => deleteRecordHandler(recordID)}
+                  style={styles.deletebuttonRec}
+                >
+                  <MaterialIcons name="delete" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(true)}
+                  style={styles.editbutton}
+                >
+                  <MaterialIcons name="create" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
+
+              <Modal
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+                animationType="slide"
+                transparent={true}
+              >
+                <SafeAreaView style={styles.safeAreaModal}>
+                  <KeyboardAvoidingView
+                    style={styles.modalContainer}
+
+                  >
+                    {renderModalContent()}
+                  </KeyboardAvoidingView>
+                </SafeAreaView>
+              </Modal>
             </View>
 
             <View style={styles.incidentsContainer}>
@@ -163,10 +331,14 @@ const IncidentListScreen = ({
                     style={[
                       styles.subcom,
                       {
-                        backgroundColor: incident.type === "testIncidents" ? "#FEFFE0" :
-                          incident.type === "symptomIncidents" ? "#FFEBEB" :
-                            incident.type === "appointmentIncidents" ? "#E0FFE0" :
-                              "#ebded4"
+                        backgroundColor:
+                          incident.type === "testIncidents"
+                            ? "#FEFFE0"
+                            : incident.type === "symptomIncidents"
+                              ? "#FFEBEB"
+                              : incident.type === "appointmentIncidents"
+                                ? "#E0FFE0"
+                                : "#ebded4",
                       },
                     ]}
                   >
@@ -174,30 +346,45 @@ const IncidentListScreen = ({
                       style={[
                         styles.innertile,
                         {
-                          backgroundColor: incident.type === "testIncidents" ? "#FFEBA5" :
-                            incident.type === "symptomIncidents" ? "#FF9999" :
-                              incident.type === "appointmentIncidents" ? "#99FF99" :
-                                "#c4a092"
+                          backgroundColor:
+                            incident.type === "testIncidents"
+                              ? "#FFEBA5"
+                              : incident.type === "symptomIncidents"
+                                ? "#FF9999"
+                                : incident.type === "appointmentIncidents"
+                                  ? "#99FF99"
+                                  : "#c4a092",
                         },
                       ]}
                     >
                       <Text style={styles.innertext}>
-                        {incident.type === "testIncidents" ? "TEST" :
-                          incident.type === "symptomIncidents" ? "SYMPTOM" :
-                            incident.type === "appointmentIncidents" ? "APPOINTMENT" :
-                              "PRESCRIPTION"}
+                        {incident.type === "testIncidents"
+                          ? "TEST"
+                          : incident.type === "symptomIncidents"
+                            ? "SYMPTOM"
+                            : incident.type === "appointmentIncidents"
+                              ? "APPOINTMENT"
+                              : "PRESCRIPTION"}
                       </Text>
                     </View>
 
                     {incident.type === "testIncidents" && (
                       <>
-                        <Text style={styles.date}>{formatDate(incident.testDate)}</Text>
+                        <Text style={styles.date}>
+                          {formatDate(incident.testDate)}
+                        </Text>
                         <Text style={styles.subtext}>{incident.testType}</Text>
 
-                        <Text style={styles.provider}>Test Provider: {incident.provider} </Text>
-                        <Text style={styles.provider}>Result: {incident.result} </Text>
+                        <Text style={styles.provider}>
+                          Test Provider: {incident.provider}{" "}
+                        </Text>
+                        <Text style={styles.provider}>
+                          Result: {incident.result}{" "}
+                        </Text>
                         {incident.resultLink && (
-                          <TouchableOpacity onPress={() => handleLinkPress(incident.resultLink)}>
+                          <TouchableOpacity
+                            onPress={() => handleLinkPress(incident.resultLink)}
+                          >
                             <Text style={[styles.provider, { color: "blue" }]}>
                               {incident.resultLink}
                             </Text>
@@ -207,41 +394,79 @@ const IncidentListScreen = ({
                     )}
                     {incident.type === "symptomIncidents" && (
                       <>
-                        <Text style={styles.date}>{formatDate(incident.symptomDate)}</Text>
-                        <Text style={styles.subtext}>{incident.symptomType}</Text>
-                        <Text style={[styles.provider, { color: "brown" }]}>
+                        <Text style={styles.date}>
+                          {formatDate(incident.symptomDate)}
+                        </Text>
+                        <Text style={styles.subtext}>
+                          {incident.symptomType}
+                        </Text>
+                        <Text style={styles.provider}>
                           Note: {incident.symptomDescription}
                         </Text>
-                        <Text style={styles.provider}>Frequency: {incident.symptomFrequency}</Text>
-                        <Text style={styles.provider}>Severity: {incident.severity} /10</Text>
-                        <Text style={styles.provider}>Duration: {incident.symptomDuration}</Text>
-                        <Text style={styles.provider}>Appetite: {incident.appetite} /10</Text>
-                        <Text style={styles.provider}>Weight: {incident.weight}</Text>
+                        <Text style={styles.provider}>
+                          Frequency: {incident.symptomFrequency}
+                        </Text>
+                        <Text style={styles.provider}>
+                          Severity: {incident.severity} /10
+                        </Text>
+                        <Text style={styles.provider}>
+                          Duration: {incident.symptomDuration}
+                        </Text>
+                        <Text style={styles.provider}>
+                          Appetite: {incident.appetite} /10
+                        </Text>
+                        <Text style={styles.provider}>
+                          Weight: {incident.weight}
+                        </Text>
                       </>
                     )}
                     {incident.type === "appointmentIncidents" && (
                       <>
-                        <Text style={styles.date}>{formatDate(incident.addedDate)}</Text>
-                        <Text style={styles.subtext}>Dr. {incident.doctorName}</Text>
-                        <Text style={styles.provider}>Scheduled On: {formatDate(incident.appointmentDateTime)}</Text>
-                        <Text style={styles.provider}>Type: {incident.appointmentType}</Text>
-                        <Text style={[styles.provider, { color: "brown" }]}>Note: {incident.description}</Text>
+                        <Text style={styles.date}>
+                          {formatDate(incident.addedDate)}
+                        </Text>
+                        <Text style={styles.subtext}>
+                          Dr. {incident.doctorName}
+                        </Text>
+                        <Text style={styles.provider}>
+                          Scheduled On:{" "}
+                          {formatDate(incident.appointmentDateTime)}
+                        </Text>
+                        <Text style={styles.provider}>
+                          Type: {incident.appointmentType}
+                        </Text>
+                        <Text style={styles.provider}>
+                          Note: {incident.description}
+                        </Text>
                       </>
                     )}
                     {incident.type === "prescriptionIncidents" && (
                       <>
-                        <Text style={styles.subtext}>Dr. {incident.doctorName}</Text>
-                        <Text style={styles.provider}>Prescripted Date: {formatDate(incident.PrescriptionDate)}</Text>
-                        <Text style={[styles.provider, { color: "brown" }]}>Note: {incident.description}</Text>
+                        <Text style={styles.subtext}>
+                          Dr. {incident.doctorName}
+                        </Text>
+                        <Text style={styles.provider}>
+                          Prescripted Date:{" "}
+                          {formatDate(incident.PrescriptionDate)}
+                        </Text>
+                        <Text style={styles.provider}>
+                          Note: {incident.description}
+                        </Text>
                         {incident.link && (
-                          <TouchableOpacity onPress={() => handleLinkPress(incident.link)}>
-                            <Text style={[styles.provider, { color: "blue" }]}>{incident.link}</Text>
+                          <TouchableOpacity
+                            onPress={() => handleLinkPress(incident.link)}
+                          >
+                            <Text style={[styles.provider, { color: "blue" }]}>
+                              {incident.link}
+                            </Text>
                           </TouchableOpacity>
                         )}
                       </>
                     )}
                     <TouchableOpacity
-                      onPress={() => deleteHandler(incident._id, recordID, incident.type)}
+                      onPress={() =>
+                        deleteHandler(incident._id, recordID, incident.type)
+                      }
                       style={styles.deletebutton}
                     >
                       <MaterialIcons name="delete" size={24} color="black" />
@@ -258,12 +483,16 @@ const IncidentListScreen = ({
       </Pressable>
     </SafeAreaView>
   );
-}
+};
 
 export default IncidentListScreen;
 
 const styles = StyleSheet.create({
   safeArea: {
+    flex: 1,
+    backgroundColor: "white"
+  },
+  safeAreaModal: {
     flex: 1,
   },
   recordContainer: {
@@ -276,14 +505,16 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     width: "100%",
-    backgroundColor: "#FFFF",
+    backgroundColor: "white",
+
+
   },
-  background: {
-    backgroundColor: "#DEFFFB",
-    width: "100%",
-    height: "100%",
-    padding: 15,
-  },
+  // background: {
+  //   backgroundColor: "white",
+  //   width: "100%",
+  //   height: "100%",
+  //   padding: 15,
+  // },
   label: {
     fontWeight: "bold",
     fontSize: 16,
@@ -318,19 +549,33 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 14,
     marginBottom: 5,
+    fontWeight: "500"
   },
   subtext: {
     fontSize: 14,
     marginBottom: 5,
+    fontWeight: "500"
   },
   provider: {
     fontSize: 14,
     marginBottom: 5,
+    fontWeight: "500"
   },
   deletebutton: {
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
+  },
+  recButtons: {
+    flexDirection: "row",
+  },
+  deletebuttonRec: {
+    left: 295,
+
+
+  },
+  editbutton: {
+    left: -20,
   },
   btn: {
     backgroundColor: "#00567D",
@@ -353,5 +598,50 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "gray",
     marginVertical: 20,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+
+
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+    paddingBottom: "16%"
+
+
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+
+  input: {
+    borderColor: "#8e8e8e",
+    borderWidth: 1,
+    padding: 10,
+    height: 40,
+    borderRadius: 10,
+    fontSize: 16,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    position: "absolute",
+    width: "92%",
+    left: 30,
+    top: 220
+
+  },
+  buttonWrapper: {
+    width: "40%", // Adjust as needed
   },
 });

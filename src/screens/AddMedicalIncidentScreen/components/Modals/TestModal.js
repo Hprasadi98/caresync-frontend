@@ -116,20 +116,14 @@ const TestModal = ({
         </View>
       </View>
 
-      <View style={styles.buttonContainer}>
-        <View style={styles.buttonWrapper}>
-          <Button title="Close" onPress={onClose} color="#00567D" />
-        </View>
-        <View style={styles.buttonWrapper}>
-          <Button title="OK" onPress={saveIncident} color="#00567D" />
-        </View>
-      </View>
+     
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   modalContainer: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: "50%",
@@ -180,7 +174,7 @@ const styles = StyleSheet.create({
   },
   dropdowncontainer: {
     marginVertical: "-5%",
-    marginLeft: "-10%",
+    // marginLeft: "-10%",
   },
 
   input: {
@@ -191,7 +185,7 @@ const styles = StyleSheet.create({
     marginVertical: "-5%",
     borderRadius: 10,
     fontSize: 16,
-    marginLeft: "10",
+    marginLeft: "3%",
     marginTop: 10,
     width: "90%",
   },

@@ -187,14 +187,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titleMain: {
-    top: 25,
+    top: 45,
     left: 20,
     fontSize: 24,
     color: "#fff",
     fontWeight: "bold",
   },
   profileButton: {
-    top: 25,
+    top: 45,
     width: 40,
     height: 40,
     right: 20,
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#D9D9D9",
   },
   logOutButton: {
-    top: 25,
+    top: 45,
     left: 50,
   },
   profileImageContainer: {
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   },
 
   greetingContainer: {
-    marginTop: 50,
+    marginTop: 70,
     marginLeft: 20,
   },
   greetingText: {

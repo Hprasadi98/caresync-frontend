@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   titleMain: {
     position: "absolute",
-    top: 30,
+    top: 50,
     left: 20,
     fontSize: 24,
     color: "#fff",
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     right: 20,
-    marginTop: 25,
+    marginTop: 45,
     width: 45,
     height: 45,
     borderRadius: 50,
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#eee",
   },
   logOutButton: {
-    top: 15,
+    top: 25,
     left: 250,
   },
 });

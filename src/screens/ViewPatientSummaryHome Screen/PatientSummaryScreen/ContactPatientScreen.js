@@ -1,5 +1,5 @@
 import { Text, StyleSheet, FlatList, View, ScrollView } from "react-native";
-import Header2 from "../Components/Header2";
+import Header from "../Components/Header";
 import ContactPatientData from "../Components/ContactPatientData";
 import React, { useState, useEffect } from "react";
 import { baseUrl } from "../../../constants/constants";
@@ -28,7 +28,7 @@ function ContactPatientScreen({ route }) {
   };
   return (
     <View style={styles.maincontainer}>
-      <Header2 text="Contact Patient" />
+      <Header name="Contact Patient" />
 
       <View style={styles.container}>
         <Text style={styles.contactinfo}>Contacts</Text>
@@ -72,7 +72,7 @@ export default ContactPatientScreen;
 const styles = StyleSheet.create({
   maincontainer: {
     flex: 1,
-    backgroundColor: "#E3F7FF",
+    backgroundColor: "white",
   },
   container: {
     flex: 1,
@@ -80,6 +80,12 @@ const styles = StyleSheet.create({
     width: "90%",
     marginLeft: "5%",
     marginTop: "5%",
+    borderRadius: 10,
+    elevation: 4,
+    shadowColor: "black",
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
+    shadowRadius: 8,
   },
   contactinfo: {
     fontSize: 20,

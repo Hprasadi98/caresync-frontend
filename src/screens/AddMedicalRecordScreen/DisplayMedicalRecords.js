@@ -162,8 +162,6 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     fontSize: 18,
     color: "#00567D",
-
-
   },
   recordDescription: {
     marginTop: 5,
@@ -174,7 +172,5 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     textAlign: "right",
     marginTop: "-6%",
-
-
   },
 });

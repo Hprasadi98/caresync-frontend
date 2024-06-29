@@ -257,7 +257,7 @@ export default MyprofileScreen;
 const styles = StyleSheet.create({
   maincontainer: {
     flex: 1,
-    backgroundColor: "#D9F8FF",
+    backgroundColor: "white",
   },
   container: {
     flex: 1,
@@ -265,6 +265,12 @@ const styles = StyleSheet.create({
     width: "90%",
     marginLeft: "5%",
     marginTop: "5%",
+    borderRadius: 10,
+    elevation: 4,
+    shadowColor: "black",
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
+    shadowRadius: 8,
   },
 
   yourinfo: {

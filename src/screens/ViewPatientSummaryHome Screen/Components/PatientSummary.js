@@ -6,9 +6,7 @@ import {
   Image,
   FlatList,
 } from "react-native";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import MedicationScreen from "../PatientSummaryScreen/MedicationsScreen";
+
 function calculateAge(birthday) {
   const birthDate = new Date(birthday);
   const today = new Date();

@@ -19,7 +19,7 @@ import MedicalIncidentHomeScreen from "./src/screens/AddMedicalIncidentScreen/Me
 // import MedicalIncidentDetailScreen from "./src/screens/AddMedicalIncidentScreen/MedicalIncidentDetailScreen";
 import PatientsScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/PatientsScreen";
 import PatientProfileScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/PatientprofileScreen";
-import PatientHistoryScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/PatientsHistoryScreen";
+
 import DoctorDashboard from "./src/screens/DashboardScreens/DoctorDashboard";
 import SelectDocForAccessScreen from "./src/screens/GiveDocAccess/SelectDocForAccessScreen";
 import GiveDocAccessScreen from "./src/screens/GiveDocAccess/GiveDocAccessScreen";
@@ -27,7 +27,7 @@ import CustomHeader from "./src/screens/ViewPatientSummaryHome Screen/Components
 import MedicalIdFalseScreen from "./src/screens/AuthenticationScreens/DoctorAuthentication/MedicalIdFalseScreen";
 import Header from "./src/components/Header";
 import MedicationView from "./src/screens/MedicationToCalendar/MedicationViewInCalendarHome";
-import MedicationsScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/MedicationsScreen";
+
 import AddMedication from "./src/screens/MedicationToCalendar/pages/Add&Edit_MedicationPage";
 import ViewMedication from "./src/screens/MedicationToCalendar/pages/ViewDailyMedicationPage";
 import ViewPastEntries from "./src/screens/MedicationToCalendar/pages/ViewPastEntriesPage";
@@ -46,7 +46,7 @@ import OtpVerifyScreen from "./src/screens/AuthenticationScreens/PatientAuthenti
 import ContactPatientScreen from "./src/screens/ViewPatientSummaryHome Screen/PatientSummaryScreen/ContactPatientScreen";
 import DocAccessHomeScreen from "./src/screens/GiveDocAccess/DocAccessHomeScreen";
 import ViewDoctorsWithAccess from "./src/screens/GiveDocAccess/ViewDoctorsWithAccess";
-import IncidentListScreen from "./src/screens/AddMedicalRecordScreen/IncidentListScreen"
+import IncidentListScreen from "./src/screens/AddMedicalRecordScreen/IncidentListScreen";
 
 import { useAuthContext } from "./src/hooks/useAuthContext";
 
@@ -197,13 +197,7 @@ export default function Routing() {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name="PatientHistoryScreen"
-          component={PatientHistoryScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
+
         <Stack.Screen
           name="TestResultScreen"
           component={TestResultScreen}
@@ -215,13 +209,6 @@ export default function Routing() {
           name="ContactPatientScreen"
           component={ContactPatientScreen}
           options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="MedicationsScreen"
-          component={MedicationsScreen}
-          options={{
-            headerShown: false,
-          }}
         />
 
         <Stack.Screen

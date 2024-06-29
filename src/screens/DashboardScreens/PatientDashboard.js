@@ -10,18 +10,13 @@ import {
 
 import { useLogout } from "../../hooks/useLogout";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 
 const PatientDashboard = ({ navigation }) => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
   const [greeting, setGreeting] = useState("");
-  const [formattedDate, setFormattedDate] = useState({
-    day: "",
-    month: "",
-    year: "",
-  });
 
   useEffect(() => {
     const getCurrentGreeting = () => {
@@ -34,18 +29,9 @@ const PatientDashboard = ({ navigation }) => {
         return "Good Evening";
       }
     };
-    const getFormattedDate = () => {
-      const date = new Date();
-      const day = date.getDate();
-      const month = date.toLocaleString("default", { month: "long" });
-      const year = date.getFullYear();
-      return { day, month, year };
-    };
+
     setGreeting(getCurrentGreeting());
-    setFormattedDate(getFormattedDate());
   }, []);
-  const { day, month, year } = formattedDate;
-  console.log("Day:", day, "Month:", month, "Year:", year);
 
   React.useEffect(() => {
     console.log("User from Dashboard", user);
@@ -179,30 +165,7 @@ const PatientDashboard = ({ navigation }) => {
             <Text style={styles.dashboardButtonText}>Your Health</Text>
           </TouchableOpacity>
         </View>
-
-        <View style={styles.row}>
-          {/* <TouchableOpacity
-            style={styles.dashboardButton}
-            onPress={() => {
-              logout();
-              navigation.popToTop();
-              navigation.navigate("WelcomeScreen");
-            }}
-          >
-            <Image
-              source={require("../../../assets/icons/logout-icon.jpg")}
-              style={styles.dashboardImage}
-            />
-            <Text style={styles.dashboardButtonText}>LogOut</Text>
-          </TouchableOpacity> */}
-        </View>
-
-        {/* <View style={styles.row}></View> */}
       </View>
-
-      {/* <TouchableOpacity style={styles.roundedPlusButton}>
-          <Text style={styles.plusButtonText}>+</Text>
-        </TouchableOpacity> */}
     </View>
   );
 };
@@ -272,7 +235,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   emoji: {
-    fontSize: 30,
+    fontSize: 40,
     marginTop: -10,
   },
   dashboardContainer: {

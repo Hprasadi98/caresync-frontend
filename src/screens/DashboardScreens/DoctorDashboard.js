@@ -106,10 +106,6 @@ const DoctorDashboard = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-
-      {/* <TouchableOpacity style={styles.roundedPlusButton}>
-        <Text style={styles.plusButtonText}>+</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };

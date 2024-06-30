@@ -379,25 +379,27 @@ const AddMedication = ({ navigation, route }) => {
             How many pills need to take at once? & How long?
           </Text> */}
           <View style={styles.topicContainer}>
-            <View style={styles.nametimeContainer}>
+            <View style={styles.nametimeContainer1}>
               <TextInput
                 placeholder="dosage"
                 onChangeText={setPillAmount}
                 keyboardType="numeric"
-                style={styles.texttime}
+                style={styles.texttime1}
               />
             </View>
-            <Text>{unit}</Text>
+            <View style={styles.dosUnitText}>
+              {mediType === "Tablet" ? <Text>tablet/s</Text> : <Text>ml</Text>}
+            </View>
           </View>
           <View style={{ display: "flex", flexDirection: "row" }}>
             <View style={{ display: "flex", flexDirection: "column" }}>
-              <Text style={styles.topics}>Time</Text>
-              <View style={styles.nametimeContainer}>
+              <Text style={styles.topics}>Time/s</Text>
+              <View style={styles.nametimeContainer2}>
                 <TextInput
-                  placeholder="times"
+                  placeholder="time/s"
                   onChangeText={setchoosePeriod}
                   keyboardType="numeric"
-                  style={styles.texttime}
+                  style={styles.texttime2}
                 />
               </View>
             </View>
@@ -417,12 +419,12 @@ const AddMedication = ({ navigation, route }) => {
 
           <Text style={styles.topics}>Duration</Text>
           <View style={{ display: "flex", flexDirection: "row" }}>
-            <View style={styles.nametimeContainer}>
+            <View style={styles.nametimeContainer3}>
               <TextInput
                 placeholder="duration"
                 onChangeText={setnoofDays}
                 keyboardType="numeric"
-                style={styles.texttime}
+                style={styles.texttime3}
               />
             </View>
             <View>
@@ -508,14 +510,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  texttime: {
+  texttime1: {
+    backgroundColor: "white",
+    height: 40,
+    width: "60%",
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  texttime2: {
     backgroundColor: "white",
     height: 40,
     width: "80%",
     marginLeft: 10,
     marginRight: 10,
   },
-  nametimeContainer: {
+  texttime3: {
+    backgroundColor: "white",
+    height: 40,
+    width: "80%",
+    marginLeft: 10,
+  },
+  nametimeContainer1: {
     marginTop: 5,
     marginBottom: 5,
     width: "55%",
@@ -525,6 +540,28 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginRight: 30,
+  },
+  nametimeContainer2: {
+    marginTop: 5,
+    marginBottom: 5,
+    width: "55%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 10,
+  },
+  nametimeContainer3: {
+    marginTop: 5,
+    marginBottom: 5,
+    width: "35%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 10,
   },
   freqdropdown: {
     width: "80%",
@@ -572,6 +609,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+  },
+  dosUnitText: {
+    paddingTop: 15,
+    marginLeft: -100,
   },
   textName: {
     backgroundColor: "white",

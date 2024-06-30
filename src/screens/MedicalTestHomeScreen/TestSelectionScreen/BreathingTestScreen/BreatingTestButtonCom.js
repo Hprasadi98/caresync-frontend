@@ -267,7 +267,7 @@ const HoldButton = () => {
             <Text style={{ color: "#990000" }}>Reset Results</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.buttonGraph}>
+        <View style={[styles.buttonGraph, isPressing && styles.ispressbuttonGraph]}>
           <TouchableOpacity onPress={() => testResultGraphModal(result)}>
             <Text style={styles.buttonTextGraph}>View</Text>
           </TouchableOpacity>
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonPressed: {
-    marginTop: -45,
+    marginTop: -60,
     backgroundColor: "#FFCACA",
   },
   buttonText: {
@@ -409,9 +409,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: 20,
     paddingRight: 20,
-
     borderWidth: 0.5,
     borderColor: "#00567D",
+    position: "absolute",
+    top: 255,
+    right:50
+  },
+  ispressbuttonGraph: {
+    backgroundColor: "#DEFFFB",
+    height: 45,
+    width: 120,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderWidth: 0.5,
+    borderColor: "#00567D",
+    position: "absolute",
+    top: 200,
+    right:50
   },
   buttonTextGraph: {
     fontSize: 18,

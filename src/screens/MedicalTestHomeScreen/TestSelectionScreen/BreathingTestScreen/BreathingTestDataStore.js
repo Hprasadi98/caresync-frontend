@@ -76,6 +76,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 10,
     paddingBottom: 0,
+    fontWeight: "bold",
+    marginLeft:-100
   },
   cellsStyle: {
     justifyContent: "center",

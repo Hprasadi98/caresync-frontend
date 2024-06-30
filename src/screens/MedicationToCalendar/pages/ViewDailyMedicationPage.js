@@ -102,9 +102,6 @@ const ViewMedication = ({ route }) => {
                     </Text>
                     <Text style={styles.bawtext}>{item.baw} meal</Text>
                   </View>
-                  <Text>
-                    For {item.days} {item.duration}
-                  </Text>
                   {item.description !== null && item.description !== "" && (
                     <Text>{item.description}</Text>
                   )}

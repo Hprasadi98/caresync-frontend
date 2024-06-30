@@ -33,7 +33,7 @@ const AddMedication = ({ navigation, route }) => {
   const [frequency, setfrequency] = useState("day");
   const [mediType, setmediType] = useState("Tablet");
   const [unit, setunit] = useState("mg");
-  const [duration, setDuration] = useState("days");
+  const [duration, setDuration] = useState("day/s");
 
   const padtoTwo = (number) => (number <= 9 ? `0${number}` : number);
   var date = new Date().getDate();
@@ -152,10 +152,14 @@ const AddMedication = ({ navigation, route }) => {
     if (selectedItem) {
       // Populate the form fields with selectedItem values
       setMedicineName(selectedItem.medicine);
-      setDateInput(selectedItem.date);
+      setmediType(selectedItem.meditype);
+      setunit(selectedItem.unit);
+      setDateInput(selectedItem.addedDate);
       setPillAmount(selectedItem.pills.toString());
+      setfrequency(selectedItem.frequency);
       setnoofDays(selectedItem.days.toString());
-      setchoosePeriod(selectedItem.times);
+      setchoosePeriod(selectedItem.times.toString());
+      setDuration(selectedItem.duration);
       setChecked(selectedItem.baw);
       setdescription(selectedItem.description);
       setisEdit(true);
@@ -184,16 +188,33 @@ const AddMedication = ({ navigation, route }) => {
 
   //generate and store all dates between start date and end date in an array
   const generateDateRange = (startDate, numberOfDays) => {
-    if (duration == "month/s") {
-      numberOfDays = numberOfDays * 30;
-    } else if (duration == "week/s") {
-      numberOfDays = numberOfDays * 7;
-    } else {
-      numberOfDays = numberOfDays * 1;
+    if (frequency === "hour" || frequency === "day") {
+      if (duration == "month/s") {
+        numberOfDays = numberOfDays * 30;
+      } else if (duration == "week/s") {
+        numberOfDays = numberOfDays * 7;
+      } else {
+        numberOfDays = numberOfDays * 1;
+      }
+      const endDate = addDays(startDate, numberOfDays - 1);
+      const dates = eachDayOfInterval({ start: startDate, end: endDate });
+      return dates.map((date) => format(date, "yyyy-MM-dd"));
+    } 
+    else if (frequency === "every other day") {
+      if (duration == "month/s") {
+        numberOfDays = numberOfDays * 30;
+      } else if (duration == "week/s") {
+        numberOfDays = numberOfDays * 7;
+      } else {
+        numberOfDays = numberOfDays * 1;
+        numberOfDays*=2;
+      }
+      const dates = [];
+      for (let i = 0; i < numberOfDays; i += 2) {
+        dates.push(format(addDays(startDate, i), "yyyy-MM-dd"));
+      }
+      return dates;
     }
-    const endDate = addDays(startDate, numberOfDays - 1);
-    const dates = eachDayOfInterval({ start: startDate, end: endDate });
-    return dates.map((date) => format(date, "yyyy-MM-dd"));
   };
 
   const dayArray = generateDateRange(dateInput, noofdays);
@@ -300,6 +321,7 @@ const AddMedication = ({ navigation, route }) => {
               placeholder="Name of Medicine"
               style={styles.textName}
               onChangeText={setMedicineName}
+              value={medicineName}
             />
             <TouchableOpacity onPress={() => {}}>
               <EvilIcons name="search" size={26} color="gray" />
@@ -314,7 +336,8 @@ const AddMedication = ({ navigation, route }) => {
                 placeholder="Tablet"
                 boxStyles={{ borderRadius: 15, backgroundColor: "white" }}
                 // inputStyles={{ backgroundColor: "white" }}
-                defaultOption={{ key: "Tablet", value: "Tablet" }}
+                defaultOption={{ key: mediType, value: mediType }}
+                value={mediType}
               />
             </View>
             <SelectList
@@ -322,7 +345,8 @@ const AddMedication = ({ navigation, route }) => {
               data={unitList[mediType]}
               placeholder="mg"
               boxStyles={{ borderRadius: 15, backgroundColor: "white" }}
-              defaultOption={unitList[mediType][0]}
+              defaultOption={unitList[mediType].find(item => item.key === unit)}
+              value={unit}
             />
           </View>
 
@@ -385,6 +409,7 @@ const AddMedication = ({ navigation, route }) => {
                 onChangeText={setPillAmount}
                 keyboardType="numeric"
                 style={styles.texttime1}
+                value={pillAmount}
               />
             </View>
             <View style={styles.dosUnitText}>
@@ -400,6 +425,7 @@ const AddMedication = ({ navigation, route }) => {
                   onChangeText={setchoosePeriod}
                   keyboardType="numeric"
                   style={styles.texttime2}
+                  value={choosePeriod}
                 />
               </View>
             </View>
@@ -411,29 +437,34 @@ const AddMedication = ({ navigation, route }) => {
                   data={frequencyList}
                   placeholder="day"
                   boxStyles={{ borderRadius: 15, backgroundColor: "white" }}
-                  defaultOption={{ label: "day", value: "day" }}
+                  defaultOption={frequencyList.find(item => item.key === frequency)}
+                  value={frequency}
                 />
               </View>
             </View>
           </View>
 
-          <Text style={styles.topics}>Duration</Text>
           <View style={{ display: "flex", flexDirection: "row" }}>
-            <View style={styles.nametimeContainer3}>
-              <TextInput
-                placeholder="duration"
-                onChangeText={setnoofDays}
-                keyboardType="numeric"
-                style={styles.texttime3}
-              />
+            <View style={{ display: "flex", flexDirection: "column" }}>
+              <Text style={styles.topics}>Duration</Text>
+              <View style={styles.nametimeContainer3}>
+                <TextInput
+                  placeholder="duration"
+                  onChangeText={setnoofDays}
+                  keyboardType="numeric"
+                  style={styles.texttime3}
+                  value={noofdays}
+                />
+              </View>
             </View>
-            <View>
+            <View style={styles.nametimeContainer4}>
               <SelectList
                 setSelected={setDuration}
                 data={durationList}
                 placeholder="day/s"
                 boxStyles={{ borderRadius: 15, backgroundColor: "white" }}
-                defaultOption={{ key: "day/s", value: "day/s" }}
+                defaultOption={{ key: duration, value: duration }}
+                value={duration}
               />
             </View>
           </View>
@@ -471,6 +502,7 @@ const AddMedication = ({ navigation, route }) => {
             placeholder="Description"
             onChangeText={setdescription}
             style={{ padding: 5, backgroundColor: "white", marginTop: 5 }}
+            value={description}
           />
           <View style={{ alignItems: "center", padding: 10 }}>
             <TouchableOpacity
@@ -555,13 +587,17 @@ const styles = StyleSheet.create({
   nametimeContainer3: {
     marginTop: 5,
     marginBottom: 5,
-    width: "35%",
+    width: "60%",
     backgroundColor: "white",
     borderRadius: 10,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     marginRight: 10,
+  },
+  nametimeContainer4: {
+    marginLeft: -70,
+    marginTop: 30,
   },
   freqdropdown: {
     width: "80%",

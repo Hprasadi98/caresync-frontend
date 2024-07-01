@@ -172,13 +172,13 @@ const styles = StyleSheet.create({
 
   text1: {
     marginLeft: 28,
-    fontSize: 20,
+    fontSize: 10,
     color: "#1e1e1e",
     marginTop: 50,
   },
   text2: {
     marginLeft: 28,
-    fontSize: 20,
+    fontSize: 16,
     color: "#1e1e1e",
     marginTop: 15,
     marginBottom: -40,
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 155,
     left: 28,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#f9f9f7",
     paddingVertical: 10,
     borderWidth: 1,
     borderColor: "#CCCCCC",
@@ -229,12 +229,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    maxWidth: "100%",
+    width: "90%",
     padding: 2,
     top: '320%',
-
-    alignItems: "center",
+    alignContent: "center",
     elevation: 4,
+    alignSelf: "center",
+
   },
   btntext: {
     color: "#FFF",
@@ -247,7 +248,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text1: {
-    marginLeft: 28,
+    marginLeft: "7%",
     // fontWeight: "500",
     fontSize: 20,
     color: "#1e1e1e",
@@ -260,7 +261,7 @@ const styles = StyleSheet.create({
     width: "88%",
     height: 38,
     margin: 20,
-    marginLeft: 25,
+    marginLeft: "7%",
     // marginTop: 10,
     borderRadius: 10,
     fontSize: 16,

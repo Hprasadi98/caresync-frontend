@@ -168,13 +168,14 @@ const styles = StyleSheet.create({
   inputcontainer: {
     marginVertical: "-14%",
     marginTop: 2,
-    width: "95%",
+
   },
 
   input: {
     borderColor: "#8e8e8e",
     borderWidth: 1,
     padding: 10,
+    width: "90%",
 
     height: 38,
     marginBottom: 40,

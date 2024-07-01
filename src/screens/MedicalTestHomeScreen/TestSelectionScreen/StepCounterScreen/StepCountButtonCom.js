@@ -481,9 +481,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: 20,
     paddingRight: 20,
-
     borderWidth: 0.5,
     borderColor: "#00567D",
+    position: "absolute",
+    top:375,
+    right: 30,
   },
   buttonTextGraph: {
     fontSize: 18,

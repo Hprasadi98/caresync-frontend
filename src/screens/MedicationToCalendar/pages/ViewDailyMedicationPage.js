@@ -94,16 +94,14 @@ const ViewMedication = ({ route }) => {
                   </Text>
                   <View style={styles.detailContainer}>
                     <Text style={styles.pilltext}>
-                      {item.pills} {item.unit}
+                      {item.pills}{" "}
+                      {item.meditype === "Tablet" ? <Text>tablet/s</Text> : <Text>ml</Text>}
                     </Text>
                     <Text style={styles.timestext}>
                       {item.times} time/s per {item.frequency}
                     </Text>
                     <Text style={styles.bawtext}>{item.baw} meal</Text>
                   </View>
-                  <Text>
-                    For {item.days} {item.duration}
-                  </Text>
                   {item.description !== null && item.description !== "" && (
                     <Text>{item.description}</Text>
                   )}

@@ -52,9 +52,6 @@ const MedicationView = ({ navigation, route }) => {
     }
   }, [currentUserID]);
 
-
-
-
   //API integration for get results
   const getmedication = () => {
     setLoading(true);
@@ -137,7 +134,8 @@ const MedicationView = ({ navigation, route }) => {
               </Text>
               <View style={styles.detailContainer}>
                 <Text style={styles.pilltext}>
-                  {item.pills} {item.unit}
+                  {item.pills}{" "}
+                  {item.meditype === "Tablet" ? <Text>tablet/s</Text> : <Text>ml</Text>}
                 </Text>
                 <Text style={styles.timestext}>
                   {item.times} time/s per {item.frequency}
@@ -157,7 +155,7 @@ const MedicationView = ({ navigation, route }) => {
                     disabled={
                       docMode
                         ? item.addedBy !== user.fName
-                        : item.addedBy !== "patient"
+                        : item.addedBy !== "Patient"
                     }
                     onPress={() => {
                       updateMedication(item._id);
@@ -168,7 +166,7 @@ const MedicationView = ({ navigation, route }) => {
                         styles.edittext,
                         docMode
                           ? item.addedBy !== user.fName
-                          : item.addedBy !== "patient",
+                          : item.addedBy !== "Patient",
                       ]}
                       name="edit-2"
                       size={16}

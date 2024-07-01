@@ -1,5 +1,6 @@
 import { Text, StyleSheet, FlatList, View, ScrollView } from "react-native";
-import Header2 from "../Components/Header2";
+
+import Header from "../Components/Header";
 import BreathingTest from "../Components/BreathingTest";
 import StepCounterTest from "../Components/StepCounterTest";
 import TestLinkResults from "../Components/TestLinkResults";
@@ -8,7 +9,7 @@ function TestResultScreen({ route, navigation }) {
   const PID = route.params.PID;
   return (
     <View style={styles.container}>
-      <Header2 text="Test Results" />
+      <Header name="Test Results" />
       <View style={styles.subcontainer}>
         <ScrollView>
           <BreathingTest PID={PID} />

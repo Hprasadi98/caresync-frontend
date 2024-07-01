@@ -39,7 +39,9 @@ const DetailRowDoctor = ({
 
   const checkEmailExists = async (email) => {
     try {
-      const response = await api.get(`${baseUrl}/:doctors/${email}`);
+      const response = await api.get(
+        `${baseUrl}/checkDocEmail/:doctors/:${email}`
+      );
       return response.data.exists;
     } catch (error) {
       console.error("Error checking email:", error);

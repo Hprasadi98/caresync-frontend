@@ -9,9 +9,8 @@ import {
 } from "react-native";
 
 function DocCard({ navigation, link, TestName }) {
-
   // console.log("Link: ", link.toString());
-  const name = link.toString()
+  const name = link.toString();
 
   function onPressHandler() {
     // navigation.navigate("GiveDocAccessScreen", { name, DocID, id });
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     textAlign: "center",
     marginBottom: 10,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#D9F8FF",
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
@@ -73,5 +72,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     textAlign: "center",
     marginBottom: 10,
+    fontWeight: "bold",
   },
 });

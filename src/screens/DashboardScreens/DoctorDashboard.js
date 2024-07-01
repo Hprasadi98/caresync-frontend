@@ -53,6 +53,15 @@ const DoctorDashboard = ({ navigation }) => {
       <View style={styles.topPanel}>
         <View style={styles.mainbar}>
           <Text style={styles.titleMain}>CareSync</Text>
+          <TouchableOpacity
+            style={styles.logOutButton}
+            onPress={() => {
+              logout();
+              navigation.navigate("WelcomeScreen");
+            }}
+          >
+            <SimpleLineIcons name="logout" size={30} color="white" />
+          </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => {
@@ -69,7 +78,9 @@ const DoctorDashboard = ({ navigation }) => {
         </View>
         <View style={styles.greetingContainer}>
           <Text style={styles.greetingText}>{greeting},</Text>
-          <Text style={styles.greetingTextName}>Dr.{user.fName}</Text>
+          <Text style={styles.greetingTextName}>
+            Dr.{user.fName} <Text style={styles.emoji}>👋</Text>
+          </Text>
         </View>
         <View style={styles.dataContainer}>
           <View style={styles.allPatientCon}>
@@ -94,22 +105,8 @@ const DoctorDashboard = ({ navigation }) => {
             <Fontisto name="stethoscope" size={60} color="black" />
             <Text style={styles.dashboardButtonTextMypatient}>My Patients</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.dashboardButtonLogout}
-            onPress={() => {
-              logout();
-              navigation.navigate("WelcomeScreen");
-            }}
-          >
-            <SimpleLineIcons name="logout" size={30} color="white" />
-            <Text style={styles.dashboardButtonTextLogOut}>Log Out</Text>
-          </TouchableOpacity>
         </View>
       </View>
-
-      {/* <TouchableOpacity style={styles.roundedPlusButton}>
-        <Text style={styles.plusButtonText}>+</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };
@@ -132,7 +129,7 @@ const styles = StyleSheet.create({
   },
   titleMain: {
     position: "absolute",
-    top: 30,
+    top: 50,
     left: 20,
     fontSize: 24,
     color: "#fff",
@@ -155,6 +152,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
+  emoji: {
+    fontSize: 34,
+    marginTop: -10,
+  },
   dataContainer: {
     flexDirection: "row",
     justifyContent: "center",
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     color: "white",
     marginLeft: 0,
     borderColor: "#00567D",
-    borderWidth: 5,
+    borderWidth: 3,
     backgroundColor: "#F7FEFF",
     justifyContent: "center",
     alignItems: "center",
@@ -201,33 +202,21 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 70,
   },
   dashboardButtonMyPatient: {
-    width: 160,
-    height: 180,
+    width: 170,
+    height: 190,
     backgroundColor: "#F7FEFF",
     borderRadius: 15,
     marginBottom: 60,
     borderColor: "#00567D",
-    borderWidth: 5,
+    borderWidth: 3,
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: 10,
   },
-  dashboardButtonLogout: {
-    width: 200,
-    height: 60,
-    backgroundColor: "#00567D",
-    borderRadius: 30,
-    marginBottom: 20,
-    borderColor: "#00567D",
-    borderWidth: 5,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginLeft: 10,
-  },
+
   dashboardImage: {
     width: "80%",
     height: "70%",
@@ -253,13 +242,17 @@ const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: "center",
     alignItems: "center",
-    left: 320,
-    marginTop: 30,
+    right: 20,
+    marginTop: 45,
     width: 45,
     height: 45,
     borderRadius: 50,
 
     backgroundColor: "#eee",
+  },
+  logOutButton: {
+    top: 25,
+    left: 250,
   },
 });
 

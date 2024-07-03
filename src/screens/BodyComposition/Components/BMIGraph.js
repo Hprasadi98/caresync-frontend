@@ -37,7 +37,14 @@ function BMIGraph() {
 
   // Ensure details is always an array
   const safeDetails = Array.isArray(details) ? details : [];
-  const weights = safeDetails.map((entry) => entry.weight);
+  // Get the latest five entries and reverse them to show the most recent on the right side
+  const latestFiveDetails = safeDetails
+    .slice()
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 5)
+    .reverse();
+
+  const weights = latestFiveDetails.map((entry) => entry.weight);
 
   const bmiValues = useMemo(() => {
     console.log("Height: ", height);
@@ -45,12 +52,12 @@ function BMIGraph() {
 
     const heightInMeters = height / 100;
 
-    return safeDetails.map((entry) => {
+    return latestFiveDetails.map((entry) => {
       const bmi = entry.weight / (heightInMeters * heightInMeters);
       const roundedBMI = Math.round(bmi * 100) / 100;
       return roundedBMI;
     });
-  }, [safeDetails, height]);
+  }, [latestFiveDetails, height]);
   console.log("BMI Values: ", bmiValues);
 
   const averageBMI = useMemo(() => {
@@ -91,13 +98,13 @@ function BMIGraph() {
   }, [bmiValues]);
 
   // Extract dates for the graph
-  const dates = safeDetails.map((entry) =>
+  const dates = latestFiveDetails.map((entry) =>
     new Date(entry.date).toLocaleDateString("en-US", {
       month: "2-digit",
       day: "2-digit",
     })
   );
-  const datesNew = safeDetails.map(
+  const datesNew = latestFiveDetails.map(
     (entry) =>
       new Date(entry.date)
         .toLocaleDateString("en-GB", {
@@ -106,7 +113,6 @@ function BMIGraph() {
         })
         .replace(/\s/g, " ") //replace day and month
   );
-
   // Extract the first and last dates for the date range display
   const firstDate = datesNew.length > 0 ? datesNew[0] : null;
   const lastDate = datesNew.length > 0 ? datesNew[datesNew.length - 1] : null;

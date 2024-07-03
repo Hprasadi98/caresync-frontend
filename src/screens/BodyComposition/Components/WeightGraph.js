@@ -41,14 +41,21 @@ function WeightGraph() {
 
   const safeDetails = Array.isArray(details) ? details : [];
 
-  const dates = safeDetails.map((entry) =>
+  // Sort the details array by date and get the latest five entries
+  const latestFiveDetails = safeDetails
+    .slice()
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 5)
+    .reverse();
+
+  const dates = latestFiveDetails.map((entry) =>
     new Date(entry.date).toLocaleDateString("en-US", {
       month: "2-digit",
       day: "2-digit",
     })
   );
 
-  const datesNew = safeDetails.map(
+  const datesNew = latestFiveDetails.map(
     (entry) =>
       new Date(entry.date)
         .toLocaleDateString("en-GB", {
@@ -58,7 +65,7 @@ function WeightGraph() {
         .replace(/\s/g, " ") //replace day and month
   );
 
-  const weights = safeDetails.map((entry) => entry.weight);
+  const weights = latestFiveDetails.map((entry) => entry.weight);
   console.log(weights);
   // Extract the first and last dates for the date range display
   const firstDate = datesNew.length > 0 ? datesNew[0] : null;

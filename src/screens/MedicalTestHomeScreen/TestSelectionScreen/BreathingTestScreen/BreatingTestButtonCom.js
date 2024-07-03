@@ -208,7 +208,10 @@ const HoldButton = () => {
     const sortedData = data
       .slice()
       .sort((a, b) => new Date(b.date) - new Date(a.date));
-    setSelectedTestData(sortedData);
+    // Get the latest five entries
+    const latestFiveData = sortedData.slice(0, 5);
+
+    setSelectedTestData(latestFiveData);
     setModalVisible(true);
   };
 
@@ -267,7 +270,9 @@ const HoldButton = () => {
             <Text style={{ color: "#990000" }}>Reset Results</Text>
           </TouchableOpacity>
         </View>
-        <View style={[styles.buttonGraph, isPressing && styles.ispressbuttonGraph]}>
+        <View
+          style={[styles.buttonGraph, isPressing && styles.ispressbuttonGraph]}
+        >
           <TouchableOpacity onPress={() => testResultGraphModal(result)}>
             <Text style={styles.buttonTextGraph}>View</Text>
           </TouchableOpacity>
@@ -413,7 +418,7 @@ const styles = StyleSheet.create({
     borderColor: "#00567D",
     position: "absolute",
     top: 255,
-    right:50
+    right: 50,
   },
   ispressbuttonGraph: {
     backgroundColor: "#DEFFFB",
@@ -428,7 +433,7 @@ const styles = StyleSheet.create({
     borderColor: "#00567D",
     position: "absolute",
     top: 200,
-    right:50
+    right: 50,
   },
   buttonTextGraph: {
     fontSize: 18,

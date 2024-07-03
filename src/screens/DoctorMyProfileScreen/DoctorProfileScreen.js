@@ -124,6 +124,7 @@ const DoctorProfileScreen = ({ navigation }) => {
               textLineTwo={`${details.firstName} ${details.lastName}`}
               category="fullName"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRowDoctor
               name="envelope"
@@ -131,6 +132,7 @@ const DoctorProfileScreen = ({ navigation }) => {
               textLineTwo={details.email}
               category="email"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRowDoctor
               name="id-card"
@@ -138,6 +140,7 @@ const DoctorProfileScreen = ({ navigation }) => {
               textLineTwo={details.nic}
               category="nic"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRowDoctor
               name="mobile"
@@ -145,6 +148,7 @@ const DoctorProfileScreen = ({ navigation }) => {
               textLineTwo={details.mobileNumber}
               category="mobile"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRowDoctor
               name="user-md"
@@ -152,6 +156,7 @@ const DoctorProfileScreen = ({ navigation }) => {
               textLineTwo={details.specialization}
               category="specialization"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRowDoctor
               name="venus-mars"
@@ -159,6 +164,7 @@ const DoctorProfileScreen = ({ navigation }) => {
               textLineTwo={details.gender}
               category="gender"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
           </React.Fragment>
         </View>

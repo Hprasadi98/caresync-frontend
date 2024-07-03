@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -24,6 +24,7 @@ const DetailRow = ({
   textLineTwo,
   category,
   refreshUserData,
+  currentData,
 }) => {
   const { user } = useAuthContext();
   const id = user ? user._id : null;
@@ -43,6 +44,22 @@ const DetailRow = ({
 
   const [nic, setNic] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
+  // useEffect to update state when currentData changes
+  useEffect(() => {
+    if (currentData) {
+      setEmail(currentData.email || "");
+      setmobileNumber(currentData.mobileNumber || "");
+      setFirst(currentData.firstName || "");
+      setSecond(currentData.lastName || "");
+      setAddress(currentData.address || "");
+      setSelectedGender(currentData.gender || "");
+      setWeight(currentData.weight || "");
+      setHeight(currentData.height || "");
+      setBloodGroup(currentData.blood || "");
+      setNic(currentData.nic || "");
+      setSelectedDate(currentData.birthday || null);
+    }
+  }, [currentData]);
   const today = new Date().toLocaleDateString("en-CA");
   console.log("Today:", today);
 
@@ -226,8 +243,20 @@ const DetailRow = ({
               onChangeText={(text) => setSecond(text)}
               placeholder="Enter last name"
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       case "email":
@@ -240,8 +269,20 @@ const DetailRow = ({
               onChangeText={(text) => setEmail(text)}
               placeholder="Enter new email address"
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       case "nic":
@@ -254,8 +295,20 @@ const DetailRow = ({
               onChangeText={(text) => setNic(text)}
               placeholder="Enter NIC Number"
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       case "address":
@@ -268,8 +321,20 @@ const DetailRow = ({
               onChangeText={(text) => setAddress(text)}
               placeholder="Enter address"
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       case "mobile":
@@ -282,8 +347,20 @@ const DetailRow = ({
               onChangeText={(text) => setmobileNumber(text)}
               placeholder="Enter new mobile number"
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
 
@@ -306,9 +383,20 @@ const DetailRow = ({
                 }}
               />
             </View>
-
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       case "gender":
@@ -337,12 +425,20 @@ const DetailRow = ({
               />
               <Text style={styles.radioButtonText}>Female</Text>
             </TouchableOpacity>
-            <Button
-              style={styles.Button}
-              title="Save"
-              onPress={handleUpdateProfile}
-            />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       case "weight":
@@ -356,8 +452,20 @@ const DetailRow = ({
               onChangeText={(text) => setWeight(text)}
               placeholder="Enter your weight in kg"
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
 
@@ -371,9 +479,20 @@ const DetailRow = ({
               onChangeText={(text) => setHeight(text)}
               placeholder="Enter your height in cm"
             />
-
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       case "blood":
@@ -385,8 +504,21 @@ const DetailRow = ({
               placeholderText="Select from the list"
               onSelect={handleBloodGroupSelect}
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       default:
@@ -470,7 +602,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: "80%",
-    maxHeight: "60%",
   },
   title: {
     fontSize: 20,
@@ -536,5 +667,10 @@ const styles = StyleSheet.create({
   pickeritem: {
     color: "black",
     width: 150,
+  },
+
+  buttonWrapper: {
+    marginTop: 5,
+    width: "100%", // Adjust as needed
   },
 });

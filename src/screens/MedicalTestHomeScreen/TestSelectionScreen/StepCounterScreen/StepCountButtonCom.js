@@ -203,7 +203,10 @@ const StepCountButton = () => {
     const sortedData = data
       .slice()
       .sort((a, b) => new Date(b.date) - new Date(a.date));
-    setSelectedTestData(sortedData);
+    // Get the latest five entries
+    const latestFiveData = sortedData.slice(0, 5);
+
+    setSelectedTestData(latestFiveData);
     setModalVisible(true);
   };
 
@@ -484,7 +487,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: "#00567D",
     position: "absolute",
-    top:375,
+    top: 375,
     right: 30,
   },
   buttonTextGraph: {

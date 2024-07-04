@@ -175,9 +175,9 @@ const IncidentListScreen = ({
           prevRecords.map((record) =>
             record._id === recordID
               ? {
-                ...record,
-                ...updatedFields,
-              }
+                  ...record,
+                  ...updatedFields,
+                }
               : record
           )
         );
@@ -193,7 +193,6 @@ const IncidentListScreen = ({
 
   const renderModalContent = () => {
     return (
-
       <View style={styles.modalContent}>
         <Text style={styles.title}>Edit Record</Text>
         <TextInput
@@ -216,17 +215,21 @@ const IncidentListScreen = ({
         />
         <View style={styles.buttonContainer}>
           <View style={styles.buttonWrapper}>
-            <Button color="#00567D" title="Save" onPress={updateRecordHandler} />
+            <Button
+              color="#00567D"
+              title="Save"
+              onPress={updateRecordHandler}
+            />
           </View>
           <View style={styles.buttonWrapper}>
-            <Button color="#00567D" title="Cancel" onPress={() => setModalVisible(false)} />
+            <Button
+              color="#00567D"
+              title="Cancel"
+              onPress={() => setModalVisible(false)}
+            />
           </View>
         </View>
-
-
-
-      </View >
-
+      </View>
     );
   };
 
@@ -297,7 +300,12 @@ const IncidentListScreen = ({
                   <MaterialIcons name="delete" size={24} color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => setModalVisible(true)}
+                  onPress={() => {
+                    setRecordname(record.recordName);
+                    setDescription(record.description);
+                    setDate(formatDate(record.recordDate));
+                    setModalVisible(true);
+                  }}
                   style={styles.editbutton}
                 >
                   <MaterialIcons name="create" size={24} color="black" />
@@ -311,10 +319,7 @@ const IncidentListScreen = ({
                 transparent={true}
               >
                 <SafeAreaView style={styles.safeAreaModal}>
-                  <KeyboardAvoidingView
-                    style={styles.modalContainer}
-
-                  >
+                  <KeyboardAvoidingView style={styles.modalContainer}>
                     {renderModalContent()}
                   </KeyboardAvoidingView>
                 </SafeAreaView>
@@ -335,10 +340,10 @@ const IncidentListScreen = ({
                           incident.type === "testIncidents"
                             ? "#FEFFE0"
                             : incident.type === "symptomIncidents"
-                              ? "#FFEBEB"
-                              : incident.type === "appointmentIncidents"
-                                ? "#E0FFE0"
-                                : "#ebded4",
+                            ? "#FFEBEB"
+                            : incident.type === "appointmentIncidents"
+                            ? "#E0FFE0"
+                            : "#ebded4",
                       },
                     ]}
                   >
@@ -350,10 +355,10 @@ const IncidentListScreen = ({
                             incident.type === "testIncidents"
                               ? "#FFEBA5"
                               : incident.type === "symptomIncidents"
-                                ? "#FF9999"
-                                : incident.type === "appointmentIncidents"
-                                  ? "#99FF99"
-                                  : "#c4a092",
+                              ? "#FF9999"
+                              : incident.type === "appointmentIncidents"
+                              ? "#99FF99"
+                              : "#c4a092",
                         },
                       ]}
                     >
@@ -361,10 +366,10 @@ const IncidentListScreen = ({
                         {incident.type === "testIncidents"
                           ? "TEST"
                           : incident.type === "symptomIncidents"
-                            ? "SYMPTOM"
-                            : incident.type === "appointmentIncidents"
-                              ? "APPOINTMENT"
-                              : "PRESCRIPTION"}
+                          ? "SYMPTOM"
+                          : incident.type === "appointmentIncidents"
+                          ? "APPOINTMENT"
+                          : "PRESCRIPTION"}
                       </Text>
                     </View>
 
@@ -490,7 +495,7 @@ export default IncidentListScreen;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   safeAreaModal: {
     flex: 1,
@@ -506,8 +511,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     backgroundColor: "white",
-
-
   },
   // background: {
   //   backgroundColor: "white",
@@ -549,17 +552,17 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 14,
     marginBottom: 5,
-    fontWeight: "500"
+    fontWeight: "500",
   },
   subtext: {
     fontSize: 14,
     marginBottom: 5,
-    fontWeight: "500"
+    fontWeight: "500",
   },
   provider: {
     fontSize: 14,
     marginBottom: 5,
-    fontWeight: "500"
+    fontWeight: "500",
   },
   deletebutton: {
     alignItems: "center",
@@ -571,8 +574,6 @@ const styles = StyleSheet.create({
   },
   deletebuttonRec: {
     left: 295,
-
-
   },
   editbutton: {
     left: -20,
@@ -604,17 +605,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-
-
   },
   modalContent: {
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 10,
     width: "80%",
-    paddingBottom: "16%"
-
-
+    paddingBottom: "16%",
   },
   title: {
     fontSize: 20,
@@ -638,8 +635,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "92%",
     left: 30,
-    top: 220
-
+    top: 220,
   },
   buttonWrapper: {
     width: "40%", // Adjust as needed

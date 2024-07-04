@@ -126,6 +126,7 @@ const MyprofileScreen = ({ navigation }) => {
               textLineTwo={`${details.firstName} ${details.lastName}`}
               category="fullName"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRow
               name="envelope"
@@ -133,6 +134,7 @@ const MyprofileScreen = ({ navigation }) => {
               textLineTwo={details.email}
               category="email"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRow
               name="id-card"
@@ -140,6 +142,7 @@ const MyprofileScreen = ({ navigation }) => {
               textLineTwo={details.nic}
               category="nic"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRow
               name="home"
@@ -147,6 +150,7 @@ const MyprofileScreen = ({ navigation }) => {
               textLineTwo={details.address}
               category="address"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRow
               name="mobile"
@@ -154,6 +158,7 @@ const MyprofileScreen = ({ navigation }) => {
               textLineTwo={details.mobileNumber}
               category="mobile"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRow
               name="birthday-cake"
@@ -161,6 +166,7 @@ const MyprofileScreen = ({ navigation }) => {
               textLineTwo={details.birthday}
               category="birthday"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRow
               name="venus-mars"
@@ -168,6 +174,7 @@ const MyprofileScreen = ({ navigation }) => {
               textLineTwo={details.gender}
               category="gender"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
           </React.Fragment>
         </View>
@@ -181,6 +188,7 @@ const MyprofileScreen = ({ navigation }) => {
               textLineTwo={`${details.weight} kg`}
               category="weight"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRow
               name="arrows-alt-v"
@@ -188,6 +196,7 @@ const MyprofileScreen = ({ navigation }) => {
               textLineTwo={`${details.height} cm`}
               category="height"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
             <DetailRow
               name="tint"
@@ -195,6 +204,7 @@ const MyprofileScreen = ({ navigation }) => {
               textLineTwo={details.blood}
               category="blood"
               refreshUserData={refreshUserData}
+              currentData={details}
             />
           </React.Fragment>
         </View>

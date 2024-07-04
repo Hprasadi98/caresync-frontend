@@ -44,7 +44,10 @@ function StepCounterTest({ PID }) {
     const sortedData = data
       .slice()
       .sort((a, b) => new Date(b.date) - new Date(a.date));
-    setSelectedTestData(sortedData);
+    // Get the latest five entries
+    const latestFiveData = sortedData.slice(0, 5);
+
+    setSelectedTestData(latestFiveData);
     setModalVisible(true);
   };
 

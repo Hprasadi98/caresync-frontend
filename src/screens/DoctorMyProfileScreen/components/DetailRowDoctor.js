@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -22,6 +22,7 @@ const DetailRowDoctor = ({
   textLineTwo,
   category,
   refreshUserData,
+  currentData,
 }) => {
   const { user } = useAuthContext();
   const id = user ? user._id : null;
@@ -36,6 +37,19 @@ const DetailRowDoctor = ({
   const [specialization, setSpecialization] = useState("");
 
   const [selectedGender, setSelectedGender] = useState("");
+  // useEffect to update state when currentData changes
+  useEffect(() => {
+    if (currentData) {
+      setEmail(currentData.email || "");
+      setPhone(currentData.mobileNumber || "");
+      setFirst(currentData.firstName || "");
+      setSecond(currentData.lastName || "");
+      setSpecialization(currentData.specialization || "");
+      setSelectedGender(currentData.gender || "");
+
+      setNic(currentData.nic || "");
+    }
+  }, [currentData]);
 
   const checkEmailExists = async (email) => {
     try {
@@ -172,8 +186,20 @@ const DetailRowDoctor = ({
               onChangeText={(text) => setSecond(text)}
               placeholder="Enter last name"
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       case "email":
@@ -186,8 +212,20 @@ const DetailRowDoctor = ({
               onChangeText={(text) => setEmail(text)}
               placeholder="Enter new email address"
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       case "nic":
@@ -200,8 +238,20 @@ const DetailRowDoctor = ({
               onChangeText={(text) => setNic(text)}
               placeholder="Enter NIC Number"
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       case "mobile":
@@ -214,8 +264,20 @@ const DetailRowDoctor = ({
               onChangeText={(text) => setPhone(text)}
               placeholder="Enter new mobile number"
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
 
@@ -229,8 +291,20 @@ const DetailRowDoctor = ({
               onChangeText={(text) => setSpecialization(text)}
               placeholder="Enter Specialization"
             />
-            <Button title="Save" onPress={handleUpdateProfile} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
       case "gender":
@@ -259,12 +333,20 @@ const DetailRowDoctor = ({
               />
               <Text style={styles.radioButtonText}>Female</Text>
             </TouchableOpacity>
-            <Button
-              style={styles.Button}
-              title="Save"
-              onPress={handleUpdateProfile}
-            />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Save"
+                onPress={handleUpdateProfile}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                color="#00567D"
+                title="Cancel"
+                onPress={() => setModalVisible(false)}
+              />
+            </View>
           </View>
         );
 
@@ -415,5 +497,9 @@ const styles = StyleSheet.create({
   pickeritem: {
     color: "black",
     width: 150,
+  },
+  buttonWrapper: {
+    marginTop: 5,
+    width: "100%", // Adjust as needed
   },
 });

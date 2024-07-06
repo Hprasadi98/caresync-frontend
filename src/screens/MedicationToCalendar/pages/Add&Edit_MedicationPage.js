@@ -320,7 +320,7 @@ const AddMedication = ({ navigation, route }) => {
             <TextInput
               placeholder="Name of Medicine"
               style={styles.textName}
-              onChangeText={setMedicineName}
+              onChangeText={text => setMedicineName(text)}
               value={medicineName}
             />
             <TouchableOpacity onPress={() => {}}>

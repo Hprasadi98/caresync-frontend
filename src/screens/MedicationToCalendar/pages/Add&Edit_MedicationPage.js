@@ -406,10 +406,10 @@ const AddMedication = ({ navigation, route }) => {
             <View style={styles.nametimeContainer1}>
               <TextInput
                 placeholder="dosage"
-                onChangeText={setPillAmount}
+                onChangeText={text => setPillAmount(Number(text))}
                 keyboardType="numeric"
                 style={styles.texttime1}
-                value={pillAmount}
+                value={pillAmount.toString()}
               />
             </View>
             <View style={styles.dosUnitText}>
@@ -422,10 +422,10 @@ const AddMedication = ({ navigation, route }) => {
               <View style={styles.nametimeContainer2}>
                 <TextInput
                   placeholder="time/s"
-                  onChangeText={setchoosePeriod}
+                  onChangeText={text => setchoosePeriod(Number(text))}
                   keyboardType="numeric"
                   style={styles.texttime2}
-                  value={choosePeriod}
+                  value={choosePeriod.toString()}
                 />
               </View>
             </View>
@@ -450,10 +450,10 @@ const AddMedication = ({ navigation, route }) => {
               <View style={styles.nametimeContainer3}>
                 <TextInput
                   placeholder="duration"
-                  onChangeText={setnoofDays}
+                  onChangeText={text => setnoofDays(Number(text))}
                   keyboardType="numeric"
                   style={styles.texttime3}
-                  value={noofdays}
+                  value={noofdays.toString()}
                 />
               </View>
             </View>

@@ -232,9 +232,7 @@ const AddMedication = ({ navigation, route }) => {
       !checked
     ) {
       Alert.alert("All fields are required", "Please fill all fields");
-    } else if (dayArray.length === 0) {
-      Alert.alert("Please select the starting date and number of days", "");
-    } else {
+    }  else {
       const payload = {
         sDate: sDate,
         userID: currentUserID,
@@ -269,6 +267,16 @@ const AddMedication = ({ navigation, route }) => {
   //update existing medication in the database
   const updatemedication = (id) => {
     updateUserID();
+    if (
+      !medicineName ||
+      !dateInput ||
+      !pillAmount ||
+      !noofdays ||
+      !choosePeriod ||
+      !checked
+    ) {
+      Alert.alert("All fields are required", "Please fill all fields");
+    } else {
     const payload = {
       sDate: sDate,
       userID: currentUserID,
@@ -296,6 +304,7 @@ const AddMedication = ({ navigation, route }) => {
       .catch((error) => {
         console.error("Axios Error : ", error);
       });
+    }
   };
 
   //show alert when press the add medication button
@@ -308,6 +317,21 @@ const AddMedication = ({ navigation, route }) => {
 
   const handleOnPressStartDate = () => {
     setOpenStartDatePicker(!openStartDatePicker);
+  };
+
+  const validateDate = () => {
+    // Regular expression for yyyy-mm-dd format
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+    if (dateRegex.test(dateInput)) {
+      if (!isEdit) {
+        addmedication();
+      } else {
+        updatemedication(selectedItem._id);
+      }
+    } else {
+      Alert.alert('Error', 'Please enter the date in yyyy-mm-dd format.');
+    }
   };
 
   return (
@@ -508,11 +532,7 @@ const AddMedication = ({ navigation, route }) => {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                if (!isEdit) {
-                  addmedication();
-                } else {
-                  updatemedication(selectedItem._id);
-                }
+                validateDate();
               }}
             >
               <Text style={styles.buttontext}>

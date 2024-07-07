@@ -113,7 +113,7 @@ const MedicationView = ({ navigation, route }) => {
         style={styles.pastEntriesButton}
         onPress={() => {
           navigation.navigate("ViewPastEntries", {
-            PID: currentUserID,
+            PID: route.params?.PID === undefined ? undefined : route.params.PID,
           });
         }}
       >

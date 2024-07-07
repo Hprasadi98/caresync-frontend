@@ -51,6 +51,12 @@ const DoctorRegister = ({ navigation }) => {
       return;
     }
 
+    
+    if (password.length < 8) {
+      Alert.alert("Error", "Password must be at least 8 characters long.");
+      return;
+    }
+
     if (password !== confirmPassword) {
       Alert.alert("Error", "Passwords do not match.");
       return;

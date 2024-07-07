@@ -52,7 +52,7 @@ const ViewMedication = ({ route }) => {
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Axios Error : ", error);
+        console.log("Axios Error : ", error);
         setLoading(false);
       });
   };

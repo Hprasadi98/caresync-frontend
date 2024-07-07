@@ -29,7 +29,7 @@ function BreathingTest({ PID }) {
       console.log("Response from backend:", response.data);
       setTestResult(response.data);
     } catch (error) {
-      console.error("Error fetching testResults:", error);
+      console.log("Error fetching testResults:", error);
     }
   };
 

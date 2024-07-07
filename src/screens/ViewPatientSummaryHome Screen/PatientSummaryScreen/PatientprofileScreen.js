@@ -28,7 +28,7 @@ function PatientProfileScreen({ route, navigation }) {
       const response = await api.get(`${baseUrl}/patients`);
       setPatients(response.data);
     } catch (error) {
-      console.error("Error fetching patients:", error);
+      console.log("Error fetching patients:", error);
     }
   }; //fetching the patients details from the backend
 

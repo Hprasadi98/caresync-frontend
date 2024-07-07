@@ -24,7 +24,7 @@ function PatientsScreen({ navigation }) {
       setPatients(response.data);
       console.log("Response from backend:", response.data);
     } catch (error) {
-      console.error("Error fetching patients:", error);
+      console.log("Error fetching patients:", error);
     }
   };
   const handleSearch = (filteredData) => {

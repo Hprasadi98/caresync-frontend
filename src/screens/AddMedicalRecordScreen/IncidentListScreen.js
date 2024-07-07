@@ -30,7 +30,7 @@ const formatDate = (dateString) => {
 };
 
 const handleLinkPress = (url) => {
-  Linking.openURL(url).catch((err) => console.error("An error occurred", err));
+  Linking.openURL(url).catch((err) => console.log("An error occurred", err));
 };
 
 const IncidentListScreen = ({
@@ -59,7 +59,7 @@ const IncidentListScreen = ({
 
       setMedicalincidents(response.data.currentRecord.incidents);
     } catch (error) {
-      console.error("Error fetching medical records:", error);
+      console.log("Error fetching medical records:", error);
     }
   };
 
@@ -130,14 +130,14 @@ const IncidentListScreen = ({
                 });
                 console.log("Medical Record deleted successfully");
               } else {
-                console.error(
+                console.log(
                   "Failed to delete medical record:",
                   response.data
                 );
               }
               navigation.navigate("DisplayMedicalRecords");
             } catch (error) {
-              console.error("Error deleting medical record:", error);
+              console.log("Error deleting medical record:", error);
             }
           },
         },
@@ -186,7 +186,7 @@ const IncidentListScreen = ({
       }
       navigation.navigate("DisplayMedicalRecords");
     } catch (error) {
-      console.error("Error updating record:", error);
+      console.log("Error updating record:", error);
       Alert.alert("Error", "An error occurred while updating the record");
     }
   };
@@ -258,10 +258,10 @@ const IncidentListScreen = ({
                   return updatedIncidents;
                 });
               } else {
-                console.error("Failed to delete incident:", response.data);
+                console.log("Failed to delete incident:", response.data);
               }
             } catch (error) {
-              console.error("Error deleting incident:", error);
+              console.log("Error deleting incident:", error);
             }
           },
         },

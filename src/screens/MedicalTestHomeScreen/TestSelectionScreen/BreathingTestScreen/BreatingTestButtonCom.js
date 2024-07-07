@@ -44,7 +44,7 @@ const HoldButton = () => {
         // console.log("Results", response.data);
       })
       .catch((error) => {
-        console.error("Axios Error : ", error);
+        console.log("Axios Error : ", error);
       });
   };
 
@@ -64,7 +64,7 @@ const HoldButton = () => {
         getResults(pID);
       })
       .catch((error) => {
-        console.error("Axios Error : ", error);
+        console.log("Axios Error : ", error);
       });
   };
 
@@ -76,7 +76,7 @@ const HoldButton = () => {
         getResults(pID);
       })
       .catch((error) => {
-        console.error("Axios Error : ", error);
+        console.log("Axios Error : ", error);
       });
   };
 
@@ -88,7 +88,7 @@ const HoldButton = () => {
         getResults(pID);
       })
       .catch((error) => {
-        console.error("Axios Error : ", error);
+        console.log("Axios Error : ", error);
       });
   };
 

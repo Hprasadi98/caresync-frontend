@@ -68,7 +68,7 @@ const DetailRow = ({
       const response = await api.get(`${baseUrl}/checkEmail/:${email}`);
       return response.data.exists;
     } catch (error) {
-      console.error("Error checking email:", error);
+      console.log("Error checking email:", error);
       throw error;
     }
   };
@@ -101,7 +101,7 @@ const DetailRow = ({
         return;
       }
     } catch (error) {
-      console.error("Failed to update patient information:", error);
+      console.log("Failed to update patient information:", error);
 
       Alert.alert(
         "Error",
@@ -218,7 +218,7 @@ const DetailRow = ({
         refreshUserData();
       })
       .catch((error) => {
-        console.error("Failed to update patient information: ", error);
+        console.log("Failed to update patient information: ", error);
       });
 
     // Close the modal

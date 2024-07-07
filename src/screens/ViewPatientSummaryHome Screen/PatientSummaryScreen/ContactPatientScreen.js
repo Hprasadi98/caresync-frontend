@@ -23,7 +23,7 @@ function ContactPatientScreen({ route }) {
         setDetails(response.data);
       })
       .catch((error) => {
-        console.error("Axios Error: ", error);
+        console.log("Axios Error: ", error);
       });
   };
   return (

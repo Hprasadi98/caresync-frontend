@@ -50,17 +50,17 @@ const PrescriptionModal = ({ recordID, onClose }) => {
     <View style={styles.modalContainer}>
       <Text style={styles.modalText}>Add Prescription Details</Text>
       <View style={styles.contentContainer}>
-        <View style={styles.inputcontainer}>
+        {/* <View style={styles.inputcontainer}>
           <Text style={styles.label}>Doctor ID:</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter the Doctor ID"
             onChangeText={(text) => setDoctorID(text)}
           />
-        </View>
+        </View> */}
 
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Doctor Name:</Text>
+          <Text style={styles.label}>Doctor Name*</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter Doctor's Name"
@@ -69,7 +69,7 @@ const PrescriptionModal = ({ recordID, onClose }) => {
         </View>
 
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Description:</Text>
+          <Text style={styles.label}>Description</Text>
           <TextInput
             style={styles.input}
             placeholder="max 30 characters"
@@ -87,11 +87,15 @@ const PrescriptionModal = ({ recordID, onClose }) => {
         </View>
 
         <View style={styles.inputcontainer}>
-          <Text style={[styles.label, { marginTop: "-7%" }]}>Prescription Date: </Text>
+          <Text style={[styles.label, { marginTop: "-7%", marginBottom:"2%" }]}>Prescription Date* </Text>
           <Calendar
             selectedStartDate={selectedStartDate}
             setSelectedStartDate={setSelectedStartDate}
           />
+        </View>
+        
+        <View style={[styles.inputcontainer, { marginTop: "12%" }]}>
+          <Text style={styles.label2}>*Required fields </Text>
         </View>
 
 
@@ -162,7 +166,7 @@ const styles = StyleSheet.create({
   label: {
     marginTop: 25,
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "500",
     marginLeft: "3%",
   },
   inputcontainer: {
@@ -170,7 +174,12 @@ const styles = StyleSheet.create({
     marginTop: 2,
 
   },
-
+  label2: {
+    marginTop: 25,
+    fontSize: 14,
+    color: "gray",
+    marginLeft: "64%",
+  },
   input: {
     borderColor: "#8e8e8e",
     borderWidth: 1,

@@ -54,7 +54,7 @@ const TestModal = ({
     <View style={styles.modalContainer}>
       <Text style={styles.modalText}>Add Test Details</Text>
       <View style={styles.contentContainer}>
-        <Text style={styles.label}>Test Type:</Text>
+        <Text style={styles.label}>Test Type*</Text>
         <View style={styles.dropdowncontainer}>
           <CustomDropdown
             selectedOption1={selectedOption1}
@@ -74,7 +74,7 @@ const TestModal = ({
             placeholderText="Select from the list"
           />
         </View>
-        <Text style={styles.label}>Test Provider:</Text>
+        <Text style={styles.label}>Test Provider*</Text>
         <View style={styles.dropdowncontainer}>
           <TestProviderDropDown
             selectedOption2={selectedOption2}
@@ -91,7 +91,7 @@ const TestModal = ({
         </View>
 
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Result:</Text>
+          <Text style={styles.label}>Result</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter Result Here"
@@ -99,7 +99,7 @@ const TestModal = ({
           />
         </View>
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Result Link:</Text>
+          <Text style={styles.label}>Result Link</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter Result Link Here"
@@ -108,15 +108,27 @@ const TestModal = ({
           />
         </View>
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Test Date: </Text>
+          <Text style={styles.label}>Test Date* </Text>
           <Calendar
             selectedStartDate={selectedStartDate}
             setSelectedStartDate={setSelectedStartDate}
           />
         </View>
+        <View style={[styles.inputcontainer]}>
+          <Text style={styles.label2}>*Required fields </Text>
+        </View>
       </View>
 
-     
+      <View style={styles.buttonContainer}>
+        <View style={styles.buttonWrapper}>
+          <Button title="Close" onPress={onClose} color="#00567D" />
+        </View>
+        <View style={styles.buttonWrapper}>
+          <Button title="OK" onPress={saveIncident} color="#00567D" />
+        </View>
+      </View>
+
+
     </View>
   );
 };
@@ -140,6 +152,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 15,
     width: "94%",
+  },
+  label2: {
+    marginTop: 25,
+    fontSize: 14,
+    color: "gray",
+    marginLeft: "64%",
   },
   modalText: {
     fontSize: 22,
@@ -169,7 +187,7 @@ const styles = StyleSheet.create({
   label: {
     paddingTop: 40,
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "500",
     marginLeft: "4%",
   },
   dropdowncontainer: {

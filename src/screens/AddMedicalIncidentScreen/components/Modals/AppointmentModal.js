@@ -55,16 +55,7 @@ const AppointmentModal = ({ recordID, onClose }) => {
         </View>
 
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Doctor ID:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Type the Doctor's ID"
-            onChangeText={(text) => setDocID(text)}
-          />
-        </View>
-
-        <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Doctor's Name:</Text>
+          <Text style={styles.label}>Doctor's Name* :</Text>
           <TextInput
             style={styles.input}
             placeholder="Type Doctor's name"
@@ -72,8 +63,19 @@ const AppointmentModal = ({ recordID, onClose }) => {
           />
         </View>
 
+        {/* <View style={styles.inputcontainer}>
+          <Text style={styles.label}>Doctor ID:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Type the Doctor's ID"
+            onChangeText={(text) => setDocID(text)}
+          />
+        </View> */}
+
+        
+
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Appointment Type: </Text>
+          <Text style={styles.label}>Appointment Type* : </Text>
           <TextInput
             style={styles.input}
             placeholder="Type of the Appointment"
@@ -81,7 +83,7 @@ const AppointmentModal = ({ recordID, onClose }) => {
           />
         </View>
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Date: </Text>
+          <Text style={styles.label}>Date* : </Text>
           <Calendar
             selectedStartDate={selectedStartDate1}
             setSelectedStartDate={setSelectedStartDate1}
@@ -90,12 +92,16 @@ const AppointmentModal = ({ recordID, onClose }) => {
         </View>
 
         <View style={[styles.inputcontainer, { marginTop: "12%" }]}>
-          <Text style={styles.label}>Scheduled date: </Text>
+          <Text style={styles.label}>Scheduled date* : </Text>
           <Calendar
             selectedStartDate={selectedStartDate}
             setSelectedStartDate={setSelectedStartDate}
 
           />
+        </View>
+        <View style={[styles.inputcontainer, { marginTop: "12%" }]}>
+          <Text style={styles.label2}>*Required fields </Text>
+
         </View>
       </View>
 
@@ -170,8 +176,14 @@ const styles = StyleSheet.create({
   label: {
     marginTop: 25,
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "500",
     marginLeft: "4%",
+  },
+  label2: {
+    marginTop: 25,
+    fontSize: 14,
+    color: "gray",
+    marginLeft: "64%",
   },
   inputcontainer: {
     marginVertical: "-16%",

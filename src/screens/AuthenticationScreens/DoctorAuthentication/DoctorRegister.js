@@ -82,6 +82,13 @@ const DoctorRegister = ({ navigation }) => {
         })
         .then((response) => {
           console.log("Response:", response);
+          setFirstName("");
+          setLastName("");
+          setNic("");
+          setEmail("");
+          setPassword("");
+          setConfirmPassword("");
+          setMedicalId("");
           Alert.alert("Success", "Registration successful.", [
             {
               text: "OK",

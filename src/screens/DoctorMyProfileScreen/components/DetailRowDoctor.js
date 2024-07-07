@@ -58,7 +58,7 @@ const DetailRowDoctor = ({
       );
       return response.data.exists;
     } catch (error) {
-      console.error("Error checking email:", error);
+      console.log("Error checking email:", error);
       throw error;
     }
   };
@@ -78,7 +78,7 @@ const DetailRowDoctor = ({
         return;
       }
     } catch (error) {
-      console.error("Failed to update patient information:", error);
+      console.log("Failed to update patient information:", error);
 
       Alert.alert(
         "Error",
@@ -160,7 +160,7 @@ const DetailRowDoctor = ({
         refreshUserData();
       })
       .catch((error) => {
-        console.error("Failed to update doctor information: ", error);
+        console.log("Failed to update doctor information: ", error);
       });
 
     // Close the modal

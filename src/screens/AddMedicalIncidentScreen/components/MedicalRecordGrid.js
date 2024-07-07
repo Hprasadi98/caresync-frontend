@@ -25,7 +25,7 @@ const formatDate = (dateString) => {
 };
 
 const handleLinkPress = (url) => {
-  Linking.openURL(url).catch((err) => console.error("An error occurred", err));
+  Linking.openURL(url).catch((err) => console.log("An error occurred", err));
 };
 
 const truncateText = (text, maxLength) => {
@@ -76,7 +76,7 @@ function MedicalRecordGrid({
       });
       setMedicalincidents(response.data.currentRecord.incidents); // Update state with fetched records
     } catch (error) {
-      console.error("Error fetching medical incidents:", error);
+      console.log("Error fetching medical incidents:", error);
     }
   };
 
@@ -149,7 +149,7 @@ function MedicalRecordGrid({
                 });
               }
             } catch (error) {
-              console.error("Error deleting incident:", error);
+              console.log("Error deleting incident:", error);
             }
           },
         },

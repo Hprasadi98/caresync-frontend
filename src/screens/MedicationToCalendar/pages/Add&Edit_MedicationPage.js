@@ -259,7 +259,7 @@ const AddMedication = ({ navigation, route }) => {
           setisEdit(false);
         })
         .catch((error) => {
-          console.error("Axios Error : ", error);
+          console.log("Axios Error : ", error);
         });
     }
   };
@@ -302,7 +302,7 @@ const AddMedication = ({ navigation, route }) => {
         refreshMedicationView();
       })
       .catch((error) => {
-        console.error("Axios Error : ", error);
+        console.log("Axios Error : ", error);
       });
     }
   };

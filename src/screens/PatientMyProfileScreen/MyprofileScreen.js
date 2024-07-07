@@ -42,7 +42,7 @@ const MyprofileScreen = ({ navigation }) => {
         console.log("Details in MyProfileScreen:", response.data);
       })
       .catch((error) => {
-        console.error("Axios Error: ", error);
+        console.log("Axios Error: ", error);
       });
   };
 

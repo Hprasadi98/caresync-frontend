@@ -66,7 +66,7 @@ const SymptomModal = ({
       <Text style={styles.modalText}>Add Symptom Details</Text>
 
       <View style={styles.contentContainer}>
-        <Text style={styles.label}>Symptom Type:</Text>
+        <Text style={styles.label}>Symptom Type*</Text>
         <View style={styles.dropdowncontainer}>
           <SymptomTypeDropdown
             options={[
@@ -94,7 +94,7 @@ const SymptomModal = ({
             onChangeText={(text) => setSymptomDescription(text)}
           />
         </View>
-        <Text style={styles.label}>Frequency:</Text>
+        <Text style={styles.label}>Frequency* </Text>
 
         <View style={styles.dropdowncontainer}>
           <SymptomFrequencyDropdown
@@ -112,14 +112,14 @@ const SymptomModal = ({
             setSelectedSymptomFrequency={setSelectedSymptomFrequency}
           />
         </View>
-        <Text style={styles.label}>Severity: Out of 10</Text>
+        <Text style={styles.label}>Severity* : Out of 10</Text>
         <PainRating
           text="Pain level"
           icon="thermometer-half"
           painRating={painRating}
           setPainRating={setPainRating}
         />
-        <Text style={styles.label}>Duration:</Text>
+        <Text style={[styles.label, { marginTop: "2%" }]}>Duration* </Text>
         <View style={styles.dropdowncontainer}>
           <SymptomDurationDropdown
             options={[
@@ -136,13 +136,13 @@ const SymptomModal = ({
             setSelectedSymptomDuration={setSelectedSymptomDuration}
           />
         </View>
-        <Text style={styles.label}>Appetite: Out of 10 </Text>
+        <Text style={styles.label}>Appetite* : Out of 10 </Text>
         <AppetiteRating
           appetiteRating={appetiteRating}
           setAppetiteRating={setAppetiteRating}
         />
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Weight </Text>
+          <Text style={styles.label}>Weight* </Text>
           <TextInput
             style={styles.input}
             placeholder="Enter weight in kg s"
@@ -150,11 +150,14 @@ const SymptomModal = ({
           />
         </View>
         <View style={styles.inputcontainer}>
-          <Text style={styles.label}>Symptom Date: </Text>
+          <Text style={[styles.label, { marginBottom: "2%" }]}>Symptom Date* </Text>
           <Calendar
             selectedStartDate={selectedStartDate}
             setSelectedStartDate={setSelectedStartDate}
           />
+        </View>
+        <View style={[styles.inputcontainer, { marginTop: "10%" }]}>
+          <Text style={styles.label2}>*Required fields </Text>
         </View>
 
       </View>
@@ -190,6 +193,12 @@ const styles = StyleSheet.create({
     padding: 15,
     width: "94%",
   },
+  label2: {
+    marginTop: 25,
+    fontSize: 14,
+    color: "gray",
+    marginLeft: "64%",
+  },
   modalText: {
     fontSize: 23,
     fontWeight: "900",
@@ -218,7 +227,7 @@ const styles = StyleSheet.create({
   label: {
     marginTop: 25,
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "500",
     marginLeft: "3%",
   },
   inputcontainer: {

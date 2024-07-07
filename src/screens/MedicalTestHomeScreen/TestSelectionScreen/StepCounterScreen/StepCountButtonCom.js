@@ -66,7 +66,7 @@ const StepCountButton = () => {
         setResult(response.data || []);
       })
       .catch((error) => {
-        console.error("Axios Error : ", error);
+        console.log("Axios Error : ", error);
       });
   };
 
@@ -86,7 +86,7 @@ const StepCountButton = () => {
         getResults(pID);
       })
       .catch((error) => {
-        console.error("Axios Error : ", error);
+        console.log("Axios Error : ", error);
       });
   };
 
@@ -99,7 +99,7 @@ const StepCountButton = () => {
         getResults(pID);
       })
       .catch((error) => {
-        console.error("Axios Error : ", error);
+        console.log("Axios Error : ", error);
       });
   };
 
@@ -112,7 +112,7 @@ const StepCountButton = () => {
         getResults(pID);
       })
       .catch((error) => {
-        console.error("Axios Error : ", error);
+        console.log("Axios Error : ", error);
       });
   };
 

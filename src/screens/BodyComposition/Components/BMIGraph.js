@@ -30,7 +30,7 @@ function BMIGraph() {
         console.log("Height: ", response.data.height);
       })
       .catch((error) => {
-        console.error("Axios Error: ", error);
+        console.log("Axios Error: ", error);
         setLoading(false);
       });
   };

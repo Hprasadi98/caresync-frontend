@@ -27,7 +27,7 @@ const ImagePickerDoctor = ({ userId, picture }) => {
           const response = await api.get(`${baseUrl}/doctors/${user._id}`);
           setImage(response.data.profileImage);
         } catch (error) {
-          console.error("Error fetching profile image:", error);
+          console.log("Error fetching profile image:", error);
         } finally {
           setUserLoading(false);
         }
@@ -85,7 +85,7 @@ const ImagePickerDoctor = ({ userId, picture }) => {
       setImage(response.data.profileImage);
       setShouldRefetch(true);
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.log("Error uploading image:", error);
     } finally {
       setLoading(false);
     }

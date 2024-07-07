@@ -36,7 +36,6 @@ function DisplayMedicalRecords({ route, navigation }) {
       setMedicalRecords(sortedRecords); // Update state with sorted records
     } catch (error) {
       console.log("Error fetching medical records:", error.response?.data);
-      console.error("Error fetching medical records:", error);
     }
   };
 

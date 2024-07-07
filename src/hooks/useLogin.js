@@ -42,7 +42,7 @@ export const useLogin = () => {
         return { status: "failed" };
       }
     } catch (error) {
-      console.error("Error logging in:", error);
+      console.log("Error logging in:", error);
       return { status: "error", error };
     }
   };

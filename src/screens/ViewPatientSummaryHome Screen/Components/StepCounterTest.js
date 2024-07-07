@@ -28,7 +28,7 @@ function StepCounterTest({ PID }) {
       console.log("Response from backend:", response.data);
       setTestResult(response.data);
     } catch (error) {
-      console.error("Error fetching stepCounterResults:", error);
+      console.log("Error fetching stepCounterResults:", error);
     }
   };
 

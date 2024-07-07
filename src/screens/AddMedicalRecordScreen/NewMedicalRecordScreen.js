@@ -44,7 +44,7 @@ const NewMedicalRecordScreen = ({ route, navigation }) => {
           });
         })
         .catch((error) => {
-          console.error("Error posting medical incident:", error);
+          console.log("Error posting medical incident:", error);
         });
     };
     // Call the postMedicalIncident function with the provided arguments

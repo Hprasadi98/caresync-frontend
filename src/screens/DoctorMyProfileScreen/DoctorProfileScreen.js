@@ -39,7 +39,7 @@ const DoctorProfileScreen = ({ navigation }) => {
         setDetails(response.data);
       })
       .catch((error) => {
-        console.error("Axios Error: ", error);
+        console.log("Axios Error: ", error);
       });
   };
 

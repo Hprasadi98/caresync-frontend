@@ -82,6 +82,13 @@ const DoctorRegister = ({ navigation }) => {
         })
         .then((response) => {
           console.log("Response:", response);
+          setFirstName("");
+          setLastName("");
+          setNic("");
+          setEmail("");
+          setPassword("");
+          setConfirmPassword("");
+          setMedicalId("");
           Alert.alert("Success", "Registration successful.", [
             {
               text: "OK",
@@ -95,7 +102,7 @@ const DoctorRegister = ({ navigation }) => {
           Alert.alert("Error", error.response.data.error);
         });
     } catch (error) {
-      console.error("Error registering2:", error);
+      console.log("Error registering2:", error);
       Alert.alert(
         "Error",
         "An error occurred while registering. Please try again."

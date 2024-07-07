@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Pressable, SafeAreaView } from "react-native";
+import { View, StyleSheet, Text, Pressable, SafeAreaView, Alert } from "react-native";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import api from "../../../Services/AuthService";
 import { baseUrl } from "../../../constants/constants";
@@ -7,8 +7,6 @@ function DocCard({ navigation, name, DocID, DocDocuID }) {
   const { user } = useAuthContext();
 
   async function removeAccess() {
-    // console.log("docId", DocDocuID);
-    // console.log(`${baseUrl}/patients/removeDocAccess/${user?._id}`);
 
     api
       .patch(`${baseUrl}/patients/removeDocAccess/${user?._id}`, {
@@ -20,6 +18,20 @@ function DocCard({ navigation, name, DocID, DocDocuID }) {
       .catch((error) => {
         console.log("error " + error);
       });
+
+    api
+      .patch(`${baseUrl}/doctors/removeDocAccess/${DocDocuID}`, {
+        patientID: user?._id,
+      })
+      .then((response) => {
+        console.log("response", response.data);
+      })
+      .catch((error) => {
+        console.log("error " + error);
+      });
+
+    Alert.alert("Access Removed", "Access removed successfully.");
+    navigation.navigate("DocAccessHomeScreen");
   }
 
   return (

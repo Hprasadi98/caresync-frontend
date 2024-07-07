@@ -17,7 +17,7 @@ import Header from "../../components/Header";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { baseUrl } from "../../constants/constants";
 
-function SelectDocForAccess({ navigation }) {
+function ViewDocWithAccess({ navigation }) {
   const { user } = useAuthContext();
   const [DocList, setDocList] = useState([]);
 
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectDocForAccess;
+export default ViewDocWithAccess;

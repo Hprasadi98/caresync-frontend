@@ -53,6 +53,7 @@ function GiveDocAccess({ navigation, route }) {
       })
       .then((res) => {
         if (res) {
+          // Alert.alert("Access Granted", "Access granted successfully.");
         }
       })
       .catch((error) => {
@@ -66,10 +67,10 @@ function GiveDocAccess({ navigation, route }) {
     Alert.alert(
       "Access Granted",
       "Medical history access granted to " +
-        doc.firstName +
-        " " +
-        doc._lastName +
-        " successfully.",
+      doc.firstName +
+      " " +
+      doc._lastName +
+      " successfully.",
       [
         {
           text: "Ok",
@@ -80,6 +81,7 @@ function GiveDocAccess({ navigation, route }) {
         cancelable: true,
       }
     );
+    navigation.navigate("DocAccessHomeScreen");
   };
 
   return (

@@ -232,9 +232,7 @@ const AddMedication = ({ navigation, route }) => {
       !checked
     ) {
       Alert.alert("All fields are required", "Please fill all fields");
-    } else if (dayArray.length === 0) {
-      Alert.alert("Please select the starting date and number of days", "");
-    } else {
+    }  else {
       const payload = {
         sDate: sDate,
         userID: currentUserID,
@@ -269,6 +267,16 @@ const AddMedication = ({ navigation, route }) => {
   //update existing medication in the database
   const updatemedication = (id) => {
     updateUserID();
+    if (
+      !medicineName ||
+      !dateInput ||
+      !pillAmount ||
+      !noofdays ||
+      !choosePeriod ||
+      !checked
+    ) {
+      Alert.alert("All fields are required", "Please fill all fields");
+    } else {
     const payload = {
       sDate: sDate,
       userID: currentUserID,
@@ -296,6 +304,7 @@ const AddMedication = ({ navigation, route }) => {
       .catch((error) => {
         console.error("Axios Error : ", error);
       });
+    }
   };
 
   //show alert when press the add medication button
@@ -310,6 +319,21 @@ const AddMedication = ({ navigation, route }) => {
     setOpenStartDatePicker(!openStartDatePicker);
   };
 
+  const validateDate = () => {
+    // Regular expression for yyyy-mm-dd format
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+    if (dateRegex.test(dateInput)) {
+      if (!isEdit) {
+        addmedication();
+      } else {
+        updatemedication(selectedItem._id);
+      }
+    } else {
+      Alert.alert('Error', 'Please enter the date in yyyy-mm-dd format.');
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <Header name={isEdit ? "Update Medications" : "Add Medications"} />
@@ -320,7 +344,7 @@ const AddMedication = ({ navigation, route }) => {
             <TextInput
               placeholder="Name of Medicine"
               style={styles.textName}
-              onChangeText={setMedicineName}
+              onChangeText={text => setMedicineName(text)}
               value={medicineName}
             />
             <TouchableOpacity onPress={() => {}}>
@@ -406,10 +430,10 @@ const AddMedication = ({ navigation, route }) => {
             <View style={styles.nametimeContainer1}>
               <TextInput
                 placeholder="dosage"
-                onChangeText={setPillAmount}
+                onChangeText={text => setPillAmount(Number(text))}
                 keyboardType="numeric"
                 style={styles.texttime1}
-                value={pillAmount}
+                value={pillAmount.toString()}
               />
             </View>
             <View style={styles.dosUnitText}>
@@ -422,10 +446,10 @@ const AddMedication = ({ navigation, route }) => {
               <View style={styles.nametimeContainer2}>
                 <TextInput
                   placeholder="time/s"
-                  onChangeText={setchoosePeriod}
+                  onChangeText={text => setchoosePeriod(Number(text))}
                   keyboardType="numeric"
                   style={styles.texttime2}
-                  value={choosePeriod}
+                  value={choosePeriod.toString()}
                 />
               </View>
             </View>
@@ -450,10 +474,10 @@ const AddMedication = ({ navigation, route }) => {
               <View style={styles.nametimeContainer3}>
                 <TextInput
                   placeholder="duration"
-                  onChangeText={setnoofDays}
+                  onChangeText={text => setnoofDays(Number(text))}
                   keyboardType="numeric"
                   style={styles.texttime3}
-                  value={noofdays}
+                  value={noofdays.toString()}
                 />
               </View>
             </View>
@@ -508,11 +532,7 @@ const AddMedication = ({ navigation, route }) => {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                if (!isEdit) {
-                  addmedication();
-                } else {
-                  updatemedication(selectedItem._id);
-                }
+                validateDate();
               }}
             >
               <Text style={styles.buttontext}>

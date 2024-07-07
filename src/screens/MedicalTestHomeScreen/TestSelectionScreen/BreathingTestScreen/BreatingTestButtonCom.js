@@ -366,6 +366,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
+    marginBottom:100
   },
 
   button: {
